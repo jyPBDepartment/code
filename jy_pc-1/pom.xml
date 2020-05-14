@@ -41,8 +41,7 @@
 			<artifactId>persistence-api</artifactId>
 			<version>1.0</version>
 		</dependency>
-	</dependencies>
-	 <!-- Spring-data-jpa依赖 -->
+		<!-- Spring-data-jpa依赖 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
@@ -53,6 +52,8 @@
             <artifactId>mysql-connector-java</artifactId>
             <scope>runtime</scope>
         </dependency>
+	</dependencies>
+	 
 
 	<build>
 		<plugins>
