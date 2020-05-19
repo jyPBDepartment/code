@@ -2,6 +2,9 @@ package com.jy.pc.Service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import com.jy.pc.Entity.AdminEntity;
 
 public interface AdminService {
@@ -26,5 +29,5 @@ public interface AdminService {
 	public Boolean checkLogin(String loginName,String password);
 	
 	
-	public List<AdminEntity> findListByName(String adminName,String adminPhone,String adminStatic);
+	public Page<AdminEntity> findListByName(String adminName,String adminPhone,String adminStatic,Pageable pageable);
 }
