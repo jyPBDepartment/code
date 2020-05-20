@@ -28,7 +28,6 @@ import com.jy.pc.Service.JurisdictionService;
 public class JusisdictionController {
 	@Autowired
 	private JurisdictionService jurisdictionService;
-	private AdminService adminService;
 
 	// 权限添加
 	@RequestMapping(value = "/add")
@@ -46,7 +45,6 @@ public class JusisdictionController {
 		try {
 			jurisdictionEntity.setEditTime(sdf.parse(time));
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		jurisdictionService.save(jurisdictionEntity);
