@@ -2,6 +2,9 @@ package com.jy.pc.Service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import com.jy.pc.Entity.SalesEntity;
 
 
@@ -16,5 +19,5 @@ public interface SalesService {
 	public void delete(String id);
 	public List<SalesEntity> findAll();
 	public SalesEntity findBId(String id);
-	public List<SalesEntity> findListByName(String name,String phone);
+	public Page<SalesEntity> findListByName(String name,String phone,Pageable pageable);
 }

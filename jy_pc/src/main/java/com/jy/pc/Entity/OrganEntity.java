@@ -31,7 +31,7 @@ public class OrganEntity {
 	@Column(length=32)
 	private String context;//备注
 	
-	private int state;//状态
+	private int state=1;//状态
 	
 	public int getState() {
 		return state;

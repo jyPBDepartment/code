@@ -3,6 +3,8 @@ package com.jy.pc.Service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.jy.pc.DAO.SalesDao;
@@ -44,12 +46,12 @@ public class SalesServiceImpl implements SalesService{
 	}
 
 	@Override
-	public List<SalesEntity> findListByName(String name, String phone) {
-		// TODO Auto-generated method stub
+	public Page<SalesEntity> findListByName(String name, String phone,Pageable pageable) {
 		
 		String salesName = "%"+name+"%";
 		String telephone = "%"+phone+"%";
-		return salesDao.findListByName(salesName, telephone);
+		return salesDao.findListByName(salesName, telephone, pageable);
+
 	}
 
 }

@@ -11,13 +11,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
-
+import com.jy.pc.Entity.AdminEntity;
 import com.jy.pc.Entity.OrganEntity;
 import com.jy.pc.Service.OrganService;
 
@@ -90,6 +93,7 @@ public class OrganController {
 	public Map<String,Object> findAll(HttpServletRequest res,HttpServletResponse req) {
 
 		Map<String,Object> map = new HashMap<String,Object>();//接收数据容器
+		
 		List<OrganEntity> organList = organService.findAll();//查询所有数据方法
 		map.put("status", "0");
 		map.put("message", "查询成功");
@@ -150,12 +154,17 @@ public class OrganController {
 	 //机构模糊查询
 	 @RequestMapping(value = "findByName")
 		@ResponseBody
-		public Map<String,Object> findByName(HttpServletRequest res,HttpServletResponse req,@RequestParam(name="name")String name,@RequestParam(name="superId")String superId) {
+		public Map<String,Object> findByName(HttpServletRequest res,HttpServletResponse req,@RequestParam(name="name")String name,@RequestParam(name="superId")String superId,@RequestParam(name="page")Integer page,
+				@RequestParam(name="size")Integer size) {
 			
 			Map<String,Object> map = new HashMap<String,Object>();
-//			String organLevel = "3";
-			List<OrganEntity> organList =organService.findListByName(name,superId);
 			
+			Pageable pageable = new PageRequest(page-1,size);
+			
+			Page<OrganEntity> organList= organService.findListByName(name, superId, pageable);
+//			String organLevel = "3";
+//			List<OrganEntity> organList =organService.findListByName(name,superId);
+//			
 			map.put("status", "0");//成功
 			map.put("message","查询成功");
 			
