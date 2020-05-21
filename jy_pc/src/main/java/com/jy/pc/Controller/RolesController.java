@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -127,10 +129,13 @@ public class RolesController {
 	@RequestMapping(value = "/findByName")
 	public Map<String,Object> findByName(HttpServletRequest res,HttpServletResponse req,
 			@RequestParam(name="roleName")String roleName,
-			@RequestParam(name="roleType")Integer roleType) {
+			@RequestParam(name="roleType")Integer roleType,
+			@RequestParam(name="page")Integer page,
+			@RequestParam(name="size")Integer size) {
 		
 		Map<String,Object> map = new HashMap<String,Object>();
-		List<RolesEntity> roleList=  rolesService.findListByName(roleName, roleType);
+		Pageable pageable = new PageRequest(page-1,size);
+		List<RolesEntity> roleList=  rolesService.findListByName(roleName, roleType,pageable);
 		map.put("status", "0");//成功
 		map.put("message","查询成功");
 		map.put("data", roleList);
@@ -142,20 +147,20 @@ public class RolesController {
 	//启用/禁用
 	@RequestMapping(value="/enable")
 	public Map<String, String> opensulf(HttpServletRequest res,HttpServletResponse req,
-			@RequestParam(name="state")String state,@RequestParam(name="id")String id) {
+			@RequestParam(name="state")Integer state,@RequestParam(name="id")String id) {
 		
 		Map<String, String> map = new HashMap<String, String>();
 		RolesEntity roleEntity = rolesService.findId(id);
 		roleEntity.setState(state);
 		roleEntity.getState();
-		if(state.equals("0")) {
-			roleEntity.setState("1");
+		if(state.equals(0)) {
+			roleEntity.setState(1);
 			map.put("status", "0");
 			map.put("message","禁用成功");
 			
 		}
-		else if(state.equals("1")){
-			roleEntity.setState("0");
+		else if(state.equals(1)){
+			roleEntity.setState(0);
 			map.put("status", "0");
 			map.put("message","启用成功");
 		}

@@ -30,7 +30,7 @@ public class JurisdictionEntity {
 	private int type;
 	//权限状态
 	@Column
-	private String state = "1";
+	private int state = 1;
 	//修改时间
 	@Column
 	private Date editTime;
@@ -61,10 +61,10 @@ public class JurisdictionEntity {
 	public void setType(int type) {
 		this.type = type;
 	}
-	public String getState() {
+	public int getState() {
 		return state;
 	}
-	public void setState(String state) {
+	public void setState(int state) {
 		this.state = state;
 	}
 	public Date getEditTime() {

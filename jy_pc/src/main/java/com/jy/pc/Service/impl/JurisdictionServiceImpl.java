@@ -3,6 +3,7 @@ package com.jy.pc.Service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.jy.pc.DAO.JurisdictionDao;
@@ -45,7 +46,7 @@ public class JurisdictionServiceImpl implements JurisdictionService{
 	}
 
 	@Override
-	public List<JurisdictionEntity> findListByName(String name, Integer type) {
+	public List<JurisdictionEntity> findListByName(String name, Integer type,Pageable pageable) {
 		// TODO Auto-generated method stub
 		//String jurName = "%"+name+"%";
 		//String type = "%"+roleType+"%";

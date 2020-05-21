@@ -3,6 +3,7 @@ package com.jy.pc.Service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.jy.pc.DAO.RolesDao;
@@ -44,11 +45,11 @@ public class RolesServiceImpl implements RolesService{
 	}
 
 	@Override
-	public List<RolesEntity> findListByName(String roleName, Integer roleType) {
+	public List<RolesEntity> findListByName(String roleName, Integer roleType,Pageable pageable) {
 		// TODO Auto-generated method stub
 		String name = "%"+roleName+"%";
 		//String type = "%"+roleType+"%";
-		return rolesDao.findListByName(name, roleType);
+		return rolesDao.findListByName(name, roleType,pageable);
 	}
 
 }

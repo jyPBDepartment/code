@@ -28,7 +28,7 @@ public class RolesEntity {
 	private int roleType;
 	// 角色状态
 	@Column
-	private String state ="1";
+	private int state =1;
 	//修改时间
 	@Column
 	private Date editTime;
@@ -52,11 +52,11 @@ public class RolesEntity {
 		this.editUser = editUser;
 	}
 
-	public String getState() {
+	public int getState() {
 		return state;
 	}
 
-	public void setState(String state) {
+	public void setState(int state) {
 		this.state = state;
 	}
 
