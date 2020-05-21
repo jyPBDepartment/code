@@ -13,13 +13,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
-
+import com.jy.pc.Entity.OrganEntity;
 import com.jy.pc.Entity.SalesEntity;
 import com.jy.pc.Service.SalesService;
 
@@ -128,10 +131,14 @@ public class SalesController {
 		 //业务员模糊查询
 		 @RequestMapping(value = "findByName")
 			@ResponseBody
-			public Map<String,Object> findByName(HttpServletRequest res,HttpServletResponse req,@RequestParam(name="name")String name,@RequestParam(name="phone")String phone) {
+			public Map<String,Object> findByName(HttpServletRequest res,HttpServletResponse req,@RequestParam(name="name")String name,@RequestParam(name="phone")String phone,@RequestParam(name="page")Integer page,
+					@RequestParam(name="size")Integer size) {
 				
 				Map<String,Object> map = new HashMap<String,Object>();
-				List<SalesEntity> salesList = salesService.findListByName(name, phone);
+				Pageable pageable = new PageRequest(page-1,size);
+				
+				Page<SalesEntity> salesList= salesService.findListByName(name, phone, pageable);
+//				List<SalesEntity> salesList = salesService.findListByName(name, phone);
 				
 				
 				map.put("status", "0");//成功

@@ -1,8 +1,9 @@
 package com.jy.pc.Service;
 
-import java.sql.Date;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import com.jy.pc.Entity.OrganEntity;
 
@@ -18,7 +19,7 @@ public interface OrganService {
 	public void delete(String id);
 	public List<OrganEntity> findAll();
 	public OrganEntity findBId(String id);
-	public List<OrganEntity> findListByName(String name,String superId);
+	public Page<OrganEntity> findListByName(String name,String superId,Pageable pageable);
 	
 	
 }
