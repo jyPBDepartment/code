@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
@@ -64,15 +65,6 @@ public class JusisdictionController {
 		String s = res.getParameter("jurisdictionEntity");
 		JSONObject jsonObject = JSONObject.parseObject(s);
 		JurisdictionEntity jurisdictionEntity = jsonObject.toJavaObject(JurisdictionEntity.class);
-		System.out.println("打印："+jurisdictionEntity.getId());
-		
-//		AdminEntity adminEntity =  new AdminEntity();
-//		adminEntity.getAdminId();
-//		adminService.findById(adminId);
-//		String roleName = adminEntity.getAdminName();
-		
-		jurisdictionEntity.setEditUser("一号");
-		//Date date = new Date(sdf.format(new Date()));// 获取当前时间
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss" );// 格式化时间		
 		String time=DateFormat.getDateTimeInstance().format(new Date());
 		try {
@@ -98,7 +90,6 @@ public class JusisdictionController {
 		jurisdictionService.delete(id);
 		map.put("status", "0");
 		map.put("message", "删除成功");
-		
 		req.setHeader("Access-Control-Allow-Origin", "*");
 		req.setHeader("Cache-Control", "no-cache");
 		return map;
@@ -145,10 +136,8 @@ public class JusisdictionController {
 		
 		Map<String,Object> map = new HashMap<String,Object>();
 		Pageable pageable = new PageRequest(page-1,size);
-		System.out.println(name);
-		System.out.println(type);
-		List<JurisdictionEntity> jurisdictionList=  jurisdictionService.findListByName(name, type,pageable);
-		map.put("status", "0");//成功
+		Page<JurisdictionEntity> jurisdictionList=  jurisdictionService.findListByName(name, type,pageable);
+		map.put("status", "0");
 		map.put("message","查询成功");
 		map.put("data", jurisdictionList);
 		req.setHeader("Access-Control-Allow-Origin", "*");
@@ -169,7 +158,6 @@ public class JusisdictionController {
 			jurisdictionEntity.setState(1);
 			map.put("status", "0");
 			map.put("message","禁用成功");
-			
 		}
 		else if(state.equals(1)){
 			jurisdictionEntity.setState(0);

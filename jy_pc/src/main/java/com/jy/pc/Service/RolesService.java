@@ -2,6 +2,7 @@ package com.jy.pc.Service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.jy.pc.Entity.RolesEntity;
@@ -23,6 +24,6 @@ public interface RolesService {
 	public RolesEntity findId(String id);
 	
 	//搜索
-	public List<RolesEntity> findListByName(String roleName,Integer roleType,Pageable pageable);
+	public Page<RolesEntity> findListByName(String roleName,Integer roleType,Pageable pageable);
 
 }

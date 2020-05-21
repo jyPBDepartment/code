@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
@@ -88,7 +89,6 @@ public class RolesController {
 		rolesService.delete(id);
 		map.put("status", "0");
 		map.put("message", "删除成功");
-		
 		req.setHeader("Access-Control-Allow-Origin", "*");
 		req.setHeader("Cache-Control", "no-cache");
 		return map;
@@ -135,7 +135,7 @@ public class RolesController {
 		
 		Map<String,Object> map = new HashMap<String,Object>();
 		Pageable pageable = new PageRequest(page-1,size);
-		List<RolesEntity> roleList=  rolesService.findListByName(roleName, roleType,pageable);
+		Page<RolesEntity> roleList=  rolesService.findListByName(roleName, roleType,pageable);
 		map.put("status", "0");//成功
 		map.put("message","查询成功");
 		map.put("data", roleList);

@@ -3,6 +3,7 @@ package com.jy.pc.Service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -46,11 +47,10 @@ public class JurisdictionServiceImpl implements JurisdictionService{
 	}
 
 	@Override
-	public List<JurisdictionEntity> findListByName(String name, Integer type,Pageable pageable) {
+	public Page<JurisdictionEntity> findListByName(String name, Integer type,Pageable pageable) {
 		// TODO Auto-generated method stub
-		//String jurName = "%"+name+"%";
-		//String type = "%"+roleType+"%";
-		return jurisdictionDao.findListByName(name, type);
+		String jurName = "%"+name+"%";
+		return jurisdictionDao.findListByName(jurName, type,pageable);
 	}
 
 }

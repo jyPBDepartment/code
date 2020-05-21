@@ -2,6 +2,7 @@ package com.jy.pc.Service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.jy.pc.Entity.JurisdictionEntity;
@@ -23,5 +24,5 @@ public interface JurisdictionService {
 	public JurisdictionEntity findId(String id);
 
 	// 搜索
-	public List<JurisdictionEntity> findListByName(String name, Integer type,Pageable pageable);
+	public Page<JurisdictionEntity> findListByName(String name, Integer type,Pageable pageable);
 }
