@@ -32,13 +32,13 @@ public class OrganController {
 	//机构添加
 	@RequestMapping(value="/save")
 	@ResponseBody
-	public Map<String, String> save(HttpServletRequest res,HttpServletResponse req,@RequestParam(name="name")String name,@RequestParam(name="superId")String superId,@RequestParam(name="organLevel")String organLevel,@RequestParam(name="context")String context,@RequestParam(name="state")int state) {
+	public Map<String, String> save(HttpServletRequest res,HttpServletResponse req,@RequestParam(name="name")String name,@RequestParam(name="superId")String superId,@RequestParam(name="context")String context,@RequestParam(name="state")int state) {
 		
 		System.out.println("添加");
 		OrganEntity organEntity = new OrganEntity();
 		organEntity.setName(name);
 		organEntity.setSuperId(superId);
-		organEntity.setOrganLevel(organLevel);
+		
 		
 		String createTime = DateFormat.getDateTimeInstance().format(new Date());
 		organEntity.setCreateTime(createTime);
