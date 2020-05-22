@@ -22,7 +22,6 @@ public interface JurisdictionService {
 
 	// 按条件查询
 	public JurisdictionEntity findId(String id);
-
 	// 搜索
 	public Page<JurisdictionEntity> findListByName(String name, Integer type,Pageable pageable);
 }

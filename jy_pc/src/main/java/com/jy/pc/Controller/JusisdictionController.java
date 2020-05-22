@@ -31,7 +31,6 @@ import com.jy.pc.Service.JurisdictionService;
 public class JusisdictionController {
 	@Autowired
 	private JurisdictionService jurisdictionService;
-
 	// 权限添加
 	@RequestMapping(value = "/add")
 	public Map<String, String> save(HttpServletRequest res, HttpServletResponse req,

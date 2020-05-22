@@ -48,7 +48,6 @@ public class JurisdictionServiceImpl implements JurisdictionService{
 
 	@Override
 	public Page<JurisdictionEntity> findListByName(String name, Integer type,Pageable pageable) {
-		// TODO Auto-generated method stub
 		String jurName = "%"+name+"%";
 		return jurisdictionDao.findListByName(jurName, type,pageable);
 	}

@@ -17,7 +17,9 @@ public interface RolesDao extends JpaRepository<RolesEntity, String>{
 	@Query(value="select * from sys_role t where t.id =:id",nativeQuery = true)
 	public RolesEntity findId(@Param("id")String id);
 	
+	
 	@Query(value="select * from sys_role t where if(?1 !='',t.role_name like ?1,1=1) and if(?2!=999,t.role_type like ?2,1=1)",
 			countQuery="select count(*) from sys_role t where if(?1 !='',t.role_name like ?1,1=1) and if(?2!=999,t.role_type like ?2,1=1)",nativeQuery = true)
 	public Page<RolesEntity> findListByName(String roleName,Integer roleType,Pageable pageable);
+	
 }

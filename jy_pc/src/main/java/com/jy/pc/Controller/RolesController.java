@@ -126,6 +126,7 @@ public class RolesController {
 		return map;
 	}
 	
+	//查询
 	@RequestMapping(value = "/findByName")
 	public Map<String,Object> findByName(HttpServletRequest res,HttpServletResponse req,
 			@RequestParam(name="roleName")String roleName,

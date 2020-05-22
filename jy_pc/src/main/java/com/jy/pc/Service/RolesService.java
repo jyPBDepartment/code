@@ -23,6 +23,7 @@ public interface RolesService {
 	// 按条件查询
 	public RolesEntity findId(String id);
 	
+	
 	//搜索
 	public Page<RolesEntity> findListByName(String roleName,Integer roleType,Pageable pageable);
 

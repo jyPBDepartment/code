@@ -47,7 +47,6 @@ public class RolesServiceImpl implements RolesService{
 
 	@Override
 	public Page<RolesEntity> findListByName(String roleName, Integer roleType,Pageable pageable) {
-		// TODO Auto-generated method stub
 		String name = "%"+roleName+"%";
 		return rolesDao.findListByName(name, roleType,pageable);
 	}
