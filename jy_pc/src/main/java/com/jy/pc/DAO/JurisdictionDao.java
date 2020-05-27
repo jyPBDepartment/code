@@ -1,6 +1,5 @@
 package com.jy.pc.DAO;
 
-import java.util.List;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -18,7 +17,7 @@ public interface JurisdictionDao extends JpaRepository<JurisdictionEntity, Strin
 	public JurisdictionEntity findId(@Param("id")String id);
 	
 	
-	@Query(value="select * from sys_jurisdiction t where if(?1 !='',t.name like ?1,1=1) and if(?2!=999,t.type = ?2,1=1)",
-			countQuery="select count(*) from sys_jurisdiction t where if(?1 !='',t.name like ?1,1=1) and if(?2!=999,t.type = ?2,1=1)",nativeQuery = true)
+	@Query(value="select * from sys_jurisdiction t where if(?1 !='',t.name like ?1,1=1) and if(?2!=999,t.type = ?2,1=1) order by t.create_time desc ",
+			countQuery="select count(*) from sys_jurisdiction t where if(?1 !='',t.name like ?1,1=1) and if(?2!=999,t.type = ?2,1=1) order by t.create_time desc",nativeQuery = true)
 	public Page<JurisdictionEntity> findListByName(String name,Integer type,Pageable pageable);
 }

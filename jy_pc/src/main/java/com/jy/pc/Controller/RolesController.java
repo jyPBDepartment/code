@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
+import com.jy.pc.Entity.JurisdictionEntity;
 import com.jy.pc.Entity.RolesEntity;
 import com.jy.pc.Service.RolesService;
 
@@ -39,13 +40,12 @@ public class RolesController {
 		RolesEntity rolesEntity = new RolesEntity();
 		rolesEntity.setRoleName(roleName);
 		rolesEntity.setRoleType(roleType);
-		//rolesEntity.setRoleType(type);
+		//rolesEntity.setLimitId(limitId);
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss" );// 格式化时间		
 		String time=DateFormat.getDateTimeInstance().format(new Date());
 		try {
-			rolesEntity.setEditTime(sdf.parse(time));
+			rolesEntity.setCreateTime(sdf.parse(time));
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		rolesService.save(rolesEntity);
@@ -137,6 +137,7 @@ public class RolesController {
 		Map<String,Object> map = new HashMap<String,Object>();
 		Pageable pageable = new PageRequest(page-1,size);
 		Page<RolesEntity> roleList=  rolesService.findListByName(roleName, roleType,pageable);
+
 		map.put("status", "0");//成功
 		map.put("message","查询成功");
 		map.put("data", roleList);
@@ -154,6 +155,7 @@ public class RolesController {
 		RolesEntity roleEntity = rolesService.findId(id);
 		roleEntity.setState(state);
 		roleEntity.getState();
+		System.out.println("禁用");
 		if(state.equals(0)) {
 			roleEntity.setState(1);
 			map.put("status", "0");

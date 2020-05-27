@@ -17,31 +17,26 @@ public class RolesServiceImpl implements RolesService{
 	private RolesDao rolesDao;
 	@Override
 	public void save(RolesEntity roles) {
-		// TODO Auto-generated method stub
 		rolesDao.saveAndFlush(roles);
 	}
 
 	@Override
 	public void update(RolesEntity roles) {
-		// TODO Auto-generated method stub
 		rolesDao.saveAndFlush(roles);
 	}
 
 	@Override
 	public void delete(String id) {
-		// TODO Auto-generated method stub
 		rolesDao.deleteById(id);
 	}
 
 	@Override
 	public List<RolesEntity> findAll() {
-		// TODO Auto-generated method stub
 		return rolesDao.findAll();
 	}
 
 	@Override
 	public RolesEntity findId(String id) {
-		// TODO Auto-generated method stub
 		return rolesDao.findId(id);
 	}
 

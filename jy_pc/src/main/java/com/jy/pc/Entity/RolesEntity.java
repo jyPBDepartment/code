@@ -29,12 +29,34 @@ public class RolesEntity {
 	// 角色状态
 	@Column
 	private int state =1;
+	//创建时间
+	@Column
+	private Date createTime;
 	//修改时间
 	@Column
 	private Date editTime;
 	// 修改人
 	@Column
 	private String editUser;
+	//权限ID
+	@Column
+	private String limitId;
+
+	public String getLimitId() {
+		return limitId;
+	}
+
+	public void setLimitId(String limitId) {
+		this.limitId = limitId;
+	}
+
+	public Date getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
 
 	public Date getEditTime() {
 		return editTime;

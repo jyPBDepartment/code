@@ -17,32 +17,26 @@ public class JurisdictionServiceImpl implements JurisdictionService{
 	private JurisdictionDao jurisdictionDao;
 	@Override
 	public void save(JurisdictionEntity jurisdiction) {
-		// TODO Auto-generated method stub
 		jurisdictionDao.saveAndFlush(jurisdiction);
 	}
 
 	@Override
 	public void update(JurisdictionEntity jurisdiction) {
-		// TODO Auto-generated method stub
-		
 		jurisdictionDao.saveAndFlush(jurisdiction);
 	}
 
 	@Override
 	public void delete(String id) {
-		// TODO Auto-generated method stub
 		jurisdictionDao.deleteById(id);
 	}
 
 	@Override
 	public List<JurisdictionEntity> findAll() {
-		// TODO Auto-generated method stub
 		return jurisdictionDao.findAll();
 	}
 
 	@Override
 	public JurisdictionEntity findId(String id) {
-		// TODO Auto-generated method stub
 		return jurisdictionDao.findId(id);
 	}
 

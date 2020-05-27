@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
 import com.jy.pc.Entity.JurisdictionEntity;
-import com.jy.pc.Service.AdminService;
 import com.jy.pc.Service.JurisdictionService;
 
 @Controller
@@ -42,10 +41,11 @@ public class JusisdictionController {
 		jurisdictionEntity.setName(name);
 		jurisdictionEntity.setPath(path);
 		jurisdictionEntity.setType(type);
+//		jurisdictionEntity.setRoleId(roleId);
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss" );// 格式化时间		
 		String time=DateFormat.getDateTimeInstance().format(new Date());
 		try {
-			jurisdictionEntity.setEditTime(sdf.parse(time));
+			jurisdictionEntity.setCreateTime(sdf.parse(time));
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
@@ -69,7 +69,6 @@ public class JusisdictionController {
 		try {
 			jurisdictionEntity.setEditTime(sdf.parse(time));
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		jurisdictionService.update(jurisdictionEntity);

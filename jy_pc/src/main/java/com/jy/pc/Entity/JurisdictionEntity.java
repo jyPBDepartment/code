@@ -31,12 +31,31 @@ public class JurisdictionEntity {
 	//权限状态
 	@Column
 	private int state = 1;
+	//创建时间
+	@Column
+	private Date createTime;
 	//修改时间
 	@Column
 	private Date editTime;
 	// 修改人
 	@Column
 	private String editUser;
+	//角色id
+	@Column
+	private String roleId;
+	
+	public String getRoleId() {
+		return roleId;
+	}
+	public void setRoleId(String roleId) {
+		this.roleId = roleId;
+	}
+	public Date getCreateTime() {
+		return createTime;
+	}
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
 	public String getId() {
 		return id;
 	}
