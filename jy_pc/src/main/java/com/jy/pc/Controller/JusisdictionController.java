@@ -35,7 +35,6 @@ public class JusisdictionController {
 	public Map<String, String> save(HttpServletRequest res, HttpServletResponse req,
 			@RequestParam(name = "name") String name,@RequestParam(name = "path") String path,
 			@RequestParam(name = "type") Integer type) {
-		System.out.println("添加");
 		JurisdictionEntity jurisdictionEntity = new JurisdictionEntity();
 		Map<String, String> map = new HashMap<String, String>();
 		jurisdictionEntity.setName(name);

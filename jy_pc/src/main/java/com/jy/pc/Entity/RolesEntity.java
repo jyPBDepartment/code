@@ -15,6 +15,7 @@ import org.hibernate.annotations.GenericGenerator;
 @Entity
 @Table(name = "sys_role")
 public class RolesEntity {
+	
 	// 主键Id
 	@Id
 	@GeneratedValue(generator = "uuid")

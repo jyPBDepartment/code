@@ -13,6 +13,7 @@ import com.jy.pc.Service.JurisdictionService;
 
 @Service
 public class JurisdictionServiceImpl implements JurisdictionService{
+	
 	@Autowired
 	private JurisdictionDao jurisdictionDao;
 	@Override

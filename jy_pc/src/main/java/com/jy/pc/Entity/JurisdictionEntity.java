@@ -14,6 +14,7 @@ import org.hibernate.annotations.GenericGenerator;
 @Entity
 @Table(name = "sys_jurisdiction")
 public class JurisdictionEntity {
+	
 	// 主键Id
 	@Id
 	@GeneratedValue(generator = "uuid")

@@ -36,7 +36,6 @@ public class RolesController {
 	@RequestMapping(value = "/add")
 	public Map<String, String> save(HttpServletRequest res, HttpServletResponse req,
 			@RequestParam(name = "roleName") String roleName, @RequestParam(name = "roleType") Integer roleType) {
-		System.out.println("添加");
 		RolesEntity rolesEntity = new RolesEntity();
 		rolesEntity.setRoleName(roleName);
 		rolesEntity.setRoleType(roleType);
@@ -70,7 +69,6 @@ public class RolesController {
 		try {
 			rolesEntity.setEditTime(sdf.parse(time));
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		rolesService.update(rolesEntity);
