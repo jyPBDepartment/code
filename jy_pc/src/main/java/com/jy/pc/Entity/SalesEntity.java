@@ -20,7 +20,7 @@ public class SalesEntity {
 	private String id;//主键Id
 	@Column(length=32)
 	private String name;//姓名
-	@Column(length=32)
+	@Column(length=11)
 	private String phone;//手机号
 	@Column(length=32)
 	private String organId;//所属机构ID
@@ -31,7 +31,7 @@ public class SalesEntity {
 	@Column(length=32)
 	private String context;//备注
 	
-	private int state;//状态
+	
 	public String getId() {
 		return id;
 	}
@@ -75,12 +75,7 @@ public class SalesEntity {
 	public void setContext(String context) {
 		this.context = context;
 	}
-	public int getState() {
-		return state;
-	}
-	public void setState(int state) {
-		this.state = state;
-	}
+	
 	
 	
 	

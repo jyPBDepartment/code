@@ -1,6 +1,6 @@
 package com.jy.pc.DAO;
 
-import java.util.List;
+
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,9 +15,9 @@ public interface SalesDao extends JpaRepository<SalesEntity, String>{
 	public SalesEntity findBId(@Param("id")String id);
 
 	
-	@Query(value="select * from sys_sales t  where if(?1 !='',t.name like ?1,1=1) and if(?2 !='',t.phone like ?2,1=1)",
-			countQuery="select count(*) from sys_sales t  where if(?1 !='',t.name like ?1,1=1) and if(?2 !='',t.phone like ?2,1=1)",
+	@Query(value="select * from sys_sales t  where if(?1 !='',t.name like ?1,1=1) and if(?2 !='',t.phone like ?2,1=1) order by t.create_time desc",
+			countQuery="select count(*) from sys_sales t  where if(?1 !='',t.name like ?1,1=1) and if(?2 !='',t.phone like ?2,1=1) order by t.create_time desc",
 			nativeQuery = true)
-//	@Query(value="select * from sys_sales s where if(?1 !='',s.name like ?1,1=1) and if(?2 !='',s.phone like ?2,1=1)",nativeQuery = true)
+
 	public Page<SalesEntity> findListByName(String name,String phone,Pageable pageable);
 }
