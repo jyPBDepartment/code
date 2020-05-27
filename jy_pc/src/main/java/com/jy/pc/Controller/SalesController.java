@@ -34,26 +34,20 @@ public class SalesController {
 	//业务员添加
 		@RequestMapping(value="/save")
 		@ResponseBody
-		public Map<String, String> save(HttpServletRequest res,HttpServletResponse req,@RequestParam(name="name")String name,@RequestParam(name="phone")String phone,@RequestParam(name="organId")String organId,@RequestParam(name="context")String context,@RequestParam(name="state")int state) {
+		public Map<String, String> save(HttpServletRequest res,HttpServletResponse req,@RequestParam(name="name")String name,@RequestParam(name="phone")String phone,@RequestParam(name="organId")String organId,@RequestParam(name="context")String context) {
 			
 			System.out.println("添加");
 			SalesEntity salesEntity = new SalesEntity();
-			
 			salesEntity.setName(name);
 			salesEntity.setPhone(phone);
 			salesEntity.setOrganId(organId);
-			
 			String createTime = DateFormat.getDateTimeInstance().format(new Date());
 			salesEntity.setCreateTime(createTime);
 			salesEntity.setUpdateTime(createTime);
 			salesEntity.setContext(context);
-			salesEntity.setState(state);
 			salesService.save(salesEntity);
 			Map<String, String> map = new HashMap<String, String>();
 			map.put("message","添加成功");
-			
-			
-		
 			req.setHeader("Access-Control-Allow-Origin", "*");
 			req.setHeader("Cache-Control", "no-cache");
 			return map;
@@ -72,7 +66,6 @@ public class SalesController {
 				}else {
 					map.put("status", "1");//查询数据失败
 				}
-				
 				
 				req.setHeader("Access-Control-Allow-Origin", "*");
 				req.setHeader("Cache-Control", "no-cache");
@@ -136,19 +129,12 @@ public class SalesController {
 				
 				Map<String,Object> map = new HashMap<String,Object>();
 				Pageable pageable = new PageRequest(page-1,size);
-				
 				Page<SalesEntity> salesList= salesService.findListByName(name, phone, pageable);
-//				List<SalesEntity> salesList = salesService.findListByName(name, phone);
-				
-				
 				map.put("status", "0");//成功
 				map.put("message","查询成功");
-				
 				map.put("data", salesList);
-				
 				req.setHeader("Access-Control-Allow-Origin", "*");
 				req.setHeader("Cache-Control", "no-cache");
-				
 				return map;
 			}
 }
