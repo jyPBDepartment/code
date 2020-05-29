@@ -41,16 +41,7 @@ public class JurisdictionEntity {
 	// 修改人
 	@Column
 	private String editUser;
-	//角色id
-	@Column
-	private String roleId;
 	
-	public String getRoleId() {
-		return roleId;
-	}
-	public void setRoleId(String roleId) {
-		this.roleId = roleId;
-	}
 	public Date getCreateTime() {
 		return createTime;
 	}

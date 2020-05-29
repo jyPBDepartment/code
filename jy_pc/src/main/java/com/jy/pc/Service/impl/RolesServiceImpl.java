@@ -46,4 +46,5 @@ public class RolesServiceImpl implements RolesService{
 		String name = "%"+roleName+"%";
 		return rolesDao.findListByName(name, roleType,pageable);
 	}
+
 }

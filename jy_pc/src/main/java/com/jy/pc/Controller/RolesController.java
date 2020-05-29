@@ -21,8 +21,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
-import com.jy.pc.Entity.JurisdictionEntity;
+import com.jy.pc.Entity.RelationEntity;
 import com.jy.pc.Entity.RolesEntity;
+import com.jy.pc.Service.RelationService;
 import com.jy.pc.Service.RolesService;
 
 @Controller
@@ -31,15 +32,18 @@ import com.jy.pc.Service.RolesService;
 public class RolesController {
 	@Autowired
 	private RolesService rolesService;
+	@Autowired
+	private RelationService relationService;
 
 	// 角色添加
 	@RequestMapping(value = "/add")
 	public Map<String, String> save(HttpServletRequest res, HttpServletResponse req,
-			@RequestParam(name = "roleName") String roleName, @RequestParam(name = "roleType") Integer roleType) {
+			@RequestParam(name = "roleName") String roleName, @RequestParam(name = "roleType") Integer roleType,
+			@RequestParam(name = "limitId") String limitName) {
 		RolesEntity rolesEntity = new RolesEntity();
 		rolesEntity.setRoleName(roleName);
 		rolesEntity.setRoleType(roleType);
-		//rolesEntity.setLimitId(limitId);
+		rolesEntity.setLimitId(limitName);
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss" );// 格式化时间		
 		String time=DateFormat.getDateTimeInstance().format(new Date());
 		try {
@@ -48,10 +52,14 @@ public class RolesController {
 			e.printStackTrace();
 		}
 		rolesService.save(rolesEntity);
+		//添加角色权限关联表
+		RelationEntity relationEntity = new RelationEntity();
+		relationEntity.setRoleId(roleName);
+		relationEntity.setLimitId(limitName);
+		relationService.save(relationEntity);
+	
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("message", "添加成功");
-		req.setHeader("Access-Control-Allow-Origin", "*");
-		req.setHeader("Cache-Control", "no-cache");
 		return map;
 	}
 	
@@ -63,7 +71,6 @@ public class RolesController {
 		String s = res.getParameter("rolesEntity");
 		JSONObject jsonObject = JSONObject.parseObject(s);
 		RolesEntity rolesEntity = jsonObject.toJavaObject(RolesEntity.class);
-		System.out.println("打印："+rolesEntity.getId());
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss" );// 格式化时间		
 		String time=DateFormat.getDateTimeInstance().format(new Date());
 		try {
@@ -71,10 +78,10 @@ public class RolesController {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
+//		RelationEntity relationEntity = jsonObject.toJavaObject(RelationEntity.class);
+//		relationService.update(relationEntity);
 		rolesService.update(rolesEntity);
 		map.put("message","修改成功");
-		req.setHeader("Access-Control-Allow-Origin", "*");
-		req.setHeader("Cache-Control", "no-cache");
 		return map;
 	}
 
@@ -83,12 +90,12 @@ public class RolesController {
 	public Map<String,Object> delete(HttpServletRequest res,HttpServletResponse req,
 			@RequestParam(name="id")String id) {
 		Map<String,Object> map = new HashMap<String,Object>();
-		
+//		RelationEntity relationEntity = new RelationEntity();
+//		String ids=relationEntity.getId();
+//		relationService.delete(ids);
 		rolesService.delete(id);
 		map.put("status", "0");
 		map.put("message", "删除成功");
-		req.setHeader("Access-Control-Allow-Origin", "*");
-		req.setHeader("Cache-Control", "no-cache");
 		return map;
 	}
 
@@ -101,8 +108,6 @@ public class RolesController {
 		map.put("status", "0");
 		map.put("message", "查询成功");
 		map.put("data", rolesList);
-		req.setHeader("Access-Control-Allow-Origin", "*");
-		req.setHeader("Cache-Control", "no-cache");
 		return map;
 	}
 
@@ -110,7 +115,6 @@ public class RolesController {
 	@RequestMapping(value = "/findById")
 	public Map<String,Object> findById(HttpServletRequest res,HttpServletResponse req,
 			@RequestParam(name="id")String id) {
-
 		Map<String,Object> map = new HashMap<String,Object>();
 		RolesEntity rolesEntity = rolesService.findId(id);
 		if(rolesEntity!=null) {
@@ -119,8 +123,6 @@ public class RolesController {
 		}else {
 			map.put("status", "1");
 		}
-		req.setHeader("Access-Control-Allow-Origin", "*");
-		req.setHeader("Cache-Control", "no-cache");
 		return map;
 	}
 	
@@ -135,12 +137,9 @@ public class RolesController {
 		Map<String,Object> map = new HashMap<String,Object>();
 		Pageable pageable = new PageRequest(page-1,size);
 		Page<RolesEntity> roleList=  rolesService.findListByName(roleName, roleType,pageable);
-
 		map.put("status", "0");//成功
 		map.put("message","查询成功");
 		map.put("data", roleList);
-		req.setHeader("Access-Control-Allow-Origin", "*");
-		req.setHeader("Cache-Control", "no-cache");
 		return map;
 	}
 	
@@ -153,12 +152,10 @@ public class RolesController {
 		RolesEntity roleEntity = rolesService.findId(id);
 		roleEntity.setState(state);
 		roleEntity.getState();
-		System.out.println("禁用");
 		if(state.equals(0)) {
 			roleEntity.setState(1);
 			map.put("status", "0");
 			map.put("message","禁用成功");
-			
 		}
 		else if(state.equals(1)){
 			roleEntity.setState(0);
@@ -166,8 +163,7 @@ public class RolesController {
 			map.put("message","启用成功");
 		}
 		rolesService.update(roleEntity);
-		req.setHeader("Access-Control-Allow-Origin", "*");
-		req.setHeader("Cache-Control", "no-cache");
 		return map;
 	}
+	
 }
