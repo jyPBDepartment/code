@@ -17,31 +17,31 @@ public class SalesServiceImpl implements SalesService{
 	private SalesDao salesDao;
 	@Override
 	public void save(SalesEntity salesEntity) {
-		// TODO Auto-generated method stub
+		
 		salesDao.save(salesEntity);
 	}
 
 	@Override
 	public void update(SalesEntity salesEntity) {
-		// TODO Auto-generated method stub
+		
 		salesDao.saveAndFlush(salesEntity);
 	}
 
 	@Override
 	public void delete(String id) {
-		// TODO Auto-generated method stub
+		
 		salesDao.deleteById(id);
 	}
 
 	@Override
 	public List<SalesEntity> findAll() {
-		// TODO Auto-generated method stub
+		
 		return salesDao.findAll();
 	}
 
 	@Override
 	public SalesEntity findBId(String id) {
-		// TODO Auto-generated method stub
+		
 		return salesDao.findBId(id);
 	}
 
@@ -53,5 +53,8 @@ public class SalesServiceImpl implements SalesService{
 		return salesDao.findListByName(salesName, telephone, pageable);
 
 	}
+
+	
+	
 
 }

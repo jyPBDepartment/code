@@ -18,6 +18,12 @@ public interface SalesService {
 	public void update(SalesEntity salesEntity);
 	public void delete(String id);
 	public List<SalesEntity> findAll();
+	/**
+	 * finById,模糊查询方法
+	 * 
+	 * */
 	public SalesEntity findBId(String id);
 	public Page<SalesEntity> findListByName(String name,String phone,Pageable pageable);
+	
+	
 }

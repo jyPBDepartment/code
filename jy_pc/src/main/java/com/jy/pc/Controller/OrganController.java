@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
-import com.jy.pc.Entity.AdminEntity;
+
 import com.jy.pc.Entity.OrganEntity;
 import com.jy.pc.Service.OrganService;
 
@@ -48,8 +48,7 @@ public class OrganController {
 		organService.save(organEntity);		
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("message","添加成功");
-		req.setHeader("Access-Control-Allow-Origin", "*");
-		req.setHeader("Cache-Control", "no-cache");
+		
 		return map;
 	}
 	//机构修改
@@ -59,18 +58,12 @@ public class OrganController {
 
 		Map<String, String> map = new HashMap<String, String>();
 		String s= res.getParameter("organEntity");
-		
 		JSONObject jsonObject = JSONObject.parseObject(s);
 		OrganEntity organEntity = jsonObject.toJavaObject(OrganEntity.class);
 		String updateTime = DateFormat.getDateTimeInstance().format(new Date());
-		
 		organEntity.setUpdateTime(updateTime);
-		System.out.println("打印："+organEntity.getId());
 		organService.update(organEntity);
 		map.put("message","修改成功");
-		
-		req.setHeader("Access-Control-Allow-Origin", "*");
-		req.setHeader("Cache-Control", "no-cache");
 		return map;
 	}
 	//机构删除
@@ -79,12 +72,8 @@ public class OrganController {
 	public Map<String,Object> delete(HttpServletRequest res,HttpServletResponse req,@RequestParam(name="id")String id) {
 		Map<String,Object> map = new HashMap<String,Object>();//接收数据容器
 		organService.delete(id);
-		
 		map.put("status", "0");
 		map.put("message", "删除成功");
-		
-		req.setHeader("Access-Control-Allow-Origin", "*");
-		req.setHeader("Cache-Control", "no-cache");
 		return map;
 	}
 	//机构详情查询
@@ -93,14 +82,10 @@ public class OrganController {
 	public Map<String,Object> findAll(HttpServletRequest res,HttpServletResponse req) {
 
 		Map<String,Object> map = new HashMap<String,Object>();//接收数据容器
-		
 		List<OrganEntity> organList = organService.findAll();//查询所有数据方法
 		map.put("status", "0");
 		map.put("message", "查询成功");
-		
 		map.put("data", organList);
-		req.setHeader("Access-Control-Allow-Origin", "*");
-		req.setHeader("Cache-Control", "no-cache");
 		return map;
 	}
 	//机构禁用
@@ -126,8 +111,6 @@ public class OrganController {
 	   map.put("message","启用成功");
 	  }
 	  organService.update(organEntity);
-	  req.setHeader("Access-Control-Allow-Origin", "*");
-	  req.setHeader("Cache-Control", "no-cache");
 	  return map;
 	 }
 	 
@@ -145,10 +128,6 @@ public class OrganController {
 			}else {
 				map.put("status", "1");//查询数据失败
 			}
-			
-			
-			req.setHeader("Access-Control-Allow-Origin", "*");
-			req.setHeader("Cache-Control", "no-cache");
 			return map;
 		}
 	 //机构模糊查询
@@ -158,21 +137,13 @@ public class OrganController {
 				@RequestParam(name="size")Integer size) {
 			
 			Map<String,Object> map = new HashMap<String,Object>();
-			
 			Pageable pageable = new PageRequest(page-1,size);
-			
 			Page<OrganEntity> organList= organService.findListByName(name, superId, pageable);
-//			String organLevel = "3";
-//			List<OrganEntity> organList =organService.findListByName(name,superId);
-//			
 			map.put("status", "0");//成功
 			map.put("message","查询成功");
-			
 			map.put("data", organList);
-			
-			req.setHeader("Access-Control-Allow-Origin", "*");
-			req.setHeader("Cache-Control", "no-cache");
-			
 			return map;
 		}
+	 
+	
 }

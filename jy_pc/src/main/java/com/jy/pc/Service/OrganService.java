@@ -18,8 +18,10 @@ public interface OrganService {
 	public void update(OrganEntity OrganEntity);
 	public void delete(String id);
 	public List<OrganEntity> findAll();
+	/**
+	 * finById,模糊查询方法
+	 * 
+	 * */
 	public OrganEntity findBId(String id);
 	public Page<OrganEntity> findListByName(String name,String superId,Pageable pageable);
-	
-	
 }

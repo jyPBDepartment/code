@@ -1,7 +1,6 @@
 package com.jy.pc.Entity;
 
 
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -23,8 +22,7 @@ public class OrganEntity {
 	@Column(length=32)
 	private String superId;//上级机构
 	@Column(length=32)
-	private String organLevel;//机构等级
-	@Column(length=60)
+	
 	private String createTime;//创建时间
 	@Column(length=60)
 	private String updateTime;//修改时间
@@ -77,11 +75,6 @@ public class OrganEntity {
 		this.context = context;
 	}
 	
-	public String getOrganLevel() {
-		return organLevel;
-	}
-	public void setOrganLevel(String organLevel) {
-		this.organLevel = organLevel;
-	}
+	
 
 }

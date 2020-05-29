@@ -22,19 +22,19 @@ public class OrganServiceImpl implements OrganService{
 	
 	@Override
 	public void save(OrganEntity OrganEntity) {
-		// TODO Auto-generated method stub
+		
 		organDao.save(OrganEntity);
 	}
 
 	@Override
 	public void update(OrganEntity OrganEntity) {
-		// TODO Auto-generated method stub
+		
 		organDao.saveAndFlush(OrganEntity);
 	}
 
 	@Override
 	public void delete(String id) {
-		// TODO Auto-generated method stub
+	
 		organDao.deleteById(id);
 	}
 
@@ -46,7 +46,7 @@ public class OrganServiceImpl implements OrganService{
 
 	@Override
 	public OrganEntity findBId(String id) {
-		// TODO Auto-generated method stub
+		
 		return organDao.findBId(id);
 	}
 
@@ -55,8 +55,7 @@ public class OrganServiceImpl implements OrganService{
 		String organName = "%"+name+"%";
 		String higher = "%"+superId+"%";
 		return organDao.findListByName(organName, higher, pageable);
-
-		
 	}
+
 	
 }
