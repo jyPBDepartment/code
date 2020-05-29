@@ -8,7 +8,6 @@ import org.springframework.data.repository.query.Param;
 
 import com.jy.pc.Entity.OrganEntity;
 
-
 public interface OrganDao extends JpaRepository<OrganEntity,String>{
 
 	@Query(value="select * from sys_organ  where id =:id",nativeQuery = true)

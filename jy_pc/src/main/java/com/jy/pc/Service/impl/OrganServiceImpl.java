@@ -25,7 +25,6 @@ public class OrganServiceImpl implements OrganService{
 		
 		organDao.save(OrganEntity);
 	}
-
 	@Override
 	public void update(OrganEntity OrganEntity) {
 		
@@ -40,10 +39,9 @@ public class OrganServiceImpl implements OrganService{
 
 	@Override
 	public List<OrganEntity> findAll() {
-		// TODO Auto-generated method stub
+		
 		return organDao.findAll();
 	}
-
 	@Override
 	public OrganEntity findBId(String id) {
 		

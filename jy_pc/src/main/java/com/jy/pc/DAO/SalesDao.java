@@ -16,7 +16,6 @@ public interface SalesDao extends JpaRepository<SalesEntity, String>{
 	@Query(value="select * from sys_sales t  where if(?1 !='',t.name like ?1,1=1) and if(?2 !='',t.phone like ?2,1=1) order by t.create_time desc",
 			countQuery="select count(*) from sys_sales t  where if(?1 !='',t.name like ?1,1=1) and if(?2 !='',t.phone like ?2,1=1) order by t.create_time desc",
 			nativeQuery = true)
-
 	public Page<SalesEntity> findListByName(String name,String phone,Pageable pageable);
 	
 	

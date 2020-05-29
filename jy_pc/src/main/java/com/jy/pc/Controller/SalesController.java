@@ -30,7 +30,6 @@ import com.jy.pc.Service.SalesService;
 public class SalesController {
 	@Autowired
 	private SalesService salesService;
-
 	//业务员添加
 		@RequestMapping(value="/save")
 		@ResponseBody

@@ -38,13 +38,10 @@ public class OrganController {
 		OrganEntity organEntity = new OrganEntity();
 		organEntity.setName(name);
 		organEntity.setSuperId(superId);
-		
-		
 		String createTime = DateFormat.getDateTimeInstance().format(new Date());
 		organEntity.setCreateTime(createTime);
 		organEntity.setUpdateTime(createTime);
 		organEntity.setContext(context);
-		
 		organService.save(organEntity);		
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("message","添加成功");

@@ -7,8 +7,6 @@ import org.springframework.data.domain.Pageable;
 
 import com.jy.pc.Entity.OrganEntity;
 
-
-
 public interface OrganService {
 	/**
 	 * 公共/常用的方法

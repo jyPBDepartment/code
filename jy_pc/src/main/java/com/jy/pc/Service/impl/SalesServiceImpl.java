@@ -20,13 +20,11 @@ public class SalesServiceImpl implements SalesService{
 		
 		salesDao.save(salesEntity);
 	}
-
 	@Override
 	public void update(SalesEntity salesEntity) {
 		
 		salesDao.saveAndFlush(salesEntity);
 	}
-
 	@Override
 	public void delete(String id) {
 		

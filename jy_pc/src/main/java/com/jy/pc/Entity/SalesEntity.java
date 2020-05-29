@@ -75,8 +75,4 @@ public class SalesEntity {
 	public void setContext(String context) {
 		this.context = context;
 	}
-	
-	
-	
-	
 }
