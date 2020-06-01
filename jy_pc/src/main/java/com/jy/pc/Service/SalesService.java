@@ -12,8 +12,8 @@ public interface SalesService {
 	 * 公共/常用的方法
 	 * 
 	 * */
-	public void save(SalesEntity salesEntity);
-	public void update(SalesEntity salesEntity);
+	public SalesEntity save(SalesEntity salesEntity);
+	public SalesEntity update(SalesEntity salesEntity);
 	public void delete(String id);
 	public List<SalesEntity> findAll();
 	/**

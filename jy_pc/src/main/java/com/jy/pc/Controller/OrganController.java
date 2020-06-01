@@ -34,7 +34,6 @@ public class OrganController {
 	@ResponseBody
 	public Map<String, String> save(HttpServletRequest res,HttpServletResponse req,@RequestParam(name="name")String name,@RequestParam(name="superId")String superId,@RequestParam(name="context")String context) {
 		
-		System.out.println("添加");
 		OrganEntity organEntity = new OrganEntity();
 		organEntity.setName(name);
 		organEntity.setSuperId(superId);

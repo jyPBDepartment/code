@@ -24,11 +24,13 @@ public class SalesEntity {
 	private String phone;//手机号
 	@Column(length=32)
 	private String organId;//所属机构ID
+	@Column(length=255)
+	private String organName;
 	@Column(length=60)
 	private String createTime;//创建时间
 	@Column(length=60)
 	private String updateTime;//修改时间
-	@Column(length=32)
+	@Column(length=255)
 	private String context;//备注
 	
 	
@@ -75,4 +77,12 @@ public class SalesEntity {
 	public void setContext(String context) {
 		this.context = context;
 	}
+	public String getOrganName() {
+		return organName;
+	}
+	public void setOrganName(String organName) {
+		this.organName = organName;
+	}
+	
+	
 }

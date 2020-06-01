@@ -20,9 +20,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
-
+import com.jy.pc.Entity.LinkEntity;
+import com.jy.pc.Entity.OrganEntity;
 import com.jy.pc.Entity.SalesEntity;
-
+import com.jy.pc.Service.LinkService;
+import com.jy.pc.Service.OrganService;
 import com.jy.pc.Service.SalesService;
 
 @Controller
@@ -30,20 +32,31 @@ import com.jy.pc.Service.SalesService;
 public class SalesController {
 	@Autowired
 	private SalesService salesService;
+	@Autowired
+	private LinkService linkService;
+	@Autowired
+	private OrganService organService;
 	//业务员添加
 		@RequestMapping(value="/save")
 		@ResponseBody
-		public Map<String, String> save(HttpServletRequest res,HttpServletResponse req,@RequestParam(name="name")String name,@RequestParam(name="phone")String phone,@RequestParam(name="organId")String organId,@RequestParam(name="context")String context) {
+		public Map<String, String> save(HttpServletRequest res,HttpServletResponse req) {
 			
-			SalesEntity salesEntity = new SalesEntity();
-			salesEntity.setName(name);
-			salesEntity.setPhone(phone);
-			salesEntity.setOrganId(organId);
+			String s = res.getParameter("salesEntity");
+			JSONObject jsonObject = JSONObject.parseObject(s);
+			SalesEntity salesEntity = jsonObject.toJavaObject(SalesEntity.class);
+			//自动获取系统时间
 			String createTime = DateFormat.getDateTimeInstance().format(new Date());
 			salesEntity.setCreateTime(createTime);
 			salesEntity.setUpdateTime(createTime);
-			salesEntity.setContext(context);
-			salesService.save(salesEntity);
+			
+			SalesEntity sales = salesService.save(salesEntity);
+			LinkEntity linkEntity = new LinkEntity();
+			OrganEntity organEntity = new OrganEntity();
+			organEntity=organService.findBId(sales.getOrganId());
+			sales.setOrganName(organEntity.getName());
+			linkEntity.setOrganId(sales.getOrganId());
+			linkEntity.setSalesId(salesEntity.getId());
+			linkService.save(linkEntity);
 			Map<String, String> map = new HashMap<String, String>();
 			map.put("message","添加成功");
 			
@@ -67,29 +80,51 @@ public class SalesController {
 		//业务员修改
 		@RequestMapping(value = "update")
 		@ResponseBody
-		public Map<String, String> update(HttpServletRequest res,HttpServletResponse req) {
+		public Map<String, String> update(HttpServletRequest res,HttpServletResponse req) {		
+			
 			Map<String, String> map = new HashMap<String, String>();
+			
 			String s = res.getParameter("salesEntity");			
 			JSONObject jsonObject = JSONObject.parseObject(s);
 			SalesEntity salesEntity = jsonObject.toJavaObject(SalesEntity.class);
-			String updateTime = DateFormat.getDateTimeInstance().format(new Date());
-			salesEntity.setUpdateTime(updateTime);
-			System.out.println("打印："+salesEntity.getId());
-			salesService.update(salesEntity);
-			map.put("message","修改成功");
 			
+			String updateTime = DateFormat.getDateTimeInstance().format(new Date());
+			salesEntity.setUpdateTime(updateTime);	
+			
+			SalesEntity sales = salesService.update(salesEntity);
+			//修改关联的机构ID
+			OrganEntity organEntity = new OrganEntity();
+			organEntity=organService.findBId(sales.getOrganId());
+			salesEntity.setOrganName(organEntity.getName());
+			salesService.update(salesEntity);
+			//修改关联表
+			LinkEntity linkEntity = new LinkEntity();
+			linkEntity = linkService.findBId(salesEntity.getId());
+			linkEntity.setOrganId(salesEntity.getOrganId());
+			linkService.update(linkEntity);
+			
+			map.put("status", "0");
+			map.put("message","修改成功");
 			return map;
 		}
 		//业务员删除
 		@RequestMapping(value = "delete")
 		@ResponseBody
 		public Map<String,Object> delete(HttpServletRequest res,HttpServletResponse req,@RequestParam(name="id")String id) {
-			Map<String,Object> map = new HashMap<String,Object>();//接收数据容器
+			
+			
+			Map<String, Object> map = new HashMap<String, Object>();
+			SalesEntity salesEntity = new SalesEntity();
+			salesEntity = salesService.findBId(id);
+			LinkEntity linkEntity = new LinkEntity();
+			linkEntity = linkService.findBId(salesEntity.getId());
+			linkService.delete(linkEntity.getId());
 			salesService.delete(id);
+
 			map.put("status", "0");
 			map.put("message", "删除成功");
-			
 			return map;
+
 		}
 		//业务员详情查询
 		@RequestMapping(value = "findAll")

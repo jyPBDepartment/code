@@ -16,19 +16,21 @@ public class SalesServiceImpl implements SalesService{
 	@Autowired 
 	private SalesDao salesDao;
 	@Override
-	public void save(SalesEntity salesEntity) {
+	public SalesEntity save(SalesEntity salesEntity) {
 		
-		salesDao.save(salesEntity);
+		return salesDao.save(salesEntity);
 	}
 	@Override
-	public void update(SalesEntity salesEntity) {
+	public SalesEntity update(SalesEntity salesEntity) {
 		
-		salesDao.saveAndFlush(salesEntity);
+		 return salesDao.saveAndFlush(salesEntity);
 	}
 	@Override
 	public void delete(String id) {
 		
 		salesDao.deleteById(id);
+		
+		
 	}
 
 	@Override

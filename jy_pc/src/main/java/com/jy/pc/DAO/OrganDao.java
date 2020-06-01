@@ -17,5 +17,6 @@ public interface OrganDao extends JpaRepository<OrganEntity,String>{
 			countQuery="select count(*) from sys_organ t  where if(?1 !='',t.name like ?1,1=1) and if(?2 !='',t.super_id like ?2,1=1) order by t.create_time desc",
 			nativeQuery = true)
 	public Page<OrganEntity> findListByName(String name,String superId,Pageable pageable);
+
 	
 }
