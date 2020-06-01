@@ -11,7 +11,7 @@ public interface RelationDao extends JpaRepository<RelationEntity, String>{
 //	@Query(value="select * from sys_relation t where t.role_name =:name",nativeQuery = true)
 //	public RolesEntity findByName(@Param("name")String name);
 	
-	@Query(value="select * from sys_relation t where t.limit_id =:relationId",nativeQuery = true)
+	@Query(value="select * from sys_relation t where t.role_id =:limitId",nativeQuery = true)
 	//@Query(value="select t.limit_id,d.limit_id from sys_role t inner join sys_relation d on d.limit_id=t.limit_id",nativeQuery = true)
-	public RelationEntity findRelationId(@Param("relationId")String relationId);
+	public RelationEntity findRelationId(@Param("limitId")String limitId);
 }

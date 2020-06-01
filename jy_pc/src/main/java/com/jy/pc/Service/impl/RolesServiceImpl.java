@@ -17,8 +17,9 @@ public class RolesServiceImpl implements RolesService{
 	@Autowired
 	private RolesDao rolesDao;
 	@Override
-	public void save(RolesEntity roles) {
-		rolesDao.saveAndFlush(roles);
+	public RolesEntity save(RolesEntity roles) {
+		return rolesDao.saveAndFlush(roles);
+		
 	}
 
 	@Override

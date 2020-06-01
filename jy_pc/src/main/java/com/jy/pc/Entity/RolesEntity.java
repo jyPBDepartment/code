@@ -42,6 +42,17 @@ public class RolesEntity {
 	//权限ID
 	@Column
 	private String limitId;
+	//
+	@Column
+	private String limitName;
+	
+	public String getLimitName() {
+		return limitName;
+	}
+
+	public void setLimitName(String limitName) {
+		this.limitName = limitName;
+	}
 
 	public String getLimitId() {
 		return limitId;

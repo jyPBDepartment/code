@@ -9,7 +9,7 @@ import com.jy.pc.Entity.RolesEntity;
 
 public interface RolesService {
 	// 添加
-	public void save(RolesEntity roles);
+	public RolesEntity save(RolesEntity roles);
 
 	// 修改
 	public void update(RolesEntity roles);

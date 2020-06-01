@@ -21,8 +21,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
+import com.jy.pc.Entity.JurisdictionEntity;
 import com.jy.pc.Entity.RelationEntity;
 import com.jy.pc.Entity.RolesEntity;
+import com.jy.pc.Service.JurisdictionService;
 import com.jy.pc.Service.RelationService;
 import com.jy.pc.Service.RolesService;
 
@@ -34,16 +36,16 @@ public class RolesController {
 	private RolesService rolesService;
 	@Autowired
 	private RelationService relationService;
+	@Autowired
+	private JurisdictionService jurisdictionService;
 
 	// 角色添加
 	@RequestMapping(value = "/add")
-	public Map<String, String> save(HttpServletRequest res, HttpServletResponse req,
-			@RequestParam(name = "roleName") String roleName, @RequestParam(name = "roleType") Integer roleType,
-			@RequestParam(name = "limitId") String limitName) {
-		RolesEntity rolesEntity = new RolesEntity();
-		rolesEntity.setRoleName(roleName);
-		rolesEntity.setRoleType(roleType);
-		rolesEntity.setLimitId(limitName);
+	public Map<String, String> save(HttpServletRequest res, HttpServletResponse req) {
+		
+		String s = res.getParameter("roleEntity");
+		JSONObject jsonObject = JSONObject.parseObject(s);
+		RolesEntity rolesEntity = jsonObject.toJavaObject(RolesEntity.class);
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss" );// 格式化时间		
 		String time=DateFormat.getDateTimeInstance().format(new Date());
 		try {
@@ -51,13 +53,20 @@ public class RolesController {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		rolesService.save(rolesEntity);
-		//添加角色权限关联表
+		//角色权限连接表实体
 		RelationEntity relationEntity = new RelationEntity();
-		relationEntity.setRoleId(roleName);
-		relationEntity.setLimitId(limitName);
+		//权限表实体
+		JurisdictionEntity jurisdictionEntity = new JurisdictionEntity();
+		jurisdictionEntity = jurisdictionService.findId(rolesEntity.getLimitId());
+		
+		rolesEntity.setLimitName(jurisdictionEntity.getName());
+		RolesEntity role = rolesService.save(rolesEntity);
+		//添加角色权限关联表
+		relationEntity.setRoleId(role.getId());
+		relationEntity.setLimitId(rolesEntity.getLimitId());
+		jurisdictionEntity = jurisdictionService.findId(rolesEntity.getLimitId());
+		rolesEntity.setLimitName(jurisdictionEntity.getName());
 		relationService.save(relationEntity);
-	
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("message", "添加成功");
 		return map;
@@ -78,9 +87,17 @@ public class RolesController {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-//		RelationEntity relationEntity = jsonObject.toJavaObject(RelationEntity.class);
-//		relationService.update(relationEntity);
-		rolesService.update(rolesEntity);
+		//权限id/名称同步修改
+		JurisdictionEntity jurisdictionEntity = new JurisdictionEntity();
+		jurisdictionEntity = jurisdictionService.findId(rolesEntity.getLimitId());
+		rolesEntity.setLimitName(jurisdictionEntity.getName());
+		rolesService.update(rolesEntity);		
+		//修改关联表
+		RelationEntity relationEntity = new RelationEntity();
+		relationEntity = relationService.findRelationId(rolesEntity.getId());
+		relationEntity.setLimitId(rolesEntity.getLimitId());
+		relationService.update(relationEntity);
+		
 		map.put("message","修改成功");
 		return map;
 	}
@@ -89,10 +106,15 @@ public class RolesController {
 	@RequestMapping(value = "/delete")
 	public Map<String,Object> delete(HttpServletRequest res,HttpServletResponse req,
 			@RequestParam(name="id")String id) {
+		
 		Map<String,Object> map = new HashMap<String,Object>();
-//		RelationEntity relationEntity = new RelationEntity();
-//		String ids=relationEntity.getId();
-//		relationService.delete(ids);
+		//删除关联表
+		RolesEntity rolesEntity = new RolesEntity();
+		rolesEntity = rolesService.findId(id);
+		RelationEntity relationEntity = new RelationEntity();
+		relationEntity = relationService.findRelationId(rolesEntity.getId());
+		relationService.delete(relationEntity.getId());
+		
 		rolesService.delete(id);
 		map.put("status", "0");
 		map.put("message", "删除成功");
@@ -165,5 +187,4 @@ public class RolesController {
 		rolesService.update(roleEntity);
 		return map;
 	}
-	
 }

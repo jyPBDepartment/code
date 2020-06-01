@@ -26,8 +26,8 @@ public class RelationServiceImpl implements RelationService{
 	}
 
 	@Override
-	public RelationEntity findRelationId(String relationId) {
-		return relationDao.findRelationId(relationId);
+	public RelationEntity findRelationId(String limitId) {
+		return relationDao.findRelationId(limitId);
 	}
 
 }
