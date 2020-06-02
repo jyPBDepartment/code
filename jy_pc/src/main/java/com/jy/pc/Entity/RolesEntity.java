@@ -1,7 +1,5 @@
 package com.jy.pc.Entity;
 
-
-
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -15,11 +13,11 @@ import org.hibernate.annotations.GenericGenerator;
 @Entity
 @Table(name = "sys_role")
 public class RolesEntity {
-	
-	// 主键Id
+
 	@Id
 	@GeneratedValue(generator = "uuid")
 	@GenericGenerator(strategy = "uuid", name = "uuid")
+	// 主键Id
 	private String id;
 	// 角色名称
 	@Column
@@ -42,7 +40,7 @@ public class RolesEntity {
 	//权限ID
 	@Column
 	private String limitId;
-	//
+	//权限名称
 	@Column
 	private String limitName;
 	

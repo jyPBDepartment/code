@@ -31,7 +31,7 @@ public class JurisdictionEntity {
 	private int type;
 	//权限状态
 	@Column
-	private int state = 1;
+	private int state;
 	//创建时间
 	@Column
 	private Date createTime;

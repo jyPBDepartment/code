@@ -35,12 +35,13 @@ public class JusisdictionController {
 	@RequestMapping(value = "/add")
 	public Map<String, String> save(HttpServletRequest res, HttpServletResponse req,
 			@RequestParam(name = "name") String name, @RequestParam(name = "path") String path,
-			@RequestParam(name = "type") Integer type) {
+			@RequestParam(name = "type") Integer type,@RequestParam(name = "state") Integer state) {
 		JurisdictionEntity jurisdictionEntity = new JurisdictionEntity();
 		Map<String, String> map = new HashMap<String, String>();
 		jurisdictionEntity.setName(name);
 		jurisdictionEntity.setPath(path);
 		jurisdictionEntity.setType(type);
+		jurisdictionEntity.setState(state);
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");// 格式化时间
 		String time = DateFormat.getDateTimeInstance().format(new Date());
 		try {
@@ -87,7 +88,7 @@ public class JusisdictionController {
 	// 查询所有
 	@RequestMapping(value = "/findAll")
 	public Map<String, Object> findAll(HttpServletRequest res, HttpServletResponse req) {
-		Map<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> map = new HashMap<String,Object>();
 		List<JurisdictionEntity> jurisdictionList = jurisdictionService.findAll();
 		map.put("status", "0");
 		map.put("message", "查询成功");
