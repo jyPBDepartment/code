@@ -1,7 +1,7 @@
 package com.jy.pc.Controller;
 
 import java.text.DateFormat;
-
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -45,6 +45,7 @@ public class SalesController {
 			JSONObject jsonObject = JSONObject.parseObject(s);
 			SalesEntity salesEntity = jsonObject.toJavaObject(SalesEntity.class);
 			//自动获取系统时间
+			
 			String createTime = DateFormat.getDateTimeInstance().format(new Date());
 			salesEntity.setCreateTime(createTime);
 			salesEntity.setUpdateTime(createTime);

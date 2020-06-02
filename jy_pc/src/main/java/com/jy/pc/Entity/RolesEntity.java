@@ -29,7 +29,7 @@ public class RolesEntity {
 	private int roleType;
 	// 角色状态
 	@Column
-	private int state =1;
+	private int state;
 	//创建时间
 	@Column
 	private Date createTime;

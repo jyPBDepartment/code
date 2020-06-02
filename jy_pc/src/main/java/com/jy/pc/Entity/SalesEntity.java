@@ -29,7 +29,7 @@ public class SalesEntity {
 	@Column(length=60)
 	private String createTime;//创建时间
 	@Column(length=60)
-	private String updateTime;//修改时间
+	private String updateTime;// 修改时间
 	@Column(length=255)
 	private String context;//备注
 	
