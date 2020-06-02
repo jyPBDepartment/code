@@ -20,14 +20,12 @@ public class OrganEntity {
 	@Column(length=32)
 	private String superId;//上级机构
 	@Column(length=32)
-	
 	private String createTime;//创建时间
 	@Column(length=60)
 	private String updateTime;//修改时间
-	@Column(length=255)
-	private String context;//备注
-	
-	private int state=1;//状态
+	@Column(length=500)
+	private String context;//备注	
+	private int state;//状态
 	
 	public int getState() {
 		return state;
