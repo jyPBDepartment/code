@@ -38,11 +38,13 @@ public class BannerController {
 		JSONObject jsonObject = JSONObject.parseObject(s);
 		
 		Date date = new Date();
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		sdf.format(date);
+//		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//		sdf.format(date);
 		BannerEntity bannerEntity = jsonObject.toJavaObject(BannerEntity.class);
 		bannerEntity.setStatus("1");
 		bannerEntity.setCreateDate(date);
+		
+		System.out.println("当前时间："+date.toString());
 		try {
 			bannerService.save(bannerEntity);
 			map.put("status", 1);// 成功
