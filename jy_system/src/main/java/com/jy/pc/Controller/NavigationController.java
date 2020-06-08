@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
 import com.jy.pc.Entity.NavigationEntity;
+import com.jy.pc.Entity.WebsiteInfoEntity;
 import com.jy.pc.Service.NavigationService;
 
 @Controller
@@ -148,6 +149,23 @@ public class NavigationController {
 			map.put("message", "启用成功");
 		}
 		navigationService.update(navigationEntity);
+		return map;
+	}
+	
+	/**
+	 * 查询上级导航列表
+	 * 
+	 * */
+	@RequestMapping(value = "/findSubNavList")
+	public Map<String, Object> findSubNavList(HttpServletRequest res, HttpServletResponse req) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		List<NavigationEntity> websiteInfoEntity = navigationService.findSubNavList();
+		if (websiteInfoEntity != null) {
+			map.put("status", "0");
+			map.put("data", websiteInfoEntity);
+		} else {
+			map.put("status", "1");
+		}
 		return map;
 	}
 }

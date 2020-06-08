@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.jy.pc.Entity.NavigationEntity;
+import com.jy.pc.Entity.WebsiteInfoEntity;
 
 
 public interface NavigationService {
@@ -21,4 +22,6 @@ public interface NavigationService {
 	public Page<NavigationEntity> findListByName(String name,Pageable pageable);
 	//下拉列表显示
 	public List<NavigationEntity> findAll();
+	
+	public List<NavigationEntity> findSubNavList();
 }

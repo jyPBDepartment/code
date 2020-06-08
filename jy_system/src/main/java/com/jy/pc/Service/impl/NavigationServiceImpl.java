@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.jy.pc.DAO.NavigationDao;
 import com.jy.pc.Entity.NavigationEntity;
+import com.jy.pc.Entity.WebsiteInfoEntity;
 import com.jy.pc.Service.NavigationService;
 
 
@@ -46,9 +47,15 @@ public class NavigationServiceImpl implements NavigationService{
 		String navName = "%"+name+"%";
 		return navigationDao.findListByName(navName, pageable);
 	}
+
 	public List<NavigationEntity> findAll() {
 		// TODO Auto-generated method stub
 		return navigationDao.findAll();
+	}
+	
+	public List<NavigationEntity> findSubNavList(){
+		
+		return navigationDao.findSubNavList();
 	}
 	
 }
