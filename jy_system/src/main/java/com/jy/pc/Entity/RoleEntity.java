@@ -1,0 +1,62 @@
+package com.jy.pc.Entity;
+
+import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.GenericGenerator;
+@Entity
+@Table(name = "w_role")
+public class RoleEntity {
+	@Id
+	@GeneratedValue(generator = "uuid")
+	@GenericGenerator(strategy = "uuid", name = "uuid")
+	// 主键Id
+	private String id;
+	// 角色名称
+	@Column
+	private String name;
+	// 角色状态
+	@Column
+	private String state;
+	//创建时间
+	@Column
+	private Date createTime;
+	//修改时间
+	@Column
+	private Date editTime;
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getState() {
+		return state;
+	}
+	public void setState(String state) {
+		this.state = state;
+	}
+	public Date getCreateTime() {
+		return createTime;
+	}
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
+	public Date getEditTime() {
+		return editTime;
+	}
+	public void setEditTime(Date editTime) {
+		this.editTime = editTime;
+	}
+}
