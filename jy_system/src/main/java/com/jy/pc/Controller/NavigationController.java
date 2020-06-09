@@ -31,25 +31,7 @@ public class NavigationController {
 	private NavigationService navigationService;
 
 ////	导航添加
-//	@RequestMapping(value="save")
-//	public Map<String,String> save(HttpServletRequest res,HttpServletResponse req,@RequestParam(name="name")String name,
-//			@RequestParam(name="subId")String subId,@RequestParam(name="dropDownEnName")String dropDownEnName,
-//			@RequestParam(name="url")String url,@RequestParam(name="path")String path,@RequestParam(name="status")String status){
-//				NavigationEntity navigationEntity = new NavigationEntity();
-//				navigationEntity.setName(name);
-//				navigationEntity.setSubId(subId);
-//				navigationEntity.setDropDownEnName(dropDownEnName);
-//				navigationEntity.setUrl(url);
-//				navigationEntity.setPath(path);
-//				navigationEntity.setStatus("0");
-//				String createDateTime = DateFormat.getDateTimeInstance().format(new Date());
-//				navigationEntity.setCreateDateTime(createDateTime);
-//				navigationEntity.setUpdateTime(createDateTime);
-//				navigationService.save(navigationEntity);
-//				Map<String, String> map = new HashMap<String, String>();
-//				map.put("message","添加成功");
-//				return map;
-//	}
+
 
 	@RequestMapping(value = "save")
 	public Map<String, String> save(HttpServletRequest res, HttpServletResponse req) {

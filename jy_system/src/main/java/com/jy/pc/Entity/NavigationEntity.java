@@ -27,7 +27,7 @@ public class NavigationEntity {
 	@Column
 	private String path;//导航路径
 	@Column(length=1)
-	private String status;//状态（0禁用1正常，默认禁用）
+	private String status;//状态（0正常1禁用，默认禁用）
 	@Column
 	private String createDateTime;//创建时间
 	@Column
