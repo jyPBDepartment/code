@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.jy.pc.DAO.RoleDao;
+import com.jy.pc.Entity.LimitEntity;
 import com.jy.pc.Entity.RoleEntity;
 import com.jy.pc.Service.RoleService;
 
@@ -44,6 +45,11 @@ public class RoleServiceImpl implements RoleService{
 	public Page<RoleEntity> findListByName(String name, Pageable pageable) {
 		String roleName = "%"+name+"%";
 		return roleDao.findListByName(roleName, pageable);
+	}
+
+	@Override
+	public List<RoleEntity> findAl() {
+		return roleDao.findAl();
 	}
 
 }

@@ -21,10 +21,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
+import com.jy.pc.Entity.LimitEntity;
 import com.jy.pc.Entity.RoleEntity;
-import com.jy.pc.Entity.UserEntity;
+import com.jy.pc.Service.LimitService;
 import com.jy.pc.Service.RoleService;
-import com.jy.pc.Service.UserService;
 
 @Controller
 @RequestMapping(value = "/role")
@@ -33,7 +33,7 @@ public class RoleController {
 	@Autowired
 	private RoleService roleService;
 	@Autowired
-	private UserService userService;
+	private LimitService limitService;
 	// 角色添加
 	@RequestMapping(value = "/add")
 	
@@ -50,31 +50,14 @@ public class RoleController {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
+		LimitEntity limitEntity = new LimitEntity();
+		limitEntity = limitService.findId(roleEntity.getLimitId());
+		roleEntity.setLimitName(limitEntity.getName());
 		roleService.save(roleEntity);
 		map.put("message", "添加成功");
 		return map;
 	}
 	
-	//角色修改
-	@RequestMapping(value = "/update")
-	public Map<String, String> update(HttpServletRequest res,HttpServletResponse req) {
-
-		Map<String, String> map = new HashMap<String, String>();
-		String s = res.getParameter("roleEntity");
-		JSONObject jsonObject = JSONObject.parseObject(s);
-		RoleEntity roleEntity = jsonObject.toJavaObject(RoleEntity.class);
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss" );// 格式化时间		
-		String time=DateFormat.getDateTimeInstance().format(new Date());
-		try {
-			roleEntity.setEditTime(sdf.parse(time));
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		roleService.update(roleEntity);		
-		map.put("message","修改成功");
-		return map;
-	}
-
 	//角色删除
 	@RequestMapping(value = "/delete")
 	public Map<String,Object> delete(HttpServletRequest res,HttpServletResponse req,
@@ -92,7 +75,7 @@ public class RoleController {
 	public Map<String,Object> findAll(HttpServletRequest res,HttpServletResponse req) {
 
 		Map<String,Object> map = new HashMap<String,Object>();
-		List<RoleEntity> rolesList = roleService.findAll();
+		List<RoleEntity> rolesList = roleService.findAl();
 		map.put("status", "0");
 		map.put("message", "查询成功");
 		map.put("data", rolesList);

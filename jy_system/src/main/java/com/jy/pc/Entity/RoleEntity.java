@@ -29,6 +29,23 @@ public class RoleEntity {
 	//修改时间
 	@Column
 	private Date editTime;
+	//权限
+	private String limitId;
+	//权限名称
+	private String limitName;
+	
+	public String getLimitId() {
+		return limitId;
+	}
+	public void setLimitId(String limitId) {
+		this.limitId = limitId;
+	}
+	public String getLimitName() {
+		return limitName;
+	}
+	public void setLimitName(String limitName) {
+		this.limitName = limitName;
+	}
 	public String getId() {
 		return id;
 	}
