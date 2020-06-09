@@ -47,7 +47,31 @@ public class RoleController {
 		String time=DateFormat.getDateTimeInstance().format(new Date());
 		try {
 			roleEntity.setCreateTime(sdf.parse(time));
-		} catch (ParseException e) {
+			} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		LimitEntity limitEntity = new LimitEntity();
+		limitEntity = limitService.findId(roleEntity.getLimitId());
+		roleEntity.setLimitName(limitEntity.getName());
+		roleService.save(roleEntity);
+		map.put("message", "添加成功");
+		return map;
+	}
+	
+	// 角色修改
+	@RequestMapping(value = "/update")
+	
+	public Map<String, String> update(HttpServletRequest res, HttpServletResponse req) {
+		
+		Map<String, String> map = new HashMap<String, String>();
+		String s = res.getParameter("roleEntity");
+		JSONObject jsonObject = JSONObject.parseObject(s);
+		RoleEntity roleEntity = jsonObject.toJavaObject(RoleEntity.class);
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss" );// 格式化时间		
+		String time=DateFormat.getDateTimeInstance().format(new Date());
+		try {
+			roleEntity.setEditTime(sdf.parse(time));
+			} catch (ParseException e) {
 			e.printStackTrace();
 		}
 		LimitEntity limitEntity = new LimitEntity();
