@@ -3,7 +3,7 @@ package com.jy.pc.Service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import com.jy.pc.ExplanationEntity;
+import com.jy.pc.Entity.ExplanationEntity;
 
 public interface ExplanstionService {
 	// 添加

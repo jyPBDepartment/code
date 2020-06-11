@@ -5,8 +5,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.jy.pc.ExplanationEntity;
 import com.jy.pc.DAO.ExplanationDao;
+import com.jy.pc.Entity.ExplanationEntity;
 import com.jy.pc.Service.ExplanstionService;
 @Service
 public class ExplanationServiceImpl implements ExplanstionService{

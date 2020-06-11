@@ -1,4 +1,4 @@
-package com.jy.pc;
+package com.jy.pc.Entity;
 
 import java.util.Date;
 
