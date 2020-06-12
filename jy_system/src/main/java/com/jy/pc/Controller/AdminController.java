@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
 import com.jy.pc.Entity.AdminEntity;
+import com.jy.pc.Entity.NavigationEntity;
 import com.jy.pc.Entity.RoleEntity;
 import com.jy.pc.Service.AdminService;
 import com.jy.pc.Service.RoleService;
@@ -40,12 +41,17 @@ public class AdminController<RolesService> {
 		
 		String s = res.getParameter("adminEntity");
 		JSONObject jsonObject = JSONObject.parseObject(s);
-		AdminEntity adminEntity = jsonObject.toJavaObject(AdminEntity.class);
+	
 		//自动获取系统时间
 		
-		String createDateTime = DateFormat.getDateTimeInstance().format(new Date());
-		adminEntity.setCreateDateTime(createDateTime);
-		adminEntity.setUpdateTime(createDateTime);
+//		String createDateTime = DateFormat.getDateTimeInstance().format(new Date());
+//		adminEntity.setCreateDateTime(createDateTime);
+//		adminEntity.setUpdateTime(createDateTime);
+		Date date = new Date();
+
+		AdminEntity adminEntity = jsonObject.toJavaObject(AdminEntity.class);
+	
+		adminEntity.setCreateDateTime(date);
 			
 		RoleEntity roleEntity = new RoleEntity();
 		roleEntity = roleService.findId(adminEntity.getRoleId());
@@ -76,9 +82,12 @@ public class AdminController<RolesService> {
 			Map<String, String> map = new HashMap<String, String>();
 			String s = res.getParameter("adminEntity");
 			JSONObject jsonObject = JSONObject.parseObject(s);
+			Date date = new Date();
+
 			AdminEntity adminEntity = jsonObject.toJavaObject(AdminEntity.class);
-			String updateTime = DateFormat.getDateTimeInstance().format(new Date());
-			adminEntity.setUpdateTime(updateTime);
+		
+			adminEntity.setUpdateTime(date);
+				
 			adminService.update(adminEntity);
 			map.put("message", "修改成功");
 			return map;

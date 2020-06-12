@@ -1,12 +1,18 @@
 package com.jy.pc.Entity;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.GenericGenerator;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
 @Table(name="w_admin")
@@ -25,9 +31,13 @@ public class AdminEntity {
 	@Column
 	private String roleName;//角色
 	@Column
-	private String createDateTime;//创建时间
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
+    @Temporal(TemporalType.TIMESTAMP)
+	private Date createDateTime;//创建时间
 	@Column
-	private String updateTime;//修改时间
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
+    @Temporal(TemporalType.TIMESTAMP)
+	private Date updateTime;//修改时间
 	public String getId() {
 		return id;
 	}
@@ -46,16 +56,19 @@ public class AdminEntity {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public String getCreateDateTime() {
+	
+	
+	
+	public Date getCreateDateTime() {
 		return createDateTime;
 	}
-	public void setCreateDateTime(String createDateTime) {
+	public void setCreateDateTime(Date createDateTime) {
 		this.createDateTime = createDateTime;
 	}
-	public String getUpdateTime() {
+	public Date getUpdateTime() {
 		return updateTime;
 	}
-	public void setUpdateTime(String updateTime) {
+	public void setUpdateTime(Date updateTime) {
 		this.updateTime = updateTime;
 	}
 	public String getRoleId() {

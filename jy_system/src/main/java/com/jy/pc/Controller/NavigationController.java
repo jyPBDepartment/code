@@ -1,6 +1,6 @@
 package com.jy.pc.Controller;
 
-import java.text.DateFormat;
+
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
+
 import com.jy.pc.Entity.NavigationEntity;
 import com.jy.pc.Service.NavigationService;
 
@@ -29,7 +30,7 @@ public class NavigationController {
 	@Autowired
 	private NavigationService navigationService;
 
-////	导航添加
+//导航添加
 
 
 	@RequestMapping(value = "save")
@@ -37,10 +38,12 @@ public class NavigationController {
 		Map<String, String> map = new HashMap<String, String>();
 		String s = res.getParameter("navigationEntity");
 		JSONObject jsonObject = JSONObject.parseObject(s);
+	
+		Date date = new Date();
+
 		NavigationEntity navigationEntity = jsonObject.toJavaObject(NavigationEntity.class);
-		String createDateTime = DateFormat.getDateTimeInstance().format(new Date());
-		navigationEntity.setCreateDateTime(createDateTime);
-		navigationEntity.setUpdateTime(createDateTime);  
+		
+		navigationEntity.setCreateDateTime(date);
 		navigationService.save(navigationEntity);
 	
 		map.put("message", "添加成功");
@@ -78,9 +81,14 @@ public class NavigationController {
 		Map<String, String> map = new HashMap<String, String>();
 		String s = res.getParameter("navigationEntity");
 		JSONObject jsonObject = JSONObject.parseObject(s);
+//		NavigationEntity navigationEntity = jsonObject.toJavaObject(NavigationEntity.class);
+//		String updateTime = DateFormat.getDateTimeInstance().format(new Date());
+//		navigationEntity.setUpdateTime(updateTime);
+		Date date = new Date();
+
 		NavigationEntity navigationEntity = jsonObject.toJavaObject(NavigationEntity.class);
-		String updateTime = DateFormat.getDateTimeInstance().format(new Date());
-		navigationEntity.setUpdateTime(updateTime);
+	
+		navigationEntity.setUpdateTime(date);
 		navigationService.update(navigationEntity);
 		map.put("message", "修改成功");
 		return map;
@@ -121,13 +129,13 @@ public class NavigationController {
 		navigationEntity.setStatus(status);
 		navigationEntity.getStatus();
 		if (status.equals("0")) {
-			navigationEntity.setStatus("1");
-			map.put("state", "0");
-			map.put("message", "禁用成功");
-		} else if (status.equals("1")) {
 			navigationEntity.setStatus("0");
 			map.put("state", "0");
 			map.put("message", "启用成功");
+		} else if (status.equals("1")) {
+			navigationEntity.setStatus("1");
+			map.put("state", "0");
+			map.put("message", "禁用成功");
 		}
 		navigationService.update(navigationEntity);
 		return map;
