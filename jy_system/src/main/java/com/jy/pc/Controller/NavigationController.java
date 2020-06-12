@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
 import com.jy.pc.Entity.NavigationEntity;
-import com.jy.pc.Entity.WebsiteInfoEntity;
 import com.jy.pc.Service.NavigationService;
 
 @Controller
@@ -41,7 +40,7 @@ public class NavigationController {
 		NavigationEntity navigationEntity = jsonObject.toJavaObject(NavigationEntity.class);
 		String createDateTime = DateFormat.getDateTimeInstance().format(new Date());
 		navigationEntity.setCreateDateTime(createDateTime);
-		navigationEntity.setUpdateTime(createDateTime);
+		navigationEntity.setUpdateTime(createDateTime);  
 		navigationService.save(navigationEntity);
 	
 		map.put("message", "添加成功");

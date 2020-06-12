@@ -29,7 +29,7 @@ public class MenuEntity {
 	@Column
 	private String subMenuId;
 	@Column
-	private String order;
+	private String orde;
 	@Column
 	private String status;
 	@Column
@@ -85,12 +85,12 @@ public class MenuEntity {
 		this.status = status;
 	}
 
-	public String getOrder() {
-		return order;
+	public String getOrde() {
+		return orde;
 	}
 
-	public void setOrder(String order) {
-		this.order = order;
+	public void setOrder(String orde) {
+		this.orde = orde;
 	}
 
 	public Date getCreateDate() {
