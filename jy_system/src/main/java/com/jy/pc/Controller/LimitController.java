@@ -39,13 +39,14 @@ public class LimitController {
 		String s = res.getParameter("limitEntity");
 		JSONObject jsonObject = JSONObject.parseObject(s);
 		LimitEntity limitEntity = jsonObject.toJavaObject(LimitEntity.class);
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss" );// 格式化时间		
-		String time=DateFormat.getDateTimeInstance().format(new Date());
-		try {
-			limitEntity.setCreateTime(sdf.parse(time));
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
+//		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss" );// 格式化时间		
+//		String time=DateFormat.getDateTimeInstance().format(new Date());
+		Date date = new Date();
+		limitEntity.setCreateTime(date);
+//		try {
+//		} catch (ParseException e) {
+//			e.printStackTrace();
+//		}
 		limitService.save(limitEntity);
 		map.put("message", "添加成功");
 		return map;
@@ -59,13 +60,15 @@ public class LimitController {
 		String s = res.getParameter("limitEntity");
 		JSONObject jsonObject = JSONObject.parseObject(s);
 		LimitEntity limitEntity = jsonObject.toJavaObject(LimitEntity.class);
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");// 格式化时间
-		String time = DateFormat.getDateTimeInstance().format(new Date());
-		try {
-			limitEntity.setEditTime(sdf.parse(time));
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
+		Date date = new Date();
+		limitEntity.setEditTime(date);
+//		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");// 格式化时间
+//		String time = DateFormat.getDateTimeInstance().format(new Date());
+//		try {
+//			limitEntity.setEditTime(sdf.parse(time));
+//		} catch (ParseException e) {
+//			e.printStackTrace();
+//		}
 		limitService.update(limitEntity);
 		map.put("message", "修改成功");
 		return map;

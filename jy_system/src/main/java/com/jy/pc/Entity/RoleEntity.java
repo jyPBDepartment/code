@@ -7,8 +7,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.GenericGenerator;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 @Entity
 @Table(name = "w_role")
 public class RoleEntity {
@@ -25,9 +29,13 @@ public class RoleEntity {
 	private String state;
 	//创建时间
 	@Column
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    @Temporal(TemporalType.TIMESTAMP)
 	private Date createTime;
 	//修改时间
 	@Column
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    @Temporal(TemporalType.TIMESTAMP)
 	private Date editTime;
 	//权限
 	private String limitId;

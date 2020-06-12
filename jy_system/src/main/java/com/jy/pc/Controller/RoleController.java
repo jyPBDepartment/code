@@ -43,13 +43,15 @@ public class RoleController {
 		String s = res.getParameter("roleEntity");
 		JSONObject jsonObject = JSONObject.parseObject(s);
 		RoleEntity roleEntity = jsonObject.toJavaObject(RoleEntity.class);
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss" );// 格式化时间		
-		String time=DateFormat.getDateTimeInstance().format(new Date());
-		try {
-			roleEntity.setCreateTime(sdf.parse(time));
-			} catch (ParseException e) {
-			e.printStackTrace();
-		}
+		Date date = new Date();
+		roleEntity.setCreateTime(date);
+//		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss" );// 格式化时间		
+//		String time=DateFormat.getDateTimeInstance().format(new Date());
+//		try {
+//			roleEntity.setCreateTime(sdf.parse(time));
+//			} catch (ParseException e) {
+//			e.printStackTrace();
+//		}
 		LimitEntity limitEntity = new LimitEntity();
 		limitEntity = limitService.findId(roleEntity.getLimitId());
 		roleEntity.setLimitName(limitEntity.getName());
@@ -67,17 +69,20 @@ public class RoleController {
 		String s = res.getParameter("roleEntity");
 		JSONObject jsonObject = JSONObject.parseObject(s);
 		RoleEntity roleEntity = jsonObject.toJavaObject(RoleEntity.class);
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss" );// 格式化时间		
-		String time=DateFormat.getDateTimeInstance().format(new Date());
-		try {
-			roleEntity.setEditTime(sdf.parse(time));
-			} catch (ParseException e) {
-			e.printStackTrace();
-		}
+		Date date = new Date();
+		roleEntity.setEditTime(date);
+
+//		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss" );// 格式化时间		
+//		String time=DateFormat.getDateTimeInstance().format(new Date());
+//		try {
+//			roleEntity.setEditTime(sdf.parse(time));
+//			} catch (ParseException e) {
+//			e.printStackTrace();
+//		}
 		LimitEntity limitEntity = new LimitEntity();
 		limitEntity = limitService.findId(roleEntity.getLimitId());
 		roleEntity.setLimitName(limitEntity.getName());
-		roleService.save(roleEntity);
+		roleService.update(roleEntity);
 		map.put("message", "添加成功");
 		return map;
 	}

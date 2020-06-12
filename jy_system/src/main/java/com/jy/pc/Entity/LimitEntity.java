@@ -7,8 +7,13 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
 @Table(name = "w_limit")
@@ -32,9 +37,15 @@ public class LimitEntity {
 		private String state;
 		//创建时间
 		@Column
+//		@DateTimeFormat(pattern = "yyyy-MM-dd")
+		@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+	    @Temporal(TemporalType.TIMESTAMP)
 		private Date createTime;
 		//修改时间
 		@Column
+//		@DateTimeFormat(pattern = "yyyy-MM-dd")
+		@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+	    @Temporal(TemporalType.TIMESTAMP)
 		private Date editTime;
 		public String getId() {
 			return id;
