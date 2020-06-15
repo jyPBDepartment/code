@@ -37,6 +37,8 @@ public class QuestionEntity {
 	@Column
 	private String recommended;//推荐人
 	@Column
+	private String questionAnswer;//问卷答案
+	@Column
 	private int questionScore;//问卷得分
 	@Column
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
@@ -102,5 +104,12 @@ public class QuestionEntity {
 	public void setCreateDate(Date createDate) {
 		this.createDate = createDate;
 	}
+	public String getQuestionAnswer() {
+		return questionAnswer;
+	}
+	public void setQuestionAnswer(String questionAnswer) {
+		this.questionAnswer = questionAnswer;
+	}
+	
 	
 }
