@@ -50,4 +50,10 @@ public class ClassificationServiceImpl implements ClassificationService {
 		return classificationDao.findAll();
 	}
 
+//	@Override
+//	public ClassificationEntity findByWord(String name) {
+//	
+//		return classificationDao.findByWord(name);
+//	}
+
 }

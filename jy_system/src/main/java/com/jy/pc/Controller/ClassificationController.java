@@ -30,6 +30,20 @@ public class ClassificationController {
 	@Autowired
 	private ClassificationService classificationService;
 
+	//分类添加前重复字段查询
+//	@RequestMapping(value = "findByWord")
+//	public Map<String, Object> findByWord(HttpServletRequest res, HttpServletResponse req,
+//			@RequestParam(name = "name") String name) {
+//		Map<String, Object> map = new HashMap<String, Object>();
+//		ClassificationEntity classi = classificationService.findByWord(name);
+//		if (classi != null) {
+//			map.put("state", "0");// 查询数据成功
+//			map.put("data", classi);
+//		} else {
+//			map.put("state", "1");// 查询数据失败
+//		}
+//		return map;
+//	}
 	//分类添加
 		@RequestMapping(value = "save")
 		public Map<String, String> save(HttpServletRequest res, HttpServletResponse req) {
