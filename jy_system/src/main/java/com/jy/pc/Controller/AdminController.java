@@ -1,6 +1,6 @@
 package com.jy.pc.Controller;
 
-import java.text.DateFormat;
+
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
 import com.jy.pc.Entity.AdminEntity;
-import com.jy.pc.Entity.NavigationEntity;
+
 import com.jy.pc.Entity.RoleEntity;
 import com.jy.pc.Service.AdminService;
 import com.jy.pc.Service.RoleService;
