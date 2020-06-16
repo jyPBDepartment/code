@@ -18,7 +18,7 @@ public class QuestionServiceImpl implements QuestionService{
 	private QuestionDao questionDao;
 
 	@Override
-	public void save(QuestionEntity questionEntity) {
+	public QuestionEntity save(QuestionEntity questionEntity) {
 
 		JSONArray jsonArray = JSON.parseArray(questionEntity.getQuestionAnswer());
 		int score = 0;
@@ -64,36 +64,37 @@ public class QuestionServiceImpl implements QuestionService{
 				if (jo.get("value").toString().indexOf("B") > 0) {
 					score = score + 3;
 				}
-				if (jo.get("value").toString().indexOf("C") > 0) {
-					score = score + 1;
-				}
+				
 			}
 			if (i == 4) {
-				if (jo.get("value").toString().indexOf("A") > 0) {
+				if (jo.get("value").toString().indexOf("A") > 0 || jo.get("value").toString().indexOf("B") > 0 
+						 || jo.get("value").toString().indexOf("C") > 0 || jo.get("value").toString().indexOf("D") > 0 
+						 || jo.get("value").toString().indexOf("E") > 0 || jo.get("value").toString().indexOf("F") > 0
+						 || jo.get("value").toString().indexOf("G") > 0 || jo.get("value").toString().indexOf("H") > 0
+						 || jo.get("value").toString().indexOf("I") > 0
+						) {
 					score = score + 5;
 				}
-				if (jo.get("value").toString().indexOf("B") > 0) {
+				if (jo.get("value").toString().indexOf("J") > 0) {
 					score = score + 3;
 				}
-				if (jo.get("value").toString().indexOf("C") > 0) {
-					score = score + 1;
-				}
+				
 			}
 			if (i == 5) {
-				if (jo.get("value").toString().indexOf("A") > 0) {
+				if (jo.get("value").toString().indexOf("A") > 0 || jo.get("value").toString().indexOf("B") > 0) {
 					score = score + 5;
 				}
-				if (jo.get("value").toString().indexOf("B") > 0) {
+				if (jo.get("value").toString().indexOf("C") > 0 || jo.get("value").toString().indexOf("D") > 0) {
 					score = score + 3;
 				}
-				if (jo.get("value").toString().indexOf("C") > 0) {
-					score = score + 1;
-				}
+				
 			}
 
 		}
+		questionEntity.setQuestionScore(score);
 
-		questionDao.save(questionEntity);
+		return questionDao.save(questionEntity);
+//		return ; 
 
 	}
 

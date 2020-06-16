@@ -9,7 +9,7 @@ import com.jy.pc.Entity.QuestionEntity;
 
 public interface QuestionService {
 	//问卷调查添加
-		public void save(QuestionEntity questionEntity);
+		public QuestionEntity save(QuestionEntity questionEntity);
 		//问卷调查修改
 		public void update(QuestionEntity questionEntity);
 		//问卷调查删除

@@ -18,6 +18,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
 
+
+
+
 import com.jy.pc.Entity.QuestionEntity;
 import com.jy.pc.Service.QuestionService;
 
@@ -37,6 +40,21 @@ private QuestionService questionService;
 			Date date = new Date();
 			QuestionEntity questionEntity = jsonObject.toJavaObject(QuestionEntity.class);
 			questionEntity.setCreateDate(date);
+
+			
+			if(questionEntity.getQuestionScore()>26) {
+				map.put("status", "0");
+				map.put("tips", "您的身份为供应商！");
+			}
+			if(questionEntity.getQuestionScore()>=20 && questionEntity.getQuestionScore()<=26) {
+				map.put("status", "1");
+				map.put("tips","您的身份为经销商！");
+			}
+			if(questionEntity.getQuestionScore()>=14 && questionEntity.getQuestionScore()<=19){
+				map.put("status", "2");
+				map.put("tips","您的身份为农业经理人！");
+			}
+			
 			
 			questionService.save(questionEntity);
 		
