@@ -44,7 +44,6 @@ public class QuestionServiceImpl implements QuestionService{
 						|| jo.get("value").toString().indexOf("F") > 0) {
 					score = score + 3;
 				}
-
 			}
 			if (i == 2) {
 				if (jo.get("value").toString().indexOf("A") > 0) {

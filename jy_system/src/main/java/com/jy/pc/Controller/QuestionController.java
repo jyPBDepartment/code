@@ -26,7 +26,7 @@ import com.jy.pc.Service.QuestionService;
 
 @Controller
 @ResponseBody
-@RequestMapping(value="w_questionnaire")
+@RequestMapping(value="questionnaire")
 public class QuestionController {
 @Autowired 
 private QuestionService questionService;
