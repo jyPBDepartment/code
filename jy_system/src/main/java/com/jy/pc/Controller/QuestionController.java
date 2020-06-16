@@ -61,7 +61,7 @@ private QuestionService questionService;
 			map.put("message", "添加成功");
 			return map;
 		}
-		// 分类修改前查询
+		// 调查问卷修改前查询
 				@RequestMapping(value = "findById")
 				public Map<String, Object> findById(HttpServletRequest res, HttpServletResponse req,
 						@RequestParam(name = "id") String id) {
@@ -75,7 +75,7 @@ private QuestionService questionService;
 					}
 					return map;
 				}
-				// 分类修改
+				// 调查问卷修改
 				@RequestMapping(value = "update")
 				public Map<String, String> update(HttpServletRequest res, HttpServletResponse req) {
 					Map<String, String> map = new HashMap<String, String>();
@@ -86,7 +86,7 @@ private QuestionService questionService;
 					map.put("message", "修改成功");
 					return map;
 				}
-				// 分类删除
+				// 调查问卷删除
 				@RequestMapping(value = "delete")
 				public Map<String, Object> delete(HttpServletRequest res, HttpServletResponse req,
 						@RequestParam(name = "id") String id) {
@@ -97,7 +97,7 @@ private QuestionService questionService;
 					return map;
 				}
 
-				// 分类模糊查询与分页
+				// 调查问卷模糊查询与分页
 				@RequestMapping(value = "findByName")
 				public Map<String, Object> findByName(HttpServletRequest res, HttpServletResponse req,
 						@RequestParam(name = "name") String name,@RequestParam(name = "phoneNum") String phoneNum,@RequestParam(name = "page") Integer page,

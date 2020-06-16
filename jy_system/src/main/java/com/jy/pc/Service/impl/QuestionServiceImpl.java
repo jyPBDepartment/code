@@ -93,7 +93,7 @@ public class QuestionServiceImpl implements QuestionService{
 		questionEntity.setQuestionScore(score);
 
 		return questionDao.save(questionEntity);
-//		return ; 
+
 
 	}
 
