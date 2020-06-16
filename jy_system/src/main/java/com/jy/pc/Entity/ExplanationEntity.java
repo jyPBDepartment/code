@@ -7,8 +7,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.GenericGenerator;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
 @Table(name = "w_appointment_user")
@@ -39,6 +43,8 @@ public class ExplanationEntity {
 	private String address;
 	//生成时间
 	@Column
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    @Temporal(TemporalType.TIMESTAMP)
 	private Date createDate;
 	public String getId() {
 		return id;

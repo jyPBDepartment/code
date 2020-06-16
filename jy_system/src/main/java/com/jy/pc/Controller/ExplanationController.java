@@ -37,15 +37,17 @@ public class ExplanationController {
 		String s = res.getParameter("explanstionEntity");
 		JSONObject jsonObject = JSONObject.parseObject(s);
 		ExplanationEntity explanstionEntity = jsonObject.toJavaObject(ExplanationEntity.class);
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss" );// 格式化时间		
-		String time=DateFormat.getDateTimeInstance().format(new Date());
-		try {
-			explanstionEntity.setCreateDate(sdf.parse(time));
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
+//		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss" );// 格式化时间		
+//		String time=DateFormat.getDateTimeInstance().format(new Date());
+//		try {
+//			explanstionEntity.setCreateDate(sdf.parse(time));
+//		} catch (ParseException e) {
+//			e.printStackTrace();
+//		}
+		Date date = new Date();
+		explanstionEntity.setCreateDate(date);
 		explanstionService.save(explanstionEntity);
-		map.put("message", "添加成功");
+		map.put("message", "提交成功");
 		return map;
 	}
 

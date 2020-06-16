@@ -133,11 +133,11 @@ public class ArticleController {
 		if (status.equals("0")) {
 			articleEntity.setStatus("0");
 			map.put("state", "0");
-			map.put("message", "启用成功");
+			map.put("message", "禁用成功");
 		} else if (status.equals("1")) {
 			articleEntity.setStatus("1");
 			map.put("state", "0");
-			map.put("message", "禁用成功");
+			map.put("message", "启用成功");
 		}
 		articleService.update(articleEntity);
 		return map;
@@ -197,14 +197,20 @@ public class ArticleController {
 		ArticleEntity articleEntity = articleService.findId(id);
 		articleEntity.setIsTopping(isTopping);
 		articleEntity.getIsTopping();
+		List<ArticleEntity> areicle=articleService.findTop();
 		if (isTopping.equals(0)) {
 			articleEntity.setIsTopping(1);
-			map.put("state", "0");
+			map.put("state", "1");
 			map.put("message", "取消置顶成功");
-		} else if (isTopping.equals(1)) {
-			articleEntity.setIsTopping(0);
-			map.put("state", "0");
-			map.put("message", "置顶成功");
+		}
+		else if(areicle.size()<1) {
+			if (isTopping.equals(1)) {
+				articleEntity.setIsTopping(0);
+				map.put("state", "0");
+				map.put("message", "置顶成功");
+			}
+		}else {
+			map.put("message", "置顶失败，只能置顶一条数据!");
 		}
 		articleService.update(articleEntity);
 		return map;

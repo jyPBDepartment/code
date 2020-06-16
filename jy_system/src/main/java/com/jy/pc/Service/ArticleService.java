@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.query.Param;
 
 import com.jy.pc.Entity.ArticleEntity;
 
@@ -25,4 +26,7 @@ public interface ArticleService {
 
 	// 搜索
 	public Page<ArticleEntity> findListByName(String name,Pageable pageable);
+	
+	//置顶
+	public List<ArticleEntity> findTop();
 }

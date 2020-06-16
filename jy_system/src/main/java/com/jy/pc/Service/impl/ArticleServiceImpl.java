@@ -44,4 +44,9 @@ public class ArticleServiceImpl implements ArticleService{
 		String jurName = "%"+name+"%";
 		return articleDao.findListByName(jurName,pageable);
 	}
+
+	@Override
+	public List<ArticleEntity> findTop() {
+		return articleDao.findTop();
+	}
 }
