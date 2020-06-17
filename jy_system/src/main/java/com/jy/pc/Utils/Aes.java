@@ -1,14 +1,11 @@
 package com.jy.pc.Utils;
 
 
-/**
-* AES 128bit 加密解密工具类
-* @author dufy
-*/
-import org.apache.commons.codec.binary.Base64;
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
+
+import org.apache.tomcat.util.codec.binary.Base64;
 
 public class Aes {
     //使用AES-128-CBC加密模式，key需要为16位,key和iv可以相同！

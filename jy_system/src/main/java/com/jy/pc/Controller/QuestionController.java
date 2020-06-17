@@ -23,7 +23,7 @@ import com.jy.pc.Service.QuestionService;
 
 @Controller
 @ResponseBody
-@RequestMapping(value = "questionnaire")
+@RequestMapping(value = "/questionnaire")
 public class QuestionController {
 	@Autowired
 	private QuestionService questionService;
@@ -39,22 +39,22 @@ public class QuestionController {
 		QuestionEntity questionEntity = jsonObject.toJavaObject(QuestionEntity.class);
 		questionEntity.setCreateDate(date);
 
-		if (questionEntity.getQuestionScore() > 26) {
+		
+
+		QuestionEntity questionn =questionService.save(questionEntity);
+		if (questionn.getQuestionScore() > 26) {
 			map.put("status", "0");
 			map.put("tips", "您的身份为供应商！");
 		}
-		if (questionEntity.getQuestionScore() >= 20 && questionEntity.getQuestionScore() <= 26) {
+		if (questionn.getQuestionScore() >= 20 && questionn.getQuestionScore() <= 26) {
 			map.put("status", "1");
 			map.put("tips", "您的身份为经销商！");
 		}
-		if (questionEntity.getQuestionScore() >= 14 && questionEntity.getQuestionScore() <= 19) {
+		if (questionn.getQuestionScore() >= 14 && questionn.getQuestionScore() <= 19) {
 			map.put("status", "2");
 			map.put("tips", "您的身份为农业经理人！");
 		}
-
-		questionService.save(questionEntity);
-
-		map.put("message", "添加成功");
+		
 		return map;
 	}
 
