@@ -24,5 +24,4 @@ public interface ArticleDao extends JpaRepository<ArticleEntity, String>{
 	//置顶
 	@Query(value="select * from w_article t where t.is_topping =0",nativeQuery = true)
 	public List<ArticleEntity> findTop();
-	
 }

@@ -45,6 +45,7 @@ public class ArticleController {
 		articleEntity.setIsRelease(1);
 		articleEntity.setIsRecommend(1);
 		articleEntity.setIsTopping(1);
+		
 		ClassificationEntity classificationEntity = new ClassificationEntity();
 		classificationEntity=classificationService.findBId(articleEntity.getClassificationId());
 		articleEntity.setClassificationName(classificationEntity.getName());

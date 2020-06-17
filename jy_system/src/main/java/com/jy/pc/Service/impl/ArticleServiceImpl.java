@@ -10,17 +10,32 @@ import org.springframework.stereotype.Service;
 import com.jy.pc.DAO.ArticleDao;
 import com.jy.pc.Entity.ArticleEntity;
 import com.jy.pc.Service.ArticleService;
+import com.jy.pc.Utils.Aes;
 @Service
 public class ArticleServiceImpl implements ArticleService{
 	@Autowired
 	private ArticleDao articleDao;
 	@Override
 	public ArticleEntity save(ArticleEntity article) {
+		try {
+			Aes aes= new Aes();
+			System.out.println("1"+aes.desEncrypt(article.getContent().toString()));
+//			article.setContent(aes.desEncrypt(article.getContent()));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return articleDao.saveAndFlush(article);
 	}
 
 	@Override
 	public void update(ArticleEntity article) {
+		try {
+			Aes aes= new Aes();
+			System.out.println("1"+aes.desEncrypt(article.getContent().toString()));
+//			article.setContent(aes.desEncrypt(article.getContent()));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		articleDao.saveAndFlush(article);
 	}
 
