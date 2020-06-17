@@ -72,7 +72,6 @@ public class QuestionServiceImpl implements QuestionService {
 				if (jo.get("value").toString().indexOf("B") > 0) {
 					score = score + 3;
 				}
-
 			}
 			if (i == 4) {
 				if (jo.get("value").toString().indexOf("A") > 0 || jo.get("value").toString().indexOf("B") > 0
