@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.jy.pc.Entity.NavigationEntity;
+import com.jy.pc.Entity.RoleEntity;
 import com.jy.pc.Entity.WebsiteInfoEntity;
 
 public interface NavigationDao extends JpaRepository<NavigationEntity,String>{
@@ -22,8 +23,9 @@ public interface NavigationDao extends JpaRepository<NavigationEntity,String>{
 			countQuery="select count(*) from w_nav_info t  where if(?1 !='',t.name like ?1,1=1)order by t.create_date_time desc",
 			nativeQuery = true)
 	public Page<NavigationEntity> findListByName(String name,Pageable pageable);
-
-	@Query(value="select * from w_nav_info t where t.sub_id =''",nativeQuery = true)
+	//查询上级导航列表
+	@Query(value="select * from w_nav_info t where t.sub_id ='' AND t.status ='0'",nativeQuery = true)
 	public List<NavigationEntity> findSubNavList();
+	
 	
 }

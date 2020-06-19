@@ -25,7 +25,8 @@ public interface ClassificationDao extends JpaRepository<ClassificationEntity, S
 	//过滤重复字段
 //	@Query (value="select distinct from w_classification_info where name=:name",nativeQuery = true)
 //	public ClassificationEntity findByWord(@Param("name")String name);
-	//上机分类
-	@Query(value="select * from w_classification_info t where t.sub_id = ''",nativeQuery = true)
+	//上级分类
+	@Query(value="select * from w_classification_info t where t.sub_id ='' AND t.status ='0'",nativeQuery = true)
 	public List<ClassificationEntity> findSubList();
+	
 }
