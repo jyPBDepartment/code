@@ -1,5 +1,7 @@
 package com.jy.pc.DAO;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -8,6 +10,7 @@ import org.springframework.data.repository.query.Param;
 
 
 import com.jy.pc.Entity.ClassificationEntity;
+import com.jy.pc.Entity.NavigationEntity;
 
 public interface ClassificationDao extends JpaRepository<ClassificationEntity, String>{
 //	fingById方法
@@ -22,4 +25,7 @@ public interface ClassificationDao extends JpaRepository<ClassificationEntity, S
 	//过滤重复字段
 //	@Query (value="select distinct from w_classification_info where name=:name",nativeQuery = true)
 //	public ClassificationEntity findByWord(@Param("name")String name);
+	//上机分类
+	@Query(value="select * from w_classification_info t where t.sub_id = ''",nativeQuery = true)
+	public List<ClassificationEntity> findSubList();
 }

@@ -20,30 +20,32 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSONObject;
 
 import com.jy.pc.Entity.ClassificationEntity;
-
+import com.jy.pc.Entity.NavigationEntity;
 import com.jy.pc.Service.ClassificationService;
 
 @Controller
-@RequestMapping(value="w_classification_info")
+@RequestMapping(value="classification_info")
 @ResponseBody
 public class ClassificationController {
 	@Autowired
 	private ClassificationService classificationService;
 
-	//分类添加前重复字段查询
-//	@RequestMapping(value = "findByWord")
-//	public Map<String, Object> findByWord(HttpServletRequest res, HttpServletResponse req,
-//			@RequestParam(name = "name") String name) {
-//		Map<String, Object> map = new HashMap<String, Object>();
-//		ClassificationEntity classi = classificationService.findByWord(name);
-//		if (classi != null) {
-//			map.put("state", "0");// 查询数据成功
-//			map.put("data", classi);
-//		} else {
-//			map.put("state", "1");// 查询数据失败
-//		}
-//		return map;
-//	}
+	//分类添加前查询上级分类列表
+	
+	@RequestMapping(value = "/findSubList")
+	public Map<String, Object> findSubList(HttpServletRequest res, HttpServletResponse req) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		List<ClassificationEntity> classi = classificationService.findSubList();
+		System.out.println(classi);
+		if (classi != null) {
+			map.put("status", "0");
+			map.put("data", classi);
+		} else {
+			map.put("status", "1");
+		}
+		return map;
+	}
+	
 	//分类添加
 		@RequestMapping(value = "save")
 		public Map<String, String> save(HttpServletRequest res, HttpServletResponse req) {

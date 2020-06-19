@@ -20,5 +20,6 @@ public interface ClassificationService {
 		//分类分页与模糊查询
 		public Page<ClassificationEntity> findListByName(String name,Pageable pageable);
 		public List<ClassificationEntity> findAll();
-//		public ClassificationEntity findByWord(String name);
+		//上级分类
+		public List<ClassificationEntity> findSubList();
 }
