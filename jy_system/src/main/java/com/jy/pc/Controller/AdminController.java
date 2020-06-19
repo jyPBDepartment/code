@@ -3,6 +3,7 @@ package com.jy.pc.Controller;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,7 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
 import com.jy.pc.Entity.AdminEntity;
-
+import com.jy.pc.Entity.NavigationEntity;
 import com.jy.pc.Entity.RoleEntity;
 import com.jy.pc.Service.AdminService;
 import com.jy.pc.Service.RoleService;
@@ -37,16 +38,11 @@ public class AdminController<RolesService> {
 
 	@RequestMapping(value="/save")
 	
-	public Map<String, String> save(HttpServletRequest res,HttpServletResponse req) {
+	public Map<String, Object> save(HttpServletRequest res,HttpServletResponse req) {
 		
 		String s = res.getParameter("adminEntity");
 		JSONObject jsonObject = JSONObject.parseObject(s);
 	
-		//自动获取系统时间
-		
-//		String createDateTime = DateFormat.getDateTimeInstance().format(new Date());
-//		adminEntity.setCreateDateTime(createDateTime);
-//		adminEntity.setUpdateTime(createDateTime);
 		Date date = new Date();
 
 		AdminEntity adminEntity = jsonObject.toJavaObject(AdminEntity.class);
@@ -56,9 +52,18 @@ public class AdminController<RolesService> {
 		RoleEntity roleEntity = new RoleEntity();
 		roleEntity = roleService.findId(adminEntity.getRoleId());
 		adminEntity.setRoleName(roleEntity.getName());
-		adminService.save(adminEntity);
-		Map<String, String> map = new HashMap<String, String>();
-		map.put("message","添加成功");
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		try {
+			adminService.save(adminEntity);
+			map.put("status", "0");
+			map.put("data", adminEntity);
+			map.put("message","添加成功");
+		} catch (Exception e) {
+			map.put("status", "1");
+			map.put("message","添加失败");
+		}
 		
 		return map;
 	}
