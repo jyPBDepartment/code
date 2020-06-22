@@ -29,4 +29,8 @@ public interface ArticleService {
 	
 	//置顶
 	public List<ArticleEntity> findTop();
+	//发布
+	public List<ArticleEntity> findIsRelease();
+	//推荐
+	public List<ArticleEntity> findIsRecommend();
 }

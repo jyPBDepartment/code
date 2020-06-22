@@ -34,8 +34,8 @@ public class ArticleController {
 
 	// 文章添加
 	@RequestMapping(value = "/add")
-	public Map<String, String> save(HttpServletRequest res, HttpServletResponse req) {
-		Map<String, String> map = new HashMap<String, String>();
+	public Map<String, Object> save(HttpServletRequest res, HttpServletResponse req) {
+		Map<String, Object> map = new HashMap<String, Object>();
 		String s = res.getParameter("articleEntity");
 		JSONObject jsonObject = JSONObject.parseObject(s);
 		ArticleEntity articleEntity = jsonObject.toJavaObject(ArticleEntity.class);
@@ -45,11 +45,11 @@ public class ArticleController {
 		articleEntity.setIsRelease(1);
 		articleEntity.setIsRecommend(1);
 		articleEntity.setIsTopping(1);
-		
 		ClassificationEntity classificationEntity = new ClassificationEntity();
 		classificationEntity=classificationService.findBId(articleEntity.getClassificationId());
 		articleEntity.setClassificationName(classificationEntity.getName());
 		articleService.save(articleEntity);
+		map.put("state", "0");
 		map.put("message", "添加成功");
 		return map;
 	}
@@ -153,16 +153,22 @@ public class ArticleController {
 		ArticleEntity articleEntity = articleService.findId(id);
 		articleEntity.setIsRelease(isRelease);
 		articleEntity.getIsRelease();
+		List<ArticleEntity> articleList=articleService.findIsRelease();
 		if (isRelease.equals(0)) {
 			articleEntity.setIsRelease(1);
-			map.put("state", "0");
+			map.put("state", "1");
 			map.put("message", "取消发布成功");
-		} else if (isRelease.equals(1)) {
-			articleEntity.setIsRelease(0);
-			Date date = new Date();
-			articleEntity.setReleaseDate(date);
-			map.put("state", "0");
-			map.put("message", "发布成功");
+		}
+		else if(articleList.size()<5) {
+			if (isRelease.equals(1)) {
+				articleEntity.setIsRelease(0);
+				Date date = new Date();
+				articleEntity.setReleaseDate(date);
+				map.put("state", "0");
+				map.put("message", "发布成功");
+			}
+		}else {
+			map.put("message", "发布失败，只能发布五条数据!");
 		}
 		articleService.update(articleEntity);
 		return map;
@@ -177,15 +183,31 @@ public class ArticleController {
 		ArticleEntity articleEntity = articleService.findId(id);
 		articleEntity.setIsRecommend(isRecommend);
 		articleEntity.getIsRecommend();
+		List<ArticleEntity> areicleList=articleService.findIsRecommend();
+		
 		if (isRecommend.equals(0)) {
 			articleEntity.setIsRecommend(1);
-			map.put("state", "0");
+			map.put("state", "1");
 			map.put("message", "取消推荐成功");
-		} else if (isRecommend.equals(1)) {
-			articleEntity.setIsRecommend(0);
-			map.put("state", "0");
-			map.put("message", "推荐成功");
 		}
+		else if(areicleList.size()<3) {
+			if (isRecommend.equals(1)) {
+				articleEntity.setIsRecommend(0);
+				map.put("state", "0");
+				map.put("message", "推荐成功");
+			}
+		}else {
+			map.put("message", "推荐失败，只能推荐三条数据!");
+		}
+//		if (isRecommend.equals(0)) {
+//			articleEntity.setIsRecommend(1);
+//			map.put("state", "0");
+//			map.put("message", "取消推荐成功");
+//		} else if (isRecommend.equals(1)) {
+//			articleEntity.setIsRecommend(0);
+//			map.put("state", "0");
+//			map.put("message", "推荐成功");
+//		}
 		articleService.update(articleEntity);
 		return map;
 	}
@@ -204,16 +226,46 @@ public class ArticleController {
 			map.put("state", "1");
 			map.put("message", "取消置顶成功");
 		}
-		else if(areicle.size()<1) {
+		else if(areicle.size()<5) {
 			if (isTopping.equals(1)) {
 				articleEntity.setIsTopping(0);
 				map.put("state", "0");
 				map.put("message", "置顶成功");
 			}
 		}else {
-			map.put("message", "置顶失败，只能置顶一条数据!");
+			map.put("message", "置顶失败，只能置顶五条数据!");
 		}
 		articleService.update(articleEntity);
 		return map;
 	}
+	
+	//显示置顶方法
+	@RequestMapping(value = "/findTop")
+	public Map<String, Object> findTop(HttpServletRequest res, HttpServletResponse req) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		List<ArticleEntity> areicle=articleService.findTop();
+		map.put("state", "0");
+		map.put("data", areicle);	
+		return map;
+	}
+	
+	//显示发布方法
+	@RequestMapping(value = "/findIsRecommend")
+	public Map<String, Object> findIsRecommend(HttpServletRequest res, HttpServletResponse req) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		List<ArticleEntity> areicle=articleService.findIsRecommend();
+		map.put("state", "0");
+		map.put("data", areicle);	
+		return map;
+	}
+	
+	//显示推荐方法
+		@RequestMapping(value = "/findIsRelease")
+		public Map<String, Object> findIsRelease(HttpServletRequest res, HttpServletResponse req) {
+			Map<String, Object> map = new HashMap<String, Object>();
+			List<ArticleEntity> areicle=articleService.findIsRelease();
+			map.put("state", "0");
+			map.put("data", areicle);	
+			return map;
+		}
 }
