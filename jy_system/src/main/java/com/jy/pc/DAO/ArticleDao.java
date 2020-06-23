@@ -32,6 +32,6 @@ public interface ArticleDao extends JpaRepository<ArticleEntity, String>{
 	@Query(value="select * from w_article t where t.is_recommend =0",nativeQuery = true)
 	public List<ArticleEntity> findIsRecommend();
 	
-	@Query(value="select * from w_article t where t.release_date>:releaseDate order by releaseDate asc limit 1",nativeQuery = true)
+	@Query(value="select * from w_article t where t.release_date>:releaseDate order by t.release_date asc limit 1",nativeQuery = true)
 	public ArticleEntity findOn(@Param("releaseDate")Date releaseDate);
 }
