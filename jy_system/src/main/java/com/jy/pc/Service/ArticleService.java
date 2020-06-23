@@ -1,10 +1,10 @@
 package com.jy.pc.Service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.repository.query.Param;
 
 import com.jy.pc.Entity.ArticleEntity;
 
@@ -33,4 +33,6 @@ public interface ArticleService {
 	public List<ArticleEntity> findIsRelease();
 	//推荐
 	public List<ArticleEntity> findIsRecommend();
+	
+	public ArticleEntity findOn(Date releaseDate);
 }

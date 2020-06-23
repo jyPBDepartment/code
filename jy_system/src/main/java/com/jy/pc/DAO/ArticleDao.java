@@ -1,5 +1,6 @@
 package com.jy.pc.DAO;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -30,4 +31,7 @@ public interface ArticleDao extends JpaRepository<ArticleEntity, String>{
 	//推荐
 	@Query(value="select * from w_article t where t.is_recommend =0",nativeQuery = true)
 	public List<ArticleEntity> findIsRecommend();
+	
+	@Query(value="select * from w_article t where t.release_date>:releaseDate order by releaseDate asc limit 1",nativeQuery = true)
+	public ArticleEntity findOn(@Param("releaseDate")Date releaseDate);
 }

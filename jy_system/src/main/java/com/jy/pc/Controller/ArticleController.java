@@ -199,15 +199,6 @@ public class ArticleController {
 		}else {
 			map.put("message", "推荐失败，只能推荐三条数据!");
 		}
-//		if (isRecommend.equals(0)) {
-//			articleEntity.setIsRecommend(1);
-//			map.put("state", "0");
-//			map.put("message", "取消推荐成功");
-//		} else if (isRecommend.equals(1)) {
-//			articleEntity.setIsRecommend(0);
-//			map.put("state", "0");
-//			map.put("message", "推荐成功");
-//		}
 		articleService.update(articleEntity);
 		return map;
 	}
@@ -266,6 +257,18 @@ public class ArticleController {
 			List<ArticleEntity> areicle=articleService.findIsRelease();
 			map.put("state", "0");
 			map.put("data", areicle);	
+			return map;
+		}
+	//下一篇
+		@RequestMapping(value = "/findOn")
+		public Map<String, Object> findOn(HttpServletRequest res, HttpServletResponse req,
+				@RequestParam(name = "id") String id) {
+			Map<String, Object> map = new HashMap<String, Object>();
+			ArticleEntity articleEntity = articleService.findId(id);
+			articleService.findOn(articleEntity.getReleaseDate());
+			map.put("state", "0");
+			map.put("data", articleEntity);
+			System.out.println(articleEntity.getReleaseDate());
 			return map;
 		}
 }

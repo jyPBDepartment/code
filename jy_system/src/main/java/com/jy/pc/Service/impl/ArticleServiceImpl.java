@@ -1,5 +1,6 @@
 package com.jy.pc.Service.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,5 +59,10 @@ public class ArticleServiceImpl implements ArticleService{
 	@Override
 	public List<ArticleEntity> findIsRecommend() {
 		return articleDao.findIsRecommend();
+	}
+
+	@Override
+	public ArticleEntity findOn(Date releaseDate) {
+		return articleDao.findOn(releaseDate);
 	}
 }
