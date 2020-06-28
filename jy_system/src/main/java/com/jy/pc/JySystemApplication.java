@@ -8,10 +8,10 @@ import org.springframework.context.annotation.aspectj.EnableSpringConfigured;
 @SpringBootApplication
 @EnableSpringConfigured
 @EnableConfigurationProperties
-public class JyPc1Application {
+public class JySystemApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(JyPc1Application.class, args);
+		SpringApplication.run(JySystemApplication.class, args);
 	}
 
 }
