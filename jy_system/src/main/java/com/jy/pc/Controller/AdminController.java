@@ -92,7 +92,9 @@ public class AdminController<RolesService> {
 			AdminEntity adminEntity = jsonObject.toJavaObject(AdminEntity.class);
 		
 			adminEntity.setUpdateTime(date);
-				
+			RoleEntity roleEntity = new RoleEntity();
+			roleEntity = roleService.findId(adminEntity.getRoleId());
+			adminEntity.setRoleName(roleEntity.getName());	
 			adminService.update(adminEntity);
 			map.put("message", "修改成功");
 			return map;
