@@ -1,5 +1,7 @@
 package com.jy.pc.Service;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -14,5 +16,7 @@ public interface BannerService {
 	public void delete(String id);
 	public Page<BannerEntity> findPageInfo(String name,Pageable pageable);
 	public BannerEntity findInfoById(String id);
+	
+	public List<BannerEntity> findId();
 
 }

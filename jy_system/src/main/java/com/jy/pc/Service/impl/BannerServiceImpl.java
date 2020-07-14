@@ -1,5 +1,7 @@
 package com.jy.pc.Service.impl;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +36,11 @@ public class BannerServiceImpl implements BannerService{
 	
 	public BannerEntity findInfoById(String id) {
 		return bannerDao.findInfoById(id);
+	}
+	@Override
+	public List<BannerEntity> findId() {
+		
+		return bannerDao.findAll();
 	}
 	
 	

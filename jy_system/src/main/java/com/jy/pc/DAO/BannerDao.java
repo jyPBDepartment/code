@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.jy.pc.Entity.BannerEntity;
+import com.jy.pc.Entity.WebsiteInfoEntity;
 
 public interface BannerDao extends JpaRepository<BannerEntity, String> {
 
@@ -15,5 +16,7 @@ public interface BannerDao extends JpaRepository<BannerEntity, String> {
 
 	@Query(value = "select * from  w_banner t where t.id=:id", nativeQuery = true)
 	public BannerEntity findInfoById(@Param("id") String id);
+	@Query(value="select * from  w_banner ",nativeQuery = true)
+	public BannerEntity findId();
 
 }
