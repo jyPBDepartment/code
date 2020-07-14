@@ -55,7 +55,9 @@ public class WebsiteInfoEntity implements Serializable{
 	// 友情链接地址
 	@Column
 	private String linkAddress;
-
+	//链接名称
+	@Column
+	private String linkName;
 	public String getId() {
 		return id;
 	}
@@ -143,5 +145,14 @@ public class WebsiteInfoEntity implements Serializable{
 	public void setLinkAddress(String linkAddress) {
 		this.linkAddress = linkAddress;
 	}
+
+	public String getLinkName() {
+		return linkName;
+	}
+
+	public void setLinkName(String linkName) {
+		this.linkName = linkName;
+	}
+	
 
 }
