@@ -4,6 +4,7 @@ import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
 
@@ -20,7 +21,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
+import com.jy.pc.Entity.ArticleEntity;
 import com.jy.pc.Entity.BannerEntity;
+import com.jy.pc.Entity.RoleEntity;
 import com.jy.pc.Service.BannerService;
 
 @Controller
@@ -92,8 +95,12 @@ public class BannerController {
 
 	@RequestMapping(value = "/findInfoById")
 	@ResponseBody
-	public Map<String, Object> findInfoById() {
+	public Map<String, Object> findInfoById(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "id") String id) {
 		Map<String, Object> map = new HashMap<String, Object>();
+		BannerEntity bannerEntity = bannerService.findInfoById(id);
+		map.put("state", "0");
+		map.put("data", bannerEntity);
 		return map;
 	}
 	
@@ -123,6 +130,21 @@ public class BannerController {
 		map.put("message", "操作成功");
 		return map;
 	}
+	
+	
+	
+	//查询所有
+		@RequestMapping(value = "/findAll")
+		@ResponseBody
+		public Map<String,Object> findAll(HttpServletRequest res,HttpServletResponse req) {
+
+			Map<String,Object> map = new HashMap<String,Object>();
+			List<BannerEntity> bannerList = bannerService.findId();
+			map.put("status", "0");
+			map.put("message", "查询成功");
+			map.put("data", bannerList);
+			return map;
+		}
 	
 
 }
