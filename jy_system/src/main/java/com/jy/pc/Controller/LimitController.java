@@ -1,8 +1,5 @@
 package com.jy.pc.Controller;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -22,7 +19,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
 import com.jy.pc.Entity.LimitEntity;
-import com.jy.pc.Entity.RoleEntity;
 import com.jy.pc.Service.LimitService;
 
 @Controller
@@ -39,14 +35,8 @@ public class LimitController {
 		String s = res.getParameter("limitEntity");
 		JSONObject jsonObject = JSONObject.parseObject(s);
 		LimitEntity limitEntity = jsonObject.toJavaObject(LimitEntity.class);
-//		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss" );// 格式化时间		
-//		String time=DateFormat.getDateTimeInstance().format(new Date());
 		Date date = new Date();
 		limitEntity.setCreateTime(date);
-//		try {
-//		} catch (ParseException e) {
-//			e.printStackTrace();
-//		}
 		limitService.save(limitEntity);
 		map.put("message", "添加成功");
 		return map;
@@ -62,13 +52,6 @@ public class LimitController {
 		LimitEntity limitEntity = jsonObject.toJavaObject(LimitEntity.class);
 		Date date = new Date();
 		limitEntity.setEditTime(date);
-//		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");// 格式化时间
-//		String time = DateFormat.getDateTimeInstance().format(new Date());
-//		try {
-//			limitEntity.setEditTime(sdf.parse(time));
-//		} catch (ParseException e) {
-//			e.printStackTrace();
-//		}
 		limitService.update(limitEntity);
 		map.put("message", "修改成功");
 		return map;
@@ -78,10 +61,24 @@ public class LimitController {
 	@RequestMapping(value = "/delete")
 	public Map<String, Object> delete(HttpServletRequest res, HttpServletResponse req,
 			@RequestParam(name = "id") String id) {
-		Map<String, Object> map = new HashMap<String, Object>();	
-		limitService.delete(id);
-		map.put("status", "0");
-		map.put("message", "删除成功");
+		Map<String, Object> map = new HashMap<String, Object>();
+		LimitEntity limitEntity = limitService.findId(id);
+		List<LimitEntity> limit = limitService.findLimitId();
+		for(int i = 0;i < limit.size();i++){
+			LimitEntity a = limit.get(i);
+		    a.getId();
+		    if(limitEntity.getId().equals(a.getId())){
+				limitService.delete(id);
+				map.put("status", "0");
+				map.put("message", "删除成功");
+			} 
+		    else {
+//				map.put("message", "删除失败，请先删除关联关系");
+			}
+		}
+		if(limit.size()<=0) {
+//			map.put("message", "删除失败，请先删除关联关系");
+		}
 		return map;
 	}
 

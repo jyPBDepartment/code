@@ -24,6 +24,8 @@ public interface LimitService {
 		public LimitEntity findId(String id);
 		// 搜索
 		public Page<LimitEntity> findListByName(String name,Pageable pageable);
-		
+		//查找状态为0数据
 		public List<LimitEntity> findAl();
+		//查找两个表中无关联数据
+		public List<LimitEntity> findLimitId();
 }

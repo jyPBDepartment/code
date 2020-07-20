@@ -50,4 +50,9 @@ public class LimitServicrImpl implements LimitService{
 		return limitDao.findAl();
 	}
 
+	@Override
+	public List<LimitEntity> findLimitId() {
+		return limitDao.findLimitId();
+	}
+
 }
