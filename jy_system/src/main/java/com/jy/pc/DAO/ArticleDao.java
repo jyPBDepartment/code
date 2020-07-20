@@ -23,13 +23,13 @@ public interface ArticleDao extends JpaRepository<ArticleEntity, String>{
 	public Page<ArticleEntity> findListByName(String name,Pageable pageable);
 	
 	//置顶
-	@Query(value="select * from w_article t where t.is_topping =0",nativeQuery = true)
+	@Query(value="select * from w_article t where t.is_topping ='0'",nativeQuery = true)
 	public List<ArticleEntity> findTop();
 	//发布
-	@Query(value="select * from w_article t where t.is_release =0 order by t.release_date desc",nativeQuery = true)
+	@Query(value="select * from w_article t where t.is_release ='0' order by t.release_date desc",nativeQuery = true)
 	public List<ArticleEntity> findIsRelease();
 	//推荐
-	@Query(value="select * from w_article t where t.is_recommend =0",nativeQuery = true)
+	@Query(value="select * from w_article t where t.is_recommend ='0'",nativeQuery = true)
 	public List<ArticleEntity> findIsRecommend();
 	
 	@Query(value="select * from w_article t where t.release_date>:releaseDate order by t.release_date asc limit 1",nativeQuery = true)
