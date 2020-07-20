@@ -18,8 +18,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
+import com.jy.pc.Entity.AdminEntity;
 import com.jy.pc.Entity.LimitEntity;
 import com.jy.pc.Entity.RoleEntity;
+
 import com.jy.pc.Service.LimitService;
 import com.jy.pc.Service.RoleService;
 
@@ -31,6 +33,7 @@ public class RoleController {
 	private RoleService roleService;
 	@Autowired
 	private LimitService limitService;
+	
 	// 角色添加
 	@RequestMapping(value = "/add")
 	
@@ -69,17 +72,32 @@ public class RoleController {
 		return map;
 	}
 	
+	
+	
 	//角色删除
 	@RequestMapping(value = "/delete")
-	public Map<String,Object> delete(HttpServletRequest res,HttpServletResponse req,
-			@RequestParam(name="id")String id) {
-		
-		Map<String,Object> map = new HashMap<String,Object>();
-		roleService.delete(id);
-		map.put("status", "0");
-		map.put("message", "删除成功");
+	 public Map<String,Object> delete(HttpServletRequest res,HttpServletResponse req,
+	   @RequestParam(name="id")String id) {
+	  
+	  Map<String,Object> map = new HashMap<String,Object>();
+	  List<RoleEntity> rolel = roleService.findRoleLink();
+		RoleEntity roleEntity = roleService.findId(id);
+		for(int i = 0;i < rolel.size();i++){
+			RoleEntity a = rolel.get(i);
+		    a.getId();
+		    if(roleEntity.getId().equals(a.getId())){
+		    	roleService.delete(id);
+				map.put("status", "0");
+				map.put("message", "删除成功");
+			} 
+		    else {
+		  
+			}
+		}
+		if(rolel.size()<=0) {
+		}
 		return map;
-	}
+	 }
 
 	//查询所有
 	@RequestMapping(value = "/findAll")

@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import com.jy.pc.Entity.AdminEntity;
 import com.jy.pc.Entity.LimitEntity;
 import com.jy.pc.Entity.RoleEntity;
 
@@ -28,4 +29,8 @@ public interface RoleService {
 	public Page<RoleEntity> findListByName(String name, Pageable pageable);
 	
 	public List<RoleEntity> findAl();
+	
+	//删除前查询
+		public List<RoleEntity> findRoleLink();
+	 
 }

@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import com.jy.pc.Entity.AdminEntity;
 import com.jy.pc.Entity.LimitEntity;
 import com.jy.pc.Entity.RoleEntity;
 
@@ -22,4 +23,8 @@ public interface RoleDao extends JpaRepository<RoleEntity, String>{
 	
 	@Query(value="select * from w_role t where t.state ='0'",nativeQuery = true)
 	public List<RoleEntity> findAl();
+	
+	//删除前查询
+			@Query(value="select distinct t.id,t.create_time,t.edit_time,t.name,t.state,t.limit_id,t.limit_name from  w_role t where t.id not in (select w.role_id from w_admin w)",nativeQuery = true)
+			public List<RoleEntity> findRoleLink();
 }
