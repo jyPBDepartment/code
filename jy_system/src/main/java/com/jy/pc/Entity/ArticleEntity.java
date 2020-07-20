@@ -48,13 +48,13 @@ public class ArticleEntity {
 	private String status;
 	// 发布
 	@Column
-	private int isRelease;
+	private String isRelease;
 	// 置顶
 	@Column
-	private int isTopping;
+	private String isTopping;
 	// 推荐
 	@Column
-	private int isRecommend;
+	private String isRecommend;
 	// 发布时间
 	@Column
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
@@ -151,22 +151,22 @@ public class ArticleEntity {
 	public void setUpdateDate(Date updateDate) {
 		this.updateDate = updateDate;
 	}
-	public int getIsRelease() {
+	public String getIsRelease() {
 		return isRelease;
 	}
-	public void setIsRelease(int isRelease) {
+	public void setIsRelease(String isRelease) {
 		this.isRelease = isRelease;
 	}
-	public int getIsTopping() {
+	public String getIsTopping() {
 		return isTopping;
 	}
-	public void setIsTopping(int isTopping) {
+	public void setIsTopping(String isTopping) {
 		this.isTopping = isTopping;
 	}
-	public int getIsRecommend() {
+	public String getIsRecommend() {
 		return isRecommend;
 	}
-	public void setIsRecommend(int isRecommend) {
+	public void setIsRecommend(String isRecommend) {
 		this.isRecommend = isRecommend;
 	}
 	

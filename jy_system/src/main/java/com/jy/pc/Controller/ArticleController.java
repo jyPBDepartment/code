@@ -42,9 +42,9 @@ public class ArticleController {
 		Date date = new Date();
 		articleEntity.setCreateDate(date);
 		articleEntity.setStatus("0");
-		articleEntity.setIsRelease(1);
-		articleEntity.setIsRecommend(1);
-		articleEntity.setIsTopping(1);
+		articleEntity.setIsRelease("1");
+		articleEntity.setIsRecommend("1");
+		articleEntity.setIsTopping("1");
 		ClassificationEntity classificationEntity = new ClassificationEntity();
 		classificationEntity=classificationService.findBId(articleEntity.getClassificationId());
 		articleEntity.setClassificationName(classificationEntity.getName());
@@ -147,27 +147,28 @@ public class ArticleController {
 	//发布
 	@RequestMapping(value = "/release")
 	public Map<String, String> release(HttpServletRequest res, HttpServletResponse req,
-			@RequestParam(name = "isRelease") Integer isRelease, @RequestParam(name = "id") String id) {
+			@RequestParam(name = "isRelease") String isRelease, @RequestParam(name = "id") String id) {
 
 		Map<String, String> map = new HashMap<String, String>();
 		ArticleEntity articleEntity = articleService.findId(id);
 		articleEntity.setIsRelease(isRelease);
 		articleEntity.getIsRelease();
 		List<ArticleEntity> articleList=articleService.findIsRelease();
-		if (isRelease.equals(0)) {
-			articleEntity.setIsRelease(1);
+		if (isRelease.equals("1")) {
+			articleEntity.setIsRelease("1");
 			map.put("state", "1");
 			map.put("message", "取消发布成功");
 		}
 		else if(articleList.size()<5) {
-			if (isRelease.equals(1)) {
-				articleEntity.setIsRelease(0);
+			if (isRelease.equals("0")) {
+				articleEntity.setIsRelease("0");
 				Date date = new Date();
 				articleEntity.setReleaseDate(date);
 				map.put("state", "0");
 				map.put("message", "发布成功");
 			}
 		}else {
+			articleEntity.setIsRelease("1");
 			map.put("message", "发布失败，只能发布五条数据!");
 		}
 		articleService.update(articleEntity);
@@ -177,7 +178,7 @@ public class ArticleController {
 	//推荐
 	@RequestMapping(value = "/recommend")
 	public Map<String, String> recommend(HttpServletRequest res, HttpServletResponse req,
-			@RequestParam(name = "isRecommend") Integer isRecommend, @RequestParam(name = "id") String id) {
+			@RequestParam(name = "isRecommend") String isRecommend, @RequestParam(name = "id") String id) {
 
 		Map<String, String> map = new HashMap<String, String>();
 		ArticleEntity articleEntity = articleService.findId(id);
@@ -185,18 +186,19 @@ public class ArticleController {
 		articleEntity.getIsRecommend();
 		List<ArticleEntity> areicleList=articleService.findIsRecommend();
 		
-		if (isRecommend.equals(0)) {
-			articleEntity.setIsRecommend(1);
+		if (isRecommend.equals("1")) {
+			articleEntity.setIsRecommend("1");
 			map.put("state", "1");
 			map.put("message", "取消推荐成功");
 		}
 		else if(areicleList.size()<3) {
-			if (isRecommend.equals(1)) {
-				articleEntity.setIsRecommend(0);
+			if (isRecommend.equals("0")) {
+				articleEntity.setIsRecommend("0");
 				map.put("state", "0");
 				map.put("message", "推荐成功");
 			}
 		}else {
+			articleEntity.setIsRecommend("1");
 			map.put("message", "推荐失败，只能推荐三条数据!");
 		}
 		articleService.update(articleEntity);
@@ -206,24 +208,25 @@ public class ArticleController {
 	//置顶
 	@RequestMapping(value = "/topping")
 	public Map<String, String> topping(HttpServletRequest res, HttpServletResponse req,
-			@RequestParam(name = "isTopping") Integer isTopping, @RequestParam(name = "id") String id) {
+			@RequestParam(name = "isTopping") String isTopping, @RequestParam(name = "id") String id) {
 		Map<String, String> map = new HashMap<String, String>();
 		ArticleEntity articleEntity = articleService.findId(id);
 		articleEntity.setIsTopping(isTopping);
 		articleEntity.getIsTopping();
 		List<ArticleEntity> areicle=articleService.findTop();
-		if (isTopping.equals(0)) {
-			articleEntity.setIsTopping(1);
+		if (isTopping.equals("1")) {
+			articleEntity.setIsTopping("1");
 			map.put("state", "1");
 			map.put("message", "取消置顶成功");
 		}
 		else if(areicle.size()<5) {
-			if (isTopping.equals(1)) {
-				articleEntity.setIsTopping(0);
+			if (isTopping.equals("0")) {
+				articleEntity.setIsTopping("0");
 				map.put("state", "0");
 				map.put("message", "置顶成功");
 			}
 		}else {
+			articleEntity.setIsTopping("1");
 			map.put("message", "置顶失败，只能置顶五条数据!");
 		}
 		articleService.update(articleEntity);
