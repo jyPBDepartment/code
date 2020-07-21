@@ -8,8 +8,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.jy.pc.DAO.RoleDao;
-import com.jy.pc.Entity.AdminEntity;
-import com.jy.pc.Entity.LimitEntity;
 import com.jy.pc.Entity.RoleEntity;
 import com.jy.pc.Service.RoleService;
 

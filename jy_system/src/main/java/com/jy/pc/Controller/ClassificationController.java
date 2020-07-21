@@ -18,9 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
-
 import com.jy.pc.Entity.ClassificationEntity;
-import com.jy.pc.Entity.NavigationEntity;
 import com.jy.pc.Service.ClassificationService;
 
 @Controller

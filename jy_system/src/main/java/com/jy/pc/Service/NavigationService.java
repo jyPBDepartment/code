@@ -6,7 +6,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.jy.pc.Entity.NavigationEntity;
-import com.jy.pc.Entity.WebsiteInfoEntity;
 
 
 public interface NavigationService {

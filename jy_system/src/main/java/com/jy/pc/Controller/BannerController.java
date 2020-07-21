@@ -21,9 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
-import com.jy.pc.Entity.ArticleEntity;
 import com.jy.pc.Entity.BannerEntity;
-import com.jy.pc.Entity.RoleEntity;
 import com.jy.pc.Service.BannerService;
 
 @Controller
@@ -41,8 +39,6 @@ public class BannerController {
 		JSONObject jsonObject = JSONObject.parseObject(s);
 		
 		Date date = new Date();
-//		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//		sdf.format(date);
 		BannerEntity bannerEntity = jsonObject.toJavaObject(BannerEntity.class);
 		bannerEntity.setStatus("1");
 		bannerEntity.setCreateDate(date);

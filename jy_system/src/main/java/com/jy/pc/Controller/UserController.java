@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.jy.pc.Entity.UserEntity;
 import com.jy.pc.Service.UserService;
 
 @Controller
@@ -28,7 +27,6 @@ public class UserController {
 			@RequestParam(name = "username") String username, @RequestParam(name = "password") String password) {
 
 		Map<String, String> map = new HashMap<String, String>();
-
 		Boolean flag = userService.checkUser(username, password);
 		if (flag) {
 			map.put("status", "1");

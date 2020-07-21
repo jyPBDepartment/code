@@ -8,9 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-
 import com.jy.pc.Entity.ClassificationEntity;
-import com.jy.pc.Entity.NavigationEntity;
 
 public interface ClassificationDao extends JpaRepository<ClassificationEntity, String>{
 //	fingById方法

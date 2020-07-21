@@ -9,8 +9,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.jy.pc.Entity.NavigationEntity;
-import com.jy.pc.Entity.RoleEntity;
-import com.jy.pc.Entity.WebsiteInfoEntity;
 
 public interface NavigationDao extends JpaRepository<NavigationEntity,String>{
 	

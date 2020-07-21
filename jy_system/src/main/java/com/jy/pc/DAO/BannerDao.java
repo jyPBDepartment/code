@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.jy.pc.Entity.BannerEntity;
-import com.jy.pc.Entity.WebsiteInfoEntity;
 
 public interface BannerDao extends JpaRepository<BannerEntity, String> {
 

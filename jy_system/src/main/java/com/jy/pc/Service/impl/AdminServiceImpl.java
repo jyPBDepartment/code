@@ -44,5 +44,6 @@ public class AdminServiceImpl implements AdminService{
 		String adminName = "%"+loginName+"%";
 		return adminDao.findListByName(adminName, pageable);
 	}
+	
 
 }
