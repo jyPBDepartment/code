@@ -46,7 +46,6 @@ public class ExplanationController {
 	public Map<String, Object> findByName(HttpServletRequest res, HttpServletResponse req,
 			@RequestParam(name = "name") String name,@RequestParam(name = "phoneNum") String phoneNum,
 			@RequestParam(name = "page") Integer page, @RequestParam(name = "size") Integer size) {
-
 		Map<String, Object> map = new HashMap<String, Object>();
 		Pageable pageable = new PageRequest(page - 1, size);
 		Page<ExplanationEntity> ExplanationList = explanstionService.findListByName(name, phoneNum, pageable);

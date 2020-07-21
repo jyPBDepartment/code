@@ -36,7 +36,6 @@ public class RoleController {
 	@RequestMapping(value = "/add")
 	
 	public Map<String, String> save(HttpServletRequest res, HttpServletResponse req) {
-		
 		Map<String, String> map = new HashMap<String, String>();
 		String s = res.getParameter("roleEntity");
 		JSONObject jsonObject = JSONObject.parseObject(s);

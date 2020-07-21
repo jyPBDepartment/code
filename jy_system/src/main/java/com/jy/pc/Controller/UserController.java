@@ -27,7 +27,6 @@ public class UserController {
 			@RequestParam(name = "username") String username, @RequestParam(name = "password") String password) {
 
 		Map<String, String> map = new HashMap<String, String>();
-
 		Boolean flag = userService.checkUser(username, password);
 		if (flag) {
 			map.put("status", "1");

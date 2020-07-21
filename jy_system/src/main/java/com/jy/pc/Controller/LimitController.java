@@ -45,7 +45,6 @@ public class LimitController {
 	// 权限修改
 	@RequestMapping(value = "/update")
 	public Map<String, String> update(HttpServletRequest res, HttpServletResponse req) {
-
 		Map<String, String> map = new HashMap<String, String>();
 		String s = res.getParameter("limitEntity");
 		JSONObject jsonObject = JSONObject.parseObject(s);

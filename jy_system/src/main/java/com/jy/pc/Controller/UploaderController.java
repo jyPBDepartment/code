@@ -24,7 +24,6 @@ public class UploaderController {
 	public Map<String, Object> uploadImg(@RequestParam(value = "file", required = false) MultipartFile file,
 			HttpServletRequest request, HttpServletResponse response) {
 		Map<String, Object> map = new HashMap<String, Object>();
-
 		File targetFile = null;
 		String url = "";// 返回存储路径
 		String fileName = file.getOriginalFilename();

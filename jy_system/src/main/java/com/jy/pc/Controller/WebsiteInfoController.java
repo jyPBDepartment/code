@@ -25,7 +25,6 @@ public class WebsiteInfoController {
 	@RequestMapping(value = "/update")
 	@ResponseBody
 	public Map<String, String> update(HttpServletRequest res, HttpServletResponse req) {
-
 		Map<String, String> map = new HashMap<String, String>();
 		String s = res.getParameter("websiteInfoEntity");
 		JSONObject jsonObject = JSONObject.parseObject(s);

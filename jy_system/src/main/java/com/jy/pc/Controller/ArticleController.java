@@ -262,6 +262,7 @@ public class ArticleController {
 			map.put("data", areicle);	
 			return map;
 		}
+		
 	//下一篇
 		@RequestMapping(value = "/findOn")
 		public Map<String, Object> findOn(HttpServletRequest res, HttpServletResponse req,

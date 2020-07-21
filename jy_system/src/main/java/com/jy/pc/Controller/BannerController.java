@@ -39,8 +39,6 @@ public class BannerController {
 		JSONObject jsonObject = JSONObject.parseObject(s);
 		
 		Date date = new Date();
-//		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//		sdf.format(date);
 		BannerEntity bannerEntity = jsonObject.toJavaObject(BannerEntity.class);
 		bannerEntity.setStatus("1");
 		bannerEntity.setCreateDate(date);

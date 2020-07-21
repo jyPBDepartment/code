@@ -31,7 +31,6 @@ public class MenuController {
 	public Map<String,Object> save(){
 		Map<String,Object> map = new HashMap<String,Object>();
 		return map;
-		
 	}
 	
 	@RequestMapping(value = "/findByName")
