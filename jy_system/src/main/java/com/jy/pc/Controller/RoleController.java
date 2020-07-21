@@ -18,10 +18,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
-import com.jy.pc.Entity.AdminEntity;
 import com.jy.pc.Entity.LimitEntity;
 import com.jy.pc.Entity.RoleEntity;
-
 import com.jy.pc.Service.LimitService;
 import com.jy.pc.Service.RoleService;
 

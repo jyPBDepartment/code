@@ -21,9 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
-import com.jy.pc.Entity.ArticleEntity;
 import com.jy.pc.Entity.BannerEntity;
-import com.jy.pc.Entity.RoleEntity;
 import com.jy.pc.Service.BannerService;
 
 @Controller
