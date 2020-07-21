@@ -19,4 +19,5 @@ public interface AdminDao extends JpaRepository<AdminEntity, String>{
 			countQuery="select count(*) from w_admin t  where if(?1 !='',t.login_name like ?1,1=1)order by t.create_date_time desc",
 			nativeQuery = true)
 	public Page<AdminEntity> findListByName(String loginName,Pageable pageable);
+	
 }
