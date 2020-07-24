@@ -1,0 +1,30 @@
+package com.jy.pc.Service;
+
+
+
+
+import java.util.List;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
+import com.jy.pc.Entity.PowerInfoEntity;
+
+public interface PowerInfoService {
+	//权限添加
+	public PowerInfoEntity save(PowerInfoEntity powerInfoEntity);
+	//权限修改
+	public PowerInfoEntity update(PowerInfoEntity powerInfoEntity);
+	//权限删除
+	public void delete(String id);
+	//权限findById
+	public PowerInfoEntity findBId(String id);
+	//权限分页与模糊查询
+	public Page<PowerInfoEntity> findListByName(String jurName,String jurCode,Pageable pageable);
+	//findAll
+	public List<PowerInfoEntity> findAll();
+	//上级编码
+	public List<PowerInfoEntity> findSubPowerList();
+	//账户关联
+	public List<PowerInfoEntity> findCount();
+}
