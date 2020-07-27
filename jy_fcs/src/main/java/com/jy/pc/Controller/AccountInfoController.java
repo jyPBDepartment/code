@@ -19,7 +19,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
 import com.jy.pc.Entity.AccountInfoEntity;
+import com.jy.pc.Entity.AccountPowerInfoEntity;
 import com.jy.pc.Service.AccountInfoService;
+import com.jy.pc.Service.AccountPowerInfoService;
+import com.jy.pc.Service.PowerInfoService;
 
 @Controller
 @RequestMapping(value = "/accountInfo")
@@ -28,6 +31,10 @@ public class AccountInfoController {
 
 	@Autowired
 	private AccountInfoService accountInfoService;
+	@Autowired 
+	private PowerInfoService powerInfoService;
+	@Autowired
+	private AccountPowerInfoService accountPowerInfoService;
 
 	// 登录
 	@RequestMapping(value = "/login")
@@ -74,11 +81,14 @@ public class AccountInfoController {
 		accountInfoEntity.setCreateDate(date);
 		accountInfoEntity.setAuditStatus("1");
 		
-//			LimitEntity limitEntity = new LimitEntity();
-//			limitEntity = limitService.findId(roleEntity.getLimitId());
-//			roleEntity.setLimitName(limitEntity.getName());
-		
-		accountInfoService.save(accountInfoEntity);
+		//角色权限连接表实体
+		AccountPowerInfoEntity accountPowerInfoEntity = new AccountPowerInfoEntity();
+		AccountInfoEntity accountInfo = accountInfoService.save(accountInfoEntity);
+		//添加角色权限关联表
+		accountPowerInfoEntity.setAccountId(accountInfo.getId());
+		accountPowerInfoEntity.setJurCodel(accountInfoEntity.getJurId());
+		powerInfoService.findBId(accountInfoEntity.getJurId());
+		accountPowerInfoService.save(accountPowerInfoEntity);
 		map.put("status", "0");
 		map.put("message", "添加成功");
 		return map;
@@ -94,10 +104,14 @@ public class AccountInfoController {
 		AccountInfoEntity accountInfoEntity = jsonObject.toJavaObject(AccountInfoEntity.class);
 		Date date = new Date();
 		accountInfoEntity.setUpdateDate(date);
-//			LimitEntity limitEntity = new LimitEntity();
-//			limitEntity = limitService.findId(roleEntity.getLimitId());
-//			roleEntity.setLimitName(limitEntity.getName());
-		accountInfoService.update(accountInfoEntity);
+		//权限id/名称同步修改
+		powerInfoService.findBId(accountInfoEntity.getJurId());
+		accountInfoService.update(accountInfoEntity);		
+		//修改关联表
+		AccountPowerInfoEntity accountPowerInfoEntity = new AccountPowerInfoEntity();
+		accountPowerInfoEntity = accountPowerInfoService.findAccountId(accountInfoEntity.getId());
+		accountPowerInfoEntity.setJurCodel(accountInfoEntity.getJurId());
+		accountPowerInfoService.update(accountPowerInfoEntity);
 		map.put("status", "0");
 		map.put("message", "修改成功");
 		return map;
@@ -109,6 +123,14 @@ public class AccountInfoController {
 			@RequestParam(name = "id") String id) {
 
 		Map<String, Object> map = new HashMap<String, Object>();
+		
+		//删除关联表
+		AccountInfoEntity accountInfoEntity = new AccountInfoEntity();
+		accountInfoEntity = accountInfoService.findId(id);
+		AccountPowerInfoEntity accountPowerInfoEntity = new AccountPowerInfoEntity();
+		accountPowerInfoEntity = accountPowerInfoService.findAccountId(accountInfoEntity.getId());
+		accountPowerInfoService.delete(accountPowerInfoEntity.getId());
+		
 		accountInfoService.delete(id);
 		map.put("status", "0");
 		map.put("message", "删除成功");
@@ -148,7 +170,7 @@ public class AccountInfoController {
 		} else if (auditStatus.equals("1")) {
 			accountInfoEntity.setAuditStatus("1");
 			accountInfoEntity.setUpdateDate(date);
-			map.put("status", "0");
+			map.put("status", "1");
 			map.put("message", "禁用成功");
 		}
 		accountInfoService.update(accountInfoEntity);

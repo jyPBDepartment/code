@@ -15,23 +15,25 @@ import org.hibernate.annotations.GenericGenerator;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
-@Table(name = "sas_module_info")
-public class ModuleInfoEntity {
+@Table(name = "sas_key_word")
+public class KeyWordEntity {
 	@Id
 	@GeneratedValue(generator = "uuid")
 	@GenericGenerator(strategy = "uuid", name = "uuid")
-	@Column(length = 36)
-	// 主键id
+	// id
 	private String id;
-	// 名称
+	// 关键词名称
 	@Column
 	private String name;
-	// 图片
+	// 关键词编码
 	@Column
-	private String url;
+	private String code;
+	// 分类编码
+	@Column
+	private String parentCode;
 	// 状态
-	@Column(length = 1)
-	private String status;
+	@Column
+	private String auditStatus;
 	// 创建时间
 	@Column
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
@@ -48,9 +50,6 @@ public class ModuleInfoEntity {
 	// 修改人
 	@Column
 	private String updateUser;
-	// 排序
-	@Column
-	private String sort;
 
 	public String getId() {
 		return id;
@@ -68,20 +67,28 @@ public class ModuleInfoEntity {
 		this.name = name;
 	}
 
-	public String getUrl() {
-		return url;
+	public String getCode() {
+		return code;
 	}
 
-	public void setUrl(String url) {
-		this.url = url;
+	public void setCode(String code) {
+		this.code = code;
 	}
 
-	public String getStatus() {
-		return status;
+	public String getParentCode() {
+		return parentCode;
 	}
 
-	public void setStatus(String status) {
-		this.status = status;
+	public void setParentCode(String parentCode) {
+		this.parentCode = parentCode;
+	}
+
+	public String getAuditStatus() {
+		return auditStatus;
+	}
+
+	public void setAuditStatus(String auditStatus) {
+		this.auditStatus = auditStatus;
 	}
 
 	public Date getCreateDate() {
@@ -115,13 +122,4 @@ public class ModuleInfoEntity {
 	public void setUpdateUser(String updateUser) {
 		this.updateUser = updateUser;
 	}
-
-	public String getSort() {
-		return sort;
-	}
-
-	public void setSort(String sort) {
-		this.sort = sort;
-	}
-
 }

@@ -35,9 +35,9 @@ public class ModuleInfoServiceImpl implements ModuleInfoService{
 	}
 
 	@Override
-	public Page<ModuleInfoEntity> findListByName(String name, Pageable pageable) {
+	public Page<ModuleInfoEntity> findListByName(String name,String status, Pageable pageable) {
 		String moduleName = "%"+name+"%";
-		return moduleInfoDao.findListByName(moduleName, pageable);
+		return moduleInfoDao.findListByName(moduleName,status, pageable);
 	}
 
 }

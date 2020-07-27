@@ -7,7 +7,8 @@ import com.jy.pc.Entity.ModuleInfoEntity;
 
 public interface ModuleInfoService {
 	// 搜索
-	public Page<ModuleInfoEntity> findListByName(String name,Pageable pageable);
+	public Page<ModuleInfoEntity> findListByName(String name, String status, Pageable pageable);
+
 	// 添加
 	public ModuleInfoEntity save(ModuleInfoEntity moduleInfo);
 
@@ -16,6 +17,7 @@ public interface ModuleInfoService {
 
 	// 删除
 	public void delete(String id);
-	//findbyid
+
+	// findbyid
 	public ModuleInfoEntity findId(String id);
 }
