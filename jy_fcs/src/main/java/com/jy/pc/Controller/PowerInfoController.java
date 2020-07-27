@@ -80,16 +80,30 @@ public class PowerInfoController {
 			return map;
 		}
 
-		// 权限删除
-		@RequestMapping(value = "delete")
-		public Map<String, Object> delete(HttpServletRequest res, HttpServletResponse req,
-				@RequestParam(name = "id") String id) {
-			Map<String, Object> map = new HashMap<String, Object>();// 接收数据容器
-			powerInfoService.delete(id);
-			map.put("status", "0");
-			map.put("message", "删除成功");
+		//关联验证删除
+		@RequestMapping(value = "/delete")
+		 public Map<String,Object> delete(HttpServletRequest res,HttpServletResponse req,
+		   @RequestParam(name="id")String id) {
+		  
+		  Map<String,Object> map = new HashMap<String,Object>();
+		  List<PowerInfoEntity> powers = powerInfoService.findAccountLink();
+			PowerInfoEntity powerEntity = powerInfoService.findBId(id);
+			for(int i = 0;i < powers.size();i++){
+				PowerInfoEntity a = powers.get(i);
+			    a.getId();
+			    if(powerEntity.getId().equals(a.getId())){
+			    	powerInfoService.delete(id);
+					map.put("status", "0");
+					map.put("message", "删除成功");
+				} 
+			    else {
+			  
+				}
+			}
+			if(powers.size()<=0) {
+			}
 			return map;
-		}
+		 }
 
 		// 权限模糊查询与分页
 		@RequestMapping(value = "/findByName")

@@ -27,4 +27,6 @@ public interface PowerInfoService {
 	public List<PowerInfoEntity> findSubPowerList();
 	//账户关联
 	public List<PowerInfoEntity> findCount();
+	//删除前验证
+	public List<PowerInfoEntity> findAccountLink();
 }

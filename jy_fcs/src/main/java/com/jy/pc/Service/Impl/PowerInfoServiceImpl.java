@@ -65,5 +65,10 @@ private PowerInfoDao powerInfoDao;
 	
 		return powerInfoDao.findCount();
 	}
-
+	//删除前验证
+	@Override
+	public List<PowerInfoEntity> findAccountLink() {
+	
+		return powerInfoDao.findAccountLink();
+	}
 }

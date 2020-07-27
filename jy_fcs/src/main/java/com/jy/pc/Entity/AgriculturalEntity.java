@@ -44,6 +44,14 @@ public class AgriculturalEntity {
 	private String contactsPhone;//联系方式
 	@Column
 	private String url;//图片
+	@Column(length=255)
+	private String classiCode;//机器类型
+	public String getClassiCode() {
+		return classiCode;
+	}
+	public void setClassiCode(String classiCode) {
+		this.classiCode = classiCode;
+	}
 	@Column(length=8)
 	private String machineType;//机器类型
 	@Column(length=255)
