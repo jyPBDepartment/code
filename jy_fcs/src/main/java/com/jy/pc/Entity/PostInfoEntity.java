@@ -15,7 +15,7 @@ import org.hibernate.annotations.GenericGenerator;
 import com.fasterxml.jackson.annotation.JsonFormat;
 @Entity
 @Table(name="sas_invitation")
-public class InvitationEntity {
+public class PostInfoEntity {
 	@Id
 	@GeneratedValue(generator = "uuid")
 	@GenericGenerator(strategy = "uuid", name = "uuid")

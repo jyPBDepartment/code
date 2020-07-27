@@ -14,10 +14,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.jy.pc.Entity.AgriculturalEntity;
 import com.jy.pc.Entity.FarmworkEntity;
-import com.jy.pc.Entity.InvitationEntity;
+import com.jy.pc.Entity.PostInfoEntity;
 import com.jy.pc.Service.AgriculturalService;
 import com.jy.pc.Service.FarmworkService;
-import com.jy.pc.Service.InvitationService;
+import com.jy.pc.Service.PostInfoService;
 
 @Controller
 @RequestMapping(value="main")
@@ -27,7 +27,7 @@ public class MainController {
 	@Autowired
 	private FarmworkService farmworkService;
 	@Autowired
-	private InvitationService invitationService;
+	private PostInfoService invitationService;
 	@Autowired
 	private AgriculturalService agriculturalService;
 	
@@ -36,7 +36,7 @@ public class MainController {
 
 		Map<String,Object> map = new HashMap<String,Object>();//接收数据容器
 		List<FarmworkEntity> farmworkEntity = farmworkService.findSum();//查询所有数据方法
-		List<InvitationEntity> invitationEntity =invitationService.findInva();
+		List<PostInfoEntity> invitationEntity =invitationService.findInva();
 		List<AgriculturalEntity> AgriculturalEntity =agriculturalService.findAgrSum();
 		map.put("state", "0");
 		map.put("message", "查询成功");
