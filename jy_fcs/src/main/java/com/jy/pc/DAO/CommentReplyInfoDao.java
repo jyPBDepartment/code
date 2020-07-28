@@ -12,7 +12,9 @@ public interface CommentReplyInfoDao extends JpaRepository<CommentReplyInfoEntit
 	@Query(value="select * from sas_comment_reply_info t where t.id =:id",nativeQuery = true)
 	public CommentReplyInfoEntity findId(@Param("id")String id);
 	
-	@Query(value="select * from sas_comment_reply_info t where if(?1 !='',t.reply_content like ?1,1=1) order by t.reply_date desc ",
-			countQuery="select count(*) from sas_comment_reply_info t where if(?1 !='',t.reply_content like ?1,1=1) order by t.reply_date desc",nativeQuery = true)
-	public Page<CommentReplyInfoEntity> findListByContent(String content,Pageable pageable);
+	@Query(value="select * from sas_comment_reply_info t where if(?1 !='',t.reply_content like ?1,1=1) "
+			+ "and if(?2 !='',t.reply_user_name like ?2,1=1) order by t.reply_date desc ",
+			countQuery="select count(*) from sas_comment_reply_info t where if(?1 !='',t.reply_content like ?1,1=1) "
+					+ "and if(?2 !='',t.reply_user_name like ?2,1=1)order by t.reply_date desc",nativeQuery = true)
+	public Page<CommentReplyInfoEntity> findListByContent(String content,String user,Pageable pageable);
 }

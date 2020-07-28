@@ -16,9 +16,10 @@ public class PostCommentInfoServiceImpl implements PostCommentInfoService {
 	PostCommentInfoDao postCommentInfoDao;
 
 	@Override
-	public Page<PostCommentInfoEntity> findListByContent(String content, Pageable pageable) {
+	public Page<PostCommentInfoEntity> findListByContent(String content, String user,Pageable pageable) {
 		String contentParam = "%"+content+"%";
-		return postCommentInfoDao.findListByContent(contentParam, pageable);
+		String userParam = "%"+user+"%";
+		return postCommentInfoDao.findListByContent(contentParam, userParam,pageable);
 	}
 
 	@Override

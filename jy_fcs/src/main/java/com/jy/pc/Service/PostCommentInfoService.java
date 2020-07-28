@@ -7,7 +7,7 @@ import com.jy.pc.Entity.PostCommentInfoEntity;
 
 public interface PostCommentInfoService {
 	// 搜索
-	public Page<PostCommentInfoEntity> findListByContent(String content, Pageable pageable);
+	public Page<PostCommentInfoEntity> findListByContent(String content, String user,Pageable pageable);
 
 	// 添加
 	public PostCommentInfoEntity save(PostCommentInfoEntity moduleInfo);

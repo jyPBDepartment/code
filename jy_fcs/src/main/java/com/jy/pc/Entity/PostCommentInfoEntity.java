@@ -6,6 +6,9 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -15,28 +18,80 @@ import org.hibernate.annotations.GenericGenerator;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
-@Table(name="sas_post_comment_info")
+@Table(name = "sas_post_comment_info")
 public class PostCommentInfoEntity {
 	@Id
-	@GeneratedValue(generator="uuid")    
-	@GenericGenerator(strategy = "uuid", name = "uuid")  
-	//主键id
+	@GeneratedValue(generator = "uuid")
+	@GenericGenerator(strategy = "uuid", name = "uuid")
+	// 主键id
 	private String id;
-	//外键id - 帖子信息
-	@Column
-	private String postId;
-	//评论内容
+	
+	// 评论内容
 	@Column
 	private String commentContent;
-	//评论人
+	// 评论人
 	@Column
 	private String commentUserName;
-	//评论时间
+	// 评论时间
 	@Column
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date commentDate;
-	//状态 - 0生效1系统禁用
-	@Column(length=1)
+	// 状态 - 0生效1系统禁用
+	@Column(length = 1)
 	private String status;
+	
+	// 外键id - 帖子信息
+	@ManyToOne(optional=false)//可选属性optional=false,表示author不能为空。删除文章，不影响用户
+    @JoinColumn(name="postId", referencedColumnName = "id")
+	private PostInfoEntity postInfoEntity;
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public PostInfoEntity getPostInfoEntity() {
+		return postInfoEntity;
+	}
+
+	public void setPostInfoEntity(PostInfoEntity postInfoEntity) {
+		this.postInfoEntity = postInfoEntity;
+	}
+
+	public String getCommentContent() {
+		return commentContent;
+	}
+
+	public void setCommentContent(String commentContent) {
+		this.commentContent = commentContent;
+	}
+
+	public String getCommentUserName() {
+		return commentUserName;
+	}
+
+	public void setCommentUserName(String commentUserName) {
+		this.commentUserName = commentUserName;
+	}
+
+	public Date getCommentDate() {
+		return commentDate;
+	}
+
+	public void setCommentDate(Date commentDate) {
+		this.commentDate = commentDate;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
 }
