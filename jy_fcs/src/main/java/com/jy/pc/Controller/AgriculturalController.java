@@ -106,39 +106,20 @@ public class AgriculturalController {
 		map.put("message", "修改成功");
 		return map;
 	}
-//		// 启用禁用
-//		@RequestMapping(value = "/enable")
-//		public Map<String, String> opensulf(HttpServletRequest res, HttpServletResponse req,
-//				@RequestParam(name = "status") String status, @RequestParam(name = "id") String id) {
-//			Map<String, String> map = new HashMap<String, String>();
-//			AgriculturalEntity agriculturalEntity = agriculturalService.findBId(id);
-//			agriculturalEntity.setStatus(status);
-//			agriculturalEntity.getStatus();
-//			if (status.equals("0")) {
-//				agriculturalEntity.setStatus("0");
-//				map.put("state", "0");
-//				map.put("message", "待审核");
-//			} else if (status.equals("1")) {
-//				agriculturalEntity.setStatus("1");
-//				map.put("state", "1");
-//				map.put("message", "审核通过");
-//			}
-//			else if (status.equals("2")) {
-//				agriculturalEntity.setStatus("2");
-//				map.put("state", "2");
-//				map.put("message", "审核拒绝");
-//			}
-//			else if (status.equals("3")) {
-//				agriculturalEntity.setStatus("3");
-//				map.put("state", "3");
-//				map.put("message", "预约中");
-//			}else if (status.equals("4")) {
-//				agriculturalEntity.setStatus("4");
-//				map.put("state", "4");
-//				map.put("message", "已完成");
-//			}
-//			agriculturalService.update(agriculturalEntity);
-//			return map;
-//		}
-//		
+	// 审核通过
+	  @RequestMapping(value = "/passPostInfo")
+	  public Map<String, String> passPostInfo(HttpServletRequest res, HttpServletResponse req) {
+
+	   Map<String, String> map = new HashMap<String, String>();
+	   String s = res.getParameter("agriculturalEntity");
+	   JSONObject jsonObject = JSONObject.parseObject(s);
+	   AgriculturalEntity agriculturalEntity = jsonObject.toJavaObject(AgriculturalEntity.class);
+	   agriculturalEntity.setStatus("1");
+	   agriculturalService.update(agriculturalEntity);  
+	   map.put("state", "0");
+	   map.put("message", "审核通过");
+	   return map;
+	  }
+	    
+	 
 }
