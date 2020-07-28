@@ -14,7 +14,7 @@ public interface AgriculturalService {
 	//农服findById
 	public AgriculturalEntity findBId(String id);
 	//农服分页与模糊查询
-	public Page<AgriculturalEntity> findListByName(String name,Pageable pageable);
+	public Page<AgriculturalEntity> findListByName(String name,String status,Pageable pageable);
 	//农服状态修改
 	public AgriculturalEntity update(AgriculturalEntity agriculturalEntity);
 	

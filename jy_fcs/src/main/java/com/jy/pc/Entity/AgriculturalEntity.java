@@ -78,6 +78,8 @@ public class AgriculturalEntity {
 	private String createUser;//发布人
 	@Column(length=255)
 	private String updateUser;//审核人
+	@Column(length=255)
+	private String examineReason;//审核拒绝理由
 	public String getId() {
 		return id;
 	}
@@ -209,6 +211,12 @@ public class AgriculturalEntity {
 	}
 	public void setUpdateUser(String updateUser) {
 		this.updateUser = updateUser;
+	}
+	public String getExamineReason() {
+		return examineReason;
+	}
+	public void setExamineReason(String examineReason) {
+		this.examineReason = examineReason;
 	}
 	
 	

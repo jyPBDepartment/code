@@ -32,9 +32,9 @@ public class AgriculturalServiceImpl implements AgriculturalService{
 		return agriculturalDao.findBId(id);
 	}
 	@Override
-	public Page<AgriculturalEntity> findListByName(String name, Pageable pageable) {
+	public Page<AgriculturalEntity> findListByName(String name,String status,Pageable pageable) {
 		String argicuturalName = "%"+name+"%";
-		return agriculturalDao.findListByName(argicuturalName, pageable);
+		return agriculturalDao.findListByName(argicuturalName,status, pageable);
 	}
 	@Override
 	public AgriculturalEntity update(AgriculturalEntity agriculturalEntity) {
