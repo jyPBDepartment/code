@@ -49,7 +49,16 @@ public class PostInfoEntity {
 	private String auditUser;//审核人
 	@Column
 	private String status;  //状态
+	//拒绝原因
+	@Column
+	private String reason;
 	
+	public String getReason() {
+		return reason;
+	}
+	public void setReason(String reason) {
+		this.reason = reason;
+	}
 	public String getStatus() {
 		return status;
 	}

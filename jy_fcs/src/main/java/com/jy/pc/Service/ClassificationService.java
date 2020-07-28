@@ -22,4 +22,6 @@ public interface ClassificationService {
 		public List<ClassificationEntity> findAll();
 		//查询上级分类编码
 		public List<ClassificationEntity> findSubClassiList();
+		//查询关键词分类编码
+		public List<ClassificationEntity> findKeyWordList();
 }

@@ -1,5 +1,7 @@
 package com.jy.pc.Service;
 
+import java.util.List;
+
 import com.jy.pc.Entity.AccountPowerInfoEntity;
 
 public interface AccountPowerInfoService {
@@ -13,6 +15,6 @@ public interface AccountPowerInfoService {
 	public void delete(String id);
 
 	// findById
-	public AccountPowerInfoEntity findAccountId(String accountId);
+	public List<AccountPowerInfoEntity> findAccountId(String accountId);
 
 }

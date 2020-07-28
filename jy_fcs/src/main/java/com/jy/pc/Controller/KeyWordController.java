@@ -17,7 +17,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
+import com.jy.pc.Entity.ClassificationEntity;
 import com.jy.pc.Entity.KeyWordEntity;
+import com.jy.pc.Service.ClassificationService;
 import com.jy.pc.Service.KeyWordService;
 
 @Controller
@@ -26,6 +28,8 @@ import com.jy.pc.Service.KeyWordService;
 public class KeyWordController {
 	@Autowired
 	private KeyWordService keyWordService;
+	@Autowired
+	private ClassificationService classificationService;
 
 	// 查询 分页
 		@RequestMapping(value = "/findByName")
@@ -52,6 +56,9 @@ public class KeyWordController {
 			Date date = new Date();
 			keyWordEntity.setCreateDate(date);
 			keyWordEntity.setAuditStatus("1");
+			ClassificationEntity classificationEntity = new ClassificationEntity();
+			classificationEntity = classificationService.findBId(keyWordEntity.getParentCode());
+			keyWordEntity.setParentName(classificationEntity.getCode());
 			keyWordService.save(keyWordEntity);
 			map.put("status", "0");
 			map.put("message", "添加成功");
@@ -68,6 +75,9 @@ public class KeyWordController {
 			KeyWordEntity keyWordEntity = jsonObject.toJavaObject(KeyWordEntity.class);
 			Date date = new Date();
 			keyWordEntity.setUpdateDate(date);
+			ClassificationEntity classificationEntity = new ClassificationEntity();
+			classificationEntity = classificationService.findBId(keyWordEntity.getParentCode());
+			keyWordEntity.setParentName(classificationEntity.getCode());
 			keyWordService.update(keyWordEntity);
 			map.put("status", "0");
 			map.put("message", "修改成功");

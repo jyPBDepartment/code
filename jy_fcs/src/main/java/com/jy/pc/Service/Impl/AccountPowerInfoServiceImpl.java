@@ -1,5 +1,7 @@
 package com.jy.pc.Service.Impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,7 +32,7 @@ public class AccountPowerInfoServiceImpl implements AccountPowerInfoService {
 	}
 
 	@Override
-	public AccountPowerInfoEntity findAccountId(String accountId) {
+	public List<AccountPowerInfoEntity> findAccountId(String accountId) {
 		return accountPowerInfoDao.findAccountId(accountId);
 	}
 

@@ -142,4 +142,20 @@ public class ClassificationController {
 				}
 				return map;
 			}
+			/**
+			 * 查询关键词分类编码列表
+			 * 
+			 * */
+			@RequestMapping(value = "/findKeyWordList")
+			public Map<String, Object> findKeyWordList(HttpServletRequest res, HttpServletResponse req) {
+				Map<String, Object> map = new HashMap<String, Object>();
+				 List<ClassificationEntity> classificat = classificationService.findKeyWordList();
+				if (classificat != null) {
+					map.put("state", "0");
+					map.put("data", classificat);
+				} else {
+					map.put("state", "1");
+				}
+				return map;
+			}
 }

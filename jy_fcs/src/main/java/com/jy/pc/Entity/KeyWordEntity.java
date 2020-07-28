@@ -28,9 +28,12 @@ public class KeyWordEntity {
 	// 关键词编码
 	@Column
 	private String code;
-	// 分类编码
+	// 分类Id
 	@Column
 	private String parentCode;
+	// 分类编码
+	@Column
+	private String parentName;
 	// 状态
 	@Column
 	private String auditStatus;
@@ -50,6 +53,14 @@ public class KeyWordEntity {
 	// 修改人
 	@Column
 	private String updateUser;
+
+	public String getParentName() {
+		return parentName;
+	}
+
+	public void setParentName(String parentName) {
+		this.parentName = parentName;
+	}
 
 	public String getId() {
 		return id;
