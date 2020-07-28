@@ -6,7 +6,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -18,17 +17,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
-import com.jy.pc.Entity.AccountInfoEntity;
-import com.jy.pc.Entity.AccountPowerInfoEntity;
 import com.jy.pc.Entity.PostInfoEntity;
 import com.jy.pc.Service.PostInfoService;
 
 @Controller
-@RequestMapping(value = "/invitation")
+@RequestMapping(value = "/postInfo")
 @ResponseBody
 public class PostInfoController {
 	@Autowired
-	private PostInfoService invitstionServie;
+	private PostInfoService postInfoService;
 	// 查询 分页
 		@RequestMapping(value = "/findByName")
 		public Map<String, Object> findByName(HttpServletRequest res, HttpServletResponse req,
@@ -38,7 +35,7 @@ public class PostInfoController {
 
 			Map<String, Object> map = new HashMap<String, Object>();
 			Pageable pageable = new PageRequest(page - 1, size);
-			Page<PostInfoEntity> invitationList = invitstionServie.findListByName(name, createUser, pageable);
+			Page<PostInfoEntity> invitationList = postInfoService.findListByName(name, createUser, pageable);
 			map.put("status", "0");// 成功
 			map.put("message", "查询成功");
 			map.put("data", invitationList);
@@ -50,7 +47,7 @@ public class PostInfoController {
 		public Map<String, Object> findById(HttpServletRequest res, HttpServletResponse req,
 				@RequestParam(name = "id") String id) {
 			Map<String, Object> map = new HashMap<String, Object>();
-			PostInfoEntity invitationEntity = invitstionServie.findId(id);
+			PostInfoEntity invitationEntity = postInfoService.findId(id);
 			if (invitationEntity != null) {
 				map.put("status", "0");
 				map.put("data", invitationEntity);
@@ -63,25 +60,54 @@ public class PostInfoController {
 		// 启用/禁用
 		@RequestMapping(value = "/enable")
 		public Map<String, String> opensulf(HttpServletRequest res, HttpServletResponse req,
-				@RequestParam(name = "auditStatus") String auditStatus, @RequestParam(name = "id") String id) {
+				@RequestParam(name = "status") String status, @RequestParam(name = "id") String id) {
 
 			Map<String, String> map = new HashMap<String, String>();
-			PostInfoEntity invitationEntity = invitstionServie.findId(id);
-			invitationEntity.setAuditStatus(auditStatus);
-			invitationEntity.getAuditStatus();
+			PostInfoEntity invitationEntity = postInfoService.findId(id);
+			invitationEntity.setStatus(status);
+			invitationEntity.getStatus();
 			Date date = new Date();
-			if (auditStatus.equals("0")) {
-				invitationEntity.setAuditStatus("0");
+			if (status.equals("0")) {
+				invitationEntity.setStatus("0");
 				invitationEntity.setUpdateDate(date);
 				map.put("status", "0");
 				map.put("message", "启用成功");
-			} else if (auditStatus.equals("1")) {
-				invitationEntity.setAuditStatus("1");
+			} else if (status.equals("1")) {
+				invitationEntity.setStatus("1");
 				invitationEntity.setUpdateDate(date);
 				map.put("status", "1");
 				map.put("message", "禁用成功");
 			}
-			invitstionServie.update(invitationEntity);
+			postInfoService.update(invitationEntity);
+			return map;
+		}
+		// 审核通过
+		@RequestMapping(value = "/passPostInfo")
+		public Map<String, String> passPostInfo(HttpServletRequest res, HttpServletResponse req) {
+
+			Map<String, String> map = new HashMap<String, String>();
+			String s = res.getParameter("postInfoEntity");
+			JSONObject jsonObject = JSONObject.parseObject(s);
+			PostInfoEntity postInfoEntity = jsonObject.toJavaObject(PostInfoEntity.class);
+			postInfoEntity.setAuditStatus("2");
+			postInfoService.update(postInfoEntity);		
+			map.put("state", "0");
+			map.put("message", "审核通过");
+			return map;
+		}
+				
+		// 审核拒绝
+		@RequestMapping(value = "/refusePostInfo")
+		public Map<String, String> refusePostInfo(HttpServletRequest res, HttpServletResponse req) {
+
+			Map<String, String> map = new HashMap<String, String>();
+			String s = res.getParameter("postInfoEntity");
+			JSONObject jsonObject = JSONObject.parseObject(s);
+			PostInfoEntity postInfoEntity = jsonObject.toJavaObject(PostInfoEntity.class);
+			postInfoEntity.setAuditStatus("3");
+			postInfoService.update(postInfoEntity);		
+			map.put("state", "0");
+			map.put("message", "审核驳回");
 			return map;
 		}
 

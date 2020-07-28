@@ -14,7 +14,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 @Entity
-@Table(name="sas_invitation")
+@Table(name="sas_post_info")
 public class PostInfoEntity {
 	@Id
 	@GeneratedValue(generator = "uuid")
@@ -47,6 +47,15 @@ public class PostInfoEntity {
 	private String createUser;//发布人
 	@Column(length=36)
 	private String auditUser;//审核人
+	@Column
+	private String status;  //状态
+	
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
 	public String getId() {
 		return id;
 	}
