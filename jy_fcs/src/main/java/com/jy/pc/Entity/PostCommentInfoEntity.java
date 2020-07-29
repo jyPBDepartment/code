@@ -42,7 +42,7 @@ public class PostCommentInfoEntity {
 	private String status;
 	
 	// 外键id - 帖子信息
-	@ManyToOne(optional=false)//可选属性optional=false,表示author不能为空。删除文章，不影响用户
+	@ManyToOne(optional=false)
     @JoinColumn(name="postId", referencedColumnName = "id")
 	private PostInfoEntity postInfoEntity;
 
