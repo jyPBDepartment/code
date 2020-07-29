@@ -143,13 +143,29 @@ public class ClassificationController {
 				return map;
 			}
 			/**
-			 * 查询上级分类编码列表
+			 * 查询病虫害分类编码列表
 			 * 
 			 * */
 			@RequestMapping(value = "/findDipList")
 			public Map<String, Object> findDipList(HttpServletRequest res, HttpServletResponse req) {
 				Map<String, Object> map = new HashMap<String, Object>();
 				 List<ClassificationEntity> classificat = classificationService.findDipList();
+				if (classificat != null) {
+					map.put("state", "0");
+					map.put("data", classificat);
+				} else {
+					map.put("state", "1");
+				}
+				return map;
+			}
+			/**
+			 * 查询农作物种类分类编码列表
+			 * 
+			 * */
+			@RequestMapping(value = "/findCaseList")
+			public Map<String, Object> findCaseList(HttpServletRequest res, HttpServletResponse req) {
+				Map<String, Object> map = new HashMap<String, Object>();
+				 List<ClassificationEntity> classificat = classificationService.findCaseList();
 				if (classificat != null) {
 					map.put("state", "0");
 					map.put("data", classificat);

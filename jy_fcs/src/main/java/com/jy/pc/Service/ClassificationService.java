@@ -26,4 +26,6 @@ public interface ClassificationService {
 		public List<ClassificationEntity> findKeyWordList();
 		//查询dip分类编码
 		public List<ClassificationEntity> findDipList();
+		//查询农作物种类
+		public List<ClassificationEntity> findCaseList();
 }

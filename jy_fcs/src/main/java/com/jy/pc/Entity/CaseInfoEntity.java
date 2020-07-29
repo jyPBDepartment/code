@@ -27,13 +27,13 @@ public class CaseInfoEntity {
 	@Column
 	private String url;//图片
 	@Column(length=36)
-	private String classiCode;//农作物种类编码
+	private String classiCode;//农作物种类编码分类
 	@Column
 	private String cropsTypeCode;//农作物种类编码
 	@Column(length=36)
 	private String dipTypeCode;//病虫害种类编码
 	@Column
-	private String classiDipCode;//农作物种类编码
+	private String classiDipCode;//农作物种类编码分类
 	@Column(length=255)
 	private String describetion;//描述
 	@Column(length=1)

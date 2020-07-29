@@ -13,51 +13,53 @@ import com.jy.pc.Entity.PowerInfoEntity;
 import com.jy.pc.Service.ClassificationService;
 
 @Service
-public class ClassificationServiceImpl implements ClassificationService{
+public class ClassificationServiceImpl implements ClassificationService {
 
 	@Autowired
 	private ClassificationDao classificationDao;
+
 	@Override
 	public ClassificationEntity save(ClassificationEntity classificationEntity) {
-		
+
 		return classificationDao.saveAndFlush(classificationEntity);
 	}
 
 	@Override
 	public ClassificationEntity update(ClassificationEntity classificationEntity) {
-		
+
 		return classificationDao.saveAndFlush(classificationEntity);
 	}
 
 	@Override
 	public void delete(String id) {
-		
+
 		classificationDao.deleteById(id);
 	}
 
 	@Override
 	public ClassificationEntity findBId(String id) {
-		
+
 		return classificationDao.findBId(id);
 	}
 
 	@Override
 	public Page<ClassificationEntity> findListByName(String name, String code, Pageable pageable) {
-		String classiName = "%"+name+"%";
-		String classiCode = "%"+code+"%";
+		String classiName = "%" + name + "%";
+		String classiCode = "%" + code + "%";
 		return classificationDao.findListByName(classiName, classiCode, pageable);
 	}
 
 	@Override
 	public List<ClassificationEntity> findAll() {
 		return classificationDao.findAll();
-		
+
 	}
-	//上级分类编码
+
+	// 上级分类编码
 	@Override
 	public List<ClassificationEntity> findSubClassiList() {
 		return classificationDao.findSubClassiList();
-		
+
 	}
 
 	@Override
@@ -65,10 +67,17 @@ public class ClassificationServiceImpl implements ClassificationService{
 		return classificationDao.findKeyWordList();
 	}
 
+	//病虫害种类
 	@Override
 	public List<ClassificationEntity> findDipList() {
-		
+
 		return classificationDao.findDipList();
 	}
 
+	//农作物分类
+	@Override
+	public List<ClassificationEntity> findCaseList() {
+
+		return classificationDao.findCaseList();
+	}
 }
