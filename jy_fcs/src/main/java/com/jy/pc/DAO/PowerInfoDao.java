@@ -30,6 +30,6 @@ public interface PowerInfoDao extends JpaRepository<PowerInfoEntity,String>{
 		@Query(value="select * from sas_power_info t where t.audit_status ='1'",nativeQuery = true)
 		public List<PowerInfoEntity> findCount();
 	//删除前查询
-		@Query(value="select distinct t.id,t.create_date,t.update_date,t.jur_name,t.jur_code,t.sub_jur_code,t.create_user,t.update_user,t.audit_status  from  sas_power_info t where t.id not in (select w.jur_id from sas_account_info w)",nativeQuery = true)
+		@Query(value="select distinct t.id,t.create_date,t.update_date,t.jur_name,t.jur_code,t.sub_jur_code,t.create_user,t.update_user,t.audit_status  from  sas_power_info t where t.id not in (select w.jur_codel from sas_account_power_info w)",nativeQuery = true)
 		public List<PowerInfoEntity> findAccountLink();
 }
