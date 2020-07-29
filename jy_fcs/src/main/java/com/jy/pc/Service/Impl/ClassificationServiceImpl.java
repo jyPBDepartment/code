@@ -65,4 +65,10 @@ public class ClassificationServiceImpl implements ClassificationService{
 		return classificationDao.findKeyWordList();
 	}
 
+	@Override
+	public List<ClassificationEntity> findDipList() {
+		
+		return classificationDao.findDipList();
+	}
+
 }

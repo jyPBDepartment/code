@@ -32,46 +32,26 @@ public class CaseInfoController {
 	@Autowired
 	private ClassificationService classificationService;
 	
-	//添加
-//	@RequestMapping(value = "save")
-//	public Map<String, String> save(HttpServletRequest res, HttpServletResponse req) {
-//		Map<String, String> map = new HashMap<String, String>();
-//		String s = res.getParameter("caseInfoEntity");
-//		JSONObject jsonObject = JSONObject.parseObject(s);
-//		Date date = new Date();
-//		CaseInfoEntity caseInfoEntity = jsonObject.toJavaObject(CaseInfoEntity.class);
-//		caseInfoEntity.setCreateDate(date);
-//		caseInfoService.save(caseInfoEntity);
-//		map.put("message", "添加成功");
-//		return map;
-//	}
-	// 农服添加
+	// 添加
 
 	@RequestMapping(value = "/save")
 
-	public Map<String, Object> save(HttpServletRequest res, HttpServletResponse req) {
-
+	public Map<String, String> save(HttpServletRequest res, HttpServletResponse req) {
+		Map<String, String> map = new HashMap<String, String>();
 		String s = res.getParameter("caseInfoEntity");
 		JSONObject jsonObject = JSONObject.parseObject(s);
-
 		Date date = new Date();
-
 		CaseInfoEntity caseInfoEntity = jsonObject.toJavaObject(CaseInfoEntity.class);
 		caseInfoEntity.setCreateDate(date);
-
-		ClassificationEntity classificationEntity = new ClassificationEntity();
-		classificationEntity = classificationService.findBId(caseInfoEntity.getClassiCode());
+		ClassificationEntity classificationEntity = classificationService.findBId(caseInfoEntity.getClassiCode());
 		caseInfoEntity.setCropsTypeCode(classificationEntity.getCode());
 		
-		classificationEntity = classificationService.findBId(caseInfoEntity.getDipTypeCode());
-		caseInfoEntity.setDipTypeCode(classificationEntity.getCode());
-
-		Map<String, Object> map = new HashMap<String, Object>();
-
+		ClassificationEntity classification = classificationService.findBId(caseInfoEntity.getClassiDipCode());
+		caseInfoEntity.setDipTypeCode(classification.getCode());
 		try {
 			caseInfoService.save(caseInfoEntity);
 			map.put("state", "0");
-			map.put("data", caseInfoEntity);
+//			map.put("data", caseInfoEntity);
 			map.put("message", "添加成功");
 		} catch (Exception e) {
 			map.put("state", "1");

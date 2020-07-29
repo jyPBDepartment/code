@@ -24,6 +24,9 @@ public interface ClassificationDao extends JpaRepository<ClassificationEntity	,S
 	//查询分类编码
 	@Query(value="select * from sas_classification_info t where t.parent_code ='' AND t.status ='1'",nativeQuery = true)
 	public List<ClassificationEntity> findSubClassiList();
+	//查询分类编码
+		@Query(value="select * from sas_classification_info t where t.parent_code ='' AND t.status ='1'",nativeQuery = true)
+		public List<ClassificationEntity> findDipList();
 	//查询关键词分类编码
 	@Query(value="select * from sas_classification_info t where t.parent_code ='402881e5738f91ee01738fad7b800001' AND t.status ='1'",nativeQuery = true)
 	public List<ClassificationEntity> findKeyWordList();
