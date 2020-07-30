@@ -2,6 +2,7 @@ package com.jy.pc.Controller;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.jy.pc.Entity.MenuEntity;
 import com.jy.pc.Service.MenuService;
+import com.jy.pc.Service.RoleMenuRelationService;
 
 @Controller
 @RequestMapping(value = "/menu")
@@ -25,14 +27,14 @@ import com.jy.pc.Service.MenuService;
 public class MenuController {
 	@Autowired
 	private MenuService menuService;
+	@Autowired
+	private RoleMenuRelationService roleMenuRelationService;
 	@RequestMapping(value = "/findByName")
 	public Map<String, Object> findByName(HttpServletRequest res, HttpServletResponse req,
-			@RequestParam(name = "name") String name, @RequestParam(name = "page") Integer page,
-			@RequestParam(name = "size") Integer size) {
+			@RequestParam(name = "name") String name) {
 
 		Map<String, Object> map = new HashMap<String, Object>();
-		Pageable pageable = new PageRequest(page - 1, size);
-		Page<MenuEntity> roleList = menuService.findListByName(name, pageable);
+		List<MenuEntity> roleList = menuService.findListByName(name);
 		map.put("status", "0");// 成功
 		map.put("message", "查询成功");
 		map.put("data", roleList);
@@ -74,4 +76,41 @@ public class MenuController {
 		menuService.update(menuEntity);
 		return map;
 	}
+	
+	@RequestMapping(value = "/changeSort")
+	public Map<String, String> changeMenuSort(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "id") String id, @RequestParam(name = "sort") int sort) {
+
+		Map<String, String> map = new HashMap<String, String>();
+		MenuEntity menuEntity  = menuService.findId(id);
+		Date date = new Date();
+		menuEntity.setSort(sort);
+		menuEntity.setUpdDate(date);
+		menuService.update(menuEntity);
+		return map;
+	}
+	
+	@RequestMapping(value = "/delete")
+	public Map<String, String> deleteMenu(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "id") String id){
+		Map<String, String> map = new HashMap<String, String>();
+		//判断是否存在子菜单
+		if(menuService.hasSubMenu(id)) {
+			map.put("status", "1");
+			map.put("message", "该菜单下存在子菜单，不可直接删除！");
+			return map;
+		}
+		//判断该菜单是否已有角色挂载
+		if(roleMenuRelationService.hasRelationByMenu(id)) {
+			map.put("status", "2");
+			map.put("message", "已有角色挂载该菜单，不可直接删除！");
+			return map;
+		}
+		//执行删除操作,删除改菜单
+		menuService.delete(id);
+		map.put("status", "0");
+		map.put("message", "删除成功！");
+		return map;
+	}
+	
 }

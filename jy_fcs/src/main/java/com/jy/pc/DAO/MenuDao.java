@@ -1,5 +1,7 @@
 package com.jy.pc.DAO;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -8,10 +10,13 @@ import org.springframework.data.repository.query.Param;
 
 import com.jy.pc.Entity.MenuEntity;
 
-public interface MenuDao extends JpaRepository<MenuEntity,String>{
-	@Query(value="select * from sas_menu t where t.id =:id",nativeQuery = true)
-	public MenuEntity findId(@Param("id")String id);
-	@Query(value="select * from sas_menu t where if(?1 !='',t.name like ?1,1=1) order by t.add_date desc",
-			countQuery="select count(*) from sas_menu t where if(?1 !='',t.name like ?1,1=1) order by t.add_date desc",nativeQuery = true)
-	public Page<MenuEntity> findListByName(String name,Pageable pageable);
+public interface MenuDao extends JpaRepository<MenuEntity, String> {
+	@Query(value = "select * from sas_menu t where t.id =:id", nativeQuery = true)
+	public MenuEntity findId(@Param("id") String id);
+
+	@Query(value = "select a.* from sas_menu a where FIND_IN_SET(a.id,getParentList((select group_concat(t.id) from sas_menu t where if(?1 !='',t.name like ?1,1=1))))", nativeQuery = true)
+	public List<MenuEntity> findListByName(String name);
+
+	@Query(value = "select count(0) from sas_menu t where t.parent_id =:parentId", nativeQuery = true)
+	public int findSubMenuCount(@Param("parentId") String parentId);
 }

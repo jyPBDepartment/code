@@ -1,5 +1,7 @@
 package com.jy.pc.Service.Impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,9 +16,9 @@ public class MenuServiceImpl implements MenuService{
 	@Autowired
 	MenuDao menuDao;
 	@Override
-	public Page<MenuEntity> findListByName(String name, Pageable pageable) {
+	public List<MenuEntity> findListByName(String name) {
 		String nameParam = "%"+name+"%";
-		return menuDao.findListByName(nameParam, pageable);
+		return menuDao.findListByName(nameParam);
 	}
 
 	@Override
@@ -37,6 +39,12 @@ public class MenuServiceImpl implements MenuService{
 	@Override
 	public MenuEntity findId(String id) {
 		return menuDao.findId(id);
+	}
+
+	@Override
+	public boolean hasSubMenu(String parentId) {
+		int count = menuDao.findSubMenuCount(parentId);
+		return count > 0 ? true : false;
 	}
 
 }

@@ -29,4 +29,10 @@ public interface RoleMenuRelationService {
 
 	// 查询关联表数据合法性
 	public int checkRealtion(String roleId, String menuId);
+
+	// 查询菜单挂载情况
+	public boolean hasRelationByMenu(String menuId);
+
+	// 查询角色挂载情况
+	public boolean hasRelationByRole(String roleId);
 }

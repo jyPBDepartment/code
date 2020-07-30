@@ -51,4 +51,14 @@ public class RoleMenuRelationImpl implements RoleMenuRelationService{
 		return roleMenuRelationDao.checkRealtion(roleId, menuId);
 	}
 
+	@Override
+	public boolean hasRelationByMenu(String menuId) {
+		return roleMenuRelationDao.hasRelationByMenu(menuId)>0?true:false;
+	}
+
+	@Override
+	public boolean hasRelationByRole(String roleId) {
+		return roleMenuRelationDao.hasRelationByRole(roleId)>0?true:false;
+	}
+
 }
