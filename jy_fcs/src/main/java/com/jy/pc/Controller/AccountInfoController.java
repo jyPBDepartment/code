@@ -2,8 +2,10 @@ package com.jy.pc.Controller;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.jy.pc.Entity.AccountInfoEntity;
 import com.jy.pc.Entity.AccountPowerInfoEntity;
@@ -25,6 +28,7 @@ import com.jy.pc.Entity.PowerInfoEntity;
 import com.jy.pc.Service.AccountInfoService;
 import com.jy.pc.Service.AccountPowerInfoService;
 import com.jy.pc.Service.PowerInfoService;
+import com.jy.pc.Utils.Aes;
 
 @Controller
 @RequestMapping(value = "/accountInfo")
@@ -45,13 +49,18 @@ public class AccountInfoController {
 
 		Map<String, String> map = new HashMap<String, String>();
 		Boolean flag = accountInfoService.checkUser(name, password);
-			if (flag) {
-				map.put("status", "1");
-				map.put("message", "登陆成功");
-			} else {
+		AccountInfoEntity accountInfoEntity = accountInfoService.findUserInfo(name, password);
+		if (flag) {
+			if(accountInfoEntity.getAuditStatus().equals("0")) {
 				map.put("status", "0");
-				map.put("message", "用户不存在或密码不正确！");
+				map.put("message", "登陆成功");
+			}else {
+				map.put("message", "该账户已被禁用!");
 			}
+		} else {
+			map.put("status", "1");
+			map.put("message", "用户不存在或密码不正确！");
+		}
 		return map;
 	}
 
@@ -81,15 +90,7 @@ public class AccountInfoController {
 		Date date = new Date();
 		accountInfoEntity.setCreateDate(date);
 		accountInfoEntity.setAuditStatus("1");
-		
-		//角色权限连接表实体
-//		AccountPowerInfoEntity accountPowerInfoEntity = new AccountPowerInfoEntity();
 		accountInfoService.save(accountInfoEntity);
-		//添加角色权限关联表
-//		accountPowerInfoEntity.setAccountId(accountInfo.getId());
-//		accountPowerInfoEntity.setJurCodel(accountInfoEntity.getJurId());
-//		powerInfoService.findBId(accountInfoEntity.getJurId());
-//		accountPowerInfoService.save(accountPowerInfoEntity);
 		map.put("status", "0");
 		map.put("message", "添加成功");
 		return map;
@@ -195,16 +196,58 @@ public class AccountInfoController {
 		
 		// 权限修改
 		@RequestMapping(value = "/updatePower")
-		public Map<String, String> updatePower(HttpServletRequest res, HttpServletResponse req) {
+		public Map<String, String> updatePower(HttpServletRequest res, HttpServletResponse req,
+				@RequestParam(name = "accountId") String accountId,
+				@RequestParam(name = "addItem") String addItem,
+				@RequestParam(name = "deleteItem") String deleteItem) {
 
 			Map<String, String> map = new HashMap<String, String>();
-			String s = res.getParameter("accountInfoEntity");
-			JSONObject jsonObject = JSONObject.parseObject(s);
-			AccountPowerInfoEntity accountPowerInfoEntity = jsonObject.toJavaObject(AccountPowerInfoEntity.class);
-			accountPowerInfoService.update(accountPowerInfoEntity);		
+			AccountPowerInfoEntity accountPowerInfoEntity = new AccountPowerInfoEntity();
+			Aes aes = new Aes();
+			String ad = "";
+			String de = "";
+			try {
+				if(!addItem.isEmpty()) {
+					ad = aes.desEncrypt(addItem);
+					JSONArray jsonObject = JSONObject.parseArray(ad);
+					Set set = new HashSet();
+					for(int i=0;i<jsonObject.size();i++) {
+						set.add(jsonObject.get(i));
+					}
+					for(int j=0;j<jsonObject.size();j++) {
+						accountPowerInfoEntity.setAccountId(accountId);
+						accountPowerInfoEntity.setJurCodel(jsonObject.get(j).toString());
+						accountPowerInfoService.update(accountPowerInfoEntity);
+					}
+					
+				}
+				if(!deleteItem.isEmpty()) {
+					de = aes.desEncrypt(deleteItem);
+					JSONArray jsonObject = JSONObject.parseArray(de);
+					Set set = new HashSet();
+					for(int i=0;i<jsonObject.size();i++) {
+						set.add(jsonObject.get(i));
+					}
+					for(int j=0;j<jsonObject.size();j++) {
+						accountPowerInfoService.deleteByJurCode(accountId);
+					}
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			
 			map.put("status", "0");
 			map.put("message", "修改成功");
 			return map;
 		}
-
+		// 查询
+		@RequestMapping(value = "/findId")
+		public Map<String, Object> findId(HttpServletRequest res, HttpServletResponse req,
+				@RequestParam(name = "accountId") String accountId,@RequestParam(name = "jurCodel") String jurCodel) {
+			Map<String, Object> map = new HashMap<String, Object>();
+			accountPowerInfoService.findId(accountId, jurCodel);
+			map.put("state", "0");
+			return map;
+		}
 }

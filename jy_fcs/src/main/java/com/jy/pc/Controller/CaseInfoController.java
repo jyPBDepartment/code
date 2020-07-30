@@ -43,6 +43,7 @@ public class CaseInfoController {
 		Date date = new Date();
 		CaseInfoEntity caseInfoEntity = jsonObject.toJavaObject(CaseInfoEntity.class);
 		caseInfoEntity.setCreateDate(date);
+		
 		ClassificationEntity classificationEntity = classificationService.findBId(caseInfoEntity.getClassiCode());
 		caseInfoEntity.setCropsTypeCode(classificationEntity.getCode());
 		
@@ -51,7 +52,7 @@ public class CaseInfoController {
 		try {
 			caseInfoService.save(caseInfoEntity);
 			map.put("state", "0");
-//			map.put("data", caseInfoEntity);
+
 			map.put("message", "添加成功");
 		} catch (Exception e) {
 			map.put("state", "1");
@@ -73,7 +74,7 @@ public class CaseInfoController {
 		}
 		return map;
 	}
-	// 分类修改
+	// 修改
 	@RequestMapping(value = "update")
 	public Map<String, String> update(HttpServletRequest res, HttpServletResponse req) {
 		Map<String, String> map = new HashMap<String, String>();
@@ -82,12 +83,18 @@ public class CaseInfoController {
 		Date date = new Date();
 		CaseInfoEntity caseInfoEntity = jsonObject.toJavaObject(CaseInfoEntity.class);
 		caseInfoEntity.setUpdateDate(date);
+		
+		ClassificationEntity classificationEntity = classificationService.findBId(caseInfoEntity.getClassiCode());
+		caseInfoEntity.setCropsTypeCode(classificationEntity.getCode());
+		
+		ClassificationEntity classification = classificationService.findBId(caseInfoEntity.getClassiDipCode());
+		caseInfoEntity.setDipTypeCode(classification.getCode());
 		caseInfoService.update(caseInfoEntity);
 		map.put("message", "修改成功");
 		return map;
 	}
 
-	// 分类删除
+	// 删除
 	@RequestMapping(value = "delete")
 	public Map<String, Object> delete(HttpServletRequest res, HttpServletResponse req,
 			@RequestParam(name = "id") String id) {
@@ -99,7 +106,7 @@ public class CaseInfoController {
 	}
 	
 
-	// 分类模糊查询与分页
+	// 模糊查询与分页
 	@RequestMapping(value = "/findByName")
 	public Map<String, Object> findByName(HttpServletRequest res, HttpServletResponse req,
 			@RequestParam(name = "name") String name,@RequestParam(name = "auditStatus") String auditStatus, 

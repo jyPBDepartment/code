@@ -52,4 +52,9 @@ public class AccountInfoServiceImpl implements AccountInfoService{
 	public AccountInfoEntity findId(String id) {
 		return accountInfoDao.findId(id);
 	}
+
+	@Override
+	public AccountInfoEntity findUserInfo(String name, String password) {
+		return accountInfoDao.findUserInfo(name, password);
+	}
 }

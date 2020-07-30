@@ -17,7 +17,7 @@ public interface ClassificationService {
 		//分类findById
 		public ClassificationEntity findBId(String id);
 		//分类分页与模糊查询
-		public Page<ClassificationEntity> findListByName(String name,String code,Pageable pageable);
+		public Page<ClassificationEntity> findListByName(String code,Pageable pageable);
 		//分类findAll()
 		public List<ClassificationEntity> findAll();
 		//查询上级分类编码
@@ -28,4 +28,10 @@ public interface ClassificationService {
 		public List<ClassificationEntity> findDipList();
 		//查询农作物种类
 		public List<ClassificationEntity> findCaseList();
+		//删除前查询验证农作物
+		public List<ClassificationEntity> findCropLink();
+		//删除前查询验证病虫害
+		public List<ClassificationEntity> findDipLink();
+		//删除前查询验证关键词
+		public List<ClassificationEntity> findKeywordLink();
 }

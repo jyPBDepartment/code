@@ -19,5 +19,6 @@ public interface AccountInfoService {
 	public void delete(String id);
 	//findbyid
 	public AccountInfoEntity findId(String id);
+	public AccountInfoEntity findUserInfo(String name, String password);
 
 }
