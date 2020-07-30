@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import com.jy.pc.DAO.ClassificationDao;
 import com.jy.pc.Entity.ClassificationEntity;
-import com.jy.pc.Entity.PowerInfoEntity;
 import com.jy.pc.Service.ClassificationService;
 
 @Service
@@ -43,10 +42,11 @@ public class ClassificationServiceImpl implements ClassificationService {
 	}
 
 	@Override
-	public Page<ClassificationEntity> findListByName(String name, String code, Pageable pageable) {
-		String classiName = "%" + name + "%";
+	public Page<ClassificationEntity> findListByName( String code, Pageable pageable) {
+		
 		String classiCode = "%" + code + "%";
-		return classificationDao.findListByName(classiName, classiCode, pageable);
+		
+		return classificationDao.findListByName( classiCode, pageable);
 	}
 
 	@Override
@@ -79,5 +79,23 @@ public class ClassificationServiceImpl implements ClassificationService {
 	public List<ClassificationEntity> findCaseList() {
 
 		return classificationDao.findCaseList();
+	}
+	//分类看图识病农作物删除
+	@Override
+	public List<ClassificationEntity> findCropLink() {
+		
+		return classificationDao.findCropLink();
+	}
+	//分类看图识病病虫害删除
+	@Override
+	public List<ClassificationEntity> findDipLink() {
+		
+		return classificationDao.findDipLink();
+	}
+	//分类看图识病关键词删除
+	@Override
+	public List<ClassificationEntity> findKeywordLink() {
+	
+		return classificationDao.findKeywordLink();
 	}
 }
