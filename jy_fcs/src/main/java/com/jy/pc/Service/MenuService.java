@@ -1,6 +1,7 @@
 package com.jy.pc.Service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -25,4 +26,7 @@ public interface MenuService {
 	
 	// 查询是否有子菜单
 	public boolean hasSubMenu(String parentId);
+	
+	//获取菜单树
+	public List<Map<String,Object>> findTree();
 }

@@ -17,9 +17,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSONObject;
 import com.jy.pc.Entity.MenuEntity;
 import com.jy.pc.Service.MenuService;
 import com.jy.pc.Service.RoleMenuRelationService;
+import com.jy.pc.Utils.Aes;
+import com.mysql.cj.util.StringUtils;
 
 @Controller
 @RequestMapping(value = "/menu")
@@ -113,4 +116,44 @@ public class MenuController {
 		return map;
 	}
 	
+	@RequestMapping(value="/findTree")
+	public Map<String, Object> findTree(HttpServletRequest res, HttpServletResponse req) {
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		List<Map<String,Object>> menuTree = menuService.findTree();
+		map.put("status", "0");// 成功
+		map.put("message", "查询成功");
+		map.put("data", menuTree);
+		return map;
+	}
+	
+	@RequestMapping(value="/save")
+	public Map<String, String> save(HttpServletRequest res, HttpServletResponse req) {
+		Map<String, String> map = new HashMap<String, String>();
+		String s = res.getParameter("menuEntity");
+		Aes aes = new Aes();
+		String a = "";
+		try {
+			a = aes.desEncrypt(s);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		JSONObject jsonObject = JSONObject.parseObject(a);
+		MenuEntity menuEntity = jsonObject.toJavaObject(MenuEntity.class);
+		Date date = new Date();
+		menuEntity.setUpdDate(date);
+		if(StringUtils.isNullOrEmpty(menuEntity.getId())) {
+			menuEntity.setStatus("0");
+			menuEntity.setAddDate(date);
+		}
+		if(StringUtils.isNullOrEmpty(menuEntity.getParentId())) {
+			menuEntity.setLevel(0);
+		}else {
+			menuEntity.setLevel(menuService.findId(menuEntity.getParentId()).getLevel() + 1);
+		}
+		menuService.save(menuEntity);
+		map.put("status", "0");
+		map.put("message", "保存成功");
+		return map;
+	}
 }

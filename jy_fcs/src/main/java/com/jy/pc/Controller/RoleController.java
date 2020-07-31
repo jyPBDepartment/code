@@ -110,25 +110,6 @@ public class RoleController {
 		map.put("message", "保存成功");
 		return map;
 	}
-	
-	// 角色保存
-		@RequestMapping(value = "/save2")
-		public Map<String, String> save2(HttpServletRequest res, HttpServletResponse req) {
-			Map<String, String> map = new HashMap<String, String>();
-			String s = res.getParameter("roleEntity");
-			JSONObject jsonObject = JSONObject.parseObject(s);
-			RoleEntity roleEntity = jsonObject.toJavaObject(RoleEntity.class);
-			Date date = new Date();
-			roleEntity.setUpdDate(date);
-			roleEntity.setStatus("0");
-			if(StringUtils.isNullOrEmpty(roleEntity.getId())) {
-				roleEntity.setAddDate(date);
-			}
-			roleService.save(roleEntity);
-			map.put("status", "0");
-			map.put("message", "保存成功");
-			return map;
-		}
 
 	// 关键字删除
 	@RequestMapping(value = "/delete")

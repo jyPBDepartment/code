@@ -1,9 +1,8 @@
 package com.jy.pc.DAO;
 
 import java.util.List;
+import java.util.Map;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -19,4 +18,7 @@ public interface MenuDao extends JpaRepository<MenuEntity, String> {
 
 	@Query(value = "select count(0) from sas_menu t where t.parent_id =:parentId", nativeQuery = true)
 	public int findSubMenuCount(@Param("parentId") String parentId);
+
+	@Query(value = "select id,name,parent_id,level from sas_menu", nativeQuery = true)
+	public List<Map<String,Object>> findTree();
 }

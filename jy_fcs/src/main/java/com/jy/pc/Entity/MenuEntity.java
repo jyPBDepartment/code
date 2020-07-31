@@ -36,6 +36,8 @@ public class MenuEntity {
 	private String name;// 菜单名称
 	@Column(length = 1)
 	private String status;// 状态 - 0启用1禁用
+	@Column(length=255)
+	private String icon;//图标
 	@Column
 	private int sort;//排序 - 数值越小优先级越高
 	@Column(length=255)
@@ -43,7 +45,7 @@ public class MenuEntity {
 	@Column(length=64)
 	private String perssions;//权限标识 - 用于按钮级
 	@Column
-	private int type;//类型 - 1目录2菜单3按钮
+	private int menuType;//类型 - 1目录2菜单3按钮
 	@Column(length=36)
 	private String parentId;//父级id
 	@Column
@@ -98,11 +100,12 @@ public class MenuEntity {
 	public void setPerssions(String perssions) {
 		this.perssions = perssions;
 	}
-	public int getType() {
-		return type;
+	
+	public int getMenuType() {
+		return menuType;
 	}
-	public void setType(int type) {
-		this.type = type;
+	public void setMenuType(int menuType) {
+		this.menuType = menuType;
 	}
 	public String getParentId() {
 		return parentId;
@@ -121,6 +124,12 @@ public class MenuEntity {
 	}
 	public void setRelations(List<RoleMenuRelationEntity> relations) {
 		this.relations = relations;
+	}
+	public String getIcon() {
+		return icon;
+	}
+	public void setIcon(String icon) {
+		this.icon = icon;
 	}
 	
 }

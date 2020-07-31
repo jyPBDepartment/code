@@ -1,6 +1,7 @@
 package com.jy.pc.Service.Impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -45,6 +46,11 @@ public class MenuServiceImpl implements MenuService{
 	public boolean hasSubMenu(String parentId) {
 		int count = menuDao.findSubMenuCount(parentId);
 		return count > 0 ? true : false;
+	}
+
+	@Override
+	public List<Map<String,Object>> findTree() {
+		return menuDao.findTree();
 	}
 
 }
