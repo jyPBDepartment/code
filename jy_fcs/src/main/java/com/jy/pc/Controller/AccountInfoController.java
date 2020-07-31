@@ -198,8 +198,7 @@ public class AccountInfoController {
 		@RequestMapping(value = "/updatePower")
 		public Map<String, String> updatePower(HttpServletRequest res, HttpServletResponse req,
 				@RequestParam(name = "accountId") String accountId,
-				@RequestParam(name = "addItem") String addItem,
-				@RequestParam(name = "deleteItem") String deleteItem) {
+				@RequestParam(name = "addItem") String addItem) {
 
 			Map<String, String> map = new HashMap<String, String>();
 			AccountPowerInfoEntity accountPowerInfoEntity = new AccountPowerInfoEntity();
@@ -221,33 +220,45 @@ public class AccountInfoController {
 					}
 					
 				}
-				if(!deleteItem.isEmpty()) {
-					de = aes.desEncrypt(deleteItem);
-					JSONArray jsonObject = JSONObject.parseArray(de);
-					Set set = new HashSet();
-					for(int i=0;i<jsonObject.size();i++) {
-						set.add(jsonObject.get(i));
-					}
-					for(int j=0;j<jsonObject.size();j++) {
-						accountPowerInfoService.deleteByJurCode(accountId);
-					}
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			
-			
+				   } catch (Exception e) {
+				    e.printStackTrace();
+				   }	
 			map.put("status", "0");
 			map.put("message", "修改成功");
 			return map;
 		}
-		// 查询
-		@RequestMapping(value = "/findId")
-		public Map<String, Object> findId(HttpServletRequest res, HttpServletResponse req,
-				@RequestParam(name = "accountId") String accountId,@RequestParam(name = "jurCodel") String jurCodel) {
-			Map<String, Object> map = new HashMap<String, Object>();
-			accountPowerInfoService.findId(accountId, jurCodel);
-			map.put("state", "0");
+		
+		
+		@RequestMapping(value = "/deletePower")
+		public Map<String, String> deletePower(HttpServletRequest res, HttpServletResponse req,
+				@RequestParam(name = "accountId") String accountId,
+				@RequestParam(name = "jurCodel") String jurCodel,
+				@RequestParam(name = "deleteItem") String deleteItem) {
+
+			Map<String, String> map = new HashMap<String, String>();
+			AccountPowerInfoEntity accountPowerInfoEntity = new AccountPowerInfoEntity();
+			Aes aes = new Aes();
+			String ad = "";
+			String de = "";
+			try {
+				if(!deleteItem.isEmpty() ) {
+				     de = aes.desEncrypt(deleteItem);
+				     JSONArray jsonObject = JSONObject.parseArray(de);
+				     Set set = new HashSet();
+				     for(int i=0;i<jsonObject.size();i++) {
+				      set.add(jsonObject.get(i));
+				     }
+				     //每次只能删除一条
+				     for(int j=0;j<1;j++) {
+				    	 System.out.println("jurCodel"+jsonObject.get(j).toString());
+				    	 accountPowerInfoService.deleteByJurCode(jsonObject.get(j).toString(), accountId);
+				     }
+				    }
+				   } catch (Exception e) {
+				    e.printStackTrace();
+				   }
+			map.put("status", "0");
+			map.put("message", "修改成功");
 			return map;
 		}
 }

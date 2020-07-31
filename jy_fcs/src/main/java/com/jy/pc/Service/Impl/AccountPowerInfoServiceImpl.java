@@ -32,9 +32,10 @@ public class AccountPowerInfoServiceImpl implements AccountPowerInfoService {
 	public void delete(String id) {
 		accountPowerInfoDao.deleteById(id);
 	}
-
-	public void deleteByJurCode(String id) {
-		accountPowerInfoDao.deleteByJurCode(id);
+	
+	@Override
+	public void deleteByJurCode(String jurCodel, String accountId) {
+		accountPowerInfoDao.deleteByJurCode(jurCodel, accountId);
 	}
 	@Override
 	public List<AccountPowerInfoEntity> findAccountId(String accountId) {
@@ -45,10 +46,5 @@ public class AccountPowerInfoServiceImpl implements AccountPowerInfoService {
 	public AccountPowerInfoEntity findId(String accountId, String jurCodel) {
 		return accountPowerInfoDao.findId(accountId, jurCodel);
 	}
-
-//	@Override
-//	public AccountPowerInfoEntity finddeleteId(String accountId, String jurCodel) {
-//		return accountPowerInfoDao.finddeleteId(accountId, jurCodel);
-//	}
 
 }
