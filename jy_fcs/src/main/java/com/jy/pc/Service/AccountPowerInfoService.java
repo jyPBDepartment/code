@@ -19,5 +19,5 @@ public interface AccountPowerInfoService {
 	// findById
 	public List<AccountPowerInfoEntity> findAccountId(String accountId);
 	
-	public AccountPowerInfoEntity findId(String accountId,String jurCodel);
+	public List<AccountPowerInfoEntity> findId(String accountId);
 }

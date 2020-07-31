@@ -43,8 +43,7 @@ public class AccountPowerInfoServiceImpl implements AccountPowerInfoService {
 	}
 
 	@Override
-	public AccountPowerInfoEntity findId(String accountId, String jurCodel) {
-		return accountPowerInfoDao.findId(accountId, jurCodel);
+	public List<AccountPowerInfoEntity> findId(String accountId) {
+		return accountPowerInfoDao.findId(accountId);
 	}
-
 }

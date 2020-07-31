@@ -112,12 +112,16 @@ public class AccountInfoController {
 		return map;
 	}
 
-	// 账户删除
+	//账户删除并删除关联表关联权限
 	@RequestMapping(value = "/delete")
 	public Map<String, Object> delete(HttpServletRequest res, HttpServletResponse req,
 			@RequestParam(name = "id") String id) {
-
+		
 		Map<String, Object> map = new HashMap<String, Object>();
+		List<AccountPowerInfoEntity> accountPowerInfoEntity = accountPowerInfoService.findId(id);
+		for(int i=0;i< accountPowerInfoEntity.size();i++ ) {			
+			accountPowerInfoService.delete(accountPowerInfoEntity.get(i).getId());
+		}
 		accountInfoService.delete(id);
 		map.put("status", "0");
 		map.put("message", "删除成功");
@@ -228,7 +232,7 @@ public class AccountInfoController {
 			return map;
 		}
 		
-		
+		//穿梭框权限设置移除
 		@RequestMapping(value = "/deletePower")
 		public Map<String, String> deletePower(HttpServletRequest res, HttpServletResponse req,
 				@RequestParam(name = "accountId") String accountId,
