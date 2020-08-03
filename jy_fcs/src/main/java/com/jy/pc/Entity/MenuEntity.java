@@ -131,5 +131,11 @@ public class MenuEntity {
 	public void setIcon(String icon) {
 		this.icon = icon;
 	}
-	
+	public MenuEntity(String id) {
+		super();
+		this.id = id;
+	}
+	public MenuEntity() {
+		super();
+	}
 }

@@ -35,4 +35,10 @@ public interface RoleMenuRelationService {
 
 	// 查询角色挂载情况
 	public boolean hasRelationByRole(String roleId);
+
+	//批量保存角色授权信息
+	public void batchSave(String roleId, String idArr);
+	
+	//清空角色权限
+	public void deleteByRole(String roleId);
 }

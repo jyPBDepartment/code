@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,8 +18,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.jy.pc.Entity.MenuEntity;
+import com.jy.pc.Entity.RoleMenuRelationEntity;
 import com.jy.pc.Service.MenuService;
 import com.jy.pc.Service.RoleMenuRelationService;
 import com.jy.pc.Utils.Aes;
@@ -126,6 +129,38 @@ public class MenuController {
 		map.put("data", menuTree);
 		return map;
 	}
+	
+	/**
+	 *  通过角色id获取菜单授权信息
+	 * @return
+	 */
+	@RequestMapping(value="/findRelaByRole")
+	public Map<String, Object> findRelaByRole(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "roleId") String roleId) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		List<RoleMenuRelationEntity> data = roleMenuRelationService.findRelationByRole(roleId);
+		map.put("status", "0");// 成功
+		map.put("data", data);
+		return map;
+	}
+	
+	@RequestMapping(value="/saveRelation")
+	public Map<String, String> saveRelation(HttpServletRequest res, HttpServletResponse req) {
+		Map<String, String> map = new HashMap<String, String>();
+		String roleId = res.getParameter("roleId");
+		String idArr =  res.getParameter("idArr");		
+		Aes aes = new Aes();
+		try {
+			idArr = aes.desEncrypt(idArr);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		roleMenuRelationService.batchSave(roleId,idArr);
+		System.out.println(roleId+"            "+idArr);
+		map.put("status", "0");
+		map.put("message", "保存成功");
+		return map;
+	} 
 	
 	@RequestMapping(value="/save")
 	public Map<String, String> save(HttpServletRequest res, HttpServletResponse req) {

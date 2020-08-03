@@ -3,6 +3,7 @@ package com.jy.pc.DAO;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -26,4 +27,8 @@ public interface RoleMenuRelationDao extends JpaRepository<RoleMenuRelationEntit
 
 	@Query(value = "select count(0) from sas_role_menu_relation t where t.menu_id = ?1", nativeQuery = true)
 	public int hasRelationByMenu( String menuId);
+
+	@Query(value="delete from sas_role_menu_relation  where role_id = :roleId",nativeQuery = true)
+	@Modifying
+	public void deleteByRole(@Param("roleId")String roleId);
 }

@@ -22,6 +22,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.jy.pc.Entity.ClassificationEntity;
 import com.jy.pc.Entity.KeyWordEntity;
 import com.jy.pc.Entity.RoleEntity;
+import com.jy.pc.Service.RoleMenuRelationService;
 import com.jy.pc.Service.RoleService;
 import com.jy.pc.Utils.Aes;
 import com.mysql.cj.util.StringUtils;
@@ -32,7 +33,8 @@ import com.mysql.cj.util.StringUtils;
 public class RoleController {
 	@Autowired
 	private RoleService roleService;
-
+	@Autowired
+	private RoleMenuRelationService roleMenuRelationService;
 	// 分页查询
 	@RequestMapping(value = "/findByName")
 	public Map<String, Object> findByName(HttpServletRequest res, HttpServletResponse req,
@@ -117,6 +119,12 @@ public class RoleController {
 			@RequestParam(name = "id") String id) {
 
 		Map<String, Object> map = new HashMap<String, Object>();
+		//判断该菜单是否已有角色挂载
+		if(roleMenuRelationService.hasRelationByRole(id)) {
+			map.put("status", "2");
+			map.put("message", "该角色存在授权菜单，不可直接删除！");
+			return map;
+		}
 		roleService.delete(id);
 		map.put("status", "0");
 		map.put("message", "删除成功");

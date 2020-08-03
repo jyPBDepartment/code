@@ -1,11 +1,17 @@
 package com.jy.pc.Service.Impl;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.alibaba.fastjson.JSONArray;
 import com.jy.pc.DAO.RoleMenuRelationDao;
+import com.jy.pc.Entity.MenuEntity;
+import com.jy.pc.Entity.RoleEntity;
 import com.jy.pc.Entity.RoleMenuRelationEntity;
 import com.jy.pc.Service.RoleMenuRelationService;
 
@@ -61,4 +67,24 @@ public class RoleMenuRelationImpl implements RoleMenuRelationService{
 		return roleMenuRelationDao.hasRelationByRole(roleId)>0?true:false;
 	}
 
+	@Transactional
+	@Override
+	public void batchSave(String roleId, String idArr) {
+		JSONArray array = JSONArray.parseArray(idArr);
+		List<RoleMenuRelationEntity> entities = new ArrayList<RoleMenuRelationEntity>();
+		for(int i=0;i<array.size();i++) {
+			RoleMenuRelationEntity entity = new RoleMenuRelationEntity();
+			entity.setRole( new RoleEntity(roleId));
+			entity.setMenu(new MenuEntity(array.getString(i)));
+			entities.add(entity);
+		}
+		//清空角色下所有权限
+		roleMenuRelationDao.deleteByRole(roleId);
+		//重新挂载权限
+		roleMenuRelationDao.saveAll(entities);
+	}
+
+	public void deleteByRole(String roleId) {
+		roleMenuRelationDao.deleteByRole(roleId);
+	}
 }

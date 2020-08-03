@@ -39,8 +39,6 @@ public class RoleEntity {
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     @Temporal(TemporalType.TIMESTAMP)
 	private Date updDate;// 修改时间
-	@OneToMany(mappedBy = "role",fetch = FetchType.LAZY)
-	private List<RoleMenuRelationEntity> relations;
 	public String getId() {
 		return id;
 	}
@@ -77,11 +75,11 @@ public class RoleEntity {
 	public void setUpdDate(Date updDate) {
 		this.updDate = updDate;
 	}
-	public List<RoleMenuRelationEntity> getRelations() {
-		return relations;
+	public RoleEntity(String id) {
+		super();
+		this.id = id;
 	}
-	public void setRelations(List<RoleMenuRelationEntity> relations) {
-		this.relations = relations;
+	public RoleEntity() {
+		super();
 	}
-	
 }
