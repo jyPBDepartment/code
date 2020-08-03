@@ -198,39 +198,52 @@ public class AccountInfoController {
 			return map;
 		}
 		
-		// 权限修改
-		@RequestMapping(value = "/updatePower")
-		public Map<String, String> updatePower(HttpServletRequest res, HttpServletResponse req,
-				@RequestParam(name = "accountId") String accountId,
-				@RequestParam(name = "addItem") String addItem) {
+	// 权限修改
+	@RequestMapping(value = "/updatePower")
+	public Map<String, String> updatePower(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "accountId") String accountId, @RequestParam(name = "addItem") String addItem,
+			@RequestParam(name = "deleteItem") String deleteItem) {
 
-			Map<String, String> map = new HashMap<String, String>();
-			AccountPowerInfoEntity accountPowerInfoEntity = new AccountPowerInfoEntity();
-			Aes aes = new Aes();
-			String ad = "";
-			String de = "";
-			try {
-				if(!addItem.isEmpty()) {
-					ad = aes.desEncrypt(addItem);
-					JSONArray jsonObject = JSONObject.parseArray(ad);
-					Set set = new HashSet();
-					for(int i=0;i<jsonObject.size();i++) {
-						set.add(jsonObject.get(i));
-					}
-					for(int j=0;j<jsonObject.size();j++) {
-						accountPowerInfoEntity.setAccountId(accountId);
-						accountPowerInfoEntity.setJurCodel(jsonObject.get(j).toString());
-						accountPowerInfoService.update(accountPowerInfoEntity);
-					}
-					
+		Map<String, String> map = new HashMap<String, String>();
+		AccountPowerInfoEntity accountPowerInfoEntity = new AccountPowerInfoEntity();
+		Aes aes = new Aes();
+		String ad = "";
+		String de = "";
+		try {
+			if (!addItem.isEmpty()) {
+				ad = aes.desEncrypt(addItem);
+				JSONArray jsonObject = JSONObject.parseArray(ad);
+				Set set = new HashSet();
+				for (int i = 0; i < jsonObject.size(); i++) {
+					set.add(jsonObject.get(i));
 				}
-				   } catch (Exception e) {
-				    e.printStackTrace();
-				   }	
-			map.put("status", "0");
-			map.put("message", "修改成功");
-			return map;
+				for (int j = 0; j < jsonObject.size(); j++) {
+					accountPowerInfoEntity.setAccountId(accountId);
+					accountPowerInfoEntity.setJurCodel(jsonObject.get(j).toString());
+					accountPowerInfoService.update(accountPowerInfoEntity);
+				}
+
+			}
+
+			if (!deleteItem.isEmpty()) {
+				de = aes.desEncrypt(deleteItem);
+				JSONArray jsonObject = JSONObject.parseArray(de);
+				Set set = new HashSet();
+				for (int i = 0; i < jsonObject.size(); i++) {
+					set.add(jsonObject.get(i));
+				}
+				// 每次只能删除一条
+				for (int j = 0; j < jsonObject.size(); j++) {
+					accountPowerInfoService.deleteByJurCode(jsonObject.get(j).toString(), accountId);
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
+		map.put("status", "0");
+		map.put("message", "修改成功");
+		return map;
+	}
 		
 		//穿梭框权限设置移除
 		@RequestMapping(value = "/deletePower")
