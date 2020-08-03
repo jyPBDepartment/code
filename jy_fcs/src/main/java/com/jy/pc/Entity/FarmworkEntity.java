@@ -19,7 +19,7 @@ public class FarmworkEntity {
 	@Column(length=12)
 	private String operateUser;//预约人
 	@Column(length=6)
-	private String operateType;//农夫信息ID(分类表编码)
+	private String operateType;//农服信息ID(分类表编码)
 	@Column(length=2)
 	private String status;//状态（0.预约1.完成）
 	public String getId() {

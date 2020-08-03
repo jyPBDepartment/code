@@ -15,8 +15,7 @@ public interface CaseInfoDao extends JpaRepository<CaseInfoEntity, String> {
 	public CaseInfoEntity findBId(@Param("id") String id);
 
 	// 分页与模糊查询
-	@Query(value = "select * from sas_case_info  t  where if(?1 !='',t.name like ?1,1=1) and if(?2 !='',t.audit_status like ?2,1=1) order by t.create_date desc", 
-			countQuery = "select count(*) from sas_case_info t  where if(?1 !='',t.name like ?1,1=1) and if(?2 !='',t.audit_status like ?2,1=1) order by t.create_date desc", nativeQuery = true)
+	@Query(value = "select * from sas_case_info  t  where if(?1 !='',t.name like ?1,1=1) and if(?2 !='',t.audit_status like ?2,1=1) order by t.create_date desc", countQuery = "select count(*) from sas_case_info t  where if(?1 !='',t.name like ?1,1=1) and if(?2 !='',t.audit_status like ?2,1=1) order by t.create_date desc", nativeQuery = true)
 	public Page<CaseInfoEntity> findListByName(String name, String auditStatus, Pageable pageable);
 
 }

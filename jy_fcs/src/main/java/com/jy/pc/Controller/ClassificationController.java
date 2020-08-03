@@ -87,11 +87,11 @@ public class ClassificationController {
 	@RequestMapping(value = "delete")
 	public Map<String, Object> delete(HttpServletRequest res, HttpServletResponse req,
 			@RequestParam(name = "id") String id) {
-		Map<String, Object> map = new HashMap<String, Object>();// 接收数据容器		
-		List<ClassificationEntity> classi = classificationService.findCropLink();//农作物
-		
-		List<ClassificationEntity> classiFicat = classificationService.findDipLink();//病虫害
-		List<ClassificationEntity> classiFication = classificationService.findKeywordLink();//关键词
+		Map<String, Object> map = new HashMap<String, Object>();// 接收数据容器
+		List<ClassificationEntity> classi = classificationService.findCropLink();// 农作物
+
+		List<ClassificationEntity> classiFicat = classificationService.findDipLink();// 病虫害
+		List<ClassificationEntity> classiFication = classificationService.findKeywordLink();// 关键词
 		ClassificationEntity classificationEntity = classificationService.findBId(id);
 		for (int i = 0; i < classi.size(); i++) {
 			ClassificationEntity calssiFicat = classi.get(i);
@@ -120,7 +120,8 @@ public class ClassificationController {
 				if (classiFicat.size() <= 0) {
 				}
 
-			} else {}
+			} else {
+			}
 		}
 		if (classi.size() <= 0) {
 		}
@@ -130,11 +131,11 @@ public class ClassificationController {
 	// 分类模糊查询与分页
 	@RequestMapping(value = "/findByName")
 	public Map<String, Object> findByName(HttpServletRequest res, HttpServletResponse req,
-			 @RequestParam(name = "code") String code,
-			@RequestParam(name = "page") Integer page, @RequestParam(name = "size") Integer size) {
+			@RequestParam(name = "code") String code, @RequestParam(name = "page") Integer page,
+			@RequestParam(name = "size") Integer size) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		Pageable pageable = new PageRequest(page - 1, size);
-		Page<ClassificationEntity> classiList = classificationService.findListByName( code,pageable);
+		Page<ClassificationEntity> classiList = classificationService.findListByName(code, pageable);
 		map.put("state", "0");// 成功
 		map.put("message", "查询成功");
 		map.put("data", classiList);

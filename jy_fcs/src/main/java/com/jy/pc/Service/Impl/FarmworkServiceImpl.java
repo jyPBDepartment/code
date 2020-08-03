@@ -10,14 +10,15 @@ import com.jy.pc.Entity.FarmworkEntity;
 import com.jy.pc.Service.FarmworkService;
 
 @Service
-public class FarmworkServiceImpl implements FarmworkService{
+public class FarmworkServiceImpl implements FarmworkService {
 	@Autowired
 	private FarmworkDao farmworkDao;
-	
+
+	// 农活预约Echart图
 	@Override
 	public List<FarmworkEntity> findSum() {
-		
-		return farmworkDao.findSum() ;
+
+		return farmworkDao.findSum();
 	}
 
 }

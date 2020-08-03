@@ -11,11 +11,12 @@ import org.springframework.data.repository.query.Param;
 import com.jy.pc.Entity.AgriculturalEntity;
 
 public interface AgriculturalDao extends JpaRepository<AgriculturalEntity, String> {
-	// echart图关联
+	
+	// Echart图关联
 	@Query(value = "SELECT * FROM sas_agricultural_clothing_info e where e.status = '1'", nativeQuery = true)
 	public List<AgriculturalEntity> findAgrSum();
 
-	//	fingById方法
+	// fingById方法
 	@Query(value = "select * from sas_agricultural_clothing_info where id =:id", nativeQuery = true)
 	public AgriculturalEntity findBId(@Param("id") String id);
 

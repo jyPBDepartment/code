@@ -17,38 +17,44 @@ public class ClassificationServiceImpl implements ClassificationService {
 	@Autowired
 	private ClassificationDao classificationDao;
 
+	// 分类添加
 	@Override
 	public ClassificationEntity save(ClassificationEntity classificationEntity) {
 
 		return classificationDao.saveAndFlush(classificationEntity);
 	}
 
+	// 分类修改
 	@Override
 	public ClassificationEntity update(ClassificationEntity classificationEntity) {
 
 		return classificationDao.saveAndFlush(classificationEntity);
 	}
 
+	// 分类删除
 	@Override
 	public void delete(String id) {
 
 		classificationDao.deleteById(id);
 	}
 
+	// 分类查找
 	@Override
 	public ClassificationEntity findBId(String id) {
 
 		return classificationDao.findBId(id);
 	}
 
+	// 分类分页与模糊查询
 	@Override
-	public Page<ClassificationEntity> findListByName( String code, Pageable pageable) {
-		
+	public Page<ClassificationEntity> findListByName(String code, Pageable pageable) {
+
 		String classiCode = "%" + code + "%";
-		
-		return classificationDao.findListByName( classiCode, pageable);
+
+		return classificationDao.findListByName(classiCode, pageable);
 	}
 
+	// 分类查询所有
 	@Override
 	public List<ClassificationEntity> findAll() {
 		return classificationDao.findAll();
@@ -62,40 +68,44 @@ public class ClassificationServiceImpl implements ClassificationService {
 
 	}
 
+	// 关键词关联分类
 	@Override
 	public List<ClassificationEntity> findKeyWordList() {
 		return classificationDao.findKeyWordList();
 	}
 
-	//病虫害种类
+	// 病虫害关联分类
 	@Override
 	public List<ClassificationEntity> findDipList() {
 
 		return classificationDao.findDipList();
 	}
 
-	//农作物分类
+	// 农作物关联分类
 	@Override
 	public List<ClassificationEntity> findCaseList() {
 
 		return classificationDao.findCaseList();
 	}
-	//分类看图识病农作物删除
+
+	// 分类关联看图识病农作物删除
 	@Override
 	public List<ClassificationEntity> findCropLink() {
-		
+
 		return classificationDao.findCropLink();
 	}
-	//分类看图识病病虫害删除
+
+	// 分类关联看图识病病虫害删除
 	@Override
 	public List<ClassificationEntity> findDipLink() {
-		
+
 		return classificationDao.findDipLink();
 	}
-	//分类看图识病关键词删除
+
+	// 分类关联看图识病关键词删除
 	@Override
 	public List<ClassificationEntity> findKeywordLink() {
-	
+
 		return classificationDao.findKeywordLink();
 	}
 }

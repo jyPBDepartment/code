@@ -24,14 +24,14 @@ import com.jy.pc.Service.ClassificationService;
 
 @Controller
 @ResponseBody
-@RequestMapping(value="/caseInfo")
+@RequestMapping(value = "/caseInfo")
 public class CaseInfoController {
 
 	@Autowired
 	private CaseInfoService caseInfoService;
 	@Autowired
 	private ClassificationService classificationService;
-	
+
 	// 添加
 
 	@RequestMapping(value = "/save")
@@ -43,10 +43,10 @@ public class CaseInfoController {
 		Date date = new Date();
 		CaseInfoEntity caseInfoEntity = jsonObject.toJavaObject(CaseInfoEntity.class);
 		caseInfoEntity.setCreateDate(date);
-		
+
 		ClassificationEntity classificationEntity = classificationService.findBId(caseInfoEntity.getClassiCode());
 		caseInfoEntity.setCropsTypeCode(classificationEntity.getCode());
-		
+
 		ClassificationEntity classification = classificationService.findBId(caseInfoEntity.getClassiDipCode());
 		caseInfoEntity.setDipTypeCode(classification.getCode());
 		try {
@@ -60,12 +60,13 @@ public class CaseInfoController {
 		}
 		return map;
 	}
+
 	// 修改前查询
 	@RequestMapping(value = "findById")
 	public Map<String, Object> findById(HttpServletRequest res, HttpServletResponse req,
 			@RequestParam(name = "id") String id) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		CaseInfoEntity caseInfo= caseInfoService.findBId(id);
+		CaseInfoEntity caseInfo = caseInfoService.findBId(id);
 		if (caseInfo != null) {
 			map.put("state", "0");// 查询数据成功
 			map.put("data", caseInfo);
@@ -74,6 +75,7 @@ public class CaseInfoController {
 		}
 		return map;
 	}
+
 	// 修改
 	@RequestMapping(value = "update")
 	public Map<String, String> update(HttpServletRequest res, HttpServletResponse req) {
@@ -83,10 +85,10 @@ public class CaseInfoController {
 		Date date = new Date();
 		CaseInfoEntity caseInfoEntity = jsonObject.toJavaObject(CaseInfoEntity.class);
 		caseInfoEntity.setUpdateDate(date);
-		
+
 		ClassificationEntity classificationEntity = classificationService.findBId(caseInfoEntity.getClassiCode());
 		caseInfoEntity.setCropsTypeCode(classificationEntity.getCode());
-		
+
 		ClassificationEntity classification = classificationService.findBId(caseInfoEntity.getClassiDipCode());
 		caseInfoEntity.setDipTypeCode(classification.getCode());
 		caseInfoService.update(caseInfoEntity);
@@ -104,14 +106,12 @@ public class CaseInfoController {
 		map.put("message", "删除成功");
 		return map;
 	}
-	
 
 	// 模糊查询与分页
 	@RequestMapping(value = "/findByName")
 	public Map<String, Object> findByName(HttpServletRequest res, HttpServletResponse req,
-			@RequestParam(name = "name") String name,@RequestParam(name = "auditStatus") String auditStatus, 
-			@RequestParam(name = "page") Integer page,
-			@RequestParam(name = "size") Integer size) {
+			@RequestParam(name = "name") String name, @RequestParam(name = "auditStatus") String auditStatus,
+			@RequestParam(name = "page") Integer page, @RequestParam(name = "size") Integer size) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		Pageable pageable = new PageRequest(page - 1, size);
 		Page<CaseInfoEntity> caseIn = caseInfoService.findListByName(name, auditStatus, pageable);

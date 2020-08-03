@@ -12,35 +12,44 @@ import com.jy.pc.Entity.AgriculturalEntity;
 import com.jy.pc.Service.AgriculturalService;
 
 @Service
-public class AgriculturalServiceImpl implements AgriculturalService{
+public class AgriculturalServiceImpl implements AgriculturalService {
 
 	@Autowired
 	private AgriculturalDao agriculturalDao;
+
+	// 农服关联Echart图
 	@Override
 	public List<AgriculturalEntity> findAgrSum() {
-		
+
 		return agriculturalDao.findAgrSum();
 	}
+
+	// 农服添加
 	@Override
 	public AgriculturalEntity save(AgriculturalEntity agriculturalEntity) {
-		
-		return agriculturalDao.saveAndFlush(agriculturalEntity);
-	}
-	@Override
-	public AgriculturalEntity findBId(String id) {
-		
-		return agriculturalDao.findBId(id);
-	}
-	@Override
-	public Page<AgriculturalEntity> findListByName(String name,String status,Pageable pageable) {
-		String argicuturalName = "%"+name+"%";
-		return agriculturalDao.findListByName(argicuturalName,status, pageable);
-	}
-	@Override
-	public AgriculturalEntity update(AgriculturalEntity agriculturalEntity) {
-		
+
 		return agriculturalDao.saveAndFlush(agriculturalEntity);
 	}
 
-	
+	// 农服查找
+	@Override
+	public AgriculturalEntity findBId(String id) {
+
+		return agriculturalDao.findBId(id);
+	}
+
+	// 农服分页与模糊查询
+	@Override
+	public Page<AgriculturalEntity> findListByName(String name, String status, Pageable pageable) {
+		String argicuturalName = "%" + name + "%";
+		return agriculturalDao.findListByName(argicuturalName, status, pageable);
+	}
+
+	// 农服修改
+	@Override
+	public AgriculturalEntity update(AgriculturalEntity agriculturalEntity) {
+
+		return agriculturalDao.saveAndFlush(agriculturalEntity);
+	}
+
 }

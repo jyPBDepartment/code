@@ -106,20 +106,20 @@ public class AgriculturalController {
 		map.put("message", "修改成功");
 		return map;
 	}
-	// 审核通过
-	  @RequestMapping(value = "/passPostInfo")
-	  public Map<String, String> passPostInfo(HttpServletRequest res, HttpServletResponse req) {
 
-	   Map<String, String> map = new HashMap<String, String>();
-	   String s = res.getParameter("agriculturalEntity");
-	   JSONObject jsonObject = JSONObject.parseObject(s);
-	   AgriculturalEntity agriculturalEntity = jsonObject.toJavaObject(AgriculturalEntity.class);
-	   agriculturalEntity.setStatus("1");
-	   agriculturalService.update(agriculturalEntity);  
-	   map.put("state", "0");
-	   map.put("message", "审核通过");
-	   return map;
-	  }
-	    
-	 
+	// 审核通过
+	@RequestMapping(value = "/passPostInfo")
+	public Map<String, String> passPostInfo(HttpServletRequest res, HttpServletResponse req) {
+
+		Map<String, String> map = new HashMap<String, String>();
+		String s = res.getParameter("agriculturalEntity");
+		JSONObject jsonObject = JSONObject.parseObject(s);
+		AgriculturalEntity agriculturalEntity = jsonObject.toJavaObject(AgriculturalEntity.class);
+		agriculturalEntity.setStatus("1");
+		agriculturalService.update(agriculturalEntity);
+		map.put("state", "0");
+		map.put("message", "审核通过");
+		return map;
+	}
+
 }

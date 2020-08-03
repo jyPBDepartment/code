@@ -37,7 +37,7 @@ public class CaseInfoEntity {
 	@Column(length=255)
 	private String describetion;//描述
 	@Column(length=1)
-	private String auditStatus;//状态
+	private String auditStatus;//状态（0禁用1启用）
 	@Column
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     @Temporal(TemporalType.TIMESTAMP)
