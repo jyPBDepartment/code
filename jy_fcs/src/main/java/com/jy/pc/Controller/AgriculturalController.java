@@ -93,20 +93,6 @@ public class AgriculturalController {
 		return map;
 	}
 
-	// 农服审核状态修改
-	@RequestMapping(value = "update")
-	public Map<String, String> update(HttpServletRequest res, HttpServletResponse req) {
-		Map<String, String> map = new HashMap<String, String>();
-		String s = res.getParameter("agriculturalEntity");
-		JSONObject jsonObject = JSONObject.parseObject(s);
-		Date date = new Date();
-		AgriculturalEntity agriculturalEntity = jsonObject.toJavaObject(AgriculturalEntity.class);
-		agriculturalEntity.setUpdateDate(date);
-		agriculturalService.update(agriculturalEntity);
-		map.put("message", "修改成功");
-		return map;
-	}
-
 	// 审核通过
 	@RequestMapping(value = "/passPostInfo")
 	public Map<String, String> passPostInfo(HttpServletRequest res, HttpServletResponse req) {
@@ -119,6 +105,20 @@ public class AgriculturalController {
 		agriculturalService.update(agriculturalEntity);
 		map.put("state", "0");
 		map.put("message", "审核通过");
+		return map;
+	}
+	// 审核拒绝
+	@RequestMapping(value = "/refusePostInfo")
+	public Map<String, String> refusePostInfo(HttpServletRequest res, HttpServletResponse req) {
+
+		Map<String, String> map = new HashMap<String, String>();
+		String s = res.getParameter("agriculturalEntity");
+		JSONObject jsonObject = JSONObject.parseObject(s);
+		AgriculturalEntity agriculturalEntity = jsonObject.toJavaObject(AgriculturalEntity.class);
+		agriculturalEntity.setStatus("2");
+		agriculturalService.update(agriculturalEntity);
+		map.put("state", "0");
+		map.put("message", "审核拒绝");
 		return map;
 	}
 
