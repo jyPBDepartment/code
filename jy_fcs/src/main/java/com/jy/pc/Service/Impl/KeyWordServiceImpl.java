@@ -10,13 +10,13 @@ import com.jy.pc.Entity.KeyWordEntity;
 import com.jy.pc.Service.KeyWordService;
 
 @Service
-public class KeyWordServiceImpl implements KeyWordService{
+public class KeyWordServiceImpl implements KeyWordService {
 	@Autowired
 	private KeyWordDao keyWordDao;
 
 	@Override
 	public Page<KeyWordEntity> findListByName(String name, Pageable pageable) {
-		String keyName = "%"+name+"%";
+		String keyName = "%" + name + "%";
 		return keyWordDao.findListByName(keyName, pageable);
 	}
 

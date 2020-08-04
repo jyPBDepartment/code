@@ -13,25 +13,29 @@ import com.jy.pc.Service.PostInfoService;
 
 @Service
 
-public class PostInfoServiceImpl implements PostInfoService{
+public class PostInfoServiceImpl implements PostInfoService {
 
 	@Autowired
-	private PostInfoDao invitationDao ;
+	private PostInfoDao invitationDao;
+
 	@Override
 	public List<PostInfoEntity> findInva() {
-		
+
 		return invitationDao.findInva();
 	}
+
 	@Override
 	public Page<PostInfoEntity> findListByName(String name, String createUser, Pageable pageable) {
-		String invName = "%"+name+"%";
-		String user = "%"+createUser+"%";
+		String invName = "%" + name + "%";
+		String user = "%" + createUser + "%";
 		return invitationDao.findListByName(invName, user, pageable);
 	}
+
 	@Override
 	public PostInfoEntity findId(String id) {
 		return invitationDao.findId(id);
 	}
+
 	@Override
 	public void update(PostInfoEntity invitation) {
 		invitationDao.saveAndFlush(invitation);

@@ -224,7 +224,6 @@ public class AccountInfoController {
 				}
 
 			}
-
 			if (!deleteItem.isEmpty()) {
 				de = aes.desEncrypt(deleteItem);
 				JSONArray jsonObject = JSONObject.parseArray(de);
@@ -244,38 +243,4 @@ public class AccountInfoController {
 		map.put("message", "修改成功");
 		return map;
 	}
-		
-		//穿梭框权限设置移除
-		@RequestMapping(value = "/deletePower")
-		public Map<String, String> deletePower(HttpServletRequest res, HttpServletResponse req,
-				@RequestParam(name = "accountId") String accountId,
-				@RequestParam(name = "jurCodel") String jurCodel,
-				@RequestParam(name = "deleteItem") String deleteItem) {
-
-			Map<String, String> map = new HashMap<String, String>();
-			AccountPowerInfoEntity accountPowerInfoEntity = new AccountPowerInfoEntity();
-			Aes aes = new Aes();
-			String ad = "";
-			String de = "";
-			try {
-				if(!deleteItem.isEmpty() ) {
-				     de = aes.desEncrypt(deleteItem);
-				     JSONArray jsonObject = JSONObject.parseArray(de);
-				     Set set = new HashSet();
-				     for(int i=0;i<jsonObject.size();i++) {
-				      set.add(jsonObject.get(i));
-				     }
-				     //每次只能删除一条
-				     for(int j=0;j<1;j++) {
-				    	 System.out.println("jurCodel"+jsonObject.get(j).toString());
-				    	 accountPowerInfoService.deleteByJurCode(jsonObject.get(j).toString(), accountId);
-				     }
-				    }
-				   } catch (Exception e) {
-				    e.printStackTrace();
-				   }
-			map.put("status", "0");
-			map.put("message", "修改成功");
-			return map;
-		}
 }

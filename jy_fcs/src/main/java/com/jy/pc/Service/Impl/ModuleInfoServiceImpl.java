@@ -10,7 +10,7 @@ import com.jy.pc.Entity.ModuleInfoEntity;
 import com.jy.pc.Service.ModuleInfoService;
 
 @Service
-public class ModuleInfoServiceImpl implements ModuleInfoService{
+public class ModuleInfoServiceImpl implements ModuleInfoService {
 	@Autowired
 	private ModuleInfoDao moduleInfoDao;
 
@@ -35,9 +35,9 @@ public class ModuleInfoServiceImpl implements ModuleInfoService{
 	}
 
 	@Override
-	public Page<ModuleInfoEntity> findListByName(String name,String status, Pageable pageable) {
-		String moduleName = "%"+name+"%";
-		return moduleInfoDao.findListByName(moduleName,status, pageable);
+	public Page<ModuleInfoEntity> findListByName(String name, String status, Pageable pageable) {
+		String moduleName = "%" + name + "%";
+		return moduleInfoDao.findListByName(moduleName, status, pageable);
 	}
 
 }

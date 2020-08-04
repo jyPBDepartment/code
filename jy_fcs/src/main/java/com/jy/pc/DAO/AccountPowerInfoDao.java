@@ -16,9 +16,6 @@ public interface AccountPowerInfoDao extends JpaRepository<AccountPowerInfoEntit
 	@Query(value = "SELECT * FROM sas_account_power_info t where t.account_id =:accountId", nativeQuery = true)
 	public List<AccountPowerInfoEntity> findId(@Param("accountId") String accountId);
 
-//	@Query(value = "delete from sas_account_power_info where jur_codel =:jurCodel", nativeQuery = true)
-//	@Modifying
-//	public void deleteByJurCode(@Param("jurCodel") String jurCodel);
 	@Query(value="delete from sas_account_power_info  where account_id = :accountId and jur_codel =:jurCodel",nativeQuery = true)
 	@Modifying
 	public void deleteByJurCode(@Param("jurCodel") String jurCodel,@Param("accountId") String accountId);
