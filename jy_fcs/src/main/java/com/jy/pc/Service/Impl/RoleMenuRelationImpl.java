@@ -84,6 +84,7 @@ public class RoleMenuRelationImpl implements RoleMenuRelationService{
 		roleMenuRelationDao.saveAll(entities);
 	}
 
+	@Transactional
 	public void deleteByRole(String roleId) {
 		roleMenuRelationDao.deleteByRole(roleId);
 	}

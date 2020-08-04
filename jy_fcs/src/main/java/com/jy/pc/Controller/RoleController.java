@@ -130,4 +130,18 @@ public class RoleController {
 		map.put("message", "删除成功");
 		return map;
 	}
+	
+	//清空角色授权信息
+	@RequestMapping(value="/removeAuth")
+	public Map<String, Object> removeAuth(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "id") String id) {
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		//判断该菜单是否已有角色挂载
+		roleMenuRelationService.deleteByRole(id);
+		map.put("status", "0");
+		map.put("message", "已清空授权信息");
+		return map;
+	}
+	
 }
