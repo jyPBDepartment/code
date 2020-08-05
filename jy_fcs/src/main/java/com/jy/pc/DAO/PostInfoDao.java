@@ -12,7 +12,7 @@ import com.jy.pc.Entity.PostInfoEntity;
 
 public interface PostInfoDao extends JpaRepository<PostInfoEntity,String> {
 
-	//记录农活预约数量
+	//记录帖子数量
 	@Query(value="SELECT * FROM sas_post_info d where d.audit_status = '2'",nativeQuery = true)
 	public List<PostInfoEntity> findInva();
 	@Query(value="select * from sas_post_info t where if(?1 !='',t.name like ?1,1=1) and if(?2 !='',t.create_user like ?2,1=1)  order by t.create_date desc",

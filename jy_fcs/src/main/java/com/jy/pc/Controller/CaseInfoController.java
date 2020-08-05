@@ -45,10 +45,10 @@ public class CaseInfoController {
 		caseInfoEntity.setCreateDate(date);
 
 		ClassificationEntity classificationEntity = classificationService.findBId(caseInfoEntity.getClassiCode());
-		caseInfoEntity.setCropsTypeCode(classificationEntity.getCode());
+		caseInfoEntity.setCropsTypeCode(classificationEntity.getName());
 
 		ClassificationEntity classification = classificationService.findBId(caseInfoEntity.getClassiDipCode());
-		caseInfoEntity.setDipTypeCode(classification.getCode());
+		caseInfoEntity.setDipTypeCode(classification.getName());
 		try {
 			caseInfoService.save(caseInfoEntity);
 			map.put("state", "0");
@@ -87,10 +87,10 @@ public class CaseInfoController {
 		caseInfoEntity.setUpdateDate(date);
 
 		ClassificationEntity classificationEntity = classificationService.findBId(caseInfoEntity.getClassiCode());
-		caseInfoEntity.setCropsTypeCode(classificationEntity.getCode());
+		caseInfoEntity.setCropsTypeCode(classificationEntity.getName());
 
 		ClassificationEntity classification = classificationService.findBId(caseInfoEntity.getClassiDipCode());
-		caseInfoEntity.setDipTypeCode(classification.getCode());
+		caseInfoEntity.setDipTypeCode(classification.getName());
 		caseInfoService.update(caseInfoEntity);
 		map.put("message", "修改成功");
 		return map;
