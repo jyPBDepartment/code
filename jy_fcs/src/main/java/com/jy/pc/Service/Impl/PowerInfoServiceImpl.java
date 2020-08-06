@@ -83,7 +83,9 @@ public class PowerInfoServiceImpl implements PowerInfoService {
 	@Override
 	public boolean findSubJurCode(String subJurCode) {
 		int count = powerInfoDao.findSubJurCode(subJurCode);
-		return count > 0 ? true : false;
+		return count > 1 ? true : false;
 		
 	}
+	
+	
 }

@@ -72,15 +72,24 @@ public class PowerInfoController {
 
 	// 权限修改
 	@RequestMapping(value = "update")
-	public Map<String, String> update(HttpServletRequest res, HttpServletResponse req) {
+	public Map<String, String> update(HttpServletRequest res, HttpServletResponse req,@RequestParam(name = "subJurCode") String subJurCode) {
 		Map<String, String> map = new HashMap<String, String>();
 		String s = res.getParameter("powerInfoEntity");
 		JSONObject jsonObject = JSONObject.parseObject(s);
 		Date date = new Date();
 		PowerInfoEntity powerInfoEntity = jsonObject.toJavaObject(PowerInfoEntity.class);
 		powerInfoEntity.setUpdateDate(date);
-		powerInfoService.update(powerInfoEntity);
-		map.put("message", "修改成功");
+		if(powerInfoService.findSubJurCode(subJurCode)) {
+			powerInfoEntity.setSubJurCode("");
+			map.put("status", "1");
+			map.put("message", "该菜单下存在子菜单，不可修改上级分类！");
+			powerInfoService.update(powerInfoEntity);
+		}else {
+			powerInfoService.update(powerInfoEntity);
+			map.put("status", "0");
+			map.put("message", "该菜单下不存在子菜单，可修改上级分类！");
+		}		
+//		map.put("message", "修改成功");
 		return map;
 	}
 
@@ -156,11 +165,12 @@ public class PowerInfoController {
 	public Map<String, Object> findSubPowerList(HttpServletRequest res, HttpServletResponse req) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		List<PowerInfoEntity> power = powerInfoService.findSubPowerList();
-		if (power != null) {
+		
+		 if (power != null) {
 			map.put("status", "0");
 			map.put("data", power);
 		} else {
-			map.put("status", "1");
+			map.put("status", "3");
 		}
 		return map;
 	}

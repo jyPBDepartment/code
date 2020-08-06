@@ -37,4 +37,7 @@ public interface PowerInfoService {
 	
 	// 查询是否有子菜单
 	public boolean findSubJurCode(String subJurCode);
+	
+	
+	
 }
