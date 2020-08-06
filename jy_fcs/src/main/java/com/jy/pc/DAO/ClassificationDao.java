@@ -46,4 +46,7 @@ public interface ClassificationDao extends JpaRepository<ClassificationEntity, S
 	// 分类关键字删除
 	@Query(value = "select distinct t.id,t.code,t.create_date,t.create_user,t.name,t.parent_code,t.status,t.update_date,t.update_user from  sas_classification_info t where t.id not in (select w.parent_code from sas_key_word w)", nativeQuery = true)
 	public List<ClassificationEntity> findKeywordLink();
+	
+	@Query(value = "select count(0) from sas_classification_info t where t.parent_code =:parentCode", nativeQuery = true)
+	public int findParentCode(@Param("parentCode") String parentCode);
 }

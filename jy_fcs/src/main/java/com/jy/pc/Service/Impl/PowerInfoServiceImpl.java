@@ -79,4 +79,11 @@ public class PowerInfoServiceImpl implements PowerInfoService {
 
 		return powerInfoDao.findAccountLink();
 	}
+
+	@Override
+	public boolean findSubJurCode(String subJurCode) {
+		int count = powerInfoDao.findSubJurCode(subJurCode);
+		return count > 0 ? true : false;
+		
+	}
 }

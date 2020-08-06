@@ -108,4 +108,10 @@ public class ClassificationServiceImpl implements ClassificationService {
 
 		return classificationDao.findKeywordLink();
 	}
+
+	@Override
+	public boolean findParentCode(String parentCode) {
+		int count = classificationDao.findParentCode(parentCode);
+		return count > 0 ? true : false;
+	}
 }

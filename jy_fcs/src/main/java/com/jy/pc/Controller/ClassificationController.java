@@ -96,7 +96,12 @@ public class ClassificationController {
 		for (int i = 0; i < classi.size(); i++) {
 			ClassificationEntity calssiFicat = classi.get(i);
 			calssiFicat.getId();
-			if (classificationEntity.getId().equals(calssiFicat.getId())) {
+			if(classificationService.findParentCode(id)) {
+				map.put("status", "1");
+				map.put("message", "该菜单下存在子菜单，不可直接删除！");
+				return map;
+			}
+			else if (classificationEntity.getId().equals(calssiFicat.getId())) {
 				for (int j = 0; j < classiFicat.size(); j++) {
 					ClassificationEntity ficat = classiFicat.get(j);
 					ficat.getId();

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.query.Param;
 
 import com.jy.pc.Entity.ClassificationEntity;
 
@@ -46,4 +47,6 @@ public interface ClassificationService {
 
 	// 删除前查询验证关键词
 	public List<ClassificationEntity> findKeywordLink();
+	
+	public boolean findParentCode(@Param("parentCode") String parentCode);
 }

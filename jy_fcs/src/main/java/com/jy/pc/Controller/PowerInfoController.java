@@ -95,7 +95,12 @@ public class PowerInfoController {
 		for (int i = 0; i < powers.size(); i++) {
 			PowerInfoEntity a = powers.get(i);
 			a.getId();
-			if (powerEntity.getId().equals(a.getId())) {
+			if(powerInfoService.findSubJurCode(id)) {
+				map.put("status", "1");
+				map.put("message", "该菜单下存在子菜单，不可直接删除！");
+				return map;
+			}
+			else if (powerEntity.getId().equals(a.getId())) {
 				powerInfoService.delete(id);
 				map.put("status", "0");
 				map.put("message", "删除成功");
