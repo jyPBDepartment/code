@@ -13,6 +13,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -26,7 +28,8 @@ public class CommentReplyInfoEntity {
 	private String id;
 	//外键id - 评论信息
 	// 外键id - 帖子信息
-	@ManyToOne(optional=false)//可选属性optional=false,表示author不能为空。删除文章，不影响用户
+	@ManyToOne(optional=true )//可选属性optional=false,表示author不能为空。删除文章，不影响用户
+	@NotFound(action=NotFoundAction.IGNORE) 
 	@JoinColumn(name="commentId", referencedColumnName = "id")
 	private PostCommentInfoEntity postCommentInfoEntity;
 	//回复内容

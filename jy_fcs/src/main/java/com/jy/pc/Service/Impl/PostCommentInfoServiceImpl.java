@@ -1,5 +1,7 @@
 package com.jy.pc.Service.Impl;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.data.domain.Page;
@@ -33,10 +35,11 @@ public class PostCommentInfoServiceImpl implements PostCommentInfoService {
 
 	}
 
+	@Transactional
 	@Override
 	public void delete(String id) {
 		postCommentInfoDao.deleteById(id);
-
+		//级联删除回复信息
 	}
 
 	@Override
