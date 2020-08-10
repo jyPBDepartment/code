@@ -24,6 +24,11 @@ public class PostInfoServiceImpl implements PostInfoService {
 		return invitationDao.findInva();
 	}
 
+	public List<PostInfoEntity> findListByType(String type) {
+
+		return invitationDao.findListByType(type);
+	}
+	
 	@Override
 	public Page<PostInfoEntity> findListByName(String name, String createUser, Pageable pageable) {
 		String invName = "%" + name + "%";

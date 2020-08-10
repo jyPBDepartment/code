@@ -33,6 +33,28 @@ public class CommentInfoController {
 	@Autowired
 	private PostCommentInfoService postCommentInfoService;
 
+	/**
+	 * 根据传入的主键，删除对应评论
+	 * @param id 评论ID
+	 * @return 
+	 * consumer:H5
+	 * note:此方法为级联删除，将级联删除评论下所有的回复
+	 */
+	@RequestMapping(value = "/delCommentInfo")
+	public Map<String, Object> delInfo(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "id") String id) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		if(postCommentInfoService.findId(id) == null) {
+			map.put("status", "1");
+			map.put("message", "该记录不存在");
+			return map;
+		}
+		postCommentInfoService.delete(id);
+		map.put("status", "0");
+		map.put("message", "删除成功");
+		return map;
+	} 
+	
 	// 查询 分页
 	@RequestMapping(value = "/findByName")
 	public Map<String, Object> findListByContent(HttpServletRequest res, HttpServletResponse req,
@@ -78,7 +100,7 @@ public class CommentInfoController {
 		return map;
 	}
 
-	// 回复删除
+	// 评论删除
 	@RequestMapping(value = "/delete")
 	public Map<String, Object> delete(HttpServletRequest res, HttpServletResponse req,
 			@RequestParam(name = "id") String id) {
@@ -90,7 +112,7 @@ public class CommentInfoController {
 		return map;
 	}
 
-	// 回复启用 OR 禁用
+	// 评论启用 OR 禁用
 	@RequestMapping(value = "/enable")
 	public Map<String, String> enable(HttpServletRequest res, HttpServletResponse req,
 			@RequestParam(name = "status") String status, @RequestParam(name = "id") String id) {
@@ -110,7 +132,7 @@ public class CommentInfoController {
 		return map;
 	}
 
-	// 条件查询
+	// 条件查询，根据主键查询评论
 	@RequestMapping(value = "/findById")
 	public Map<String, Object> findById(HttpServletRequest res, HttpServletResponse req,
 			@RequestParam(name = "id") String id) {

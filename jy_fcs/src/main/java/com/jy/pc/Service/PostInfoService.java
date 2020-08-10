@@ -15,4 +15,5 @@ public interface PostInfoService {
 	public void update(PostInfoEntity invitation);
 	public Page<PostInfoEntity> findListByName(String name,String createUser,Pageable pageable);
 	public PostInfoEntity findId(String id);
+	public List<PostInfoEntity> findListByType(String type);
 }

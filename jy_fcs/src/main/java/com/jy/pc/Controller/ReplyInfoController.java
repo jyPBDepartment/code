@@ -33,6 +33,27 @@ public class ReplyInfoController {
 	@Autowired
 	private CommentReplyInfoService commentReplyInfoService;
 
+	/**
+	 * 根据传入的主键，删除对应评论回复
+	 * @param id 评论ID
+	 * @return 
+	 * consumer:H5
+	 */
+	@RequestMapping(value = "/delReplyInfo")
+	public Map<String, Object> delInfo(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "id") String id) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		if(commentReplyInfoService.findId(id) == null) {
+			map.put("status", "1");
+			map.put("message", "该记录不存在");
+			return map;
+		}
+		commentReplyInfoService.delete(id);
+		map.put("status", "0");
+		map.put("message", "删除成功");
+		return map;
+	} 
+	
 	// 查询 分页
 	@RequestMapping(value = "/findByName")
 	public Map<String, Object> findListByContent(HttpServletRequest res, HttpServletResponse req,
