@@ -71,15 +71,25 @@ public class ClassificationController {
 
 	// 分类修改
 	@RequestMapping(value = "update")
-	public Map<String, String> update(HttpServletRequest res, HttpServletResponse req) {
+	public Map<String, String> update(HttpServletRequest res, HttpServletResponse req,@RequestParam(name = "parentCode") String parentCode) {
 		Map<String, String> map = new HashMap<String, String>();
 		String s = res.getParameter("classificationEntity");
 		JSONObject jsonObject = JSONObject.parseObject(s);
 		Date date = new Date();
 		ClassificationEntity classificationEntity = jsonObject.toJavaObject(ClassificationEntity.class);
 		classificationEntity.setUpdateDate(date);
-		classificationService.update(classificationEntity);
-		map.put("message", "修改成功");
+		if(classificationService.findParentCode(parentCode)) {
+			classificationEntity.setParentCode("");
+			map.put("status", "1");
+			map.put("message", "该菜单下存在子菜单，不可修改上级分类！");
+			classificationService.update(classificationEntity);
+		}else {
+			classificationEntity.setParentCode(parentCode);
+			classificationService.update(classificationEntity);
+			map.put("status", "0");
+			map.put("message", "修改完成");
+		}	
+		
 		return map;
 	}
 
@@ -136,11 +146,11 @@ public class ClassificationController {
 	// 分类模糊查询与分页
 	@RequestMapping(value = "/findByName")
 	public Map<String, Object> findByName(HttpServletRequest res, HttpServletResponse req,
-			@RequestParam(name = "code") String code, @RequestParam(name = "page") Integer page,
+			@RequestParam(name = "code") String code,@RequestParam(name = "name") String name,@RequestParam(name = "page") Integer page,
 			@RequestParam(name = "size") Integer size) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		Pageable pageable = new PageRequest(page - 1, size);
-		Page<ClassificationEntity> classiList = classificationService.findListByName(code, pageable);
+		Page<ClassificationEntity> classiList = classificationService.findListByName(code,name, pageable);
 		map.put("state", "0");// 成功
 		map.put("message", "查询成功");
 		map.put("data", classiList);

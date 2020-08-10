@@ -12,7 +12,7 @@ import com.jy.pc.Entity.ClassificationEntity;
 import com.jy.pc.Service.ClassificationService;
 
 @Service
-public class ClassificationServiceImpl implements ClassificationService {
+public  class ClassificationServiceImpl implements ClassificationService {
 
 	@Autowired
 	private ClassificationDao classificationDao;
@@ -45,15 +45,8 @@ public class ClassificationServiceImpl implements ClassificationService {
 		return classificationDao.findBId(id);
 	}
 
-	// 分类分页与模糊查询
-	@Override
-	public Page<ClassificationEntity> findListByName(String code, Pageable pageable) {
-
-		String classiCode = "%" + code + "%";
-
-		return classificationDao.findListByName(classiCode, pageable);
-	}
-
+	
+	
 	// 分类查询所有
 	@Override
 	public List<ClassificationEntity> findAll() {
@@ -113,5 +106,13 @@ public class ClassificationServiceImpl implements ClassificationService {
 	public boolean findParentCode(String parentCode) {
 		int count = classificationDao.findParentCode(parentCode);
 		return count > 0 ? true : false;
+	}
+
+	// 分类分页与模糊查询
+	@Override
+	public Page<ClassificationEntity> findListByName(String code,String name, Pageable pageable) {
+		String classiCode = "%" + code + "%";
+		String classiName = "%" + name + "%";
+		return classificationDao.findListByName(classiCode, classiName,pageable);
 	}
 }

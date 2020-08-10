@@ -72,27 +72,31 @@ public class PowerInfoController {
 
 	// 权限修改
 	@RequestMapping(value = "update")
-	public Map<String, String> update(HttpServletRequest res, HttpServletResponse req,@RequestParam(name = "subJurCode") String subJurCode) {
+	public Map<String, String> update(HttpServletRequest res, HttpServletResponse req) {
 		Map<String, String> map = new HashMap<String, String>();
 		String s = res.getParameter("powerInfoEntity");
 		JSONObject jsonObject = JSONObject.parseObject(s);
 		Date date = new Date();
 		PowerInfoEntity powerInfoEntity = jsonObject.toJavaObject(PowerInfoEntity.class);
 		powerInfoEntity.setUpdateDate(date);
-		if(powerInfoService.findSubJurCode(subJurCode)) {
-			powerInfoEntity.setSubJurCode("");
-			map.put("status", "1");
-			map.put("message", "该菜单下存在子菜单，不可修改上级分类！");
-			powerInfoService.update(powerInfoEntity);
-		}else {
+//		if(powerInfoService.findJurCode(subJurCode)) {
+//			powerInfoEntity.setSubJurCode("");
+//			map.put("status", "1");
+//			map.put("message", "该菜单下存在子菜单，不可修改上级分类！");
+//			powerInfoService.save(powerInfoEntity);
+//		}else {
+//			powerInfoService.update(powerInfoEntity);
+//			map.put("status", "0");
+//			map.put("message", "修改完成");
+//		}		
+		
 			powerInfoService.update(powerInfoEntity);
 			map.put("status", "0");
-			map.put("message", "该菜单下不存在子菜单，可修改上级分类！");
-		}		
-//		map.put("message", "修改成功");
+			map.put("message", "修改完成");
+			
 		return map;
 	}
-
+	
 	// 关联验证删除
 	@RequestMapping(value = "/delete")
 	public Map<String, Object> delete(HttpServletRequest res, HttpServletResponse req,
@@ -104,7 +108,7 @@ public class PowerInfoController {
 		for (int i = 0; i < powers.size(); i++) {
 			PowerInfoEntity a = powers.get(i);
 			a.getId();
-			if(powerInfoService.findSubJurCode(id)) {
+			if(powerInfoService.findJurCode(id)) {
 				map.put("status", "1");
 				map.put("message", "该菜单下存在子菜单，不可直接删除！");
 				return map;
