@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.jy.pc.DAO.CommentReplyInfoDao;
 import com.jy.pc.DAO.PostCommentInfoDao;
 import com.jy.pc.Entity.PostCommentInfoEntity;
 import com.jy.pc.Service.PostCommentInfoService;
@@ -16,6 +17,8 @@ import com.jy.pc.Service.PostCommentInfoService;
 public class PostCommentInfoServiceImpl implements PostCommentInfoService {
 	@Autowired
 	PostCommentInfoDao postCommentInfoDao;
+	@Autowired
+	CommentReplyInfoDao commentReplyInfoDao;
 
 	@Override
 	public Page<PostCommentInfoEntity> findListByContent(String content, String user,Pageable pageable) {
@@ -38,8 +41,9 @@ public class PostCommentInfoServiceImpl implements PostCommentInfoService {
 	@Transactional
 	@Override
 	public void delete(String id) {
-		postCommentInfoDao.deleteById(id);
 		//级联删除回复信息
+		commentReplyInfoDao.deleteByComment(id);
+		postCommentInfoDao.deleteById(id);
 	}
 
 	@Override

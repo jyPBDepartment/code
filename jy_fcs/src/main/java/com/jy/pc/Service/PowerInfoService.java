@@ -34,10 +34,8 @@ public interface PowerInfoService {
 
 	// 删除前验证
 	public List<PowerInfoEntity> findAccountLink();
-	
+
 	// 查询是否有子菜单
-	public boolean findSubJurCode(String subJurCode);
-	
-	
-	
+	public boolean findJurCode(String subJurCode);
+
 }

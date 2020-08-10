@@ -8,7 +8,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -17,6 +16,11 @@ import org.hibernate.annotations.GenericGenerator;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+/**
+ * 圈子管理 - 评论信息实体
+ * @author admin
+ *
+ */
 @Entity
 @Table(name = "sas_post_comment_info")
 public class PostCommentInfoEntity {
@@ -25,7 +29,7 @@ public class PostCommentInfoEntity {
 	@GenericGenerator(strategy = "uuid", name = "uuid")
 	// 主键id
 	private String id;
-	
+
 	// 评论内容
 	@Column
 	private String commentContent;
@@ -40,10 +44,10 @@ public class PostCommentInfoEntity {
 	// 状态 - 0生效1系统禁用
 	@Column(length = 1)
 	private String status;
-	
+
 	// 外键id - 帖子信息
-	@ManyToOne(optional=false)
-    @JoinColumn(name="postId", referencedColumnName = "id")
+	@ManyToOne(optional = false)
+	@JoinColumn(name = "postId", referencedColumnName = "id")
 	private PostInfoEntity postInfoEntity;
 
 	public String getId() {

@@ -22,7 +22,7 @@ public interface ClassificationService {
 	public ClassificationEntity findBId(String id);
 
 	// 分类分页与模糊查询
-	public Page<ClassificationEntity> findListByName(String code, Pageable pageable);
+	public Page<ClassificationEntity> findListByName(String code,String name,Pageable pageable);
 
 	// 分类findAll()
 	public List<ClassificationEntity> findAll();

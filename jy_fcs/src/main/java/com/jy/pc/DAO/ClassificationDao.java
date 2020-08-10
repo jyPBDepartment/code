@@ -15,10 +15,10 @@ public interface ClassificationDao extends JpaRepository<ClassificationEntity, S
 	@Query(value = "select * from sas_classification_info  where id =:id", nativeQuery = true)
 	public ClassificationEntity findBId(@Param("id") String id);
 
-	// 分页与模糊查询
-	@Query(value = "select * from sas_classification_info  t  where if(?1 !='',t.code like ?1,1=1)  order by t.create_date desc", countQuery = "select count(*) from sas_classification_info t  where if(?1 !='',t.code like ?1,1=1) order by t.create_date desc", nativeQuery = true)
-	public Page<ClassificationEntity> findListByName(String code, Pageable pageable);
-
+	// 分页与模糊查询	
+	@Query(value = "select * from sas_classification_info t where t.code like ?1 and t.name like ?2 union select * from sas_classification_info t where t.id in (select a.parent_code from sas_classification_info a where a.code like ?1 and a.name like ?2)",
+			countQuery = "select count(*) from sas_classification_info t  where if(?1 !='',t.code like ?1,1=1) and if(?2 !='',t.name like ?2,1=1)order by t.create_date asc", nativeQuery = true)
+	public Page<ClassificationEntity> findListByName(String code,String name,Pageable pageable);
 	// 查询分类编码
 	@Query(value = "select * from sas_classification_info t where t.parent_code ='' AND t.status ='1'", nativeQuery = true)
 	public List<ClassificationEntity> findSubClassiList();
@@ -49,4 +49,6 @@ public interface ClassificationDao extends JpaRepository<ClassificationEntity, S
 	
 	@Query(value = "select count(0) from sas_classification_info t where t.parent_code =:parentCode", nativeQuery = true)
 	public int findParentCode(@Param("parentCode") String parentCode);
+
+	
 }

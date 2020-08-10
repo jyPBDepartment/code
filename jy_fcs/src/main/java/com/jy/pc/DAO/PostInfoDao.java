@@ -20,4 +20,7 @@ public interface PostInfoDao extends JpaRepository<PostInfoEntity,String> {
 	public Page<PostInfoEntity> findListByName(String name,String createUser,Pageable pageable);
 	@Query(value="select * from sas_post_info t where t.id =:id",nativeQuery = true)
 	public PostInfoEntity findId(@Param("id")String id);
+	
+	@Query(value="select * from sas_post_info t where if(?1 !='',t.parent_code = ?1,1=1) order by t.create_date desc",nativeQuery = true)
+	public List<PostInfoEntity> findListByType(String type);
 }
