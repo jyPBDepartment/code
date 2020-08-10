@@ -13,6 +13,7 @@ import javax.persistence.TemporalType;
 import org.hibernate.annotations.GenericGenerator;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+//帖子信息表
 @Entity
 @Table(name="sas_post_info")
 public class PostInfoEntity {
