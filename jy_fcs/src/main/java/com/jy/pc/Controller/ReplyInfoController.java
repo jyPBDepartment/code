@@ -34,6 +34,28 @@ public class ReplyInfoController {
 	private CommentReplyInfoService commentReplyInfoService;
 
 	/**
+	 * 根据传入的信息，新增回复
+	 * @param postCommentInfoEntity 
+	 * replyContent：内容
+	 * replyUserName：回复人
+	 * postCommentInfoEntity.id：评论ID
+	 * @return 0成功1失败
+	 * consumer:H5
+	 * note:由客户添加评论，默认为启用状态
+	 */
+	@RequestMapping(value = "/addReplyInfo")
+	public Map<String, Object> addReplyInfo(HttpServletRequest res, HttpServletResponse req,
+			CommentReplyInfoEntity commentReplyInfoEntity) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		commentReplyInfoEntity.setReplyDate(new Date());
+		commentReplyInfoEntity.setStatus("0");
+		commentReplyInfoService.save(commentReplyInfoEntity);
+		map.put("status", "0");
+		map.put("message", "保存成功");
+		return map;
+	} 
+	
+	/**
 	 * 根据传入的主键，删除对应评论回复
 	 * @param id 评论ID
 	 * @return 
