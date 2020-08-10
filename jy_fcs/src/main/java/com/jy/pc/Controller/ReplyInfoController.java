@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
 import com.jy.pc.Entity.CommentReplyInfoEntity;
-import com.jy.pc.Entity.KeyWordEntity;
 import com.jy.pc.Service.CommentReplyInfoService;
 
 /**

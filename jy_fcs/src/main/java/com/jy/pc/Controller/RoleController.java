@@ -16,11 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.jy.pc.Entity.ClassificationEntity;
-import com.jy.pc.Entity.KeyWordEntity;
 import com.jy.pc.Entity.RoleEntity;
 import com.jy.pc.Service.RoleMenuRelationService;
 import com.jy.pc.Service.RoleService;
