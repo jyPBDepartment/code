@@ -1,5 +1,7 @@
 package com.jy.pc.Service;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -20,4 +22,10 @@ public interface ModuleInfoService {
 
 	// findbyid
 	public ModuleInfoEntity findId(String id);
+	
+	//根据模块名称查询非禁用模块名称
+	public List<ModuleInfoEntity> findModuleListByName(String name);
+	
+	//查询模块表所有非禁用信息
+	List<ModuleInfoEntity> findModuleOn();
 }

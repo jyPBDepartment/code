@@ -13,7 +13,7 @@ import javax.persistence.TemporalType;
 import org.hibernate.annotations.GenericGenerator;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-
+//账户信息表
 @Entity
 @Table(name="sas_account_info")
 public class AccountInfoEntity {

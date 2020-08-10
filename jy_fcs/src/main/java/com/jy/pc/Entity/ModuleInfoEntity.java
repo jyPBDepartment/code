@@ -13,7 +13,7 @@ import javax.persistence.TemporalType;
 import org.hibernate.annotations.GenericGenerator;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-
+//模块信息表
 @Entity
 @Table(name = "sas_module_info")
 public class ModuleInfoEntity {

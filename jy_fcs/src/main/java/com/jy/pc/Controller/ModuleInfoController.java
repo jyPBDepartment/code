@@ -2,6 +2,7 @@ package com.jy.pc.Controller;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
 import com.jy.pc.Entity.ModuleInfoEntity;
+import com.jy.pc.Entity.PowerInfoEntity;
 import com.jy.pc.Service.ModuleInfoService;
 
 @Controller
@@ -125,5 +127,48 @@ public class ModuleInfoController {
 		moduleInfoService.update(moduleInfoEntity);
 		return map;
 	}
+	
+	/**
+	 *     
+	       接口
+	 * @param res
+	 * @param req
+	 * @param name
+	 * @return
+	 */
+	//根据模块名称查询非禁用模块信息
+	@RequestMapping(value = "findModuleListByName")
+	public Map<String, Object> findModuleListByName(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "name") String name) {
+
+		Map<String, Object> map = new HashMap<String, Object>();// 接收数据容器
+		List<ModuleInfoEntity> moduleInfoEntity = moduleInfoService.findModuleListByName(name);
+		for(int i=0;i<moduleInfoEntity.size();i++) {
+			if(moduleInfoEntity.get(i).getStatus().equals("0")) {
+				map.put("status", "0");
+				map.put("message", "查询成功");
+				map.put("data", moduleInfoEntity);
+			}else{
+				map.put("status", "1");
+				map.put("message", "查询失败");
+			}
+		}
+		return map;
+	}
+	
+	//查询模块表所有非禁用信息
+	@RequestMapping(value = "findModuleOn")
+	public Map<String, Object> findModuleOn(HttpServletRequest res, HttpServletResponse req) {
+
+		Map<String, Object> map = new HashMap<String, Object>();// 接收数据容器
+		List<ModuleInfoEntity> moduleInfoEntity = moduleInfoService.findModuleOn();
+		if(moduleInfoEntity!=null) {
+			map.put("status", "0");
+			map.put("message", "查询成功");
+			map.put("data", moduleInfoEntity);
+		}
+		return map;
+	}
+
 
 }

@@ -2,6 +2,7 @@ package com.jy.pc.Controller;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -43,6 +44,7 @@ public class CaseInfoController {
 		Date date = new Date();
 		CaseInfoEntity caseInfoEntity = jsonObject.toJavaObject(CaseInfoEntity.class);
 		caseInfoEntity.setCreateDate(date);
+		caseInfoEntity.setAuditStatus("0");
 
 		ClassificationEntity classificationEntity = classificationService.findBId(caseInfoEntity.getClassiCode());
 		caseInfoEntity.setCropsTypeCode(classificationEntity.getName());
@@ -141,4 +143,37 @@ public class CaseInfoController {
 		caseInfoService.update(caseInfoEntity);
 		return map;
 	}
+	
+	/**
+	 * 接口
+	 */
+	//查询所有病虫害信息的最新3条记录
+	@RequestMapping(value = "findCaseInfo")
+	public Map<String, Object> findCaseInfo(HttpServletRequest res, HttpServletResponse req) {
+
+		Map<String, Object> map = new HashMap<String, Object>();// 接收数据容器
+		List<CaseInfoEntity> caseInfoEntity = caseInfoService.findCaseInfo();
+		map.put("state", "0");// 成功
+		map.put("message", "查询成功");
+		map.put("data", caseInfoEntity);
+		return map;
+	}
+	
+	// 修改前查询
+		@RequestMapping(value = "findCaseId")
+		public Map<String, Object> findCaseId(HttpServletRequest res, HttpServletResponse req,
+				@RequestParam(name = "id") String id) {
+			Map<String, Object> map = new HashMap<String, Object>();
+			CaseInfoEntity caseInfo = caseInfoService.findBId(id);
+			if (caseInfo != null) {
+				map.put("state", "0");// 查询数据成功
+				map.put("message", "查询成功");
+				map.put("data", caseInfo);
+			} else {
+				map.put("state", "1");// 查询数据失败
+				map.put("message", "查询失败");
+			}
+			return map;
+		}
+
 }

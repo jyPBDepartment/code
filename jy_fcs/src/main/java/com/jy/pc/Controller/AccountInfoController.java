@@ -34,11 +34,13 @@ import com.jy.pc.Utils.Aes;
 @RequestMapping(value = "/accountInfo")
 @ResponseBody
 public class AccountInfoController {
-
+	// 账户Service
 	@Autowired
 	private AccountInfoService accountInfoService;
-	@Autowired 
+	// 权限Service
+	@Autowired
 	private PowerInfoService powerInfoService;
+	// 账户权限关联表Service
 	@Autowired
 	private AccountPowerInfoService accountPowerInfoService;
 
@@ -48,13 +50,13 @@ public class AccountInfoController {
 			@RequestParam(name = "name") String name, @RequestParam(name = "password") String password) {
 
 		Map<String, String> map = new HashMap<String, String>();
-		Boolean flag = accountInfoService.checkUser(name, password);
-		AccountInfoEntity accountInfoEntity = accountInfoService.findUserInfo(name, password);
+		Boolean flag = accountInfoService.checkUser(name, password); // 判断用户名密码
+		AccountInfoEntity accountInfoEntity = accountInfoService.findUserInfo(name, password); // 调用查询方法，查询状态
 		if (flag) {
-			if(accountInfoEntity.getAuditStatus().equals("0")) {
+			if (accountInfoEntity.getAuditStatus().equals("0")) {
 				map.put("status", "0");
 				map.put("message", "登陆成功");
-			}else {
+			} else {
 				map.put("message", "该账户已被禁用!");
 			}
 		} else {
@@ -82,7 +84,7 @@ public class AccountInfoController {
 
 	// 账户添加
 	@RequestMapping(value = "/add")
-	public Map<String, String> save(HttpServletRequest res,HttpSession session,HttpServletResponse req) {
+	public Map<String, String> save(HttpServletRequest res, HttpSession session, HttpServletResponse req) {
 		Map<String, String> map = new HashMap<String, String>();
 		String s = res.getParameter("accountInfoEntity");
 		JSONObject jsonObject = JSONObject.parseObject(s);
@@ -106,20 +108,20 @@ public class AccountInfoController {
 		AccountInfoEntity accountInfoEntity = jsonObject.toJavaObject(AccountInfoEntity.class);
 		Date date = new Date();
 		accountInfoEntity.setUpdateDate(date);
-		accountInfoService.update(accountInfoEntity);		
+		accountInfoService.update(accountInfoEntity);
 		map.put("status", "0");
 		map.put("message", "修改成功");
 		return map;
 	}
 
-	//账户删除并删除关联表关联权限
+	// 账户删除并删除关联表关联权限
 	@RequestMapping(value = "/delete")
 	public Map<String, Object> delete(HttpServletRequest res, HttpServletResponse req,
 			@RequestParam(name = "id") String id) {
-		
+
 		Map<String, Object> map = new HashMap<String, Object>();
 		List<AccountPowerInfoEntity> accountPowerInfoEntity = accountPowerInfoService.findId(id);
-		for(int i=0;i< accountPowerInfoEntity.size();i++ ) {			
+		for (int i = 0; i < accountPowerInfoEntity.size(); i++) {
 			accountPowerInfoService.delete(accountPowerInfoEntity.get(i).getId());
 		}
 		accountInfoService.delete(id);
@@ -135,7 +137,7 @@ public class AccountInfoController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		AccountInfoEntity accountInfoEntity = accountInfoService.findId(id);
 		if (accountInfoEntity != null) {
-			map.put("status", "0");
+			map.put("status", "0");// 成功
 			map.put("data", accountInfoEntity);
 		} else {
 			map.put("status", "1");
@@ -167,71 +169,74 @@ public class AccountInfoController {
 		accountInfoService.update(accountInfoEntity);
 		return map;
 	}
-	
+
 	// 密码修改
-		@RequestMapping(value = "/updatePassword")
-		public Map<String, Object> updatePassword(HttpServletRequest res, HttpServletResponse req) {
+	@RequestMapping(value = "/updatePassword")
+	public Map<String, Object> updatePassword(HttpServletRequest res, HttpServletResponse req) {
 
-			Map<String, Object> map = new HashMap<String, Object>();
-			String s = res.getParameter("accountInfoEntity");
-			JSONObject jsonObject = JSONObject.parseObject(s);
-			AccountInfoEntity accountInfoEntity = jsonObject.toJavaObject(AccountInfoEntity.class);
-			Date date = new Date();
-			accountInfoEntity.setUpdateDate(date);
+		Map<String, Object> map = new HashMap<String, Object>();
+		String s = res.getParameter("accountInfoEntity");
+		JSONObject jsonObject = JSONObject.parseObject(s);
+		AccountInfoEntity accountInfoEntity = jsonObject.toJavaObject(AccountInfoEntity.class);
+		Date date = new Date();
+		accountInfoEntity.setUpdateDate(date);
+		accountInfoService.update(accountInfoEntity);
+		map.put("status", "0");
+		map.put("message", "修改成功");
+		return map;
+	}
 
-			accountInfoService.update(accountInfoEntity);
-			map.put("status", "0");
-			map.put("message", "修改成功");
-			return map;
-		}
-		
-		// 条件查询
-		@RequestMapping(value = "/findAccountId")
-		public Map<String, Object> findAccountId(HttpServletRequest res, HttpServletResponse req,
-				@RequestParam(name = "id") String id) {
-			Map<String, Object> map = new HashMap<String, Object>();
-			List<AccountPowerInfoEntity> accountPowerInfoEntity =accountPowerInfoService.findAccountId(id);
-			List<PowerInfoEntity> powerInfoEntity = powerInfoService.findCount();
-			map.put("status", "0");
-			map.put("data", accountPowerInfoEntity);
-			map.put("data1", powerInfoEntity);
-			return map;
-		}
-		
-	// 权限修改
+	// 权限设置显示
+	@RequestMapping(value = "/findAccountId")
+	public Map<String, Object> findAccountId(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "id") String id) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		List<AccountPowerInfoEntity> accountPowerInfoEntity = accountPowerInfoService.findAccountId(id);// 通过账户权限关联表查找与账户关联的权限
+		List<PowerInfoEntity> powerInfoEntity = powerInfoService.findCount();// 通过权限表查询所有权限
+		map.put("status", "0");
+		map.put("data", accountPowerInfoEntity); // 与账户有关联的权限数据
+		map.put("data1", powerInfoEntity); // 所有的权限数据
+		return map;
+	}
+
+	// 权限穿梭框修改
 	@RequestMapping(value = "/updatePower")
 	public Map<String, String> updatePower(HttpServletRequest res, HttpServletResponse req,
 			@RequestParam(name = "accountId") String accountId, @RequestParam(name = "addItem") String addItem,
 			@RequestParam(name = "deleteItem") String deleteItem) {
 
 		Map<String, String> map = new HashMap<String, String>();
-		AccountPowerInfoEntity accountPowerInfoEntity = new AccountPowerInfoEntity();
+		
 		Aes aes = new Aes();
 		String ad = "";
 		String de = "";
 		try {
+			//添加
 			if (!addItem.isEmpty()) {
 				ad = aes.desEncrypt(addItem);
 				JSONArray jsonObject = JSONObject.parseArray(ad);
 				Set set = new HashSet();
+				System.out.println("addItem:   "+jsonObject);
 				for (int i = 0; i < jsonObject.size(); i++) {
 					set.add(jsonObject.get(i));
 				}
 				for (int j = 0; j < jsonObject.size(); j++) {
+					AccountPowerInfoEntity accountPowerInfoEntity = new AccountPowerInfoEntity();
 					accountPowerInfoEntity.setAccountId(accountId);
 					accountPowerInfoEntity.setJurCodel(jsonObject.get(j).toString());
 					accountPowerInfoService.update(accountPowerInfoEntity);
 				}
 
 			}
+			//删除
 			if (!deleteItem.isEmpty()) {
 				de = aes.desEncrypt(deleteItem);
 				JSONArray jsonObject = JSONObject.parseArray(de);
 				Set set = new HashSet();
+				System.out.println("deleteItem:   "+jsonObject);
 				for (int i = 0; i < jsonObject.size(); i++) {
 					set.add(jsonObject.get(i));
 				}
-				// 每次只能删除一条
 				for (int j = 0; j < jsonObject.size(); j++) {
 					accountPowerInfoService.deleteByJurCode(jsonObject.get(j).toString(), accountId);
 				}

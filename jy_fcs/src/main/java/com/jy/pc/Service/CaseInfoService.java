@@ -1,5 +1,7 @@
 package com.jy.pc.Service;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -21,5 +23,8 @@ public interface CaseInfoService {
 
 	// 删除
 	public void delete(String id);
+	
+	//查询所有病虫害信息的最新3条记录
+	public List<CaseInfoEntity> findCaseInfo();
 
 }

@@ -13,7 +13,7 @@ import javax.persistence.TemporalType;
 import org.hibernate.annotations.GenericGenerator;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-
+//农服表
 @Entity
 @Table(name="sas_agricultural_clothing_info")
 public class AgriculturalEntity {
@@ -75,6 +75,55 @@ public class AgriculturalEntity {
 	private String updateUser;//审核人
 	@Column(length=255)
 	private String examineReason;//审核拒绝理由
+	@Column
+	private Date beginDate; //干活开始时间
+	@Column
+	private Date endDate;   //干活结束时间
+	@Column
+	private String days; //天数
+	@Column
+	private String machineNum; //农机台数
+	@Column(length=2)
+	private String isFace; //是否面议(0是1否)
+	@Column(length=2)
+	private String farmingMode;  //农活类型(0整活1零活)
+	
+	public Date getBeginDate() {
+		return beginDate;
+	}
+	public void setBeginDate(Date beginDate) {
+		this.beginDate = beginDate;
+	}
+	public Date getEndDate() {
+		return endDate;
+	}
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
+	}
+	public String getDays() {
+		return days;
+	}
+	public void setDays(String days) {
+		this.days = days;
+	}
+	public String getMachineNum() {
+		return machineNum;
+	}
+	public void setMachineNum(String machineNum) {
+		this.machineNum = machineNum;
+	}
+	public String getIsFace() {
+		return isFace;
+	}
+	public void setIsFace(String isFace) {
+		this.isFace = isFace;
+	}
+	public String getFarmingMode() {
+		return farmingMode;
+	}
+	public void setFarmingMode(String farmingMode) {
+		this.farmingMode = farmingMode;
+	}
 	public String getId() {
 		return id;
 	}

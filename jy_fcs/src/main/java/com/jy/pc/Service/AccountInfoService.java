@@ -19,6 +19,7 @@ public interface AccountInfoService {
 	public void delete(String id);
 	//findbyid
 	public AccountInfoEntity findId(String id);
+	//通过name，password查询数据
 	public AccountInfoEntity findUserInfo(String name, String password);
 
 }

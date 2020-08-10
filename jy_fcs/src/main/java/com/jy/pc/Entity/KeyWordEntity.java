@@ -13,7 +13,7 @@ import javax.persistence.TemporalType;
 import org.hibernate.annotations.GenericGenerator;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-
+//关键词表
 @Entity
 @Table(name = "sas_key_word")
 public class KeyWordEntity {

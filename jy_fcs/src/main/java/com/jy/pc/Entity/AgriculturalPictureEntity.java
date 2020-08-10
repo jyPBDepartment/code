@@ -7,44 +7,38 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
-//账户权限关联表
+
+//农服图片关联表
 @Entity
-@Table(name = "sas_account_power_info")
-public class AccountPowerInfoEntity {
+@Table(name="sas_agricultural_picture")
+public class AgriculturalPictureEntity {
 	@Id
 	@GeneratedValue(generator = "uuid")
 	@GenericGenerator(strategy = "uuid", name = "uuid")
-	// 主键id
-	private String id;
-	// 账户id
+	@Column(length=36)
+	private String id;//主键id
 	@Column
-	private String accountId;
-	// 权限编码
+	private String picId; //图片Id
 	@Column
-	private String jurCodel;
-
+	private String agrId; //农服Id
 	public String getId() {
 		return id;
 	}
-
 	public void setId(String id) {
 		this.id = id;
 	}
-
-	public String getAccountId() {
-		return accountId;
+	public String getPicId() {
+		return picId;
 	}
-
-	public void setAccountId(String accountId) {
-		this.accountId = accountId;
+	public void setPicId(String picId) {
+		this.picId = picId;
 	}
-
-	public String getJurCodel() {
-		return jurCodel;
+	public String getAgrId() {
+		return agrId;
 	}
-
-	public void setJurCodel(String jurCodel) {
-		this.jurCodel = jurCodel;
+	public void setAgrId(String agrId) {
+		this.agrId = agrId;
 	}
+	
 
 }

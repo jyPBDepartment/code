@@ -1,5 +1,7 @@
 package com.jy.pc.Service.Impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -49,6 +51,12 @@ public class CaseInfoServiceImpl implements CaseInfoService {
 	public void delete(String id) {
 		caseInfoDao.deleteById(id);
 
+	}
+
+	//查询所有病虫害信息的最新3条记录
+	@Override
+	public List<CaseInfoEntity> findCaseInfo() {
+		return caseInfoDao.findCaseInfo();
 	}
 
 }
