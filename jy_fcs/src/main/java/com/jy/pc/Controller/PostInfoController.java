@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSONObject;
 import com.jy.pc.Entity.PostInfoEntity;
 import com.jy.pc.Service.PostInfoService;
+
 //帖子管理
 @Controller
 @RequestMapping(value = "/postInfo")
@@ -27,6 +28,29 @@ import com.jy.pc.Service.PostInfoService;
 public class PostInfoController {
 	@Autowired
 	private PostInfoService postInfoService;
+
+	/**
+	 * 	加载所有帖子、评论、回复列表信息
+	 * @param postType 圈子类型
+	 * @param page 页码
+	 * @param size 每页加载数量
+	 * @return
+	 * consumer:
+	 * note:
+	 */
+	@RequestMapping(value = "/findAllPostInfo")
+	public Map<String, Object> findAllPostInfo(HttpServletRequest res, HttpServletResponse req,
+			String postType,
+			@RequestParam(name = "page") Integer page, @RequestParam(name = "size") Integer size) {
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		Pageable pageable = new PageRequest(page - 1, size);
+		Page<PostInfoEntity> invitationList = postInfoService.findListWithSub("", pageable);
+		map.put("status", "0");// 成功
+		map.put("message", "查询成功");
+		map.put("data", invitationList);
+		return map;
+	}
 
 	// 查询 分页
 	@RequestMapping(value = "/findByName")
@@ -112,22 +136,22 @@ public class PostInfoController {
 		map.put("message", "审核驳回");
 		return map;
 	}
-	
+
 	/**
 	 * 接口
 	 */
 	// 添加帖子
-		@RequestMapping(value = "/addPostInfo")
-		public Map<String, String> addPostInfo(HttpServletRequest res, HttpSession session, HttpServletResponse req,
-				PostInfoEntity postInfo) {
-			Map<String, String> map = new HashMap<String, String>();
-			Date date = new Date();
-			postInfo.setCreateDate(date);
-			postInfo.setStatus("1");
-			postInfoService.save(postInfo);
-			map.put("status", "0");
-			map.put("message", "添加成功");
-			return map;
-		}
+	@RequestMapping(value = "/addPostInfo")
+	public Map<String, String> addPostInfo(HttpServletRequest res, HttpSession session, HttpServletResponse req,
+			PostInfoEntity postInfo) {
+		Map<String, String> map = new HashMap<String, String>();
+		Date date = new Date();
+		postInfo.setCreateDate(date);
+		postInfo.setStatus("1");
+		postInfoService.save(postInfo);
+		map.put("status", "0");
+		map.put("message", "添加成功");
+		return map;
+	}
 
 }

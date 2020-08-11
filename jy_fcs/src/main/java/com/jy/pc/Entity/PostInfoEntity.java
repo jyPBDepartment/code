@@ -1,8 +1,10 @@
 package com.jy.pc.Entity;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -53,9 +55,17 @@ public class PostInfoEntity {
 	//拒绝原因
 	@Column
 	private String reason;
-	
+	//贴子下的评论
+	@ElementCollection(targetClass=PostCommentInfoEntity.class)
+    private List<PostCommentInfoEntity> commentList;//文章列表
 	public String getReason() {
 		return reason;
+	}
+	public List<PostCommentInfoEntity> getCommentList() {
+		return commentList;
+	}
+	public void setCommentList(List<PostCommentInfoEntity> commentList) {
+		this.commentList = commentList;
 	}
 	public void setReason(String reason) {
 		this.reason = reason;

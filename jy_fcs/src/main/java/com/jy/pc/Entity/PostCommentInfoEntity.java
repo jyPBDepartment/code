@@ -1,8 +1,10 @@
 package com.jy.pc.Entity;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -13,8 +15,11 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * 圈子管理 - 评论信息实体
@@ -47,8 +52,21 @@ public class PostCommentInfoEntity {
 
 	// 外键id - 帖子信息
 	@ManyToOne(optional = false)
+	@NotFound(action=NotFoundAction.IGNORE) 
 	@JoinColumn(name = "postId", referencedColumnName = "id")
 	private PostInfoEntity postInfoEntity;
+	
+	//评论下的回复
+	@ElementCollection(targetClass=PostCommentInfoEntity.class)
+	private List<CommentReplyInfoEntity> replyList;
+	
+	public List<CommentReplyInfoEntity> getReplyList() {
+		return replyList;
+	}
+
+	public void setReplyList(List<CommentReplyInfoEntity> replyList) {
+		this.replyList = replyList;
+	}
 
 	public String getId() {
 		return id;

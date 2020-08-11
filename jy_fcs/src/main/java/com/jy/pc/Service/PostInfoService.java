@@ -20,4 +20,6 @@ public interface PostInfoService {
 	public Page<PostInfoEntity> findListByName(String name,String createUser,Pageable pageable);
 	//findById
 	public PostInfoEntity findId(String id);
+	
+	public Page<PostInfoEntity> findListWithSub(String postType,Pageable pageable);
 }
