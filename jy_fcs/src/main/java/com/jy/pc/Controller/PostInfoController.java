@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -19,7 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSONObject;
 import com.jy.pc.Entity.PostInfoEntity;
 import com.jy.pc.Service.PostInfoService;
-
+//帖子管理
 @Controller
 @RequestMapping(value = "/postInfo")
 @ResponseBody
@@ -111,5 +112,22 @@ public class PostInfoController {
 		map.put("message", "审核驳回");
 		return map;
 	}
+	
+	/**
+	 * 接口
+	 */
+	// 添加帖子
+		@RequestMapping(value = "/addPostInfo")
+		public Map<String, String> addPostInfo(HttpServletRequest res, HttpSession session, HttpServletResponse req,
+				PostInfoEntity postInfo) {
+			Map<String, String> map = new HashMap<String, String>();
+			Date date = new Date();
+			postInfo.setCreateDate(date);
+			postInfo.setStatus("1");
+			postInfoService.save(postInfo);
+			map.put("status", "0");
+			map.put("message", "添加成功");
+			return map;
+		}
 
 }

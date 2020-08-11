@@ -138,7 +138,4 @@ public class PostInfoEntity {
 	public void setAuditUser(String auditUser) {
 		this.auditUser = auditUser;
 	}
-	
-	
-	
 }
