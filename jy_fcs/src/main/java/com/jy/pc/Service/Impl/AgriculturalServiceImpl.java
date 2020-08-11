@@ -51,16 +51,33 @@ public class AgriculturalServiceImpl implements AgriculturalService {
 
 		return agriculturalDao.saveAndFlush(agriculturalEntity);
 	}
+
 	// 农服查询标题名称
 	@Override
 	public List<AgriculturalEntity> findListByAgrName(String name) {
 		String argName = "%" + name + "%";
 		return agriculturalDao.findListByAgrName(name);
 	}
+
 	// 农服查询最近三条
 	@Override
 	public List<AgriculturalEntity> findListByTime() {
-		
+
 		return agriculturalDao.findListByTime();
 	}
+
+	// 关键字搜索病虫害信息
+	@Override
+	public List<AgriculturalEntity> findCaseInfoByKey(String name) {
+		String caseName = "%" + name + "%";
+		return agriculturalDao.findCaseInfoByKey(caseName);
+	}
+
+	// 不同状态加载不同的发布
+	@Override
+	public List<AgriculturalEntity> findStatusPass(String status) {
+
+		return agriculturalDao.findStatusPass(status);
+	}
+
 }

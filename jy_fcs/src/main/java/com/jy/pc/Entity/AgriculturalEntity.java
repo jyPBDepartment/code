@@ -87,7 +87,23 @@ public class AgriculturalEntity {
 	private String isFace; //是否面议(0是1否)
 	@Column(length=2)
 	private String farmingMode;  //农活类型(0整活1零活)
+	@Column
+	private String workArea;  //干活地点
+	@Column(length=36)
+	private double workPrice;   //农活价格
 	
+	public String getWorkArea() {
+		return workArea;
+	}
+	public void setWorkArea(String workArea) {
+		this.workArea = workArea;
+	}
+	public double getWorkPrice() {
+		return workPrice;
+	}
+	public void setWorkPrice(double workPrice) {
+		this.workPrice = workPrice;
+	}
 	public Date getBeginDate() {
 		return beginDate;
 	}
