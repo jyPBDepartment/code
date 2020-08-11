@@ -162,7 +162,7 @@ public class AgriculturalController {
 		Map<String, String> map = new HashMap<String, String>();
 		Date date = new Date();
 		agriculturalEntity.setCreateDate(date);
-		agriculturalEntity.setWorkPrice(0);
+		agriculturalEntity.setStatus("0");
 		agriculturalService.save(agriculturalEntity);
 		map.put("status", "0");
 		map.put("message", "添加成功");
@@ -176,6 +176,7 @@ public class AgriculturalController {
 		Map<String, String> map = new HashMap<String, String>();
 		Date date = new Date();
 		agriculturalEntity.setCreateDate(date);
+		agriculturalEntity.setStatus("0");
 		agriculturalService.save(agriculturalEntity);
 		map.put("status", "0");
 		map.put("message", "添加成功");
@@ -189,7 +190,7 @@ public class AgriculturalController {
 		Map<String, String> map = new HashMap<String, String>();
 		Date date = new Date();
 		agriculturalEntity.setCreateDate(date);
-		agriculturalEntity.setWorkPrice(0);
+		agriculturalEntity.setStatus("0");
 		agriculturalService.save(agriculturalEntity);
 		map.put("status", "0");
 		map.put("message", "添加成功");
@@ -203,7 +204,7 @@ public class AgriculturalController {
 		Map<String, String> map = new HashMap<String, String>();
 		Date date = new Date();
 		agriculturalEntity.setCreateDate(date);
-		agriculturalEntity.setWorkPrice(0);
+		agriculturalEntity.setStatus("0");
 		agriculturalService.save(agriculturalEntity);
 		map.put("status", "0");
 		map.put("message", "添加成功");
