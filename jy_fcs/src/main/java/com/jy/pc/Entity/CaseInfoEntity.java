@@ -14,6 +14,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+//看图识病表
 @Entity
 @Table(name="sas_case_info")
 public class CaseInfoEntity {

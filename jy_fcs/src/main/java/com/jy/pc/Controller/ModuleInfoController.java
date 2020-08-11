@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
 import com.jy.pc.Entity.ModuleInfoEntity;
-import com.jy.pc.Entity.PowerInfoEntity;
 import com.jy.pc.Service.ModuleInfoService;
 
 @Controller
@@ -169,6 +168,17 @@ public class ModuleInfoController {
 		}
 		return map;
 	}
+	// 查询所有有效的模块信息
+		@RequestMapping(value = "/findListByMobile")
+		public Map<String, Object> findListByMobile(HttpServletRequest res, HttpServletResponse req) {
 
+			Map<String, Object> map = new HashMap<String, Object>();
+
+			List<ModuleInfoEntity> effect = moduleInfoService.findListByMobile();
+			map.put("state", "0");// 成功
+			map.put("message", "查询成功");
+			map.put("data", effect);
+			return map;
+		}
 
 }

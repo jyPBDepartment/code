@@ -2,6 +2,7 @@ package com.jy.pc.Controller;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -77,7 +78,29 @@ public class AgriculturalController {
 		map.put("data", AgriculturalList);
 		return map;
 	}
+	// 农服模糊查询标题名称
+		@RequestMapping(value = "/findListByAgrName")
+		public Map<String, Object> findListByAgrName(HttpServletRequest res, HttpServletResponse req,
+				@RequestParam(name = "name") String name) {
+			Map<String, Object> map = new HashMap<String, Object>();
 
+			List<AgriculturalEntity> Agricultural = agriculturalService.findListByAgrName(name);
+			map.put("state", "0");// 成功
+			map.put("message", "查询成功");
+			map.put("data", Agricultural);
+			return map;
+		}
+		// 农服最近三条查询
+		@RequestMapping(value = "/findListByTime")
+		public Map<String, Object> findListByTime(HttpServletRequest res, HttpServletResponse req) {
+			Map<String, Object> map = new HashMap<String, Object>();
+
+			List<AgriculturalEntity> Agricultur = agriculturalService.findListByTime();
+			map.put("state", "0");// 成功
+			map.put("message", "查询成功");
+			map.put("data", Agricultur);
+			return map;
+		}
 	// 农服查看详情
 	@RequestMapping(value = "findById")
 	public Map<String, Object> findById(HttpServletRequest res, HttpServletResponse req,

@@ -23,4 +23,10 @@ public interface AgriculturalService {
 	// 农服状态修改
 	public AgriculturalEntity update(AgriculturalEntity agriculturalEntity);
 
+	// 农服查询标题名称
+	public List<AgriculturalEntity> findListByAgrName(String name);
+
+	// 农服查询最近三条
+	public List<AgriculturalEntity> findListByTime();
+
 }

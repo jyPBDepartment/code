@@ -14,6 +14,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+//权限信息表
 @Entity
 @Table(name="sas_power_info")
 public class PowerInfoEntity {

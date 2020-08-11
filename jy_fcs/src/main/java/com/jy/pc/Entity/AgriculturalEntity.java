@@ -13,7 +13,7 @@ import javax.persistence.TemporalType;
 import org.hibernate.annotations.GenericGenerator;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-//农服表
+//农服信息表
 @Entity
 @Table(name="sas_agricultural_clothing_info")
 public class AgriculturalEntity {
