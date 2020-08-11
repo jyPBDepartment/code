@@ -88,22 +88,10 @@ public class AgriculturalEntity {
 	@Column(length=2)
 	private String farmingMode;  //农活类型(0整活1零活)
 	@Column
-	private String workArea;  //干活地点
-	@Column(length=36)
-	private double workPrice;   //农活价格
+	private float agriPrice;//农活价格
+	@Column(length=255)
+	private String workArea;//干活地点
 	
-	public String getWorkArea() {
-		return workArea;
-	}
-	public void setWorkArea(String workArea) {
-		this.workArea = workArea;
-	}
-	public double getWorkPrice() {
-		return workPrice;
-	}
-	public void setWorkPrice(double workPrice) {
-		this.workPrice = workPrice;
-	}
 	public Date getBeginDate() {
 		return beginDate;
 	}
@@ -283,6 +271,18 @@ public class AgriculturalEntity {
 	}
 	public void setClassiCode(String classiCode) {
 		this.classiCode = classiCode;
+	}
+	public float getAgriPrice() {
+		return agriPrice;
+	}
+	public void setAgriPrice(float agriPrice) {
+		this.agriPrice = agriPrice;
+	}
+	public String getWorkArea() {
+		return workArea;
+	}
+	public void setWorkArea(String workArea) {
+		this.workArea = workArea;
 	}
 	
 	
