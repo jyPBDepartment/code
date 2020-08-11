@@ -8,4 +8,9 @@ public interface FarmworkService {
 	// 农活预约总数
 	public List<FarmworkEntity> findSum();
 
+	// 农活预约添加
+	public FarmworkEntity save(FarmworkEntity farmworkEntity);
+
+	
+
 }

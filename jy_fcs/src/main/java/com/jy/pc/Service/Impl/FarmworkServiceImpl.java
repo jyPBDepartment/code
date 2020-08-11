@@ -21,4 +21,12 @@ public class FarmworkServiceImpl implements FarmworkService {
 		return farmworkDao.findSum();
 	}
 
+	// 农活预约添加
+	@Override
+	public FarmworkEntity save(FarmworkEntity farmworkEntity) {
+
+		return farmworkDao.saveAndFlush(farmworkEntity);
+	}
+
+	
 }

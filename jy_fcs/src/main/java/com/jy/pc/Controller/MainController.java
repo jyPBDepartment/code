@@ -35,7 +35,7 @@ public class MainController {
 	public Map<String,Object> findSum(HttpServletRequest res,HttpServletResponse req) {
 
 		Map<String,Object> map = new HashMap<String,Object>();//接收数据容器
-		List<FarmworkEntity> farmworkEntity = farmworkService.findSum();//查询所有数据方法
+		List<FarmworkEntity> farmworkEntity = farmworkService.findSum();
 		List<PostInfoEntity> invitationEntity =invitationService.findInva();
 		List<AgriculturalEntity> AgriculturalEntity =agriculturalService.findAgrSum();
 		map.put("state", "0");
