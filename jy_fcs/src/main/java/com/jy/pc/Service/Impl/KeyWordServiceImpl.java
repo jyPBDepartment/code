@@ -1,5 +1,7 @@
 package com.jy.pc.Service.Impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -43,6 +45,12 @@ public class KeyWordServiceImpl implements KeyWordService {
 	@Override
 	public KeyWordEntity findId(String id) {
 		return keyWordDao.findId(id);
+	}
+
+	//通过分类编码查询对应关键词集合
+	@Override
+	public List<KeyWordEntity> findListByClass(String classCode) {
+		return keyWordDao.findListByClass(classCode);
 	}
 
 }

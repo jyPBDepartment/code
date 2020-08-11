@@ -1,8 +1,10 @@
 package com.jy.pc.Entity;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -49,6 +51,15 @@ public class CaseInfoEntity {
 	private Date updateDate;//修改时间
 	@Column(length=255)
 	private String createUser;//创建人
+	@ElementCollection(targetClass=KeyWordEntity.class)
+	private List<KeyWordEntity> keyCodes;//关键字关联
+	
+	public List<KeyWordEntity> getKeyCodes() {
+		return keyCodes;
+	}
+	public void setKeyCodes(List<KeyWordEntity> keyCodes) {
+		this.keyCodes = keyCodes;
+	}
 	public String getId() {
 		return id;
 	}

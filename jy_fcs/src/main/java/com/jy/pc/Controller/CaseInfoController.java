@@ -20,8 +20,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSONObject;
 import com.jy.pc.Entity.CaseInfoEntity;
 import com.jy.pc.Entity.ClassificationEntity;
+import com.jy.pc.Entity.KeyWordEntity;
+import com.jy.pc.Enum.ClassificationEnum;
 import com.jy.pc.Service.CaseInfoService;
 import com.jy.pc.Service.ClassificationService;
+import com.jy.pc.Service.KeyWordService;
 
 @Controller
 @ResponseBody
@@ -32,7 +35,22 @@ public class CaseInfoController {
 	private CaseInfoService caseInfoService;
 	@Autowired
 	private ClassificationService classificationService;
+	@Autowired
+	private KeyWordService keyWordService;
 
+	@RequestMapping(value = "/findCaseKey")
+	public Map<String, Object> findCaseKey(HttpServletRequest res, HttpServletResponse req) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		List<KeyWordEntity> keyList = keyWordService.findListByClass(ClassificationEnum.KEYWORD_CASEINFO.getCode());
+		if (keyList != null) {
+			map.put("state", "0");
+			map.put("data", keyList);
+		} else {
+			map.put("state", "1");
+		}
+		return map;
+	}
+	
 	// 添加
 
 	@RequestMapping(value = "/save")
@@ -51,8 +69,10 @@ public class CaseInfoController {
 
 		ClassificationEntity classification = classificationService.findBId(caseInfoEntity.getClassiDipCode());
 		caseInfoEntity.setDipTypeCode(classification.getName());
+		
+		String keywords = jsonObject.getString("keys");
 		try {
-			caseInfoService.save(caseInfoEntity);
+			caseInfoService.saveWithKeyword(caseInfoEntity,keywords);
 			map.put("state", "0");
 
 			map.put("message", "添加成功");
@@ -93,7 +113,8 @@ public class CaseInfoController {
 
 		ClassificationEntity classification = classificationService.findBId(caseInfoEntity.getClassiDipCode());
 		caseInfoEntity.setDipTypeCode(classification.getName());
-		caseInfoService.update(caseInfoEntity);
+		String keywords = jsonObject.getString("keys");
+		caseInfoService.updateWithKeyword(caseInfoEntity,keywords);
 		map.put("message", "修改成功");
 		return map;
 	}

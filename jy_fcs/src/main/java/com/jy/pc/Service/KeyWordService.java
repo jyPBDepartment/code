@@ -1,5 +1,7 @@
 package com.jy.pc.Service;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -20,5 +22,8 @@ public interface KeyWordService {
 
 	// findbyid
 	public KeyWordEntity findId(String id);
+	
+	//根据分类代码查询关键字
+	public List<KeyWordEntity> findListByClass(String classCode);
 
 }

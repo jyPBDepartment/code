@@ -11,6 +11,12 @@ public interface CaseInfoService {
 
 	// 添加
 	public CaseInfoEntity save(CaseInfoEntity caseInfoEntity);
+	
+	//添加(级联添加关键词)
+	public CaseInfoEntity saveWithKeyword(CaseInfoEntity caseInfoEntity,String keywords);
+	
+	//修改(级联修改关键词)
+	public CaseInfoEntity updateWithKeyword(CaseInfoEntity caseInfoEntity,String keywords);
 
 	// findById
 	public CaseInfoEntity findBId(String id);
