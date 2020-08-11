@@ -9,6 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
+
+import com.sun.istack.Nullable;
 //农服预约表
 @Entity
 @Table(name="sas_farmwork_appointment_info")
@@ -32,8 +34,8 @@ public class FarmworkEntity {
 	private String area;     //面积
 	@Column
 	private String workArea;  //干活地点
-	@Column
-	private float workPrice;   //农活价格
+	@Column(length=36)
+	private double workPrice;   //农活价格
 	@Column
 	private String contactUser; //联系人
 	@Column
@@ -63,10 +65,10 @@ public class FarmworkEntity {
 	public void setWorkArea(String workArea) {
 		this.workArea = workArea;
 	}
-	public float getWorkPrice() {
+	public double getWorkPrice() {
 		return workPrice;
 	}
-	public void setWorkPrice(float workPrice) {
+	public void setWorkPrice(double workPrice) {
 		this.workPrice = workPrice;
 	}
 	public String getContactUser() {
