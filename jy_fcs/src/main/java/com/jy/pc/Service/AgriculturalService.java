@@ -34,4 +34,7 @@ public interface AgriculturalService {
 
 	// 不同状态加载不同的发布
 	public List<AgriculturalEntity> findStatusPass(String status);
+	
+	// 获取农服预约信息
+	public List<AgriculturalEntity> findAppointment();
 }

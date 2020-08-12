@@ -49,14 +49,4 @@ public class FarmworkController {
 		map.put("message", "添加成功");
 		return map;
 	}
-	// 农活预约
-		@RequestMapping(value = "/findSum")
-		public Map<String, Object> findSum(HttpServletRequest res, HttpServletResponse req) {
-			Map<String, Object> map = new HashMap<String, Object>();
-			List<FarmworkEntity> farm = farmworkService.findSum();
-			map.put("state", "0");// 成功
-			map.put("message", "查询成功");
-			map.put("data", farm);
-			return map;
-		}
 }

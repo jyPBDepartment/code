@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSONObject;
 import com.jy.pc.Entity.AgriculturalEntity;
 import com.jy.pc.Entity.ClassificationEntity;
+import com.jy.pc.Entity.FarmworkEntity;
 import com.jy.pc.Service.AgriculturalService;
 import com.jy.pc.Service.ClassificationService;
 
@@ -210,21 +211,22 @@ public class AgriculturalController {
 		map.put("message", "添加成功");
 		return map;
 	}
-	
+
 	// 关键字搜索病虫害信息
 	@RequestMapping(value = "/findCaseInfoByKey")
-	public Map<String, Object> findCaseInfoByKey(HttpServletRequest res, HttpServletResponse req,@RequestParam(name = "name") String name) {
+	public Map<String, Object> findCaseInfoByKey(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "name") String name) {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 		List<AgriculturalEntity> agricultural = agriculturalService.findCaseInfoByKey(name);
-		for(int i=0;i<agricultural.size();i++) {				
-				map.put("data", agricultural);
+		for (int i = 0; i < agricultural.size(); i++) {
+			map.put("data", agricultural);
 		}
 		map.put("status", "0");
 		map.put("message", "查询成功");
 		return map;
 	}
-	
+
 	// 不同状态加载不同的发布
 	@RequestMapping(value = "/findStatusPass")
 	public Map<String, Object> findStatusPass(HttpServletRequest res, HttpServletResponse req,
@@ -237,4 +239,14 @@ public class AgriculturalController {
 		return map;
 	}
 
+	// 获取农服预约信息
+	@RequestMapping(value = "/findAppointment")
+	public Map<String, Object> findAppointment(HttpServletRequest res, HttpServletResponse req) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		List<AgriculturalEntity> agricul = agriculturalService.findAppointment();
+		map.put("state", "0");// 成功
+		map.put("message", "查询成功");
+		map.put("data", agricul);
+		return map;
+	}
 }

@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.jy.pc.Entity.AgriculturalEntity;
+import com.jy.pc.Entity.FarmworkEntity;
 
 public interface AgriculturalDao extends JpaRepository<AgriculturalEntity, String> {
 
@@ -39,5 +40,9 @@ public interface AgriculturalDao extends JpaRepository<AgriculturalEntity, Strin
 	// 不同状态加载不同的发布
 	@Query(value = "SELECT * FROM sas_agricultural_clothing_info t where t.status = :status", nativeQuery = true)
 	public List<AgriculturalEntity> findStatusPass(@Param("status") String status);
+
+	// 获取农服预约信息
+	@Query(value = "SELECT * FROM sas_agricultural_clothing_info t where t.status = '0'", nativeQuery = true)
+	public List<AgriculturalEntity> findAppointment();
 
 }

@@ -80,4 +80,11 @@ public class AgriculturalServiceImpl implements AgriculturalService {
 		return agriculturalDao.findStatusPass(status);
 	}
 
+	// 获取农服预约信息
+	@Override
+	public List<AgriculturalEntity> findAppointment() {
+
+		return agriculturalDao.findAppointment();
+	}
+
 }

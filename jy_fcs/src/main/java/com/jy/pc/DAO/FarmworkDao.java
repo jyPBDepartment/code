@@ -13,8 +13,4 @@ public interface FarmworkDao extends JpaRepository<FarmworkEntity,String>{
 	@Query(value="SELECT * FROM sas_farmwork_appointment_info t where t.status = '0'",nativeQuery = true)
 	public List<FarmworkEntity> findSum();
 	
-
-	
-	
-	
 }
