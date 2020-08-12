@@ -4,17 +4,18 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.GenericGenerator;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.jy.pc.POJO.PostCommentInfoPO;
 //帖子信息表
 @Entity
 @Table(name="sas_post_info")
@@ -56,15 +57,24 @@ public class PostInfoEntity {
 	@Column
 	private String reason;
 	//贴子下的评论
-	@ElementCollection(targetClass=PostCommentInfoEntity.class)
-    private List<PostCommentInfoEntity> commentList;//文章列表
+	@Transient
+    private List<PostCommentInfoPO> commentList;//文章列表
+	@Transient
+	private int commentSize;
+	
+	public int getCommentSize() {
+		return commentSize;
+	}
+	public void setCommentSize(int commentSize) {
+		this.commentSize = commentSize;
+	}
 	public String getReason() {
 		return reason;
 	}
-	public List<PostCommentInfoEntity> getCommentList() {
+	public List<PostCommentInfoPO> getCommentList() {
 		return commentList;
 	}
-	public void setCommentList(List<PostCommentInfoEntity> commentList) {
+	public void setCommentList(List<PostCommentInfoPO> commentList) {
 		this.commentList = commentList;
 	}
 	public void setReason(String reason) {

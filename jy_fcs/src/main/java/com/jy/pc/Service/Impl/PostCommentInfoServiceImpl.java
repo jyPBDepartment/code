@@ -24,6 +24,8 @@ public class PostCommentInfoServiceImpl implements PostCommentInfoService {
 	public Page<PostCommentInfoEntity> findListByContent(String content, String user,Pageable pageable) {
 		String contentParam = "%"+content+"%";
 		String userParam = "%"+user+"%";
+		Page<PostCommentInfoEntity> page = postCommentInfoDao.findListByContent(contentParam, userParam,pageable);
+		System.out.println(page.getContent());
 		return postCommentInfoDao.findListByContent(contentParam, userParam,pageable);
 	}
 

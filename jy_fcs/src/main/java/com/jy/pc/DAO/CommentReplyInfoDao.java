@@ -10,13 +10,16 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.jy.pc.Entity.CommentReplyInfoEntity;
+import com.jy.pc.POJO.CommentReplyInfoPO;
 
 public interface CommentReplyInfoDao extends JpaRepository<CommentReplyInfoEntity, String>{
 	@Query(value="select * from sas_comment_reply_info t where t.id =:id",nativeQuery = true)
 	public CommentReplyInfoEntity findId(@Param("id")String id);
 	
-	@Query(value="select * from sas_comment_reply_info t where t.comment_id =:commentId",nativeQuery = true)
-	public List<CommentReplyInfoEntity> findByComment(@Param("commentId")String commentId);
+	//@Query(value="select * from sas_comment_reply_info t where t.comment_id =:commentId",nativeQuery = true)
+	@Query(value = "SELECT new com.jy.pc.POJO.CommentReplyInfoPO(t.id,t.replyContent,t.replyUserName,t.replyDate,t.status) FROM CommentReplyInfoEntity AS t "
+			+ "WHERE t.postCommentInfoEntity.id = ?1 and t.status = 0 order by t.replyDate desc", nativeQuery = false)
+	public List<CommentReplyInfoPO> findByCommentPO(@Param("commentId")String commentId);
 	
 	@Query(value="select * from sas_comment_reply_info t where if(?1 !='',t.reply_content like ?1,1=1) "
 			+ "and if(?2 !='',t.reply_user_name like ?2,1=1) order by t.reply_date desc ",

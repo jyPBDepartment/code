@@ -2,8 +2,6 @@ package com.jy.pc.Service.Impl;
 
 import java.util.List;
 
-import javax.persistence.PostRemove;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -12,9 +10,9 @@ import org.springframework.stereotype.Service;
 import com.jy.pc.DAO.CommentReplyInfoDao;
 import com.jy.pc.DAO.PostCommentInfoDao;
 import com.jy.pc.DAO.PostInfoDao;
-import com.jy.pc.Entity.CommentReplyInfoEntity;
-import com.jy.pc.Entity.PostCommentInfoEntity;
 import com.jy.pc.Entity.PostInfoEntity;
+import com.jy.pc.POJO.CommentReplyInfoPO;
+import com.jy.pc.POJO.PostCommentInfoPO;
 import com.jy.pc.Service.PostInfoService;
 
 @Service
@@ -27,7 +25,7 @@ public class PostInfoServiceImpl implements PostInfoService {
     private PostCommentInfoDao postCommentInfoDao;
     @Autowired
     private CommentReplyInfoDao commentReplyInfoDao;
-	
+    
 	//农活预约总数
 	@Override
 	public List<PostInfoEntity> findInva() {
@@ -65,14 +63,16 @@ public class PostInfoServiceImpl implements PostInfoService {
 	@Override
 	public Page<PostInfoEntity> findListWithSub(String postType, Pageable pageable) {
 		Page<PostInfoEntity> page = invitationDao.findListWithSub(postType, pageable);
-		List<PostCommentInfoEntity> commentList = null;
-		List<CommentReplyInfoEntity> replyList = null;
+		List<PostCommentInfoPO> commentList = null;
+		List<CommentReplyInfoPO> replyList = null;
 		for(PostInfoEntity post : page.getContent()) {
-			commentList = postCommentInfoDao.findByPost(post.getId());
-			for(PostCommentInfoEntity comment : commentList) {
-				replyList = commentReplyInfoDao.findByComment(comment.getId());
+			commentList = postCommentInfoDao.findByPostPO(post.getId());
+			for(PostCommentInfoPO comment : commentList) {
+				replyList = commentReplyInfoDao.findByCommentPO(comment.getId());
 				comment.setReplyList(replyList);
+				comment.setReplySize(replyList.size());
 			}
+			post.setCommentSize(commentList.size());
 			post.setCommentList(commentList);
 		}
 		return page;
