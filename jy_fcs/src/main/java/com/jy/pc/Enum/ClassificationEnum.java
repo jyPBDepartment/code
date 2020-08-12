@@ -6,7 +6,9 @@ package com.jy.pc.Enum;
  */
 public enum ClassificationEnum {
 	// 分类 -- 关键词 -- 看图识病关键词
-	KEYWORD_CASEINFO("GJC0101", "看图识病关键词");
+	KEYWORD_CASEINFO("GJC0101", "看图识病关键词"),
+	// 分类 -- 圈子发布类型
+	POSTINFO_TYPE("QZFL001","圈子发布类型");
 	private String code;
 	private String name;
 

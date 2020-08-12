@@ -2,6 +2,7 @@ package com.jy.pc.Controller;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,7 +19,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
+import com.jy.pc.Entity.ClassificationEntity;
 import com.jy.pc.Entity.PostInfoEntity;
+import com.jy.pc.Enum.ClassificationEnum;
+import com.jy.pc.Service.ClassificationService;
 import com.jy.pc.Service.PostInfoService;
 
 //帖子管理
@@ -28,7 +32,20 @@ import com.jy.pc.Service.PostInfoService;
 public class PostInfoController {
 	@Autowired
 	private PostInfoService postInfoService;
+	@Autowired
+	private ClassificationService classificationService;
 
+	@RequestMapping(value = "/getPostType")
+	public Map<String, Object> getPostType(HttpServletRequest res, HttpServletResponse req) {
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		List<ClassificationEntity> classList = classificationService.findClassByCode(ClassificationEnum.POSTINFO_TYPE.getCode());
+		map.put("status", "0");// 成功
+		map.put("message", "查询成功");
+		map.put("data", classList);
+		return map;
+	}
+	
 	/**
 	 * 	加载所有帖子、评论、回复列表信息
 	 * @param postType 圈子类型
@@ -45,7 +62,7 @@ public class PostInfoController {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 		Pageable pageable = new PageRequest(page - 1, size);
-		Page<PostInfoEntity> invitationList = postInfoService.findListWithSub("", pageable);
+		Page<PostInfoEntity> invitationList = postInfoService.findListWithSub(postType, pageable);
 		map.put("status", "0");// 成功
 		map.put("message", "查询成功");
 		map.put("data", invitationList);

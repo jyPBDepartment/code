@@ -49,4 +49,6 @@ public interface ClassificationService {
 	public List<ClassificationEntity> findKeywordLink();
 	
 	public boolean findParentCode(@Param("parentCode") String parentCode);
+	
+	public List<ClassificationEntity> findClassByCode(@Param("classCode") String classCode);
 }

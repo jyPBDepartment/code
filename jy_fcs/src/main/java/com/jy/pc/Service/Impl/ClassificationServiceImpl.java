@@ -115,4 +115,9 @@ public  class ClassificationServiceImpl implements ClassificationService {
 		String classiName = "%" + name + "%";
 		return classificationDao.findListByName(classiCode, classiName,pageable);
 	}
+
+	@Override
+	public List<ClassificationEntity> findClassByCode(String classCode) {
+		return classificationDao.findClassByCode(classCode);
+	}
 }
