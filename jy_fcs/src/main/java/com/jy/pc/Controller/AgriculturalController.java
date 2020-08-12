@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSONObject;
 import com.jy.pc.Entity.AgriculturalEntity;
 import com.jy.pc.Entity.ClassificationEntity;
-import com.jy.pc.Entity.FarmworkEntity;
 import com.jy.pc.Service.AgriculturalService;
 import com.jy.pc.Service.ClassificationService;
 

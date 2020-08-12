@@ -9,7 +9,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.jy.pc.Entity.AgriculturalEntity;
-import com.jy.pc.Entity.FarmworkEntity;
 
 public interface AgriculturalDao extends JpaRepository<AgriculturalEntity, String> {
 
