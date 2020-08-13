@@ -13,11 +13,14 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 /**
  * 圈子管理 - 评论信息实体
+ * 
  * @author admin
  *
  */
@@ -48,6 +51,7 @@ public class PostCommentInfoEntity {
 	// 外键id - 帖子信息
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "postId", referencedColumnName = "id")
+	@NotFound(action = NotFoundAction.IGNORE)
 	private PostInfoEntity postInfoEntity;
 
 	public String getId() {
