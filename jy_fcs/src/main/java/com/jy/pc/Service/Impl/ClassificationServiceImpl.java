@@ -67,16 +67,16 @@ public class ClassificationServiceImpl implements ClassificationService {
 
 	// 病虫害关联分类
 	@Override
-	public List<ClassificationEntity> findDipList() {
+	public List<ClassificationEntity> findDipList(String classCode) {
 
-		return classificationDao.findDipList();
+		return classificationDao.findDipList(classCode);
 	}
 
 	// 农作物关联分类
 	@Override
-	public List<ClassificationEntity> findCaseList() {
+	public List<ClassificationEntity> findCaseList(String classCode) {
 
-		return classificationDao.findCaseList();
+		return classificationDao.findCaseList(classCode);
 	}
 
 	// 分类关联看图识病农作物删除

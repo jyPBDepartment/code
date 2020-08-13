@@ -72,25 +72,17 @@ public class ClassificationController {
 
 	// 分类修改
 	@RequestMapping(value = "update")
-	public Map<String, String> update(HttpServletRequest res, HttpServletResponse req,@RequestParam(name = "parentCode") String parentCode) {
+	public Map<String, String> update(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "parentCode") String parentCode) {
 		Map<String, String> map = new HashMap<String, String>();
 		String s = res.getParameter("classificationEntity");
 		JSONObject jsonObject = JSONObject.parseObject(s);
 		Date date = new Date();
 		ClassificationEntity classificationEntity = jsonObject.toJavaObject(ClassificationEntity.class);
 		classificationEntity.setUpdateDate(date);
-		if(classificationService.findParentCode(parentCode)) {
-			classificationEntity.setParentCode("");
-			map.put("status", "1");
-			map.put("message", "该菜单下存在子菜单，不可修改上级分类！");
-			classificationService.update(classificationEntity);
-		}else {
-			classificationEntity.setParentCode(parentCode);
-			classificationService.update(classificationEntity);
-			map.put("status", "0");
-			map.put("message", "修改完成");
-		}	
-		
+		classificationService.update(classificationEntity);
+		map.put("status", "0");
+		map.put("message", "修改完成");
 		return map;
 	}
 
@@ -107,12 +99,11 @@ public class ClassificationController {
 		for (int i = 0; i < classi.size(); i++) {
 			ClassificationEntity calssiFicat = classi.get(i);
 			calssiFicat.getId();
-			if(classificationService.findParentCode(id)) {
+			if (classificationService.findParentCode(id)) {
 				map.put("status", "1");
 				map.put("message", "该菜单下存在子菜单，不可直接删除！");
 				return map;
-			}
-			else if (classificationEntity.getId().equals(calssiFicat.getId())) {
+			} else if (classificationEntity.getId().equals(calssiFicat.getId())) {
 				for (int j = 0; j < classiFicat.size(); j++) {
 					ClassificationEntity ficat = classiFicat.get(j);
 					ficat.getId();
@@ -147,11 +138,11 @@ public class ClassificationController {
 	// 分类模糊查询与分页
 	@RequestMapping(value = "/findByName")
 	public Map<String, Object> findByName(HttpServletRequest res, HttpServletResponse req,
-			@RequestParam(name = "code") String code,@RequestParam(name = "name") String name,@RequestParam(name = "page") Integer page,
-			@RequestParam(name = "size") Integer size) {
+			@RequestParam(name = "code") String code, @RequestParam(name = "name") String name,
+			@RequestParam(name = "page") Integer page, @RequestParam(name = "size") Integer size) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		Pageable pageable = new PageRequest(page - 1, size);
-		Page<ClassificationEntity> classiList = classificationService.findListByName(code,name, pageable);
+		Page<ClassificationEntity> classiList = classificationService.findListByName(code, name, pageable);
 		map.put("state", "0");// 成功
 		map.put("message", "查询成功");
 		map.put("data", classiList);
@@ -203,7 +194,8 @@ public class ClassificationController {
 	@RequestMapping(value = "/findDipList")
 	public Map<String, Object> findDipList(HttpServletRequest res, HttpServletResponse req) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		List<ClassificationEntity> classificat = classificationService.findDipList();
+		List<ClassificationEntity> classificat = classificationService
+				.findDipList(ClassificationEnum.DIP_CLASS.getCode());
 		if (classificat != null) {
 			map.put("state", "0");
 			map.put("data", classificat);
@@ -220,10 +212,11 @@ public class ClassificationController {
 	@RequestMapping(value = "/findCaseList")
 	public Map<String, Object> findCaseList(HttpServletRequest res, HttpServletResponse req) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		List<ClassificationEntity> classificat = classificationService.findCaseList();
-		if (classificat != null) {
+		List<ClassificationEntity> classifi = classificationService
+				.findCaseList(ClassificationEnum.CASE_CLASS.getCode());
+		if (classifi != null) {
 			map.put("state", "0");
-			map.put("data", classificat);
+			map.put("data", classifi);
 		} else {
 			map.put("state", "1");
 		}
@@ -231,32 +224,32 @@ public class ClassificationController {
 	}
 
 	// 查询子菜单
-		@RequestMapping(value = "/findListById")
-		public Map<String, Object> findListById(HttpServletRequest res, HttpServletResponse req,
-				@RequestParam(name = "id") String id) {
-			Map<String, Object> map = new HashMap<String, Object>();
-			List<ClassificationEntity> classif = classificationService.findListById(id);
-			map.put("status", "0");// 成功
-			map.put("message", "查询成功");
-			map.put("data", classif);
-			return map;
-		}
+	@RequestMapping(value = "/findListById")
+	public Map<String, Object> findListById(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "id") String id) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		List<ClassificationEntity> classif = classificationService.findListById(id);
+		map.put("status", "0");// 成功
+		map.put("message", "查询成功");
+		map.put("data", classif);
+		return map;
+	}
 
-		/**
-		 * 查询关键词分类编码列表
-		 * 
-		 */
-		@RequestMapping(value = "/findClassKey")
-		public Map<String, Object> findClassKey(HttpServletRequest res, HttpServletResponse req) {
-			Map<String, Object> map = new HashMap<String, Object>();
-			List<ClassificationEntity> Classification = classificationService
-					.findKeyWordList(ClassificationEnum.KEYWORD_CLASS.getCode());
-			if (Classification != null) {
-				map.put("state", "0");
-				map.put("data", Classification);
-			} else {
-				map.put("state", "1");
-			}
-			return map;
+	/**
+	 * 查询关键词分类编码列表
+	 * 
+	 */
+	@RequestMapping(value = "/findClassKey")
+	public Map<String, Object> findClassKey(HttpServletRequest res, HttpServletResponse req) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		List<ClassificationEntity> Classification = classificationService
+				.findKeyWordList(ClassificationEnum.KEYWORD_CLASS.getCode());
+		if (Classification != null) {
+			map.put("state", "0");
+			map.put("data", Classification);
+		} else {
+			map.put("state", "1");
 		}
+		return map;
+	}
 }

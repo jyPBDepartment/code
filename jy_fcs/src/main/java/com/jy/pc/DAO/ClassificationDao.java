@@ -28,12 +28,12 @@ public interface ClassificationDao extends JpaRepository<ClassificationEntity, S
 	public List<ClassificationEntity> findSubClassiList();
 
 	// 查询农作物种类分类编码
-	@Query(value = "select * from sas_classification_info t where t.parent_code ='4028f8b1739931eb01739933fe370000' AND t.status ='1'", nativeQuery = true)
-	public List<ClassificationEntity> findCaseList();
+	@Query(value = "select * from sas_classification_info t where t.parent_code = ?1 AND t.status ='1'", nativeQuery = true)
+	public List<ClassificationEntity> findCaseList(String classCode);
 
 	// 查询病虫害分类编码
-	@Query(value = "select * from sas_classification_info t where t.parent_code ='4028f8b173993c34017399439aef0008' AND t.status ='1'", nativeQuery = true)
-	public List<ClassificationEntity> findDipList();
+	@Query(value = "select * from sas_classification_info t where t.parent_code = ?1 AND t.status ='1'", nativeQuery = true)
+	public List<ClassificationEntity> findDipList(String classCode);
 
 	// 查询关键词分类编码
 	@Query(value = "select * from sas_classification_info a where a.parent_code = ?1 AND a.status ='1'", nativeQuery = true)
