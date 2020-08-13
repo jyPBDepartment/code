@@ -79,24 +79,13 @@ public class PowerInfoController {
 		Date date = new Date();
 		PowerInfoEntity powerInfoEntity = jsonObject.toJavaObject(PowerInfoEntity.class);
 		powerInfoEntity.setUpdateDate(date);
-//		if(powerInfoService.findJurCode(subJurCode)) {
-//			powerInfoEntity.setSubJurCode("");
-//			map.put("status", "1");
-//			map.put("message", "该菜单下存在子菜单，不可修改上级分类！");
-//			powerInfoService.save(powerInfoEntity);
-//		}else {
-//			powerInfoService.update(powerInfoEntity);
-//			map.put("status", "0");
-//			map.put("message", "修改完成");
-//		}		
-		
-			powerInfoService.update(powerInfoEntity);
-			map.put("status", "0");
-			map.put("message", "修改完成");
-			
+		powerInfoService.update(powerInfoEntity);
+		map.put("status", "0");
+		map.put("message", "修改完成");
+
 		return map;
 	}
-	
+
 	// 关联验证删除
 	@RequestMapping(value = "/delete")
 	public Map<String, Object> delete(HttpServletRequest res, HttpServletResponse req,
@@ -108,12 +97,11 @@ public class PowerInfoController {
 		for (int i = 0; i < powers.size(); i++) {
 			PowerInfoEntity a = powers.get(i);
 			a.getId();
-			if(powerInfoService.findJurCode(id)) {
+			if (powerInfoService.findJurCode(id)) {
 				map.put("status", "1");
 				map.put("message", "该菜单下存在子菜单，不可直接删除！");
 				return map;
-			}
-			else if (powerEntity.getId().equals(a.getId())) {
+			} else if (powerEntity.getId().equals(a.getId())) {
 				powerInfoService.delete(id);
 				map.put("status", "0");
 				map.put("message", "删除成功");
@@ -140,6 +128,16 @@ public class PowerInfoController {
 		return map;
 	}
 
+	// 查询子菜单
+		@RequestMapping(value = "/findListById")
+		public Map<String, Object> findListById(HttpServletRequest res, HttpServletResponse req,@RequestParam(name="id") String id) {
+			Map<String, Object> map = new HashMap<String, Object>();
+			List<PowerInfoEntity> power = powerInfoService.findListById(id);
+			map.put("status", "0");// 成功
+			map.put("message", "查询成功");
+			map.put("data", power);
+			return map;
+		}
 	// 启用禁用
 	@RequestMapping(value = "/enable")
 	public Map<String, String> opensulf(HttpServletRequest res, HttpServletResponse req,
@@ -169,8 +167,8 @@ public class PowerInfoController {
 	public Map<String, Object> findSubPowerList(HttpServletRequest res, HttpServletResponse req) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		List<PowerInfoEntity> power = powerInfoService.findSubPowerList();
-		
-		 if (power != null) {
+
+		if (power != null) {
 			map.put("status", "0");
 			map.put("data", power);
 		} else {

@@ -87,6 +87,12 @@ public class PowerInfoServiceImpl implements PowerInfoService {
 		int count = powerInfoDao.findJurCode(subJurCode);
 		return count > 0 ? true : false;
 	}
+
+	@Override
+	public List<PowerInfoEntity> findListById(String id) {
+		
+		return powerInfoDao.findListById(id);
+	}
 	
 	
 }
