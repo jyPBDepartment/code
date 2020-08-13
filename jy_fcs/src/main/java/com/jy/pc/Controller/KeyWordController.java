@@ -58,7 +58,7 @@ public class KeyWordController {
 		keyWordEntity.setAuditStatus("1");
 		ClassificationEntity classificationEntity = new ClassificationEntity();
 		classificationEntity = classificationService.findBId(keyWordEntity.getParentCode());
-		keyWordEntity.setParentName(classificationEntity.getCode());
+		keyWordEntity.setParentName(classificationEntity.getName());
 		keyWordService.save(keyWordEntity);
 		map.put("status", "0");
 		map.put("message", "添加成功");
@@ -77,7 +77,7 @@ public class KeyWordController {
 		keyWordEntity.setUpdateDate(date);
 		ClassificationEntity classificationEntity = new ClassificationEntity();
 		classificationEntity = classificationService.findBId(keyWordEntity.getParentCode());
-		keyWordEntity.setParentName(classificationEntity.getCode());
+		keyWordEntity.setParentName(classificationEntity.getName());
 		keyWordService.update(keyWordEntity);
 		map.put("status", "0");
 		map.put("message", "修改成功");
