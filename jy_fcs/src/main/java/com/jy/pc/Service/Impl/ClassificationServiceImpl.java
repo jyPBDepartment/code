@@ -12,7 +12,7 @@ import com.jy.pc.Entity.ClassificationEntity;
 import com.jy.pc.Service.ClassificationService;
 
 @Service
-public  class ClassificationServiceImpl implements ClassificationService {
+public class ClassificationServiceImpl implements ClassificationService {
 
 	@Autowired
 	private ClassificationDao classificationDao;
@@ -45,8 +45,6 @@ public  class ClassificationServiceImpl implements ClassificationService {
 		return classificationDao.findBId(id);
 	}
 
-	
-	
 	// 分类查询所有
 	@Override
 	public List<ClassificationEntity> findAll() {
@@ -63,8 +61,8 @@ public  class ClassificationServiceImpl implements ClassificationService {
 
 	// 关键词关联分类
 	@Override
-	public List<ClassificationEntity> findKeyWordList() {
-		return classificationDao.findKeyWordList();
+	public List<ClassificationEntity> findKeyWordList(String classCode) {
+		return classificationDao.findKeyWordList(classCode);
 	}
 
 	// 病虫害关联分类
@@ -110,14 +108,21 @@ public  class ClassificationServiceImpl implements ClassificationService {
 
 	// 分类分页与模糊查询
 	@Override
-	public Page<ClassificationEntity> findListByName(String code,String name, Pageable pageable) {
+	public Page<ClassificationEntity> findListByName(String code, String name, Pageable pageable) {
 		String classiCode = "%" + code + "%";
 		String classiName = "%" + name + "%";
-		return classificationDao.findListByName(classiCode, classiName,pageable);
+		return classificationDao.findListByName(classiCode, classiName, pageable);
 	}
 
 	@Override
 	public List<ClassificationEntity> findClassByCode(String classCode) {
 		return classificationDao.findClassByCode(classCode);
+	}
+
+	// 查询子菜单
+	@Override
+	public List<ClassificationEntity> findListById(String id) {
+
+		return classificationDao.findListById(id);
 	}
 }

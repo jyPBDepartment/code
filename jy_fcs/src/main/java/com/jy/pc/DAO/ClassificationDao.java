@@ -16,8 +16,12 @@ public interface ClassificationDao extends JpaRepository<ClassificationEntity, S
 	public ClassificationEntity findBId(@Param("id") String id);
 
 	// 分页与模糊查询
-	@Query(value = "select * from sas_classification_info t where t.code like ?1 and t.name like ?2 union select * from sas_classification_info t where t.id in (select a.parent_code from sas_classification_info a where a.code like ?1 and a.name like ?2)", countQuery = "select count(*) from sas_classification_info t  where if(?1 !='',t.code like ?1,1=1) and if(?2 !='',t.name like ?2,1=1)order by t.create_date asc", nativeQuery = true)
+	@Query(value = "select * from sas_classification_info t where t.code like ?1 and t.name like ?2 and t.parent_code = ''", countQuery = "select count(*) from sas_classification_info t  where if(?1 !='',t.code like ?1,1=1) and if(?2 !='',t.name like ?2,1=1) order by t.create_date desc", nativeQuery = true)
 	public Page<ClassificationEntity> findListByName(String code, String name, Pageable pageable);
+
+	// 查询子菜单
+	@Query(value = "select * from sas_classification_info t where t.parent_code=:id", nativeQuery = true)
+	public List<ClassificationEntity> findListById(@Param("id") String id);
 
 	// 查询分类编码
 	@Query(value = "select * from sas_classification_info t where t.parent_code ='' AND t.status ='1'", nativeQuery = true)
@@ -32,8 +36,8 @@ public interface ClassificationDao extends JpaRepository<ClassificationEntity, S
 	public List<ClassificationEntity> findDipList();
 
 	// 查询关键词分类编码
-	@Query(value = "select * from sas_classification_info t where t.parent_code ='402881e5738f91ee01738fad7b800001' AND t.status ='1'", nativeQuery = true)
-	public List<ClassificationEntity> findKeyWordList();
+	@Query(value = "select * from sas_classification_info a where a.parent_code = ?1 AND a.status ='1'", nativeQuery = true)
+	public List<ClassificationEntity> findKeyWordList(String classCode);
 
 	// 分类看图识病农作物删除
 	@Query(value = "select distinct t.id,t.code,t.create_date,t.create_user,t.name,t.parent_code,t.status,t.update_date,t.update_user from  sas_classification_info t where t.id not in (select w.classi_code from sas_case_info w)", nativeQuery = true)

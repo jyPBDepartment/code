@@ -31,7 +31,7 @@ public interface ClassificationService {
 	public List<ClassificationEntity> findSubClassiList();
 
 	// 查询关键词分类编码
-	public List<ClassificationEntity> findKeyWordList();
+	public List<ClassificationEntity> findKeyWordList(String classCode);
 
 	// 查询病虫害分类编码
 	public List<ClassificationEntity> findDipList();
@@ -47,6 +47,9 @@ public interface ClassificationService {
 
 	// 删除前查询验证关键词
 	public List<ClassificationEntity> findKeywordLink();
+	
+	// 查询子菜单
+		public List<ClassificationEntity> findListById(String id);
 	
 	public boolean findParentCode(@Param("parentCode") String parentCode);
 	

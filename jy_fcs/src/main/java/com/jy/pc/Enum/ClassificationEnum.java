@@ -8,7 +8,9 @@ public enum ClassificationEnum {
 	// 分类 -- 关键词 -- 看图识病关键词
 	KEYWORD_CASEINFO("GJC0101", "看图识病关键词"),
 	// 分类 -- 圈子发布类型
-	POSTINFO_TYPE("QZFL001","圈子发布类型");
+	POSTINFO_TYPE("QZFL001", "圈子发布类型"),
+	// 关键词查询分类
+	KEYWORD_CLASS("402881e5738f91ee01738fad7b800001", "关键词分类");
 	private String code;
 	private String name;
 

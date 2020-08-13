@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
 import com.jy.pc.Entity.ClassificationEntity;
+import com.jy.pc.Enum.ClassificationEnum;
 import com.jy.pc.Service.ClassificationService;
 
 @Controller
@@ -229,20 +230,33 @@ public class ClassificationController {
 		return map;
 	}
 
-	/**
-	 * 查询关键词分类编码列表
-	 * 
-	 */
-	@RequestMapping(value = "/findKeyWordList")
-	public Map<String, Object> findKeyWordList(HttpServletRequest res, HttpServletResponse req) {
-		Map<String, Object> map = new HashMap<String, Object>();
-		List<ClassificationEntity> classificat = classificationService.findKeyWordList();
-		if (classificat != null) {
-			map.put("state", "0");
-			map.put("data", classificat);
-		} else {
-			map.put("state", "1");
+	// 查询子菜单
+		@RequestMapping(value = "/findListById")
+		public Map<String, Object> findListById(HttpServletRequest res, HttpServletResponse req,
+				@RequestParam(name = "id") String id) {
+			Map<String, Object> map = new HashMap<String, Object>();
+			List<ClassificationEntity> classif = classificationService.findListById(id);
+			map.put("status", "0");// 成功
+			map.put("message", "查询成功");
+			map.put("data", classif);
+			return map;
 		}
-		return map;
-	}
+
+		/**
+		 * 查询关键词分类编码列表
+		 * 
+		 */
+		@RequestMapping(value = "/findClassKey")
+		public Map<String, Object> findClassKey(HttpServletRequest res, HttpServletResponse req) {
+			Map<String, Object> map = new HashMap<String, Object>();
+			List<ClassificationEntity> Classification = classificationService
+					.findKeyWordList(ClassificationEnum.KEYWORD_CLASS.getCode());
+			if (Classification != null) {
+				map.put("state", "0");
+				map.put("data", Classification);
+			} else {
+				map.put("state", "1");
+			}
+			return map;
+		}
 }
