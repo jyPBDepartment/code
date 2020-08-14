@@ -56,7 +56,7 @@ public class AgriculturalServiceImpl implements AgriculturalService {
 	@Override
 	public List<AgriculturalEntity> findListByAgrName(String name) {
 		String argName = "%" + name + "%";
-		return agriculturalDao.findListByAgrName(name);
+		return agriculturalDao.findListByAgrName(argName);
 	}
 
 	// 农服查询最近三条

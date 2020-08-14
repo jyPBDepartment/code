@@ -175,9 +175,11 @@ public class ModuleInfoController {
 			Map<String, Object> map = new HashMap<String, Object>();
 
 			List<ModuleInfoEntity> effect = moduleInfoService.findListByMobile();
+			for(int i=0; i<effect.size();i++) {				
+				map.put("data", effect);
+			}
 			map.put("state", "0");// 成功
 			map.put("message", "查询成功");
-			map.put("data", effect);
 			return map;
 		}
 
