@@ -163,6 +163,8 @@ public class AgriculturalController {
 		Date date = new Date();
 		agriculturalEntity.setCreateDate(date);
 		agriculturalEntity.setStatus("0");
+		agriculturalEntity.setTransactionTypeCode("1");
+		agriculturalEntity.setTransactionCategoryCode("1");
 		agriculturalService.save(agriculturalEntity);
 		map.put("status", "0");
 		map.put("message", "添加成功");
@@ -177,6 +179,8 @@ public class AgriculturalController {
 		Date date = new Date();
 		agriculturalEntity.setCreateDate(date);
 		agriculturalEntity.setStatus("0");
+		agriculturalEntity.setTransactionTypeCode("3");
+		agriculturalEntity.setTransactionCategoryCode("0");
 		agriculturalService.save(agriculturalEntity);
 		map.put("status", "0");
 		map.put("message", "添加成功");
@@ -191,6 +195,7 @@ public class AgriculturalController {
 		Date date = new Date();
 		agriculturalEntity.setCreateDate(date);
 		agriculturalEntity.setStatus("0");
+		agriculturalEntity.setTransactionTypeCode("0");
 		agriculturalService.save(agriculturalEntity);
 		map.put("status", "0");
 		map.put("message", "添加成功");
@@ -205,6 +210,7 @@ public class AgriculturalController {
 		Date date = new Date();
 		agriculturalEntity.setCreateDate(date);
 		agriculturalEntity.setStatus("0");
+		agriculturalEntity.setTransactionTypeCode("1");
 		agriculturalService.save(agriculturalEntity);
 		map.put("status", "0");
 		map.put("message", "添加成功");
