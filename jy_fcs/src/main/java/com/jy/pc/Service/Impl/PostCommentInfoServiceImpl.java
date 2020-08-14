@@ -45,7 +45,7 @@ public class PostCommentInfoServiceImpl implements PostCommentInfoService {
 	public void delete(String id) {
 		//级联删除回复信息
 		commentReplyInfoDao.deleteByComment(id);
-		postCommentInfoDao.deleteById(id);
+		postCommentInfoDao.deleteByIdNotJoin(id);
 	}
 
 	@Override
