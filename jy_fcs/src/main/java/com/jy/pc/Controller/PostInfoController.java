@@ -132,7 +132,7 @@ public class PostInfoController {
 		String s = res.getParameter("postInfoEntity");
 		JSONObject jsonObject = JSONObject.parseObject(s);
 		PostInfoEntity postInfoEntity = jsonObject.toJavaObject(PostInfoEntity.class);
-		postInfoEntity.setAuditStatus("2");
+		postInfoEntity.setAuditStatus("1");
 		postInfoService.update(postInfoEntity);
 		map.put("state", "0");
 		map.put("message", "审核通过");
@@ -147,7 +147,7 @@ public class PostInfoController {
 		String s = res.getParameter("postInfoEntity");
 		JSONObject jsonObject = JSONObject.parseObject(s);
 		PostInfoEntity postInfoEntity = jsonObject.toJavaObject(PostInfoEntity.class);
-		postInfoEntity.setAuditStatus("3");
+		postInfoEntity.setAuditStatus("2");
 		postInfoService.update(postInfoEntity);
 		map.put("state", "0");
 		map.put("message", "审核驳回");
