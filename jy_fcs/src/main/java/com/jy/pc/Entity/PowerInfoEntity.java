@@ -25,9 +25,9 @@ public class PowerInfoEntity {
 	private String id;//主键id
 	@Column(length=255)
 	private String jurName;//权限名称
-	@Column(length=12)
+	@Column(length=255)
 	private String jurCode;//权限编码
-	@Column(length=12)
+	@Column(length=255)
 	private String subJurCode;//上级权限编码
 	@Column(length=1)
 	private String auditStatus;//状态（0禁用1启用）

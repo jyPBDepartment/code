@@ -40,7 +40,7 @@ public class FarmworkController {
 		farmworkEntity.setStatus("0");
 		ClassificationEntity classificationEntity = ClassificationService
 				.findBId(farmworkEntity.getClassiOperateType());
-		farmworkEntity.setOperateType(classificationEntity.getCode());
+//		farmworkEntity.setOperateType(classificationEntity.getCode());
 		farmworkService.save(farmworkEntity);
 		map.put("status", "0");
 		map.put("message", "添加成功");

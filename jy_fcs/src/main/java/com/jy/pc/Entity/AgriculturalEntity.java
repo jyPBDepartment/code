@@ -83,9 +83,9 @@ public class AgriculturalEntity {
 	private String days; //天数
 	@Column
 	private String machineNum; //农机台数
-	@Column(length=2)
+	@Column(length=1)
 	private String isFace; //是否面议(0是1否)
-	@Column(length=2)
+	@Column(length=1)
 	private String farmingMode;  //农活类型(0整活1零活)
 	@Column
 	private float agriPrice;//农活价格
