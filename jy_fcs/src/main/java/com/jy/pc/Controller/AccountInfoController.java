@@ -187,7 +187,7 @@ public class AccountInfoController {
 		AccountInfoEntity accountInfoEntity = jsonObject.toJavaObject(AccountInfoEntity.class);
 		Date date = new Date();
 		accountInfoEntity.setUpdateDate(date);
-		accountInfoService.update(accountInfoEntity);
+		accountInfoService.updatePwd(accountInfoEntity);
 		map.put("status", "0");
 		map.put("message", "修改成功");
 		return map;

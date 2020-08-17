@@ -47,15 +47,24 @@ public class AccountInfoServiceImpl implements AccountInfoService {
 	@Transactional
 	@Override
 	public AccountInfoEntity save(AccountInfoEntity accountInfo) {
+		AccountInfoEntity result = accountInfoDao.saveAndFlush(accountInfo);
 		logger.initAddLog(accountInfo.getId());
-		return accountInfoDao.saveAndFlush(accountInfo);
+		return result;
 	}
 
 	// 切换状态
 	@Override
 	@Transactional
-	public void enable(AccountInfoEntity accountInfo,boolean result) {
-		logger.initEnableLog(accountInfo,result);
+	public void enable(AccountInfoEntity accountInfo, boolean result) {
+		logger.initEnableLog(accountInfo, result);
+		accountInfoDao.saveAndFlush(accountInfo);
+	}
+
+	// 修改密码
+	@Override
+	@Transactional
+	public void updatePwd(AccountInfoEntity accountInfo) {
+		logger.initCustomizedLog("账户管理", "修改密码", accountInfo.getPassWord());
 		accountInfoDao.saveAndFlush(accountInfo);
 	}
 

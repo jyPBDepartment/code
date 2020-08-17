@@ -10,13 +10,16 @@ import org.springframework.stereotype.Service;
 import com.jy.pc.DAO.AccountPowerInfoDao;
 import com.jy.pc.Entity.AccountPowerInfoEntity;
 import com.jy.pc.Service.AccountPowerInfoService;
+import com.jy.pc.Utils.DbLogUtil;
 
 @Service
 @Transactional
 public class AccountPowerInfoServiceImpl implements AccountPowerInfoService {
 	@Autowired
 	private AccountPowerInfoDao accountPowerInfoDao;
-
+	@Autowired
+	DbLogUtil logger;
+	
 	@Override
 	public AccountPowerInfoEntity save(AccountPowerInfoEntity accountPowerInfo) {
 		return accountPowerInfoDao.saveAndFlush(accountPowerInfo);

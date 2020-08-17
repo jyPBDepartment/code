@@ -26,10 +26,8 @@ public class CommentReplyInfoServiceImpl implements CommentReplyInfoService {
 		return commentReplyInfoDao.findListByContent(contentParam,userParam, pageable);
 	}
 
-	@Transactional
 	@Override
 	public CommentReplyInfoEntity save(CommentReplyInfoEntity commentReplyInfoEntity) {
-		logger.initAddLog(commentReplyInfoEntity);
 		return commentReplyInfoDao.saveAndFlush(commentReplyInfoEntity);
 	}
 

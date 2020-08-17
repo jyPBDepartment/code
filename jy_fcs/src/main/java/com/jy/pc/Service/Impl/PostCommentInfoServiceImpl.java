@@ -32,9 +32,7 @@ public class PostCommentInfoServiceImpl implements PostCommentInfoService {
 	}
 
 	@Override
-	@Transactional
 	public PostCommentInfoEntity save(PostCommentInfoEntity postCommentInfoEntity) {
-		logger.initAddLog(postCommentInfoEntity);
 		return postCommentInfoDao.saveAndFlush(postCommentInfoEntity);
 	}
 

@@ -86,6 +86,18 @@ public class DbLogUtil {
 		dbLogInfoDao.save(entity);
 	}
 	
+	/**
+	 *	自定义日志
+	 * @param module 功能模块
+	 * @param action 操作
+	 * @param remark 备注
+	 * consumer:
+	 * note:
+	 */
+	public void initCustomizedLog(String module,String action,String remark) {
+		saveLog(module, action, remark);
+	}
+	
 	private static String castTableToEntity(String tableName) {
 		String result ;
 		switch (tableName) {

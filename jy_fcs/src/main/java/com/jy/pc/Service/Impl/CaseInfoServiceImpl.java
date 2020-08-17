@@ -35,8 +35,9 @@ public class CaseInfoServiceImpl implements CaseInfoService {
 	@Override
 	@Transactional
 	public CaseInfoEntity save(CaseInfoEntity caseInfoEntity) {
+		CaseInfoEntity result = caseInfoDao.saveAndFlush(caseInfoEntity);
 		logger.initAddLog(caseInfoEntity);
-		return caseInfoDao.saveAndFlush(caseInfoEntity);
+		return result;
 	}
 
 	// 看图识病查找
@@ -92,6 +93,7 @@ public class CaseInfoServiceImpl implements CaseInfoService {
 	@Transactional
 	public CaseInfoEntity saveWithKeyword(CaseInfoEntity caseInfoEntity, String keywords) {
 		caseInfoDao.save(caseInfoEntity);
+		logger.initAddLog(caseInfoEntity);
 		if (!StringUtils.isNullOrEmpty(keywords)) {
 			String[] arr = keywords.split(",");
 			for (String item : arr) {
@@ -107,6 +109,7 @@ public class CaseInfoServiceImpl implements CaseInfoService {
 	@Transactional
 	// 修改(级联添加关键词)
 	public CaseInfoEntity updateWithKeyword(CaseInfoEntity caseInfoEntity, String keywords) {
+		logger.initUpdateLog(caseInfoEntity);
 		caseInfoDao.save(caseInfoEntity);
 		caseKeyDAO.deleteByCase(caseInfoEntity.getId());
 		if (!StringUtils.isNullOrEmpty(keywords)) {
