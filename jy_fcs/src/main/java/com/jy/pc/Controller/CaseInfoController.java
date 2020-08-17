@@ -50,7 +50,7 @@ public class CaseInfoController {
 		}
 		return map;
 	}
-	
+
 	// 添加
 
 	@RequestMapping(value = "/save")
@@ -69,10 +69,10 @@ public class CaseInfoController {
 
 		ClassificationEntity classification = classificationService.findBId(caseInfoEntity.getClassiDipCode());
 		caseInfoEntity.setDipTypeCode(classification.getName());
-		
+
 		String keywords = jsonObject.getString("keys");
 		try {
-			caseInfoService.saveWithKeyword(caseInfoEntity,keywords);
+			caseInfoService.saveWithKeyword(caseInfoEntity, keywords);
 			map.put("state", "0");
 
 			map.put("message", "添加成功");
@@ -114,7 +114,7 @@ public class CaseInfoController {
 		ClassificationEntity classification = classificationService.findBId(caseInfoEntity.getClassiDipCode());
 		caseInfoEntity.setDipTypeCode(classification.getName());
 		String keywords = jsonObject.getString("keys");
-		caseInfoService.updateWithKeyword(caseInfoEntity,keywords);
+		caseInfoService.updateWithKeyword(caseInfoEntity, keywords);
 		map.put("message", "修改成功");
 		return map;
 	}
@@ -164,11 +164,11 @@ public class CaseInfoController {
 		caseInfoService.update(caseInfoEntity);
 		return map;
 	}
-	
+
 	/**
 	 * 接口
 	 */
-	//查询所有病虫害信息的最新3条记录
+	// 查询所有病虫害信息的最新3条记录
 	@RequestMapping(value = "findCaseInfo")
 	public Map<String, Object> findCaseInfo(HttpServletRequest res, HttpServletResponse req) {
 
@@ -179,22 +179,36 @@ public class CaseInfoController {
 		map.put("data", caseInfoEntity);
 		return map;
 	}
-	
-	// 修改前查询
-		@RequestMapping(value = "findCaseId")
-		public Map<String, Object> findCaseId(HttpServletRequest res, HttpServletResponse req,
-				@RequestParam(name = "id") String id) {
-			Map<String, Object> map = new HashMap<String, Object>();
-			CaseInfoEntity caseInfo = caseInfoService.findBId(id);
-			if (caseInfo != null) {
-				map.put("state", "0");// 查询数据成功
-				map.put("message", "查询成功");
-				map.put("data", caseInfo);
-			} else {
-				map.put("state", "1");// 查询数据失败
-				map.put("message", "查询失败");
-			}
-			return map;
-		}
 
+	// 修改前查询
+	@RequestMapping(value = "findCaseId")
+	public Map<String, Object> findCaseId(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "id") String id) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		CaseInfoEntity caseInfo = caseInfoService.findBId(id);
+		if (caseInfo != null) {
+			map.put("state", "0");// 查询数据成功
+			map.put("message", "查询成功");
+			map.put("data", caseInfo);
+		} else {
+			map.put("state", "1");// 查询数据失败
+			map.put("message", "查询失败");
+		}
+		return map;
+	}
+
+	// 关键字搜索病虫害信息
+	@RequestMapping(value = "/findCaseInfoByKey")
+	public Map<String, Object> findCaseInfoByKey(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "name") String name) {
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		List<CaseInfoEntity> caseInfo = caseInfoService.findCaseInfoByKey(name);
+		for (int i = 0; i < caseInfo.size(); i++) {
+			map.put("data", caseInfo);
+		}
+		map.put("status", "0");
+		map.put("message", "查询成功");
+		return map;
+	}
 }

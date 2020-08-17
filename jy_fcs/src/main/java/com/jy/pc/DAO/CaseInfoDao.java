@@ -23,5 +23,9 @@ public interface CaseInfoDao extends JpaRepository<CaseInfoEntity, String> {
 	// 查询所有病虫害信息的最新3条记录
 	@Query(value = "select * from sas_case_info  t  where audit_status='1' order by t.create_date desc limit 3", nativeQuery = true)
 	public List<CaseInfoEntity> findCaseInfo();
+	
+	// 关键字搜索病虫害信息
+	@Query(value = " select distinct t.* from (sas_case_info t inner join sas_case_key d on t.id=d.case_id inner join  sas_key_word k on d.key_id=k.id) where k.name like :name order by t.create_date desc", nativeQuery = true)
+	public List<CaseInfoEntity> findCaseInfoByKey(@Param("name") String name);
 
 }
