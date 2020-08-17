@@ -26,4 +26,7 @@ public interface KeyWordService {
 	//根据分类代码查询关键字
 	public List<KeyWordEntity> findListByClass(String classCode);
 
+	//启用 禁用 状态切换
+	void enable(KeyWordEntity keyWord, boolean result);
+
 }

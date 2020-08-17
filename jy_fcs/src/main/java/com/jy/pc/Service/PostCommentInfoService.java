@@ -20,4 +20,7 @@ public interface PostCommentInfoService {
 
 	// 主鍵查詢
 	public PostCommentInfoEntity findId(String id);
+
+	//切换状态
+	void enable(PostCommentInfoEntity postCommentInfoEntity, boolean result);
 }

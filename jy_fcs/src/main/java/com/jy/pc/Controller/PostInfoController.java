@@ -109,6 +109,7 @@ public class PostInfoController {
 		invitationEntity.setStatus(status);
 		invitationEntity.getStatus();
 		Date date = new Date();
+		boolean result = true;
 		if (status.equals("0")) {
 			invitationEntity.setStatus("0");
 			invitationEntity.setUpdateDate(date);
@@ -119,8 +120,9 @@ public class PostInfoController {
 			invitationEntity.setUpdateDate(date);
 			map.put("status", "1");
 			map.put("message", "禁用成功");
+			result = false;
 		}
-		postInfoService.update(invitationEntity);
+		postInfoService.enable(invitationEntity,result);
 		return map;
 	}
 

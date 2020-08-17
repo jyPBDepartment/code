@@ -129,7 +129,7 @@ public class AgriculturalController {
 		JSONObject jsonObject = JSONObject.parseObject(s);
 		AgriculturalEntity agriculturalEntity = jsonObject.toJavaObject(AgriculturalEntity.class);
 		agriculturalEntity.setStatus("1");
-		agriculturalService.update(agriculturalEntity);
+		agriculturalService.audit(agriculturalEntity,true);
 		map.put("state", "0");
 		map.put("message", "审核通过");
 		return map;
@@ -144,7 +144,7 @@ public class AgriculturalController {
 		JSONObject jsonObject = JSONObject.parseObject(s);
 		AgriculturalEntity agriculturalEntity = jsonObject.toJavaObject(AgriculturalEntity.class);
 		agriculturalEntity.setStatus("2");
-		agriculturalService.update(agriculturalEntity);
+		agriculturalService.audit(agriculturalEntity,false);
 		map.put("state", "0");
 		map.put("message", "审核拒绝");
 		return map;

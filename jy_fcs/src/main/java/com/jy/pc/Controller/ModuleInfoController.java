@@ -112,6 +112,7 @@ public class ModuleInfoController {
 		moduleInfoEntity.setStatus(status);
 		moduleInfoEntity.getStatus();
 		Date date = new Date();
+		boolean result = true;
 		if (status.equals("0")) {
 			moduleInfoEntity.setStatus("0");
 			moduleInfoEntity.setUpdateDate(date);
@@ -122,8 +123,9 @@ public class ModuleInfoController {
 			moduleInfoEntity.setUpdateDate(date);
 			map.put("state", "1");
 			map.put("message", "禁用成功");
+			result = false;
 		}
-		moduleInfoService.update(moduleInfoEntity);
+		moduleInfoService.enable(moduleInfoEntity,false);
 		return map;
 	}
 	

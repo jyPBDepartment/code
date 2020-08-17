@@ -2,6 +2,8 @@ package com.jy.pc.Service.Impl;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -10,13 +12,16 @@ import org.springframework.stereotype.Service;
 import com.jy.pc.DAO.AgriculturalDao;
 import com.jy.pc.Entity.AgriculturalEntity;
 import com.jy.pc.Service.AgriculturalService;
+import com.jy.pc.Utils.DbLogUtil;
 
 @Service
 public class AgriculturalServiceImpl implements AgriculturalService {
 
 	@Autowired
 	private AgriculturalDao agriculturalDao;
-
+	@Autowired
+	private DbLogUtil logger;
+	
 	// 农服关联Echart图
 	@Override
 	public List<AgriculturalEntity> findAgrSum() {
@@ -45,6 +50,14 @@ public class AgriculturalServiceImpl implements AgriculturalService {
 		return agriculturalDao.findListByName(argicuturalName, status, pageable);
 	}
 
+	//农夫审核
+	@Override
+	@Transactional
+	public AgriculturalEntity audit(AgriculturalEntity agriculturalEntity, boolean result) {
+		logger.initAuditLog(agriculturalEntity, result);
+		return agriculturalDao.saveAndFlush(agriculturalEntity);
+	}
+	
 	// 农服修改
 	@Override
 	public AgriculturalEntity update(AgriculturalEntity agriculturalEntity) {

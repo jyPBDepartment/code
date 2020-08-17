@@ -16,6 +16,7 @@ import com.jy.pc.Entity.CaseInfoEntity;
 import com.jy.pc.Entity.CaseKeyEntity;
 import com.jy.pc.Entity.KeyWordEntity;
 import com.jy.pc.Service.CaseInfoService;
+import com.jy.pc.Utils.DbLogUtil;
 import com.mysql.cj.util.StringUtils;
 
 @Service
@@ -27,11 +28,14 @@ public class CaseInfoServiceImpl implements CaseInfoService {
 	public KeyWordDao keyWordDao;
 	@Autowired
 	public CaseKeyDAO caseKeyDAO;
+	@Autowired
+	private DbLogUtil logger;
 
 	// 看图识病添加
 	@Override
+	@Transactional
 	public CaseInfoEntity save(CaseInfoEntity caseInfoEntity) {
-
+		logger.initAddLog(caseInfoEntity);
 		return caseInfoDao.saveAndFlush(caseInfoEntity);
 	}
 
@@ -52,34 +56,45 @@ public class CaseInfoServiceImpl implements CaseInfoService {
 		return caseInfoDao.findListByName(caseName, status, pageable);
 	}
 
+	// 切换启用禁用状态
+	@Override
+	@Transactional
+	public CaseInfoEntity enable(CaseInfoEntity caseInfoEntity,boolean result) {
+		logger.initEnableLog(caseInfoEntity,result);
+		return caseInfoDao.saveAndFlush(caseInfoEntity);
+	}
+
 	// 看图识病修改
 	@Override
+	@Transactional
 	public CaseInfoEntity update(CaseInfoEntity caseInfoEntity) {
-
+		logger.initUpdateLog(caseInfoEntity);
 		return caseInfoDao.saveAndFlush(caseInfoEntity);
 	}
 
 	// 看图识病删除
 	@Override
+	@Transactional
 	public void delete(String id) {
+		logger.initDeleteLog(caseInfoDao.findBId(id));
 		caseInfoDao.deleteById(id);
 
 	}
 
-	//查询所有病虫害信息的最新3条记录
+	// 查询所有病虫害信息的最新3条记录
 	@Override
 	public List<CaseInfoEntity> findCaseInfo() {
 		return caseInfoDao.findCaseInfo();
 	}
 
-	//添加(级联添加关键词)
+	// 添加(级联添加关键词)
 	@Override
 	@Transactional
 	public CaseInfoEntity saveWithKeyword(CaseInfoEntity caseInfoEntity, String keywords) {
 		caseInfoDao.save(caseInfoEntity);
-		if(!StringUtils.isNullOrEmpty(keywords)) {
+		if (!StringUtils.isNullOrEmpty(keywords)) {
 			String[] arr = keywords.split(",");
-			for(String item : arr) {
+			for (String item : arr) {
 				CaseKeyEntity entity = new CaseKeyEntity();
 				entity.setKeyId(item);
 				entity.setCaseId(caseInfoEntity.getId());
@@ -88,15 +103,15 @@ public class CaseInfoServiceImpl implements CaseInfoService {
 		}
 		return caseInfoEntity;
 	}
-	
+
 	@Transactional
-	//修改(级联添加关键词)
+	// 修改(级联添加关键词)
 	public CaseInfoEntity updateWithKeyword(CaseInfoEntity caseInfoEntity, String keywords) {
 		caseInfoDao.save(caseInfoEntity);
 		caseKeyDAO.deleteByCase(caseInfoEntity.getId());
-		if(!StringUtils.isNullOrEmpty(keywords)) {
+		if (!StringUtils.isNullOrEmpty(keywords)) {
 			String[] arr = keywords.split(",");
-			for(String item : arr) {
+			for (String item : arr) {
 				CaseKeyEntity entity = new CaseKeyEntity();
 				entity.setKeyId(item);
 				entity.setCaseId(caseInfoEntity.getId());

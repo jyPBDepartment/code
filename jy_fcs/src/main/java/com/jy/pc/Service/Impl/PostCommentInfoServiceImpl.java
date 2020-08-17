@@ -12,6 +12,7 @@ import com.jy.pc.DAO.CommentReplyInfoDao;
 import com.jy.pc.DAO.PostCommentInfoDao;
 import com.jy.pc.Entity.PostCommentInfoEntity;
 import com.jy.pc.Service.PostCommentInfoService;
+import com.jy.pc.Utils.DbLogUtil;
 
 @Service
 public class PostCommentInfoServiceImpl implements PostCommentInfoService {
@@ -19,23 +20,39 @@ public class PostCommentInfoServiceImpl implements PostCommentInfoService {
 	PostCommentInfoDao postCommentInfoDao;
 	@Autowired
 	CommentReplyInfoDao commentReplyInfoDao;
-
+	@Autowired
+	DbLogUtil logger;
+	
 	@Override
 	public Page<PostCommentInfoEntity> findListByContent(String content, String user,Pageable pageable) {
 		String contentParam = "%"+content+"%";
 		String userParam = "%"+user+"%";
 		Page<PostCommentInfoEntity> page = postCommentInfoDao.findListByContent(contentParam, userParam,pageable);
-		System.out.println(page.getContent());
 		return postCommentInfoDao.findListByContent(contentParam, userParam,pageable);
 	}
 
 	@Override
+	@Transactional
 	public PostCommentInfoEntity save(PostCommentInfoEntity postCommentInfoEntity) {
+		logger.initAddLog(postCommentInfoEntity);
 		return postCommentInfoDao.saveAndFlush(postCommentInfoEntity);
 	}
 
+	/**
+	 *	切换启用 / 禁用状态 
+	 */
+	@Transactional
+	@Override
+	public void enable(PostCommentInfoEntity postCommentInfoEntity,boolean result) {
+		logger.initEnableLog(postCommentInfoEntity,result);
+		postCommentInfoDao.saveAndFlush(postCommentInfoEntity);
+
+	}
+	
+	@Transactional
 	@Override
 	public void update(PostCommentInfoEntity postCommentInfoEntity) {
+		logger.initUpdateLog(postCommentInfoEntity);
 		postCommentInfoDao.saveAndFlush(postCommentInfoEntity);
 
 	}
@@ -43,6 +60,7 @@ public class PostCommentInfoServiceImpl implements PostCommentInfoService {
 	@Transactional
 	@Override
 	public void delete(String id) {
+		logger.initDeleteLog(postCommentInfoDao.findId(id));
 		//级联删除回复信息
 		commentReplyInfoDao.deleteByComment(id);
 		postCommentInfoDao.deleteByIdNotJoin(id);

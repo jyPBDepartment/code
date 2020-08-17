@@ -21,5 +21,6 @@ public interface AccountInfoService {
 	public AccountInfoEntity findId(String id);
 	//通过name，password查询数据
 	public AccountInfoEntity findUserInfo(String name, String password);
+	void enable(AccountInfoEntity accountInfo,boolean result);
 
 }

@@ -20,4 +20,6 @@ public interface CommentReplyInfoService {
 
 	// 主鍵查詢
 	public CommentReplyInfoEntity findId(String id);
+
+	void enable(CommentReplyInfoEntity commentReplyInfoEntity, boolean result);
 }

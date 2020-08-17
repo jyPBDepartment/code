@@ -78,6 +78,7 @@ public class CommentInfoController {
 	} 
 	
 	// 查询 分页
+	@SuppressWarnings("deprecation")
 	@RequestMapping(value = "/findByName")
 	public Map<String, Object> findListByContent(HttpServletRequest res, HttpServletResponse req,
 			@RequestParam(name = "content") String content, @RequestParam(name = "user") String user,
@@ -138,19 +139,21 @@ public class CommentInfoController {
 	@RequestMapping(value = "/enable")
 	public Map<String, String> enable(HttpServletRequest res, HttpServletResponse req,
 			@RequestParam(name = "status") String status, @RequestParam(name = "id") String id) {
-
+		System.out.println(res.getSession().getAttributeNames());
 		Map<String, String> map = new HashMap<String, String>();
 		PostCommentInfoEntity postCommentInfoEntity = postCommentInfoService.findId(id);
+		boolean result = true;
 		if ("1".contentEquals(status)) {
 			map.put("state", "0");
 			map.put("message", "禁用成功");
+			result = false;
 		}
 		if ("0".contentEquals(status)) {
 			map.put("state", "0");
 			map.put("message", "启用成功");
 		}
 		postCommentInfoEntity.setStatus(status);
-		postCommentInfoService.update(postCommentInfoEntity);
+		postCommentInfoService.enable(postCommentInfoEntity,result);
 		return map;
 	}
 

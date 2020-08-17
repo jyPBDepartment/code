@@ -29,6 +29,7 @@ import com.jy.pc.Service.AccountInfoService;
 import com.jy.pc.Service.AccountPowerInfoService;
 import com.jy.pc.Service.PowerInfoService;
 import com.jy.pc.Utils.Aes;
+import com.jy.pc.Utils.DbLogUtil;
 
 @Controller
 @RequestMapping(value = "/accountInfo")
@@ -43,7 +44,10 @@ public class AccountInfoController {
 	// 账户权限关联表Service
 	@Autowired
 	private AccountPowerInfoService accountPowerInfoService;
-
+	// 后台操作日志
+	@Autowired
+	private DbLogUtil logger;
+	
 	// 登录
 	@RequestMapping(value = "/login")
 	public Map<String, String> login(HttpServletRequest req, HttpServletResponse res,
@@ -56,6 +60,7 @@ public class AccountInfoController {
 			if (accountInfoEntity.getAuditStatus().equals("0")) {
 				map.put("status", "0");
 				map.put("message", "登陆成功");
+				logger.initLoginLog(accountInfoEntity.getName());
 			} else {
 				map.put("message", "该账户已被禁用!");
 			}
@@ -155,6 +160,7 @@ public class AccountInfoController {
 		accountInfoEntity.setAuditStatus(auditStatus);
 		accountInfoEntity.getAuditStatus();
 		Date date = new Date();
+		boolean result = true;
 		if (auditStatus.equals("0")) {
 			accountInfoEntity.setAuditStatus("0");
 			accountInfoEntity.setUpdateDate(date);
@@ -165,8 +171,9 @@ public class AccountInfoController {
 			accountInfoEntity.setUpdateDate(date);
 			map.put("status", "1");
 			map.put("message", "禁用成功");
+			result = false;
 		}
-		accountInfoService.update(accountInfoEntity);
+		accountInfoService.enable(accountInfoEntity,result);
 		return map;
 	}
 

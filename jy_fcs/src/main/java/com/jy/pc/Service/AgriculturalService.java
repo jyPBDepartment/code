@@ -37,4 +37,7 @@ public interface AgriculturalService {
 	
 	// 获取农服预约信息
 	public List<AgriculturalEntity> findAppointment();
+
+	//农服审核
+	AgriculturalEntity audit(AgriculturalEntity agriculturalEntity,boolean result);
 }

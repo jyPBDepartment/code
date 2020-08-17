@@ -33,4 +33,7 @@ public interface CaseInfoService {
 	//查询所有病虫害信息的最新3条记录
 	public List<CaseInfoEntity> findCaseInfo();
 
+	//切换状态 启用禁用
+	CaseInfoEntity enable(CaseInfoEntity caseInfoEntity, boolean result);
+
 }

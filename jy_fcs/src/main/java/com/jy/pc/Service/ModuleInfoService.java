@@ -31,4 +31,7 @@ public interface ModuleInfoService {
 
 	// 查询所有有效的模块信息
 	public List<ModuleInfoEntity> findListByMobile();
+
+	//农服状态切换
+	void enable(ModuleInfoEntity moduleInfo, boolean result);
 }
