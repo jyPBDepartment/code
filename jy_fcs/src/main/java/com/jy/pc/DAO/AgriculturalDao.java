@@ -32,10 +32,6 @@ public interface AgriculturalDao extends JpaRepository<AgriculturalEntity, Strin
 	@Query(value = " select * from sas_agricultural_clothing_info order by create_date  desc limit 0,3", nativeQuery = true)
 	public List<AgriculturalEntity> findListByTime();
 
-	// 关键字搜索病虫害信息
-	@Query(value = " select t.* from (sas_agricultural_clothing_info t inner join sas_case_key d on t.id=d.case_id inner join  sas_key_word k on d.key_id=k.id) where k.name like :name order by t.create_date desc", nativeQuery = true)
-	public List<AgriculturalEntity> findCaseInfoByKey(@Param("name") String name);
-
 	// 不同状态加载不同的发布
 	@Query(value = "SELECT * FROM sas_agricultural_clothing_info t where t.status = :status", nativeQuery = true)
 	public List<AgriculturalEntity> findStatusPass(@Param("status") String status);

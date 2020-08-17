@@ -28,9 +28,6 @@ public interface AgriculturalService {
 
 	// 农服查询最近三条
 	public List<AgriculturalEntity> findListByTime();
-	
-	// 关键字搜索病虫害信息
-	public List<AgriculturalEntity> findCaseInfoByKey(String name);
 
 	// 不同状态加载不同的发布
 	public List<AgriculturalEntity> findStatusPass(String status);

@@ -105,4 +105,11 @@ public class CaseInfoServiceImpl implements CaseInfoService {
 		}
 		return caseInfoEntity;
 	}
+
+	// 关键字搜索病虫害信息
+	@Override
+	public List<CaseInfoEntity> findCaseInfoByKey(String name) {
+		String caseName = "%" + name + "%";
+		return caseInfoDao.findCaseInfoByKey(caseName);
+	}
 }

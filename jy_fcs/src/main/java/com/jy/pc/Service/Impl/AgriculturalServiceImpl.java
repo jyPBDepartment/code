@@ -66,13 +66,6 @@ public class AgriculturalServiceImpl implements AgriculturalService {
 		return agriculturalDao.findListByTime();
 	}
 
-	// 关键字搜索病虫害信息
-	@Override
-	public List<AgriculturalEntity> findCaseInfoByKey(String name) {
-		String caseName = "%" + name + "%";
-		return agriculturalDao.findCaseInfoByKey(caseName);
-	}
-
 	// 不同状态加载不同的发布
 	@Override
 	public List<AgriculturalEntity> findStatusPass(String status) {

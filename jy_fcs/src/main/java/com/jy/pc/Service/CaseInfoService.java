@@ -33,4 +33,6 @@ public interface CaseInfoService {
 	//查询所有病虫害信息的最新3条记录
 	public List<CaseInfoEntity> findCaseInfo();
 
+	// 关键字搜索病虫害信息
+	public List<CaseInfoEntity> findCaseInfoByKey(String name);
 }
