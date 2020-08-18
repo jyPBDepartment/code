@@ -125,7 +125,7 @@ public class ModuleInfoController {
 			map.put("message", "禁用成功");
 			result = false;
 		}
-		moduleInfoService.enable(moduleInfoEntity,false);
+		moduleInfoService.enable(moduleInfoEntity,result);
 		return map;
 	}
 	

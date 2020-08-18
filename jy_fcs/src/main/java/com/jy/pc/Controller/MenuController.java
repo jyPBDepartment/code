@@ -65,16 +65,18 @@ public class MenuController {
 		Map<String, String> map = new HashMap<String, String>();
 		MenuEntity menuEntity  = menuService.findId(id);
 		Date date = new Date();
+		boolean result= true;
 		if (status.equals("0")) {
 			map.put("status", "0");
 			map.put("message", "启用成功");
 		} else if (status.equals("1")) {
 			map.put("status", "1");
 			map.put("message", "禁用成功");
+			result = false;
 		}
 		menuEntity.setStatus(status);
 		menuEntity.setUpdDate(date);
-		menuService.update(menuEntity);
+		menuService.enable(menuEntity,result);
 		return map;
 	}
 	
@@ -87,7 +89,7 @@ public class MenuController {
 		Date date = new Date();
 		menuEntity.setSort(sort);
 		menuEntity.setUpdDate(date);
-		menuService.update(menuEntity);
+		menuService.changeSort(menuEntity);
 		return map;
 	}
 	
@@ -151,7 +153,6 @@ public class MenuController {
 			e.printStackTrace();
 		}
 		roleMenuRelationService.batchSave(roleId,idArr);
-		System.out.println(roleId+"            "+idArr);
 		map.put("status", "0");
 		map.put("message", "保存成功");
 		return map;
@@ -172,16 +173,19 @@ public class MenuController {
 		MenuEntity menuEntity = jsonObject.toJavaObject(MenuEntity.class);
 		Date date = new Date();
 		menuEntity.setUpdDate(date);
-		if(StringUtils.isNullOrEmpty(menuEntity.getId())) {
-			menuEntity.setStatus("0");
-			menuEntity.setAddDate(date);
-		}
 		if(StringUtils.isNullOrEmpty(menuEntity.getParentId())) {
 			menuEntity.setLevel(0);
 		}else {
 			menuEntity.setLevel(menuService.findId(menuEntity.getParentId()).getLevel() + 1);
 		}
-		menuService.save(menuEntity);
+		if(StringUtils.isNullOrEmpty(menuEntity.getId())) {
+			menuEntity.setStatus("0");
+			menuEntity.setAddDate(date);
+			menuService.save(menuEntity);
+		}else {
+			menuEntity.setUpdDate(date);
+			menuService.update(menuEntity);
+		}
 		map.put("status", "0");
 		map.put("message", "保存成功");
 		return map;

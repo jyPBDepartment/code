@@ -41,4 +41,7 @@ public interface PowerInfoService {
 	//查询子菜单
 	public List<PowerInfoEntity> findListById(String id);
 
+	//切换启用、禁用状态
+	PowerInfoEntity enable(PowerInfoEntity powerInfoEntity, boolean result);
+
 }

@@ -135,7 +135,7 @@ public class PostInfoController {
 		JSONObject jsonObject = JSONObject.parseObject(s);
 		PostInfoEntity postInfoEntity = jsonObject.toJavaObject(PostInfoEntity.class);
 		postInfoEntity.setAuditStatus("1");
-		postInfoService.update(postInfoEntity);
+		postInfoService.audit(postInfoEntity,true);
 		map.put("state", "0");
 		map.put("message", "审核通过");
 		return map;
@@ -150,7 +150,7 @@ public class PostInfoController {
 		JSONObject jsonObject = JSONObject.parseObject(s);
 		PostInfoEntity postInfoEntity = jsonObject.toJavaObject(PostInfoEntity.class);
 		postInfoEntity.setAuditStatus("2");
-		postInfoService.update(postInfoEntity);
+		postInfoService.audit(postInfoEntity,false);
 		map.put("state", "0");
 		map.put("message", "审核驳回");
 		return map;

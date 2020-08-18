@@ -2,6 +2,8 @@ package com.jy.pc.Service.Impl;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -10,29 +12,45 @@ import org.springframework.stereotype.Service;
 import com.jy.pc.DAO.PowerInfoDao;
 import com.jy.pc.Entity.PowerInfoEntity;
 import com.jy.pc.Service.PowerInfoService;
+import com.jy.pc.Utils.DbLogUtil;
 
 @Service
 public class PowerInfoServiceImpl implements PowerInfoService {
 	@Autowired
 	private PowerInfoDao powerInfoDao;
+	@Autowired
+	DbLogUtil logger;
 
 	// 权限添加
 	@Override
+	@Transactional
 	public PowerInfoEntity save(PowerInfoEntity powerInfoEntity) {
+		PowerInfoEntity result = powerInfoDao.saveAndFlush(powerInfoEntity);
+		logger.initAddLog(powerInfoEntity);
+		return result;
+	}
 
+	// 权限启用禁用
+	@Override
+	@Transactional
+	public PowerInfoEntity enable(PowerInfoEntity powerInfoEntity,boolean result) {
+		logger.initEnableLog(powerInfoEntity,result);
 		return powerInfoDao.saveAndFlush(powerInfoEntity);
 	}
 
 	// 权限修改
 	@Override
+	@Transactional
 	public PowerInfoEntity update(PowerInfoEntity powerInfoEntity) {
-
+		logger.initUpdateLog(powerInfoEntity);
 		return powerInfoDao.saveAndFlush(powerInfoEntity);
 	}
 
 	// 权限删除
 	@Override
+	@Transactional
 	public void delete(String id) {
+		logger.initDeleteLog(powerInfoDao.findBId(id));
 		powerInfoDao.deleteById(id);
 
 	}
@@ -80,8 +98,6 @@ public class PowerInfoServiceImpl implements PowerInfoService {
 		return powerInfoDao.findAccountLink();
 	}
 
-
-
 	@Override
 	public boolean findJurCode(String subJurCode) {
 		int count = powerInfoDao.findJurCode(subJurCode);
@@ -90,9 +106,8 @@ public class PowerInfoServiceImpl implements PowerInfoService {
 
 	@Override
 	public List<PowerInfoEntity> findListById(String id) {
-		
+
 		return powerInfoDao.findListById(id);
 	}
-	
-	
+
 }

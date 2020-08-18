@@ -22,22 +22,31 @@ public class AccountPowerInfoServiceImpl implements AccountPowerInfoService {
 	
 	@Override
 	public AccountPowerInfoEntity save(AccountPowerInfoEntity accountPowerInfo) {
-		return accountPowerInfoDao.saveAndFlush(accountPowerInfo);
+		AccountPowerInfoEntity result = accountPowerInfoDao.saveAndFlush(accountPowerInfo);
+		logger.initAddLog(accountPowerInfo);
+		return result;
 	}
 
 	@Override
+	@Transactional
 	public void update(AccountPowerInfoEntity accountPowerInfo) {
+		logger.initCustomizedLog("账号管理", "权限设置 -- 新增", accountPowerInfo);
 		accountPowerInfoDao.saveAndFlush(accountPowerInfo);
 
 	}
 
 	@Override
+	@Transactional
 	public void delete(String id) {
 		accountPowerInfoDao.deleteById(id);
 	}
 
 	@Override
 	public void deleteByJurCode(String jurCodel, String accountId) {
+		AccountPowerInfoEntity entity = new AccountPowerInfoEntity();
+		entity.setAccountId(accountId);
+		entity.setJurCodel(jurCodel);
+		logger.initCustomizedLog("账号管理", "权限设置 -- 删除", entity);
 		accountPowerInfoDao.deleteByJurCode(jurCodel, accountId);
 	}
 

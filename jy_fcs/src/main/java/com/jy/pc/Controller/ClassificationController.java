@@ -157,6 +157,7 @@ public class ClassificationController {
 		ClassificationEntity classificationEntity = classificationService.findBId(id);
 		classificationEntity.setStatus(status);
 		classificationEntity.getStatus();
+		boolean result = true;
 		if (status.equals("1")) {
 			classificationEntity.setStatus("1");
 			map.put("state", "0");
@@ -165,8 +166,9 @@ public class ClassificationController {
 			classificationEntity.setStatus("0");
 			map.put("state", "0");
 			map.put("message", "禁用成功");
+			result = false;
 		}
-		classificationService.update(classificationEntity);
+		classificationService.enable(classificationEntity,result);
 		return map;
 	}
 

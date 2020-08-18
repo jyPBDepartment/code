@@ -55,5 +55,8 @@ public interface ClassificationService {
 
 	public List<ClassificationEntity> findClassByCode( String classCode);
 
+	//分类状态切换
+	ClassificationEntity enable(ClassificationEntity classificationEntity, boolean result);
+
 	
 }

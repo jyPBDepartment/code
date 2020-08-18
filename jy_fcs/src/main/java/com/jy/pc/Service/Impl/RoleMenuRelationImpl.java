@@ -14,12 +14,15 @@ import com.jy.pc.Entity.MenuEntity;
 import com.jy.pc.Entity.RoleEntity;
 import com.jy.pc.Entity.RoleMenuRelationEntity;
 import com.jy.pc.Service.RoleMenuRelationService;
+import com.jy.pc.Utils.DbLogUtil;
 
 @Service
-public class RoleMenuRelationImpl implements RoleMenuRelationService{
+public class RoleMenuRelationImpl implements RoleMenuRelationService {
 
 	@Autowired
 	RoleMenuRelationDao roleMenuRelationDao;
+	@Autowired
+	DbLogUtil logger;
 
 	@Override
 	public RoleMenuRelationEntity save(RoleMenuRelationEntity roleMenuRelationEntity) {
@@ -29,12 +32,12 @@ public class RoleMenuRelationImpl implements RoleMenuRelationService{
 	@Override
 	public void update(RoleMenuRelationEntity roleMenuRelationEntity) {
 		roleMenuRelationDao.saveAndFlush(roleMenuRelationEntity);
-		
+
 	}
 
 	@Override
 	public void delete(String id) {
-		roleMenuRelationDao.deleteById(id);		
+		roleMenuRelationDao.deleteById(id);
 	}
 
 	@Override
@@ -59,12 +62,12 @@ public class RoleMenuRelationImpl implements RoleMenuRelationService{
 
 	@Override
 	public boolean hasRelationByMenu(String menuId) {
-		return roleMenuRelationDao.hasRelationByMenu(menuId)>0?true:false;
+		return roleMenuRelationDao.hasRelationByMenu(menuId) > 0 ? true : false;
 	}
 
 	@Override
 	public boolean hasRelationByRole(String roleId) {
-		return roleMenuRelationDao.hasRelationByRole(roleId)>0?true:false;
+		return roleMenuRelationDao.hasRelationByRole(roleId) > 0 ? true : false;
 	}
 
 	@Transactional
@@ -72,20 +75,23 @@ public class RoleMenuRelationImpl implements RoleMenuRelationService{
 	public void batchSave(String roleId, String idArr) {
 		JSONArray array = JSONArray.parseArray(idArr);
 		List<RoleMenuRelationEntity> entities = new ArrayList<RoleMenuRelationEntity>();
-		for(int i=0;i<array.size();i++) {
+		for (int i = 0; i < array.size(); i++) {
 			RoleMenuRelationEntity entity = new RoleMenuRelationEntity();
-			entity.setRole( new RoleEntity(roleId));
+			entity.setRole(new RoleEntity(roleId));
 			entity.setMenu(new MenuEntity(array.getString(i)));
 			entities.add(entity);
 		}
-		//清空角色下所有权限
+		logger.initCustomizedLog("角色管理", "角色授权", entities);
+		// 清空角色下原有权限
 		roleMenuRelationDao.deleteByRole(roleId);
-		//重新挂载权限
+		// 重新挂载权限
 		roleMenuRelationDao.saveAll(entities);
 	}
 
+	// 清空角色授权
 	@Transactional
 	public void deleteByRole(String roleId) {
+		logger.initCustomizedLog("角色管理", "清空授权", "roleId:"+roleId);
 		roleMenuRelationDao.deleteByRole(roleId);
 	}
 }

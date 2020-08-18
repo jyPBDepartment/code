@@ -30,7 +30,7 @@ public class PostInfoServiceImpl implements PostInfoService {
 	private CommentReplyInfoDao commentReplyInfoDao;
 	@Autowired
 	private DbLogUtil logger;
-	
+
 	// 农活预约总数
 	@Override
 	public List<PostInfoEntity> findInva() {
@@ -56,14 +56,14 @@ public class PostInfoServiceImpl implements PostInfoService {
 	@Override
 	@Transactional
 	public void enable(PostInfoEntity invitation, boolean result) {
-		logger.initEnableLog(invitation,result);
+		logger.initEnableLog(invitation, result);
 		invitationDao.saveAndFlush(invitation);
 	}
 
 	// 审核
 	@Override
 	@Transactional
-	public void audit(PostInfoEntity invitation,boolean result) {
+	public void audit(PostInfoEntity invitation, boolean result) {
 		logger.initAuditLog(invitation, result);
 		invitationDao.saveAndFlush(invitation);
 	}

@@ -29,4 +29,10 @@ public interface MenuService {
 	
 	//获取菜单树
 	public List<Map<String,Object>> findTree();
+
+	//切换启用禁用状态
+	void enable(MenuEntity menuEntity, boolean result);
+
+	//修改排序
+	void changeSort(MenuEntity menuEntity);
 }

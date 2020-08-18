@@ -68,6 +68,7 @@ public class RoleController {
 
 		Map<String, String> map = new HashMap<String, String>();
 		RoleEntity roleEntity = roleService.findId(id);
+		boolean result = true;
 		Date date = new Date();
 		if ("0".equals(status)) {
 			map.put("status", "0");
@@ -76,10 +77,11 @@ public class RoleController {
 		if ("1".equals(status)) {
 			map.put("status", "1");
 			map.put("message", "禁用成功");
+			result = false;
 		}
 		roleEntity.setStatus(status);
 		roleEntity.setUpdDate(date);
-		roleService.update(roleEntity);
+		roleService.enable(roleEntity,result);
 		return map;
 	}
 
@@ -102,14 +104,17 @@ public class RoleController {
 		if(StringUtils.isNullOrEmpty(roleEntity.getId())) {
 			roleEntity.setStatus("0");
 			roleEntity.setAddDate(date);
+			roleService.save(roleEntity);
+		}else {
+			roleEntity.setUpdDate(date);
+			roleService.update(roleEntity);
 		}
-		roleService.save(roleEntity);
 		map.put("status", "0");
 		map.put("message", "保存成功");
 		return map;
 	}
 
-	// 关键字删除
+	// 角色删除
 	@RequestMapping(value = "/delete")
 	public Map<String, Object> delete(HttpServletRequest res, HttpServletResponse req,
 			@RequestParam(name = "id") String id) {

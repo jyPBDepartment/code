@@ -48,7 +48,7 @@ public class AccountInfoServiceImpl implements AccountInfoService {
 	@Override
 	public AccountInfoEntity save(AccountInfoEntity accountInfo) {
 		AccountInfoEntity result = accountInfoDao.saveAndFlush(accountInfo);
-		logger.initAddLog(accountInfo.getId());
+		logger.initAddLog(accountInfo);
 		return result;
 	}
 
@@ -64,7 +64,10 @@ public class AccountInfoServiceImpl implements AccountInfoService {
 	@Override
 	@Transactional
 	public void updatePwd(AccountInfoEntity accountInfo) {
-		logger.initCustomizedLog("账户管理", "修改密码", accountInfo.getPassWord());
+		AccountInfoEntity entity = new AccountInfoEntity();
+		entity.setName(accountInfo.getName());
+		entity.setPassWord(accountInfo.getPassWord());
+		logger.initCustomizedLog("账户管理", "修改密码", entity);
 		accountInfoDao.saveAndFlush(accountInfo);
 	}
 

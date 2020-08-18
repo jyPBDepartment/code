@@ -2,6 +2,8 @@ package com.jy.pc.Service.Impl;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -10,31 +12,46 @@ import org.springframework.stereotype.Service;
 import com.jy.pc.DAO.ClassificationDao;
 import com.jy.pc.Entity.ClassificationEntity;
 import com.jy.pc.Service.ClassificationService;
+import com.jy.pc.Utils.DbLogUtil;
 
 @Service
 public class ClassificationServiceImpl implements ClassificationService {
 
 	@Autowired
 	private ClassificationDao classificationDao;
+	@Autowired
+	DbLogUtil logger;
 
 	// 分类添加
 	@Override
+	@Transactional
 	public ClassificationEntity save(ClassificationEntity classificationEntity) {
+		ClassificationEntity result = classificationDao.saveAndFlush(classificationEntity);
+		logger.initAddLog(classificationEntity);
+		return result;
+	}
 
+	// 分类状态设置 -- 启用禁用
+	@Override
+	@Transactional
+	public ClassificationEntity enable(ClassificationEntity classificationEntity,boolean result) {
+		logger.initEnableLog(classificationEntity,result);
 		return classificationDao.saveAndFlush(classificationEntity);
 	}
 
 	// 分类修改
 	@Override
+	@Transactional
 	public ClassificationEntity update(ClassificationEntity classificationEntity) {
-
+		logger.initUpdateLog(classificationEntity);
 		return classificationDao.saveAndFlush(classificationEntity);
 	}
 
 	// 分类删除
 	@Override
+	@Transactional
 	public void delete(String id) {
-
+		logger.initDeleteLog(classificationDao.findBId(id));
 		classificationDao.deleteById(id);
 	}
 

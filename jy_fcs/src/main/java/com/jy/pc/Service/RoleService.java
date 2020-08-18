@@ -20,4 +20,7 @@ public interface RoleService {
 
 	// 主鍵查詢
 	public RoleEntity findId(String id);
+
+	// 切换启用禁用状态
+	void enable(RoleEntity roleEntity, boolean result);
 }

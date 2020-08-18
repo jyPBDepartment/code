@@ -29,13 +29,8 @@ public class DbLogUtil {
 	 */
 	public void initDeleteLog(Object object) {
 		Table[] tables = object.getClass().getAnnotationsByType(Table.class);
-		if(tables.length > 0) {			;
-			DbLogInfoEntity entity = new DbLogInfoEntity();
-			entity.setAction("删除");
-			entity.setActObj(JSON.toJSONString(object));
-			entity.setLogDate(new Date());
-			entity.setModule(tables[0].name());
-			dbLogInfoDao.save(entity);
+		if(tables.length > 0) {		
+			saveLog(tables[0].name()," 删除 ",JSON.toJSONString(object));;
 		}
 	}
 
@@ -51,7 +46,7 @@ public class DbLogUtil {
 	}
 	
 	public void initUpdateLog(Object object) {
-		Entity[] tables = object.getClass().getAnnotationsByType(Entity.class);
+		Table[] tables = object.getClass().getAnnotationsByType(Table.class);
 		if(tables.length > 0) {		
 			saveLog(tables[0].name()," 修改 ",JSON.toJSONString(object));;
 		}
@@ -66,14 +61,14 @@ public class DbLogUtil {
 	public void initEnableLog(Object object,boolean result) {
 		Table[] tables = object.getClass().getAnnotationsByType(Table.class);
 		if(tables.length > 0) {		
-			saveLog(tables[0].name(),result?"启用":"禁用"+" -- 状态切换",JSON.toJSONString(object));;
+			saveLog(tables[0].name(),result?"启用 -- 状态切换":"禁用 -- 状态切换",JSON.parseObject(JSON.toJSONString(object)).getString("id"));;
 		}
 	}
 	
 	public void initAuditLog(Object object,boolean result) {
 		Table[] tables = object.getClass().getAnnotationsByType(Table.class);
 		if(tables.length > 0) {		
-			saveLog(tables[0].name()," 切换状态 ",result?"审核通过":"审核驳回"+JSON.toJSONString(object));;
+			saveLog(tables[0].name(),result?" 审核通过 ":" 审核驳回 ",JSON.toJSONString(object));;
 		}
 	}
 	
@@ -94,8 +89,8 @@ public class DbLogUtil {
 	 * consumer:
 	 * note:
 	 */
-	public void initCustomizedLog(String module,String action,String remark) {
-		saveLog(module, action, remark);
+	public void initCustomizedLog(String module,String action,Object remark) {
+		saveLog(module, action, JSON.toJSONString(remark));
 	}
 	
 	private static String castTableToEntity(String tableName) {
@@ -141,7 +136,7 @@ public class DbLogUtil {
 			result = "角色管理";
 			break;
 		default:
-			result = "详见描述";
+			result = tableName;
 			break;
 		}
 		return result;

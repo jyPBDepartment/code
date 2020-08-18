@@ -129,15 +129,17 @@ public class PowerInfoController {
 	}
 
 	// 查询子菜单
-		@RequestMapping(value = "/findListById")
-		public Map<String, Object> findListById(HttpServletRequest res, HttpServletResponse req,@RequestParam(name="id") String id) {
-			Map<String, Object> map = new HashMap<String, Object>();
-			List<PowerInfoEntity> power = powerInfoService.findListById(id);
-			map.put("status", "0");// 成功
-			map.put("message", "查询成功");
-			map.put("data", power);
-			return map;
-		}
+	@RequestMapping(value = "/findListById")
+	public Map<String, Object> findListById(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "id") String id) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		List<PowerInfoEntity> power = powerInfoService.findListById(id);
+		map.put("status", "0");// 成功
+		map.put("message", "查询成功");
+		map.put("data", power);
+		return map;
+	}
+
 	// 启用禁用
 	@RequestMapping(value = "/enable")
 	public Map<String, String> opensulf(HttpServletRequest res, HttpServletResponse req,
@@ -146,6 +148,7 @@ public class PowerInfoController {
 		PowerInfoEntity powerInfoEntity = powerInfoService.findBId(id);
 		powerInfoEntity.setAuditStatus(auditStatus);
 		powerInfoEntity.getAuditStatus();
+		boolean result = true;
 		if (auditStatus.equals("1")) {
 			powerInfoEntity.setAuditStatus("1");
 			map.put("state", "0");
@@ -154,8 +157,9 @@ public class PowerInfoController {
 			powerInfoEntity.setAuditStatus("0");
 			map.put("state", "0");
 			map.put("message", "禁用成功");
+			result = false;
 		}
-		powerInfoService.update(powerInfoEntity);
+		powerInfoService.enable(powerInfoEntity, result);
 		return map;
 	}
 
