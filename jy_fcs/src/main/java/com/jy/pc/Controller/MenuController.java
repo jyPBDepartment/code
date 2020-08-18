@@ -80,6 +80,7 @@ public class MenuController {
 		return map;
 	}
 	
+	//修改排序
 	@RequestMapping(value = "/changeSort")
 	public Map<String, String> changeMenuSort(HttpServletRequest res, HttpServletResponse req,
 			@RequestParam(name = "id") String id, @RequestParam(name = "sort") int sort) {
@@ -93,6 +94,7 @@ public class MenuController {
 		return map;
 	}
 	
+	//删除
 	@RequestMapping(value = "/delete")
 	public Map<String, String> deleteMenu(HttpServletRequest res, HttpServletResponse req,
 			@RequestParam(name = "id") String id){
@@ -109,13 +111,14 @@ public class MenuController {
 			map.put("message", "已有角色挂载该菜单，不可直接删除！");
 			return map;
 		}
-		//执行删除操作,删除改菜单
+		//执行删除操作,删除该菜单
 		menuService.delete(id);
 		map.put("status", "0");
 		map.put("message", "删除成功！");
 		return map;
 	}
 	
+	//获取菜单树
 	@RequestMapping(value="/findTree")
 	public Map<String, Object> findTree(HttpServletRequest res, HttpServletResponse req) {
 
@@ -141,6 +144,7 @@ public class MenuController {
 		return map;
 	}
 	
+	//保存角色与菜单关联关系
 	@RequestMapping(value="/saveRelation")
 	public Map<String, String> saveRelation(HttpServletRequest res, HttpServletResponse req) {
 		Map<String, String> map = new HashMap<String, String>();
@@ -158,6 +162,7 @@ public class MenuController {
 		return map;
 	} 
 	
+	//保存菜单
 	@RequestMapping(value="/save")
 	public Map<String, String> save(HttpServletRequest res, HttpServletResponse req) {
 		Map<String, String> map = new HashMap<String, String>();

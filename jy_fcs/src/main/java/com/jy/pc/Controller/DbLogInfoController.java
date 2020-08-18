@@ -54,4 +54,14 @@ public class DbLogInfoController {
 		return map;
 	}
 
+	//清空所有日志
+	@RequestMapping(value = "/deleteAll")
+	public Map<String, Object> deleteAll(HttpServletRequest res, HttpServletResponse req) {
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		dbLogInfoService.deleteAll();
+		map.put("status", "0");
+		map.put("message", "清空成功");
+		return map;
+	}
 }

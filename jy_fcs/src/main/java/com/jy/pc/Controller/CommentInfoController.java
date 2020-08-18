@@ -109,7 +109,7 @@ public class CommentInfoController {
 		return map;
 	}
 
-	// 回复修改
+	// 评论修改
 	@RequestMapping(value = "/update")
 	public Map<String, String> update(HttpServletRequest res, HttpServletResponse req) {
 

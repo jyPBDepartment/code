@@ -20,4 +20,6 @@ public interface DbLogInfoService {
 
 	// 主鍵查詢
 	public DbLogInfoEntity findId(String id);
+
+	void deleteAll();
 }

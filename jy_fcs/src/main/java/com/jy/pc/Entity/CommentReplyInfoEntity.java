@@ -18,6 +18,10 @@ import org.hibernate.annotations.NotFoundAction;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+/**
+ * 
+ *	回复管理
+ */
 @Entity
 @Table(name="sas_comment_reply_info")
 public class CommentReplyInfoEntity {
