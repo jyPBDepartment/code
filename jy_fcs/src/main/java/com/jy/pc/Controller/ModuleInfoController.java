@@ -144,16 +144,9 @@ public class ModuleInfoController {
 
 		Map<String, Object> map = new HashMap<String, Object>();// 接收数据容器
 		List<ModuleInfoEntity> moduleInfoEntity = moduleInfoService.findModuleListByName(name);
-		for(int i=0;i<moduleInfoEntity.size();i++) {
-			if(moduleInfoEntity.get(i).getStatus().equals("0")) {
-				map.put("status", "0");
-				map.put("message", "查询成功");
-				map.put("data", moduleInfoEntity);
-			}else{
-				map.put("status", "1");
-				map.put("message", "查询失败");
-			}
-		}
+		map.put("status", "0");
+		map.put("message", "查询成功");
+		map.put("data", moduleInfoEntity);
 		return map;
 	}
 	
@@ -175,7 +168,6 @@ public class ModuleInfoController {
 		public Map<String, Object> findListByMobile(HttpServletRequest res, HttpServletResponse req) {
 
 			Map<String, Object> map = new HashMap<String, Object>();
-
 			List<ModuleInfoEntity> effect = moduleInfoService.findListByMobile();
 			for(int i=0; i<effect.size();i++) {				
 				map.put("data", effect);
