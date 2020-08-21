@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.jy.pc.Entity.MenuEntity;
+import com.jy.pc.POJO.NavMenuData;
 
 public interface MenuService {
 	// 搜索
@@ -35,4 +36,7 @@ public interface MenuService {
 
 	//修改排序
 	void changeSort(MenuEntity menuEntity);
+
+	//获取所有可用目录
+	List<NavMenuData> findNavData();
 }

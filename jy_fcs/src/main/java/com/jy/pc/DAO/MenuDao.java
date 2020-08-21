@@ -13,7 +13,7 @@ public interface MenuDao extends JpaRepository<MenuEntity, String> {
 	@Query(value = "select * from sas_menu t where t.id =:id", nativeQuery = true)
 	public MenuEntity findId(@Param("id") String id);
 
-	@Query(value = "select a.* from sas_menu a where FIND_IN_SET(a.id,getParentList((select group_concat(t.id) from sas_menu t where if(?1 !='',t.name like ?1,1=1))))", nativeQuery = true)
+	@Query(value = "select a.* from sas_menu a where FIND_IN_SET(a.id,getParentList((select group_concat(t.id) from sas_menu t where if(?1 !='',t.name like ?1,1=1) ORDER BY sort ASC))) ORDER BY sort ASC", nativeQuery = true)
 	public List<MenuEntity> findListByName(String name);
 
 	@Query(value = "select count(0) from sas_menu t where t.parent_id =:parentId", nativeQuery = true)
@@ -21,4 +21,10 @@ public interface MenuDao extends JpaRepository<MenuEntity, String> {
 
 	@Query(value = "select id,name,parent_id,level from sas_menu", nativeQuery = true)
 	public List<Map<String,Object>> findTree();
+
+	@Query(value = "select * from sas_menu t where t.menu_type = 1 and t.status = 0 ORDER BY sort ASC", nativeQuery = true)
+	public List<MenuEntity> findIndex();
+	
+	@Query(value = "select * from sas_menu t where t.menu_type = 2 and t.status = 0 and t.parent_id =:parentId ORDER BY sort ASC", nativeQuery = true)
+	public List<MenuEntity> findByParent(@Param("parentId") String parentId);
 }
