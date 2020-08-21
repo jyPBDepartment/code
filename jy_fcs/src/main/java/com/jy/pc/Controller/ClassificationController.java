@@ -87,54 +87,17 @@ public class ClassificationController {
 	}
 
 	// 分类删除
-	// 2020-08-21 
-	// 1.此方法中存在空代码块，建议重新梳理逻辑，优化代码
-	// 2.此方法中事务管理存在问题，有时间建议将数据库操作移至service中,进行统一事务管理
-	// 3.建议使用foreach替代for循环
 	@RequestMapping(value = "delete")
 	public Map<String, Object> delete(HttpServletRequest res, HttpServletResponse req,
 			@RequestParam(name = "id") String id) {
 		Map<String, Object> map = new HashMap<String, Object>();// 接收数据容器
-		List<ClassificationEntity> classi = classificationService.findCropLink();// 农作物
-
-		List<ClassificationEntity> classiFicat = classificationService.findDipLink();// 病虫害
-		List<ClassificationEntity> classiFication = classificationService.findKeywordLink();// 关键词
-		ClassificationEntity classificationEntity = classificationService.findBId(id);
-		for (int i = 0; i < classi.size(); i++) {
-			ClassificationEntity calssiFicat = classi.get(i);
-			calssiFicat.getId();
-			if (classificationService.findParentCode(id)) {
-				map.put("status", "1");
-				map.put("message", "该菜单下存在子菜单，不可直接删除！");
-				return map;
-			} else if (classificationEntity.getId().equals(calssiFicat.getId())) {
-				for (int j = 0; j < classiFicat.size(); j++) {
-					ClassificationEntity ficat = classiFicat.get(j);
-					ficat.getId();
-					if (classificationEntity.getId().equals(ficat.getId())) {
-						for (int k = 0; k < classiFication.size(); k++) {
-							ClassificationEntity calssiFicati = classiFication.get(k);
-							calssiFicati.getId();
-							if (classificationEntity.getId().equals(calssiFicati.getId())) {
-								classificationService.delete(id);
-								map.put("status", "0");
-								map.put("message", "删除成功");
-							} else {
-							}
-						}
-						if (classiFication.size() <= 0) {
-						}
-
-					} else {
-					}
-				}
-				if (classiFicat.size() <= 0) {
-				}
-
-			} else {
-			}
-		}
-		if (classi.size() <= 0) {
+		int calssiFicati=classificationService.deleteClass(id);
+		if(calssiFicati == 1) {
+			map.put("status", "1");
+			map.put("message", "该菜单下存在子菜单，不可直接删除！");
+		}else if(calssiFicati ==2) {
+			map.put("status", "0");
+			map.put("message", "删除成功");
 		}
 		return map;
 	}

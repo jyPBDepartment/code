@@ -58,5 +58,6 @@ public interface ClassificationService {
 	//分类状态切换
 	ClassificationEntity enable(ClassificationEntity classificationEntity, boolean result);
 
+	public int deleteClass(String id);
 	
 }

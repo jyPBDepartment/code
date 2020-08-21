@@ -21,6 +21,8 @@ public class ClassificationServiceImpl implements ClassificationService {
 	private ClassificationDao classificationDao;
 	@Autowired
 	DbLogUtil logger;
+	@Autowired
+	private ClassificationService classificationService;
 
 	// 分类添加
 	@Override
@@ -34,8 +36,8 @@ public class ClassificationServiceImpl implements ClassificationService {
 	// 分类状态设置 -- 启用禁用
 	@Override
 	@Transactional
-	public ClassificationEntity enable(ClassificationEntity classificationEntity,boolean result) {
-		logger.initEnableLog(classificationEntity,result);
+	public ClassificationEntity enable(ClassificationEntity classificationEntity, boolean result) {
+		logger.initEnableLog(classificationEntity, result);
 		return classificationDao.saveAndFlush(classificationEntity);
 	}
 
@@ -139,7 +141,46 @@ public class ClassificationServiceImpl implements ClassificationService {
 	// 查询子菜单
 	@Override
 	public List<ClassificationEntity> findListById(String id) {
-
 		return classificationDao.findListById(id);
+	}
+
+	// 分类删除
+	@Override
+	public int deleteClass(String id) {
+		List<ClassificationEntity> classi = classificationService.findCropLink();// 农作物
+		List<ClassificationEntity> classiFicat = classificationService.findDipLink();// 病虫害
+		List<ClassificationEntity> classiFication = classificationService.findKeywordLink();// 关键词
+		ClassificationEntity classificationEntity = classificationService.findBId(id);
+		int c = 0;
+		for (int i = 0; i < classi.size(); i++) {
+			ClassificationEntity calssiFicat = classi.get(i);
+			if (classificationService.findParentCode(id)) {
+				c = 1;
+				return c;
+			} else if (classificationEntity.getId().equals(calssiFicat.getId())) {
+				for (int j = 0; j < classiFicat.size(); j++) {
+					ClassificationEntity ficat = classiFicat.get(j);
+					if (classificationEntity.getId().equals(ficat.getId())) {
+						for (int k = 0; k < classiFication.size(); k++) {
+							ClassificationEntity calssiFicati = classiFication.get(k);
+							if (classificationEntity.getId().equals(calssiFicati.getId())) {
+								classificationService.delete(id);
+								c = 2;
+							} else {
+							}
+						}
+						if (classiFication.size() <= 0) {
+						}
+					} else {
+					}
+				}
+				if (classiFicat.size() <= 0) {
+				}
+			} else {
+			}
+		}
+		if (classi.size() <= 0) {
+		}
+		return c;
 	}
 }
