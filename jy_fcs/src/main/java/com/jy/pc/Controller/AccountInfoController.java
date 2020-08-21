@@ -207,6 +207,7 @@ public class AccountInfoController {
 	}
 
 	// 权限穿梭框修改
+	// 2020-08-21 此方法中事务管理存在问题，有时间建议将数据库操作移至service中
 	@RequestMapping(value = "/updatePower")
 	public Map<String, String> updatePower(HttpServletRequest res, HttpServletResponse req,
 			@RequestParam(name = "accountId") String accountId, @RequestParam(name = "addItem") String addItem,
@@ -223,7 +224,6 @@ public class AccountInfoController {
 				ad = aes.desEncrypt(addItem);
 				JSONArray jsonObject = JSONObject.parseArray(ad);
 				Set set = new HashSet();
-				System.out.println("addItem:   "+jsonObject);
 				for (int i = 0; i < jsonObject.size(); i++) {
 					set.add(jsonObject.get(i));
 				}
@@ -240,7 +240,6 @@ public class AccountInfoController {
 				de = aes.desEncrypt(deleteItem);
 				JSONArray jsonObject = JSONObject.parseArray(de);
 				Set set = new HashSet();
-				System.out.println("deleteItem:   "+jsonObject);
 				for (int i = 0; i < jsonObject.size(); i++) {
 					set.add(jsonObject.get(i));
 				}

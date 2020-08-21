@@ -87,6 +87,10 @@ public class ClassificationController {
 	}
 
 	// 分类删除
+	// 2020-08-21 
+	// 1.此方法中存在空代码块，建议重新梳理逻辑，优化代码
+	// 2.此方法中事务管理存在问题，有时间建议将数据库操作移至service中,进行统一事务管理
+	// 3.建议使用foreach替代for循环
 	@RequestMapping(value = "delete")
 	public Map<String, Object> delete(HttpServletRequest res, HttpServletResponse req,
 			@RequestParam(name = "id") String id) {
