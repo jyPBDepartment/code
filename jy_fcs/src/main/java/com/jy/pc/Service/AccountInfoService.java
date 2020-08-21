@@ -1,5 +1,7 @@
 package com.jy.pc.Service;
 
+import java.util.Map;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -25,5 +27,7 @@ public interface AccountInfoService {
 	void enable(AccountInfoEntity accountInfo,boolean result);
 	//修改密码
 	void updatePwd(AccountInfoEntity accountInfo);
+	
+	Map<String, String> updateJur(String accountId,String addItem,String deleteItem);
 
 }

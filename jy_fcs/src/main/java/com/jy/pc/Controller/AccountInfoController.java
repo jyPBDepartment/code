@@ -207,49 +207,13 @@ public class AccountInfoController {
 	}
 
 	// 权限穿梭框修改
-	// 2020-08-21 此方法中事务管理存在问题，有时间建议将数据库操作移至service中
 	@RequestMapping(value = "/updatePower")
 	public Map<String, String> updatePower(HttpServletRequest res, HttpServletResponse req,
 			@RequestParam(name = "accountId") String accountId, @RequestParam(name = "addItem") String addItem,
 			@RequestParam(name = "deleteItem") String deleteItem) {
-
-		Map<String, String> map = new HashMap<String, String>();
 		
-		Aes aes = new Aes();
-		String ad = "";
-		String de = "";
-		try {
-			//添加
-			if (!addItem.isEmpty()) {
-				ad = aes.desEncrypt(addItem);
-				JSONArray jsonObject = JSONObject.parseArray(ad);
-				Set set = new HashSet();
-				for (int i = 0; i < jsonObject.size(); i++) {
-					set.add(jsonObject.get(i));
-				}
-				for (int j = 0; j < jsonObject.size(); j++) {
-					AccountPowerInfoEntity accountPowerInfoEntity = new AccountPowerInfoEntity();
-					accountPowerInfoEntity.setAccountId(accountId);
-					accountPowerInfoEntity.setJurCodel(jsonObject.get(j).toString());
-					accountPowerInfoService.update(accountPowerInfoEntity);
-				}
-
-			}
-			//删除
-			if (!deleteItem.isEmpty()) {
-				de = aes.desEncrypt(deleteItem);
-				JSONArray jsonObject = JSONObject.parseArray(de);
-				Set set = new HashSet();
-				for (int i = 0; i < jsonObject.size(); i++) {
-					set.add(jsonObject.get(i));
-				}
-				for (int j = 0; j < jsonObject.size(); j++) {
-					accountPowerInfoService.deleteByJurCode(jsonObject.get(j).toString(), accountId);
-				}
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		Map<String, String> map = new HashMap<String, String>();
+		accountInfoService.updateJur(accountId, addItem, deleteItem);
 		map.put("status", "0");
 		map.put("message", "修改成功");
 		return map;
