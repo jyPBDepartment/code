@@ -37,21 +37,11 @@ public class AgriculturalController {
 
 	@RequestMapping(value = "/save")
 
-	public Map<String, Object> save(HttpServletRequest res, HttpServletResponse req) {
-
-		String s = res.getParameter("agricultural");
-		JSONObject jsonObject = JSONObject.parseObject(s);
+	public Map<String, Object> save(HttpServletRequest res, HttpServletResponse req,AgriculturalEntity agriculturalEntity) {
 
 		Date date = new Date();
-
-		AgriculturalEntity agriculturalEntity = jsonObject.toJavaObject(AgriculturalEntity.class);
-
-		agriculturalEntity.setCreateDate(date);
-
-		ClassificationEntity classificationEntity = new ClassificationEntity();
-		classificationEntity = classificationService.findBId(agriculturalEntity.getClassiCode());
-		agriculturalEntity.setMachineType(classificationEntity.getCode());
-
+		agriculturalEntity.setCreateDate(date);//设置创建时间
+		agriculturalEntity.setStatus("0");//初始化值为待审核0
 		Map<String, Object> map = new HashMap<String, Object>();
 
 		try {
