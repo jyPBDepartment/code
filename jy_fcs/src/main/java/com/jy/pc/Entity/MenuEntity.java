@@ -24,7 +24,7 @@ public class MenuEntity {
 	@GenericGenerator(strategy = "uuid", name = "uuid")
 	@Column(length = 36)
 	private String id;// 主键id
-
+	@Column(length = 1)
 	private String only;// 仅用于目录，"Y"代表
 
 	@Column
