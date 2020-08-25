@@ -53,6 +53,7 @@ public class ModuleInfoController {
 		Date date = new Date();
 		moduleInfoEntity.setCreateDate(date);
 		moduleInfoEntity.setStatus("1");
+		moduleInfoEntity.setStatus("20");
 		moduleInfoService.save(moduleInfoEntity);
 		map.put("status", "0");
 		map.put("message", "添加成功");
@@ -125,19 +126,34 @@ public class ModuleInfoController {
 			map.put("message", "禁用成功");
 			result = false;
 		}
-		moduleInfoService.enable(moduleInfoEntity,result);
+		moduleInfoService.enable(moduleInfoEntity, result);
 		return map;
 	}
-	
+
+	// 修改排序
+	@RequestMapping(value = "/changeSort")
+	public Map<String, String> changeSort(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "id") String id, @RequestParam(name = "sort") String sort) {
+
+		Map<String, String> map = new HashMap<String, String>();
+		ModuleInfoEntity moduleInfoEntity = moduleInfoService.findId(id);
+		Date date = new Date();
+		moduleInfoEntity.setSort(sort);
+		moduleInfoEntity.setUpdateDate(date);
+		moduleInfoService.changeSort(moduleInfoEntity);
+		return map;
+	}
+
 	/**
-	 *     
-	       接口
+	 * 
+	 * 接口
+	 * 
 	 * @param res
 	 * @param req
 	 * @param name
 	 * @return
 	 */
-	//根据模块名称查询非禁用模块信息
+	// 根据模块名称查询非禁用模块信息
 	@RequestMapping(value = "findModuleListByName")
 	public Map<String, Object> findModuleListByName(HttpServletRequest res, HttpServletResponse req,
 			@RequestParam(name = "name") String name) {
@@ -149,32 +165,33 @@ public class ModuleInfoController {
 		map.put("data", moduleInfoEntity);
 		return map;
 	}
-	
-	//查询模块表所有非禁用信息
+
+	// 查询模块表所有非禁用信息
 	@RequestMapping(value = "findModuleOn")
 	public Map<String, Object> findModuleOn(HttpServletRequest res, HttpServletResponse req) {
 
 		Map<String, Object> map = new HashMap<String, Object>();// 接收数据容器
 		List<ModuleInfoEntity> moduleInfoEntity = moduleInfoService.findModuleOn();
-		if(moduleInfoEntity!=null) {
+		if (moduleInfoEntity != null) {
 			map.put("status", "0");
 			map.put("message", "查询成功");
 			map.put("data", moduleInfoEntity);
 		}
 		return map;
 	}
-	// 查询所有有效的模块信息
-		@RequestMapping(value = "/findListByMobile")
-		public Map<String, Object> findListByMobile(HttpServletRequest res, HttpServletResponse req) {
 
-			Map<String, Object> map = new HashMap<String, Object>();
-			List<ModuleInfoEntity> effect = moduleInfoService.findListByMobile();
-			for(int i=0; i<effect.size();i++) {				
-				map.put("data", effect);
-			}
-			map.put("state", "0");// 成功
-			map.put("message", "查询成功");
-			return map;
+	// 查询所有有效的模块信息
+	@RequestMapping(value = "/findListByMobile")
+	public Map<String, Object> findListByMobile(HttpServletRequest res, HttpServletResponse req) {
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		List<ModuleInfoEntity> effect = moduleInfoService.findListByMobile();
+		for (int i = 0; i < effect.size(); i++) {
+			map.put("data", effect);
 		}
+		map.put("state", "0");// 成功
+		map.put("message", "查询成功");
+		return map;
+	}
 
 }

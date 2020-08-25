@@ -86,4 +86,12 @@ public class ModuleInfoServiceImpl implements ModuleInfoService {
 		return moduleInfoDao.findListByMobile();
 	}
 
+	//修改排序
+	@Override
+	public void changeSort(ModuleInfoEntity moduleInfoEntity) {
+		logger.initCustomizedLog("菜单管理", "修改排序", "修改之前：" + moduleInfoDao.findId(moduleInfoEntity.getId()).getSort());
+		moduleInfoDao.saveAndFlush(moduleInfoEntity);
+		
+	}
+
 }

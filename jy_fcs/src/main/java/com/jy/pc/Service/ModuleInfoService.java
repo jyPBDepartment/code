@@ -34,4 +34,7 @@ public interface ModuleInfoService {
 
 	//农服状态切换
 	void enable(ModuleInfoEntity moduleInfo, boolean result);
+
+	//修改排序
+	public void changeSort(ModuleInfoEntity moduleInfoEntity);
 }
