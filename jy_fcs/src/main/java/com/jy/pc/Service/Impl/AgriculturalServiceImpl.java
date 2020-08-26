@@ -109,7 +109,7 @@ public class AgriculturalServiceImpl implements AgriculturalService {
 		return agriculturalDao.findListByType(PublicationEnum.getValueByType(type));
 	}
 
-	// 业务处理
+/*	// 业务处理
 	public Map<String, Object> processing(String type) {
 		Map<String, Object> map = new HashMap<String, Object>();
 //		农服类0，粮食买卖1，农机类2
@@ -147,6 +147,11 @@ public class AgriculturalServiceImpl implements AgriculturalService {
 		map.put("list2", list2);
 
 		return map;
+	}*/
+
+	@Override
+	public List<AgriculturalEntity> findListByTime(String type) {
+		return agriculturalDao.findListByTime(PublicationEnum.getValueByType(type));
 	}
 
 }

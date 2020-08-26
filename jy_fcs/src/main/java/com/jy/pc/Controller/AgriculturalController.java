@@ -20,9 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
 import com.jy.pc.Entity.AgriculturalEntity;
-import com.jy.pc.Entity.ClassificationEntity;
 import com.jy.pc.Service.AgriculturalService;
-import com.jy.pc.Service.ClassificationService;
 
 @Controller
 @ResponseBody
@@ -31,8 +29,8 @@ public class AgriculturalController {
 
 	@Autowired
 	private AgriculturalService agriculturalService;
-	@Autowired
-	
+
+
 	@RequestMapping(value = "/findDetail")
 	public Map<String, Object> findDetail(HttpServletRequest res, HttpServletResponse req,
 			@RequestParam(name = "id") String id) {
@@ -50,11 +48,12 @@ public class AgriculturalController {
 
 	@RequestMapping(value = "/save")
 
-	public Map<String, Object> save(HttpServletRequest res, HttpServletResponse req,AgriculturalEntity agriculturalEntity) {
+	public Map<String, Object> save(HttpServletRequest res, HttpServletResponse req,
+			AgriculturalEntity agriculturalEntity) {
 
 		Date date = new Date();
-		agriculturalEntity.setCreateDate(date);//设置创建时间
-		agriculturalEntity.setStatus("0");//初始化值为待审核0
+		agriculturalEntity.setCreateDate(date);// 设置创建时间
+		agriculturalEntity.setStatus("0");// 初始化值为待审核0
 		Map<String, Object> map = new HashMap<String, Object>();
 
 		try {
@@ -132,7 +131,7 @@ public class AgriculturalController {
 		JSONObject jsonObject = JSONObject.parseObject(s);
 		AgriculturalEntity agriculturalEntity = jsonObject.toJavaObject(AgriculturalEntity.class);
 		agriculturalEntity.setStatus("1");
-		agriculturalService.audit(agriculturalEntity,true);
+		agriculturalService.audit(agriculturalEntity, true);
 		map.put("state", "0");
 		map.put("message", "审核通过");
 		return map;
@@ -147,7 +146,7 @@ public class AgriculturalController {
 		JSONObject jsonObject = JSONObject.parseObject(s);
 		AgriculturalEntity agriculturalEntity = jsonObject.toJavaObject(AgriculturalEntity.class);
 		agriculturalEntity.setStatus("2");
-		agriculturalService.audit(agriculturalEntity,false);
+		agriculturalService.audit(agriculturalEntity, false);
 		map.put("state", "0");
 		map.put("message", "审核拒绝");
 		return map;
@@ -221,21 +220,31 @@ public class AgriculturalController {
 	}
 
 	/**
-	 *	根据类型查询发布信息 
+	 * 根据类型查询发布信息
+	 * 
 	 * @param type 包括：农服类0，粮食买卖1，农机类2
-	 * */
+	 */
 	@RequestMapping(value = "/findStatusPass")
 	public Map<String, Object> findStatusPass(HttpServletRequest res, HttpServletResponse req,
 			@RequestParam(name = "type") String type) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		
-		
-		
 		List<AgriculturalEntity> agri = agriculturalService.findListByType(type);
-		
-//		List<AgriculturalEntity> agri = agriculturalService.findStatusPass(status);
-		
-		
+		map.put("state", "0");// 成功
+		map.put("message", "查询成功");
+		map.put("data", agri);
+		return map;
+	}
+	
+	/**
+	 * 根据类型查询发布信息(前三条)
+	 * 
+	 * @param type 包括：农服类0，粮食买卖1，农机类2
+	 */
+	@RequestMapping(value = "/findNewInfo")
+	public Map<String, Object> findStatusPass(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "type") String type,int limit) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		List<AgriculturalEntity> agri = agriculturalService.findListByTime(type);
 		map.put("state", "0");// 成功
 		map.put("message", "查询成功");
 		map.put("data", agri);

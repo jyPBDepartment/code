@@ -37,6 +37,8 @@ public interface AgriculturalService {
 
 	//农服审核
 	AgriculturalEntity audit(AgriculturalEntity agriculturalEntity,boolean result);
-	
+	//根据类别获取信息
 	List<AgriculturalEntity> findListByType(String type);
+	//根据类别获取信息（前三条）
+	List<AgriculturalEntity> findListByTime(String type);
 }

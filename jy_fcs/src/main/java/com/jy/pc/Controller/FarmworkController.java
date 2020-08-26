@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.jy.pc.Entity.ClassificationEntity;
 import com.jy.pc.Entity.FarmworkEntity;
+import com.jy.pc.Service.AgriculturalService;
 import com.jy.pc.Service.ClassificationService;
 import com.jy.pc.Service.FarmworkService;
 
@@ -25,12 +26,15 @@ import com.jy.pc.Service.FarmworkService;
 @RequestMapping(value = "farmwork")
 @RestController
 public class FarmworkController {
-
+	@Autowired
+	private AgriculturalService agriculturalService;
 	@Autowired
 	private FarmworkService farmworkService;
 	@Autowired
 	private ClassificationService ClassificationService;
 
+	//根据预约信息ID返回联系方式
+	
 	//获取预约详情
 	@RequestMapping(value = "/findDetail")
 	public Map<String, Object> findDetail(HttpServletRequest res, HttpServletResponse req,

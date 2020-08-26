@@ -41,8 +41,8 @@ public interface AgriculturalDao extends JpaRepository<AgriculturalEntity, Strin
 	@Query(value = "SELECT * FROM sas_publication_info t where t.status = '0'", nativeQuery = true)
 	public List<AgriculturalEntity> findAppointment();
 	
-	@Query(value = "SELECT * FROM sas_publication_info t where t.transaction_type_code in ?1 and t.transaction_category_code in ?2 and t.status = '0' order by t.create_date desc", nativeQuery = true)
-	public List<AgriculturalEntity> findListByType(List<String> list1,List<String> list2);
+	@Query(value = "SELECT * FROM sas_publication_info t where t.transaction_type_code in :#{#map['type']} and t.transaction_category_code in :#{#map['category']} and t.status = '1' order by create_date  desc limit 0,3", nativeQuery = true)
+	public List<AgriculturalEntity> findListByTime(@Param("map") Map<String,List<String>> map);
 	
 	@Query(value = "SELECT * FROM sas_publication_info t where t.transaction_type_code in :#{#map['type']} and t.transaction_category_code in :#{#map['category']} and t.status = '1' order by t.create_date desc", nativeQuery = true)
 	public List<AgriculturalEntity> findListByType(@Param("map") Map<String,List<String>> map);
