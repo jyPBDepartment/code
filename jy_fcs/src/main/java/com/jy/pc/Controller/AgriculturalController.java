@@ -20,18 +20,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
 import com.jy.pc.Entity.AgriculturalEntity;
-import com.jy.pc.Entity.ClassificationEntity;
 import com.jy.pc.Service.AgriculturalService;
-import com.jy.pc.Service.ClassificationService;
 
 @Controller
 @ResponseBody
-@RequestMapping(value = "agricultural")
+@RequestMapping(value = "agricultural")	
 public class AgriculturalController {
 
 	@Autowired
 	private AgriculturalService agriculturalService;
-	@Autowired
 	
 	@RequestMapping(value = "/findDetail")
 	public Map<String, Object> findDetail(HttpServletRequest res, HttpServletResponse req,
