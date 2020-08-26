@@ -102,6 +102,9 @@ public class DbLogUtil {
 		case "sas_agricultural_clothing_info": 
 			result = "农服管理";
 			break;
+		case "sas_publication_info": 
+			result = "农服管理";
+			break;
 		case "sas_case_info": 
 			result = "看图识病";
 			break;

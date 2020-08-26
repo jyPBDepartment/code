@@ -32,7 +32,20 @@ public class AgriculturalController {
 	@Autowired
 	private AgriculturalService agriculturalService;
 	@Autowired
-	private ClassificationService classificationService;
+	
+	@RequestMapping(value = "/findDetail")
+	public Map<String, Object> findDetail(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "id") String id) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		AgriculturalEntity agricultural = agriculturalService.findBId(id);
+		if (agricultural != null) {
+			map.put("status", "0");// 查询数据成功
+			map.put("data", agricultural);
+		} else {
+			map.put("status", "1");// 查询数据失败
+		}
+		return map;
+	}
 	// 农服添加
 
 	@RequestMapping(value = "/save")

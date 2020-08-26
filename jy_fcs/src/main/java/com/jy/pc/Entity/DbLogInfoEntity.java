@@ -30,7 +30,7 @@ public class DbLogInfoEntity {
 	@Column
 	private String action;
 	//操作对象
-	@Column
+	@Column(columnDefinition="TEXT")
 	private String actObj;
 	public String getId() {
 		return id;

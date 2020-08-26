@@ -28,5 +28,10 @@ public class FarmworkServiceImpl implements FarmworkService {
 		return farmworkDao.saveAndFlush(farmworkEntity);
 	}
 
+	@Override
+	public FarmworkEntity findById(String id) {
+		return farmworkDao.findId(id);
+	}
+
 	
 }

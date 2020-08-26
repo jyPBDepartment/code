@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import com.jy.pc.DAO.AgriculturalDao;
 import com.jy.pc.Entity.AgriculturalEntity;
+import com.jy.pc.Enum.PublicationEnum;
 import com.jy.pc.Service.AgriculturalService;
 import com.jy.pc.Utils.DbLogUtil;
 
@@ -99,10 +100,13 @@ public class AgriculturalServiceImpl implements AgriculturalService {
 	
 	public List<AgriculturalEntity> findListByType(String type) {
 
-		Map<String, Object> map = this.processing(type);
+		/*Map<String, Object> map = this.processing(type);
 		List<String> list1 = (List<String>) map.get("list1");//交易类型
 		List<String> list2 = (List<String>) map.get("list2");//交易类别
-		return agriculturalDao.findListByType(list1,list2);
+		Map<String, List<String>> map2 = new HashMap<String, List<String>>();
+		map2.put("list1", list1);
+		map2.put("list2", list2);*/
+		return agriculturalDao.findListByType(PublicationEnum.getValueByType(type));
 	}
 
 	// 业务处理

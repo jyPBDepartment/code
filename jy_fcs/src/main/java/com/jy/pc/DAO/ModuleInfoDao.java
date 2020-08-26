@@ -20,7 +20,7 @@ public interface ModuleInfoDao extends JpaRepository<ModuleInfoEntity, String> {
 	public ModuleInfoEntity findId(@Param("id") String id);
 
 	// 查询模块表所有非禁用信息
-	@Query(value = "select * from sas_module_info t where t.status='0' order by t.create_date desc", nativeQuery = true)
+	@Query(value = "select * from sas_module_info t where t.status='0' order by t.sort ASC", nativeQuery = true)
 	public List<ModuleInfoEntity> findModuleOn();
 
 	// 根据模块名称查询模块表非禁用信息

@@ -11,6 +11,7 @@ public interface FarmworkService {
 	// 农活预约添加
 	public FarmworkEntity save(FarmworkEntity farmworkEntity);
 
-	
+	//根据id获取实体
+	public FarmworkEntity findById(String id);
 
 }

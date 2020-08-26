@@ -15,7 +15,7 @@ import org.hibernate.annotations.GenericGenerator;
 import com.fasterxml.jackson.annotation.JsonFormat;
 //农服信息表
 @Entity
-@Table(name="sas_agricultural_clothing_info")
+@Table(name="sas_publication_info")
 public class AgriculturalEntity {
 	@Id
 	@GeneratedValue(generator = "uuid")

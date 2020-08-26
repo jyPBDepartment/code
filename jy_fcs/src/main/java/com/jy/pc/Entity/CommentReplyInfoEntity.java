@@ -42,6 +42,9 @@ public class CommentReplyInfoEntity {
 	//回复人
 	@Column
 	private String replyUserName;
+	//回复人ID
+	@Column
+	private String replyUserId;
 	//回复时间
 	@Column
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
@@ -65,6 +68,12 @@ public class CommentReplyInfoEntity {
 	}
 	public String getReplyContent() {
 		return replyContent;
+	}
+	public String getReplyUserId() {
+		return replyUserId;
+	}
+	public void setReplyUserId(String replyUserId) {
+		this.replyUserId = replyUserId;
 	}
 	public void setReplyContent(String replyContent) {
 		this.replyContent = replyContent;

@@ -20,6 +20,8 @@ public class FarmworkEntity {
 	private String id;//主键id
 	@Column(length=12)
 	private String operateUser;//预约人
+	@Column(length=12)
+	private String operateUserId;//预约人ID
 	@Column(length=255)
 	private String ClassiOperateType;//农服信息ID(分类表编码)
 	@Column(length=36)
@@ -64,6 +66,12 @@ public class FarmworkEntity {
 	}
 	public void setWorkArea(String workArea) {
 		this.workArea = workArea;
+	}
+	public String getOperateUserId() {
+		return operateUserId;
+	}
+	public void setOperateUserId(String operateUserId) {
+		this.operateUserId = operateUserId;
 	}
 	public double getWorkPrice() {
 		return workPrice;

@@ -39,6 +39,9 @@ public class PostCommentInfoEntity {
 	// 评论人
 	@Column
 	private String commentUserName;
+	// 评论人ID
+	@Column
+	private String commentUserId;
 	// 评论时间
 	@Column
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
@@ -60,6 +63,14 @@ public class PostCommentInfoEntity {
 
 	public void setId(String id) {
 		this.id = id;
+	}
+
+	public String getCommentUserId() {
+		return commentUserId;
+	}
+
+	public void setCommentUserId(String commentUserId) {
+		this.commentUserId = commentUserId;
 	}
 
 	public PostInfoEntity getPostInfoEntity() {

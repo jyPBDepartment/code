@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -30,6 +31,21 @@ public class FarmworkController {
 	@Autowired
 	private ClassificationService ClassificationService;
 
+	//获取预约详情
+	@RequestMapping(value = "/findDetail")
+	public Map<String, Object> findDetail(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "id") String id) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		FarmworkEntity agricultural = farmworkService.findById(id);
+		if (agricultural != null) {
+			map.put("status", "0");// 查询数据成功
+			map.put("data", agricultural);
+		} else {
+			map.put("status", "1");// 查询数据失败
+		}
+		return map;
+	}
+	
 	// 农活预约添加
 	@RequestMapping(value = "/save")
 	public Map<String, String> addPostInfo(HttpServletRequest res, HttpSession session, HttpServletResponse req,
