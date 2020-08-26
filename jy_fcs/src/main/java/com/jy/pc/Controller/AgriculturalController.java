@@ -24,12 +24,12 @@ import com.jy.pc.Service.AgriculturalService;
 
 @Controller
 @ResponseBody
-@RequestMapping(value = "agricultural")
+@RequestMapping(value = "agricultural") 
 public class AgriculturalController {
 
 	@Autowired
 	private AgriculturalService agriculturalService;
-
+	
 	@RequestMapping(value = "/findDetail")
 	public Map<String, Object> findDetail(HttpServletRequest res, HttpServletResponse req,
 			@RequestParam(name = "id") String id) {
