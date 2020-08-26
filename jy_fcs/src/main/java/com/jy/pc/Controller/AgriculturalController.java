@@ -30,7 +30,6 @@ public class AgriculturalController {
 	@Autowired
 	private AgriculturalService agriculturalService;
 
-
 	@RequestMapping(value = "/findDetail")
 	public Map<String, Object> findDetail(HttpServletRequest res, HttpServletResponse req,
 			@RequestParam(name = "id") String id) {
@@ -234,7 +233,7 @@ public class AgriculturalController {
 		map.put("data", agri);
 		return map;
 	}
-	
+
 	/**
 	 * 根据类型查询发布信息(前三条)
 	 * 
@@ -242,7 +241,7 @@ public class AgriculturalController {
 	 */
 	@RequestMapping(value = "/findNewInfo")
 	public Map<String, Object> findStatusPass(HttpServletRequest res, HttpServletResponse req,
-			@RequestParam(name = "type") String type,int limit) {
+			@RequestParam(name = "type") String type, int limit) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		List<AgriculturalEntity> agri = agriculturalService.findListByTime(type);
 		map.put("state", "0");// 成功

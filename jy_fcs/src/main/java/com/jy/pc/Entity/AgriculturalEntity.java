@@ -11,6 +11,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 //农服信息表
@@ -57,7 +58,7 @@ public class AgriculturalEntity {
 	private String labelCode;//标签编码
 	@Column
 	@JsonFormat(pattern = "yyyy-MM-dd",timezone="GMT+8")
-    @Temporal(TemporalType.TIMESTAMP)
+	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private Date purchaseDate;//购买时间
 	@Column(length=1)
 	private String status;//状态
@@ -76,12 +77,12 @@ public class AgriculturalEntity {
 	@Column(length=255)
 	private String examineReason;//审核拒绝理由
 	@Column
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
-    @Temporal(TemporalType.TIMESTAMP)
+	@JsonFormat(pattern = "yyyy-MM-dd",timezone="GMT+8")
+	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private Date beginDate; //干活开始时间
 	@Column
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
-    @Temporal(TemporalType.TIMESTAMP)
+	@JsonFormat(pattern = "yyyy-MM-dd",timezone="GMT+8")
+	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private Date endDate;   //干活结束时间
 	@Column
 	private String days; //天数
