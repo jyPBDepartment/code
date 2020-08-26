@@ -41,7 +41,7 @@ public class AgriculturalEntity {
 	private String sellingArea;//出售区域
 	@Column(length=255)
 	private String contactsUser;//联系人
-	@Column(length=255)
+	@Column(length=11)
 	private String contactsPhone;//联系方式
 	@Column
 	private String url;//图片

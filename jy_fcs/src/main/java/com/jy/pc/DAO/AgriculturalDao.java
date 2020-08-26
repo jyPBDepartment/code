@@ -22,7 +22,7 @@ public interface AgriculturalDao extends JpaRepository<AgriculturalEntity, Strin
 	public AgriculturalEntity findBId(@Param("id") String id);
 
 	// 分页与模糊查询
-	@Query(value = "select * from sas_publication_info  t  where if(?1 !='',t.name like ?1,1=1) and if(?2 !='',t.status like ?2,1=1) order by t.create_date desc", countQuery = "select count(*) from sas_agricultural_clothing_info t  where if(?1 !='',t.name like ?1,1=1) and if(?2 !='',t.status like ?2,1=1) order by t.create_date desc", nativeQuery = true)
+	@Query(value = "select * from sas_publication_info  t  where if(?1 !='',t.name like ?1,1=1) and if(?2 !='',t.status like ?2,1=1) order by t.create_date desc", countQuery = "select count(*) from sas_publication_info t  where if(?1 !='',t.name like ?1,1=1) and if(?2 !='',t.status like ?2,1=1) order by t.create_date desc", nativeQuery = true)
 	public Page<AgriculturalEntity> findListByName(String name, String status, Pageable pageable);
 
 	// 查询农服标题名称
