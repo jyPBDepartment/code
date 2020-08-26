@@ -37,4 +37,6 @@ public interface AgriculturalService {
 
 	//农服审核
 	AgriculturalEntity audit(AgriculturalEntity agriculturalEntity,boolean result);
+	
+	List<AgriculturalEntity> findListByType(String type);
 }

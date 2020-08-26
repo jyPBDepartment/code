@@ -1,6 +1,9 @@
 package com.jy.pc.Service.Impl;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.transaction.Transactional;
 
@@ -91,6 +94,55 @@ public class AgriculturalServiceImpl implements AgriculturalService {
 	public List<AgriculturalEntity> findAppointment() {
 
 		return agriculturalDao.findAppointment();
+	}
+	
+	
+	public List<AgriculturalEntity> findListByType(String type) {
+
+		Map<String, Object> map = this.processing(type);
+		List<String> list1 = (List<String>) map.get("list1");//交易类型
+		List<String> list2 = (List<String>) map.get("list2");//交易类别
+		return agriculturalDao.findListByType(list1,list2);
+	}
+
+	// 业务处理
+	public Map<String, Object> processing(String type) {
+		Map<String, Object> map = new HashMap<String, Object>();
+//		农服类0，粮食买卖1，农机类2
+		List<String> list1 = new ArrayList<String>();
+		List<String> list2 = new ArrayList<String>();
+
+		switch (type) {
+		case "0":
+			list1.add("3");
+			list1.add("4");
+			list1.add("5");
+			list2.add("0");
+			list2.add("2");
+			list2.add("3");
+			list2.add("4");
+			break;
+		case "1":
+			list1.add("0");
+			list1.add("1");
+			list2.add("0");
+			list2.add("2");
+			list2.add("3");
+			list2.add("4");
+			break;
+		case "2":
+			list1.add("0");
+			list1.add("1");
+			list1.add("2");
+			list2.add("1");
+			break;
+
+		}
+
+		map.put("list1", list1);
+		map.put("list2", list2);
+
+		return map;
 	}
 
 }

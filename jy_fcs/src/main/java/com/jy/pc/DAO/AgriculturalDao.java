@@ -39,5 +39,8 @@ public interface AgriculturalDao extends JpaRepository<AgriculturalEntity, Strin
 	// 获取农服预约信息
 	@Query(value = "SELECT * FROM sas_agricultural_clothing_info t where t.status = '0'", nativeQuery = true)
 	public List<AgriculturalEntity> findAppointment();
+	
+	@Query(value = "SELECT * FROM sas_agricultural_clothing_info t where t.transaction_type_code in ?1 and t.transaction_category_code in ?2 and t.status = '0' order by t.create_date desc", nativeQuery = true)
+	public List<AgriculturalEntity> findListByType(List<String> list1,List<String> list2);
 
 }

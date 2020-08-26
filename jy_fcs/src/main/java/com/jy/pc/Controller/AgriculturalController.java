@@ -207,12 +207,22 @@ public class AgriculturalController {
 		return map;
 	}
 
-	// 不同状态加载不同的发布
+	/**
+	 *	根据类型查询发布信息 
+	 * @param type 包括：农服类0，粮食买卖1，农机类2
+	 * */
 	@RequestMapping(value = "/findStatusPass")
 	public Map<String, Object> findStatusPass(HttpServletRequest res, HttpServletResponse req,
-			@RequestParam(name = "status") String status) {
+			@RequestParam(name = "type") String type) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		List<AgriculturalEntity> agri = agriculturalService.findStatusPass(status);
+		
+		
+		
+		List<AgriculturalEntity> agri = agriculturalService.findListByType(type);
+		
+//		List<AgriculturalEntity> agri = agriculturalService.findStatusPass(status);
+		
+		
 		map.put("state", "0");// 成功
 		map.put("message", "查询成功");
 		map.put("data", agri);
