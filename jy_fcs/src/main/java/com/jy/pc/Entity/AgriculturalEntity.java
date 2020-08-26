@@ -56,7 +56,7 @@ public class AgriculturalEntity {
 	@Column(length=255)
 	private String labelCode;//标签编码
 	@Column
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
+	@JsonFormat(pattern = "yyyy-MM-dd",timezone="GMT+8")
     @Temporal(TemporalType.TIMESTAMP)
 	private Date purchaseDate;//购买时间
 	@Column(length=1)
@@ -76,8 +76,12 @@ public class AgriculturalEntity {
 	@Column(length=255)
 	private String examineReason;//审核拒绝理由
 	@Column
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
+    @Temporal(TemporalType.TIMESTAMP)
 	private Date beginDate; //干活开始时间
 	@Column
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
+    @Temporal(TemporalType.TIMESTAMP)
 	private Date endDate;   //干活结束时间
 	@Column
 	private String days; //天数
