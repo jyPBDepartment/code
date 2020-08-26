@@ -4,11 +4,15 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.jy.pc.Entity.PostCommentInfoEntity;
+import com.jy.pc.POJO.PostCommentInfoPO;
 
 public interface PostCommentInfoService {
 	// 搜索
 	public Page<PostCommentInfoEntity> findListByContent(String content, String user,Pageable pageable);
 
+	//根据贴子id返回分页信息
+	public Page<PostCommentInfoPO> findByPostId(String postId,Pageable pageable);
+	
 	// 添加
 	public PostCommentInfoEntity save(PostCommentInfoEntity moduleInfo);
 

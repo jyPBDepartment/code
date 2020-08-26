@@ -4,6 +4,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.jy.pc.Entity.CommentReplyInfoEntity;
+import com.jy.pc.POJO.CommentReplyInfoPO;
 
 public interface CommentReplyInfoService {
 	// 搜索
@@ -22,4 +23,6 @@ public interface CommentReplyInfoService {
 	public CommentReplyInfoEntity findId(String id);
 
 	void enable(CommentReplyInfoEntity commentReplyInfoEntity, boolean result);
+
+	public Page<CommentReplyInfoPO> findByCommentId(String commentId, Pageable pageable);
 }

@@ -25,7 +25,7 @@ public interface PostInfoDao extends JpaRepository<PostInfoEntity, String> {
 	public PostInfoEntity findId(@Param("id") String id);
 
 	// 查询
-	@Query(value = "select * from sas_post_info t where t.status = 0 and if(?1 !='',t.parent_code = ?1,1=1) order by t.create_date desc", 
-			countQuery = "select count(*) from sas_post_info t where t.status = 0 and if(?1 !='',t.parent_code = ?1,1=1) order by t.create_date desc", nativeQuery = true)
+	@Query(value = "select * from sas_post_info t where t.audit_status = 2 and t.status = 0 and if(?1 !='',t.parent_code = ?1,1=1) order by t.create_date desc", 
+			countQuery = "select count(*) from sas_post_info t where t.audit_status = 2 and t.status = 0 and if(?1 !='',t.parent_code = ?1,1=1) order by t.create_date desc", nativeQuery = true)
 	public Page<PostInfoEntity> findListWithSub(String postType, Pageable pageable);
 }

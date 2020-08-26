@@ -21,6 +21,12 @@ public interface CommentReplyInfoDao extends JpaRepository<CommentReplyInfoEntit
 			+ "WHERE t.postCommentInfoEntity.id = ?1 and t.status = 0 order by t.replyDate desc", nativeQuery = false)
 	public List<CommentReplyInfoPO> findByCommentPO(@Param("commentId")String commentId);
 	
+	@Query(value = "SELECT new com.jy.pc.POJO.CommentReplyInfoPO(t.id,t.replyContent,t.replyUserName,t.replyDate,t.status) FROM CommentReplyInfoEntity AS t "
+			+ "WHERE t.postCommentInfoEntity.id = ?1 and t.status = 0 order by t.replyDate desc", 
+			countQuery="SELECT count(*) FROM CommentReplyInfoEntity AS t  "
+					+ "WHERE t.postCommentInfoEntity.id = ?1 and t.status = 0 order by t.replyDate desc",nativeQuery = false)
+	public Page<CommentReplyInfoPO> findPageByCommentPO(@Param("commentId")String commentId,Pageable pageable);
+	
 	@Query(value="select * from sas_comment_reply_info t where if(?1 !='',t.reply_content like ?1,1=1) "
 			+ "and if(?2 !='',t.reply_user_name like ?2,1=1) order by t.reply_date desc ",
 			countQuery="select count(*) from sas_comment_reply_info t where if(?1 !='',t.reply_content like ?1,1=1) "

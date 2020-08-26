@@ -27,12 +27,27 @@ import com.jy.pc.Service.FarmworkService;
 @RestController
 public class FarmworkController {
 	@Autowired
-	private AgriculturalService agriculturalService;
-	@Autowired
 	private FarmworkService farmworkService;
 	@Autowired
 	private ClassificationService ClassificationService;
 
+	//根据预约信息ID取消预约
+	@RequestMapping(value = "/cancelById")
+	public Map<String, Object> cancelById(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "id") String id) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		FarmworkEntity agricultural = farmworkService.findById(id);
+		if (agricultural != null) {
+			map.put("status", "0");// 取消成功
+			map.put("message", "取消成功");
+		} else {
+			map.put("status", "1");// 取消失败
+		}
+		agricultural.setStatus("3");
+		farmworkService.save(agricultural);
+		return map;
+	}
+	
 	//根据预约信息ID返回联系方式
 	
 	//获取预约详情

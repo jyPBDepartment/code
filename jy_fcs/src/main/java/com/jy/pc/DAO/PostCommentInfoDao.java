@@ -18,6 +18,11 @@ public interface PostCommentInfoDao extends JpaRepository<PostCommentInfoEntity,
 	public PostCommentInfoEntity findId(@Param("id") String id);
 
 	@Query(value = "SELECT new com.jy.pc.POJO.PostCommentInfoPO(t.id,t.commentContent,t.commentUserName,t.commentDate,t.status) FROM PostCommentInfoEntity AS t "
+			+ "WHERE t.postInfoEntity.id = ?1 and t.status = 0 order by t.commentDate desc", 
+			countQuery = "SELECT count(*) FROM PostCommentInfoEntity AS t WHERE t.postInfoEntity.id = ?1 and t.status = 0 order by t.commentDate desc",nativeQuery = false)
+	public Page<PostCommentInfoPO> findPageByPostPO(@Param("postId") String postId, Pageable pageable);
+	
+	@Query(value = "SELECT new com.jy.pc.POJO.PostCommentInfoPO(t.id,t.commentContent,t.commentUserName,t.commentDate,t.status) FROM PostCommentInfoEntity AS t "
 			+ "WHERE t.postInfoEntity.id = ?1 and t.status = 0 order by t.commentDate desc", nativeQuery = false)
 	public List<PostCommentInfoPO> findByPostPO(@Param("postId") String postId);
 

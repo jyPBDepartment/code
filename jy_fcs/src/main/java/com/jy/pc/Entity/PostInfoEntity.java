@@ -55,7 +55,7 @@ public class PostInfoEntity {
 	@Column(length = 36)
 	private String auditUser;// 审核人
 	@Column
-	private String status; // 状态
+	private String status; // 显示状态
 	// 拒绝原因
 	@Column
 	private String reason;
@@ -64,9 +64,19 @@ public class PostInfoEntity {
 	private List<PostCommentInfoPO> commentList;// 文章列表
 	@Transient
 	private int commentSize;
+	@Transient
+	private String time;
 
 	public int getCommentSize() {
 		return commentSize;
+	}
+
+	public String getTime() {
+		return time;
+	}
+
+	public void setTime(String time) {
+		this.time = time;
 	}
 
 	public void setCommentSize(int commentSize) {

@@ -35,29 +35,29 @@ public class PostInfoController {
 	@Autowired
 	private ClassificationService classificationService;
 
+
 	@RequestMapping(value = "/getPostType")
 	public Map<String, Object> getPostType(HttpServletRequest res, HttpServletResponse req) {
 
 		Map<String, Object> map = new HashMap<String, Object>();
-		List<ClassificationEntity> classList = classificationService.findClassByCode(ClassificationEnum.POSTINFO_TYPE.getCode());
+		List<ClassificationEntity> classList = classificationService
+				.findClassByCode(ClassificationEnum.POSTINFO_TYPE.getCode());
 		map.put("status", "0");// 成功
 		map.put("message", "查询成功");
 		map.put("data", classList);
 		return map;
 	}
-	
+
 	/**
-	 * 	加载所有帖子、评论、回复列表信息
+	 * 加载所有帖子、评论、回复列表信息
+	 * 
 	 * @param postType 圈子类型
-	 * @param page 页码
-	 * @param size 每页加载数量
-	 * @return
-	 * consumer:
-	 * note:
+	 * @param page     页码
+	 * @param size     每页加载数量
+	 * @return consumer: note:
 	 */
 	@RequestMapping(value = "/findAllPostInfo")
-	public Map<String, Object> findAllPostInfo(HttpServletRequest res, HttpServletResponse req,
-			String postType,
+	public Map<String, Object> findAllPostInfo(HttpServletRequest res, HttpServletResponse req, String postType,
 			@RequestParam(name = "page") Integer page, @RequestParam(name = "size") Integer size) {
 
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -122,7 +122,7 @@ public class PostInfoController {
 			map.put("message", "禁用成功");
 			result = false;
 		}
-		postInfoService.enable(invitationEntity,result);
+		postInfoService.enable(invitationEntity, result);
 		return map;
 	}
 
@@ -135,7 +135,7 @@ public class PostInfoController {
 		JSONObject jsonObject = JSONObject.parseObject(s);
 		PostInfoEntity postInfoEntity = jsonObject.toJavaObject(PostInfoEntity.class);
 		postInfoEntity.setAuditStatus("1");
-		postInfoService.audit(postInfoEntity,true);
+		postInfoService.audit(postInfoEntity, true);
 		map.put("state", "0");
 		map.put("message", "审核通过");
 		return map;
@@ -150,7 +150,7 @@ public class PostInfoController {
 		JSONObject jsonObject = JSONObject.parseObject(s);
 		PostInfoEntity postInfoEntity = jsonObject.toJavaObject(PostInfoEntity.class);
 		postInfoEntity.setAuditStatus("2");
-		postInfoService.audit(postInfoEntity,false);
+		postInfoService.audit(postInfoEntity, false);
 		map.put("state", "0");
 		map.put("message", "审核驳回");
 		return map;
@@ -166,7 +166,7 @@ public class PostInfoController {
 		Map<String, String> map = new HashMap<String, String>();
 		Date date = new Date();
 		postInfo.setCreateDate(date);
-		postInfo.setStatus("1");
+		postInfo.setStatus("0");
 		postInfoService.save(postInfo);
 		map.put("status", "0");
 		map.put("message", "添加成功");

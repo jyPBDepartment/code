@@ -41,4 +41,6 @@ public interface AgriculturalService {
 	List<AgriculturalEntity> findListByType(String type);
 	//根据类别获取信息（前三条）
 	List<AgriculturalEntity> findListByTime(String type);
+
+	Page<AgriculturalEntity> findListByType(String type, Pageable pageable);
 }

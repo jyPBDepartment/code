@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.jy.pc.DAO.CommentReplyInfoDao;
 import com.jy.pc.Entity.CommentReplyInfoEntity;
+import com.jy.pc.POJO.CommentReplyInfoPO;
 import com.jy.pc.Service.CommentReplyInfoService;
 import com.jy.pc.Utils.DbLogUtil;
 @Service
@@ -58,6 +59,12 @@ public class CommentReplyInfoServiceImpl implements CommentReplyInfoService {
 	@Override
 	public CommentReplyInfoEntity findId(String id) {
 		return commentReplyInfoDao.findId(id);
+	}
+
+	@Override
+	public Page<CommentReplyInfoPO> findByCommentId(String commentId, Pageable pageable) {
+		// TODO Auto-generated method stub
+		return commentReplyInfoDao.findPageByCommentPO(commentId,pageable);
 	}
 
 }

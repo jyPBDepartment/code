@@ -17,6 +17,7 @@ import com.jy.pc.POJO.CommentReplyInfoPO;
 import com.jy.pc.POJO.PostCommentInfoPO;
 import com.jy.pc.Service.PostInfoService;
 import com.jy.pc.Utils.DbLogUtil;
+import com.jy.pc.Utils.FCSDateUtil;
 
 @Service
 
@@ -88,13 +89,14 @@ public class PostInfoServiceImpl implements PostInfoService {
 		List<CommentReplyInfoPO> replyList = null;
 		for (PostInfoEntity post : page.getContent()) {
 			commentList = postCommentInfoDao.findByPostPO(post.getId());
-			for (PostCommentInfoPO comment : commentList) {
+			/*for (PostCommentInfoPO comment : commentList) {
 				replyList = commentReplyInfoDao.findByCommentPO(comment.getId());
 				comment.setReplyList(replyList);
 				comment.setReplySize(replyList.size());
-			}
+			}*/
 			post.setCommentSize(commentList.size());
-			post.setCommentList(commentList);
+			post.setTime(FCSDateUtil.CalculateTime(post.getCreateDate()));
+			//post.setCommentList(commentList);
 		}
 		return page;
 	}

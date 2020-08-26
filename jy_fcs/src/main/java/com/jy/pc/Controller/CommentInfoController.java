@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
 import com.jy.pc.Entity.PostCommentInfoEntity;
+import com.jy.pc.POJO.PostCommentInfoPO;
 import com.jy.pc.Service.PostCommentInfoService;
 
 /**
@@ -76,6 +77,20 @@ public class CommentInfoController {
 		map.put("message", "删除成功");
 		return map;
 	} 
+	
+	//接口，评论列表
+	@RequestMapping(value = "/findByPostId")
+	public Map<String, Object> findByPostId(HttpServletRequest res, HttpServletResponse req, @RequestParam(name = "postId") String postId,
+			@RequestParam(name = "page") Integer page, @RequestParam(name = "size") Integer size) {
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		Pageable pageable = new PageRequest(page - 1, size);
+		Page<PostCommentInfoPO> replyList = postCommentInfoService.findByPostId(postId, pageable);
+		map.put("state", "0");// 成功
+		map.put("message", "查询成功");
+		map.put("data", replyList);
+		return map;
+	}
 	
 	// 查询 分页
 	@SuppressWarnings("deprecation")

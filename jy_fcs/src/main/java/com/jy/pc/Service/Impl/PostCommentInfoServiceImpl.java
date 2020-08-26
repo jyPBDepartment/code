@@ -1,5 +1,7 @@
 package com.jy.pc.Service.Impl;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,8 @@ import org.springframework.stereotype.Service;
 import com.jy.pc.DAO.CommentReplyInfoDao;
 import com.jy.pc.DAO.PostCommentInfoDao;
 import com.jy.pc.Entity.PostCommentInfoEntity;
+import com.jy.pc.POJO.CommentReplyInfoPO;
+import com.jy.pc.POJO.PostCommentInfoPO;
 import com.jy.pc.Service.PostCommentInfoService;
 import com.jy.pc.Utils.DbLogUtil;
 
@@ -67,6 +71,22 @@ public class PostCommentInfoServiceImpl implements PostCommentInfoService {
 	@Override
 	public PostCommentInfoEntity findId(String id) {
 		return postCommentInfoDao.findId(id);
+	}
+
+	@Override
+	public Page<PostCommentInfoPO> findByPostId(String postId, Pageable pageable) {
+		Page<PostCommentInfoPO> page = postCommentInfoDao.findPageByPostPO(postId,pageable);
+		List<CommentReplyInfoPO> replyList = null;
+		List<CommentReplyInfoPO> simpleList = null;
+		for(PostCommentInfoPO info : page.getContent()) {
+			replyList = commentReplyInfoDao.findByCommentPO(info.getId());
+			info.setReplySize(replyList.size());
+			if(!replyList.isEmpty()) {
+				simpleList = replyList.subList(0, 1);
+			}
+			info.setReplyList(simpleList);
+		}
+		return page;
 	}
 
 }

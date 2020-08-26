@@ -109,6 +109,11 @@ public class AgriculturalServiceImpl implements AgriculturalService {
 		return agriculturalDao.findListByType(PublicationEnum.getValueByType(type));
 	}
 
+	@Override
+	public Page<AgriculturalEntity> findListByType(String type, Pageable pageable) {
+		return agriculturalDao.findListByType(PublicationEnum.getValueByType(type),pageable);
+	}
+	
 /*	// 业务处理
 	public Map<String, Object> processing(String type) {
 		Map<String, Object> map = new HashMap<String, Object>();

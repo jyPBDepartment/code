@@ -24,12 +24,12 @@ import com.jy.pc.Service.AgriculturalService;
 
 @Controller
 @ResponseBody
-@RequestMapping(value = "agricultural") 
+@RequestMapping(value = "agricultural")
 public class AgriculturalController {
 
 	@Autowired
 	private AgriculturalService agriculturalService;
-	
+
 	@RequestMapping(value = "/findDetail")
 	public Map<String, Object> findDetail(HttpServletRequest res, HttpServletResponse req,
 			@RequestParam(name = "id") String id) {
@@ -64,6 +64,24 @@ public class AgriculturalController {
 			map.put("state", "1");
 			map.put("message", "添加失败");
 		}
+		return map;
+	}
+
+	/**
+	 * 根据类型查询发布信息（接口）
+	 * 
+	 * @param type 包括：农服类0，粮食买卖1，农机类2
+	 */
+	@RequestMapping(value = "/findPubPage")
+	public Map<String, Object> findPubPage(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "type") String type, @RequestParam(name = "page") Integer page,
+			@RequestParam(name = "size") Integer size) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		Pageable pageable = new PageRequest(page - 1, size);
+		Page<AgriculturalEntity> agriculturalList = agriculturalService.findListByType(type,pageable);
+		map.put("state", "0");// 成功
+		map.put("message", "查询成功");
+		map.put("data", agriculturalList);
 		return map;
 	}
 
@@ -240,8 +258,8 @@ public class AgriculturalController {
 	 * @param type 包括：农服类0，粮食买卖1，农机类2
 	 */
 	@RequestMapping(value = "/findNewInfo")
-	public Map<String, Object> findStatusPass(HttpServletRequest res, HttpServletResponse req,
-			@RequestParam(name = "type") String type, int limit) {
+	public Map<String, Object> findNewInfo(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "type") String type) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		List<AgriculturalEntity> agri = agriculturalService.findListByTime(type);
 		map.put("state", "0");// 成功
