@@ -3,6 +3,8 @@ package com.jy.pc.Service.Impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.jy.pc.DAO.FarmworkDao;
@@ -31,6 +33,16 @@ public class FarmworkServiceImpl implements FarmworkService {
 	@Override
 	public FarmworkEntity findById(String id) {
 		return farmworkDao.findId(id);
+	}
+
+	@Override
+	public Page<FarmworkEntity> findMyFarm(String userId, String user, Pageable pageable) {
+		return farmworkDao.findMyFarm(userId,user, pageable);
+	}
+
+	@Override
+	public Page<FarmworkEntity> findFarmForMe(String userId, String user, Pageable pageable) {
+		return farmworkDao.findFarmForMe(userId,user, pageable);
 	}
 
 	
