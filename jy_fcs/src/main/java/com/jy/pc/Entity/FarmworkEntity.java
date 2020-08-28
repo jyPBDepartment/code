@@ -22,7 +22,7 @@ public class FarmworkEntity {
 	@Column(length = 36)
 	private String agriculturalId;//外键，农夫信息id
 	@Column(length = 12)
-	private String operateUser;// 预约人
+	private String bookingPerson;// 预约人
 	@Column(length = 12)
 	private String operateUserId;// 预约人ID
 	@Column(length = 255)
@@ -30,7 +30,7 @@ public class FarmworkEntity {
 	@Column(length = 36)
 	private String operateType;// 分类编码
 	@Column(length = 2)
-	private String status;// 状态（0.预约1.完成）
+	private String status;// 状态（0.待确认1.已确认2.已完成3已取消）
 	@Column
 	private Date beginDate; // 干活开始时间
 	@Column
@@ -126,12 +126,12 @@ public class FarmworkEntity {
 		this.id = id;
 	}
 
-	public String getOperateUser() {
-		return operateUser;
+	public String getBookingPerson() {
+		return bookingPerson;
 	}
 
-	public void setOperateUser(String operateUser) {
-		this.operateUser = operateUser;
+	public void setBookingPerson(String bookingPerson) {
+		this.bookingPerson = bookingPerson;
 	}
 
 	public String getOperateType() {
