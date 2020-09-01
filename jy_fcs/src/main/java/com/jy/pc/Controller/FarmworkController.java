@@ -19,11 +19,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.jy.pc.Entity.AgriculturalEntity;
-import com.jy.pc.Entity.ClassificationEntity;
 import com.jy.pc.Entity.FarmworkEntity;
+import com.jy.pc.Entity.FarmworkPictureEntity;
+import com.jy.pc.Entity.PictureInfoEntity;
 import com.jy.pc.Service.AgriculturalService;
 import com.jy.pc.Service.ClassificationService;
+import com.jy.pc.Service.FarmworkPictureService;
 import com.jy.pc.Service.FarmworkService;
+import com.jy.pc.Service.PictureInfoService;
 
 @Controller
 @ResponseBody
@@ -36,6 +39,10 @@ public class FarmworkController {
 	private AgriculturalService agriculturalService;
 	@Autowired
 	private ClassificationService ClassificationService;
+	@Autowired
+	private PictureInfoService pictureInfoService;
+	@Autowired
+	private FarmworkPictureService farmworkPictureService;
 
 	// 我预约的农服列表
 
@@ -142,15 +149,22 @@ public class FarmworkController {
 	// 农活预约添加
 	@RequestMapping(value = "/save")
 	public Map<String, String> addPostInfo(HttpServletRequest res, HttpSession session, HttpServletResponse req,
-			FarmworkEntity farmworkEntity) {
+			FarmworkEntity farmworkEntity,@RequestParam(name = "addItem") String[] addItem) {
 		Map<String, String> map = new HashMap<String, String>();
 		Date date = new Date();
 		farmworkEntity.setBeginDate(date);
 		farmworkEntity.setStatus("0");
-		ClassificationEntity classificationEntity = ClassificationService
-				.findBId(farmworkEntity.getClassiOperateType());
-//		farmworkEntity.setOperateType(classificationEntity.getCode());
 		farmworkService.save(farmworkEntity);
+		for(int i=0;i<addItem.length;i++) {
+			PictureInfoEntity pictureInfoEntity = new PictureInfoEntity();
+			FarmworkPictureEntity farm = new FarmworkPictureEntity();
+			pictureInfoEntity.setPicName(farmworkEntity.getId());
+			pictureInfoEntity.setPicUrl(addItem[i]);
+			pictureInfoService.save(pictureInfoEntity);
+			farm.setFarmworkId(farmworkEntity.getId());
+			farm.setPicId(pictureInfoEntity.getId());
+			farmworkPictureService.save(farm);			
+		}
 		map.put("status", "0");
 		map.put("message", "添加成功");
 		return map;

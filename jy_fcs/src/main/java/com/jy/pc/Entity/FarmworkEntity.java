@@ -20,7 +20,7 @@ public class FarmworkEntity {
 	@Column(length = 36)
 	private String id;// 主键id
 	@Column(length = 36)
-	private String agriculturalId;//外键，农夫信息id
+	private String agriculturalId;//外键，农服信息id
 	@Column(length = 12)
 	private String bookingPerson;// 预约人
 	@Column(length = 12)

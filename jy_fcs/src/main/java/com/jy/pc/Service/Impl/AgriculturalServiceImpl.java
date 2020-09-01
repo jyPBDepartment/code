@@ -177,8 +177,8 @@ public class AgriculturalServiceImpl implements AgriculturalService {
 	}
 
 	@Override
-	public Page<AgriculturalEntity> findMyPublication(String type, String status, Pageable pageable) {
-		return agriculturalDao.findMyPublication(PublicationEnum.getValueByType(type), status,pageable);
+	public Page<AgriculturalEntity> findMyPublication( String status,String type,Pageable pageable) {
+		return agriculturalDao.findMyPublication(status, PublicationEnum.getValueByType(type),pageable);
 	}
 
 }

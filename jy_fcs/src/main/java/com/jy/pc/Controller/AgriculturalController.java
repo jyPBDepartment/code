@@ -119,12 +119,13 @@ public class AgriculturalController {
 	 */
 	@RequestMapping(value = "/findMyPublication")
 	public Map<String, Object> findMyPublication(HttpServletRequest res, HttpServletResponse req,
-			@RequestParam(name = "type", defaultValue = "0") String type,
-			@RequestParam(name = "page") Integer page, @RequestParam(name = "size") Integer size,
-			@RequestParam(name = "status")String status) {
+			@RequestParam(name = "status")String status,
+			@RequestParam(name = "type", defaultValue = "0") String type,			
+			@RequestParam(name = "page") Integer page,
+			@RequestParam(name = "size") Integer size) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		Pageable pageable = new PageRequest(page - 1, size);
-		Page<AgriculturalEntity> agriculturalList = agriculturalService.findMyPublication(type, status, pageable);
+		Page<AgriculturalEntity> agriculturalList = agriculturalService.findMyPublication(status, type, pageable);
 		map.put("state", "0");// 成功
 		map.put("message", "查询成功");
 		map.put("data", agriculturalList);

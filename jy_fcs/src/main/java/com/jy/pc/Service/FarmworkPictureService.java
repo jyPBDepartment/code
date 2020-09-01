@@ -5,7 +5,7 @@ import com.jy.pc.Entity.FarmworkPictureEntity;
 public interface FarmworkPictureService {
 
 	// 添加
-	public FarmworkPictureEntity save(FarmworkPictureEntity farmworkPicture);
+	public FarmworkPictureEntity save(FarmworkPictureEntity farm);
 
 	// 修改
 	public void update(FarmworkPictureEntity farmworkPicture);

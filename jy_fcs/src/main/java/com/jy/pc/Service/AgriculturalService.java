@@ -49,13 +49,14 @@ public interface AgriculturalService {
 
 	Page<AgriculturalEntity> findListByType(String type, Pageable pageable);
 
-//	搜索发布信息中农服信息
+	// 搜索发布信息中农服信息(标题名称)
 	Page<AgriculturalEntity> findAgriInfo(String name, String type, Pageable pageable);
 
-//	搜索发布信息中农服信息
+	// 搜索发布信息中农服信息（类型、类别）
 	Page<AgriculturalEntity> findAgriType(String transactionTypeCode, String transactionCategoryCode, String type,
 			Pageable pageable);
-	//搜索我的发布信息（接口,标题名称）
-	public Page<AgriculturalEntity> findMyPublication(String type, String status, Pageable pageable);
+
+	// 搜索我的发布信息（接口,标题名称）
+	Page<AgriculturalEntity> findMyPublication( String status,String type,Pageable pageable);
 
 }
