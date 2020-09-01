@@ -51,6 +51,17 @@ public class ModuleInfoEntity {
 	// 排序
 	@Column
 	private String sort;
+	//请求路径
+	@Column
+	private String routeUrl;
+	
+	public String getRouteUrl() {
+		return routeUrl;
+	}
+
+	public void setRouteUrl(String routeUrl) {
+		this.routeUrl = routeUrl;
+	}
 
 	public String getId() {
 		return id;
