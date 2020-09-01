@@ -38,8 +38,6 @@ public class FarmworkController {
 	@Autowired
 	private AgriculturalService agriculturalService;
 	@Autowired
-	private ClassificationService ClassificationService;
-	@Autowired
 	private PictureInfoService pictureInfoService;
 	@Autowired
 	private FarmworkPictureService farmworkPictureService;
@@ -86,11 +84,11 @@ public class FarmworkController {
 		// AgriculturalEntity entity =
 		// agriculturalService.findBId(agricultural.getAgriculturalId());
 		if (agricultural != null) {
-			map.put("status", "0");// 查询成功
+			map.put("state", "0");// 查询成功
 			map.put("message", "查询成功");
 			map.put("data", agricultural.getContactPhone());
 		} else {
-			map.put("status", "1");// 查询失败
+			map.put("state", "1");// 查询失败
 			map.put("message", "查询失败");
 		}
 		return map;
@@ -104,11 +102,11 @@ public class FarmworkController {
 		FarmworkEntity agricultural = farmworkService.findById(id);
 		if (agricultural != null) {
 			AgriculturalEntity entity = agriculturalService.findBId(agricultural.getAgriculturalId());
-			map.put("status", "0");// 查询成功
+			map.put("state", "0");// 查询成功
 			map.put("message", "查询成功");
 			map.put("data", entity.getContactsPhone());
 		} else {
-			map.put("status", "1");// 查询失败
+			map.put("state", "1");// 查询失败
 			map.put("message", "查询失败");
 		}
 		return map;
@@ -121,10 +119,10 @@ public class FarmworkController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		FarmworkEntity agricultural = farmworkService.findById(id);
 		if (agricultural != null) {
-			map.put("status", "0");// 取消成功
+			map.put("state", "0");// 取消成功
 			map.put("message", "取消成功");
 		} else {
-			map.put("status", "1");// 取消失败
+			map.put("state", "1");// 取消失败
 		}
 		agricultural.setStatus("3");
 		farmworkService.save(agricultural);
@@ -138,10 +136,10 @@ public class FarmworkController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		FarmworkEntity agricultural = farmworkService.findById(id);
 		if (agricultural != null) {
-			map.put("status", "0");// 查询数据成功
+			map.put("state", "0");// 查询数据成功
 			map.put("data", agricultural);
 		} else {
-			map.put("status", "1");// 查询数据失败
+			map.put("state", "1");// 查询数据失败
 		}
 		return map;
 	}
