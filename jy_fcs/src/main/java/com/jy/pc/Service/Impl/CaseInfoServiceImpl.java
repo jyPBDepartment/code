@@ -130,4 +130,9 @@ public class CaseInfoServiceImpl implements CaseInfoService {
 		String caseName = "%" + name + "%";
 		return caseInfoDao.findCaseInfoByKey(caseName);
 	}
+
+	@Override
+	public Page<CaseInfoEntity> findPage(String name, String cropsTypeCode, String dipTypeCode, Pageable pageable) {
+		return caseInfoDao.findPage(name,cropsTypeCode,dipTypeCode, pageable);
+	}
 }

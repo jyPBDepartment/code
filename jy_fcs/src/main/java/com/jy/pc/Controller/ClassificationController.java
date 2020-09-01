@@ -192,6 +192,42 @@ public class ClassificationController {
 		return map;
 	}
 
+	/**
+	 * 接口 -- 农作物分类
+	 * 
+	 */
+	@RequestMapping(value = "/getCaseList")
+	public Map<String, Object> getCaseList(HttpServletRequest res, HttpServletResponse req) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		List<ClassificationEntity> classifi = classificationService
+				.findCaseList(ClassificationEnum.CASE_CLASS.getCode());
+		if (classifi != null) {
+			map.put("status", "0");
+			map.put("data", classifi);
+		} else {
+			map.put("status", "1");
+		}
+		return map;
+	}
+	
+	/**
+	 * 接口 -- 查询病虫害分类编码列表
+	 * 
+	 */
+	@RequestMapping(value = "/getDipList")
+	public Map<String, Object> getDipList(HttpServletRequest res, HttpServletResponse req) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		List<ClassificationEntity> classificat = classificationService
+				.findDipList(ClassificationEnum.DIP_CLASS.getCode());
+		if (classificat != null) {
+			map.put("status", "0");
+			map.put("data", classificat);
+		} else {
+			map.put("status", "1");
+		}
+		return map;
+	}
+	
 	// 查询子菜单
 	@RequestMapping(value = "/findListById")
 	public Map<String, Object> findListById(HttpServletRequest res, HttpServletResponse req,

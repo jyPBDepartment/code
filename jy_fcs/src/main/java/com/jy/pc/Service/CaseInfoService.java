@@ -23,6 +23,9 @@ public interface CaseInfoService {
 
 	// 分页与模糊查询
 	public Page<CaseInfoEntity> findListByName(String name, String auditStatus, Pageable pageable);
+	
+	// 接口 -- 分页与查询
+	public Page<CaseInfoEntity> findPage(String name, String cropsTypeCode,String dipTypeCode, Pageable pageable);
 
 	// 修改
 	public CaseInfoEntity update(CaseInfoEntity caseInfoEntity);

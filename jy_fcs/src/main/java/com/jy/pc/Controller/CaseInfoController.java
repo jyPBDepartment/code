@@ -38,6 +38,40 @@ public class CaseInfoController {
 	@Autowired
 	private KeyWordService keyWordService;
 
+	// 接口 -- 根据id获取信息
+	@RequestMapping(value = "findLatestCaseInfoById")
+	public Map<String, Object> findLatestCaseInfoById(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "id") String id) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		CaseInfoEntity caseInfo = caseInfoService.findBId(id);
+		if (caseInfo != null) {
+			map.put("status", "0");// 查询数据成功
+			map.put("message", "查询成功");
+			map.put("data", caseInfo);
+		} else {
+			map.put("status", "1");// 查询数据失败
+			map.put("message", "查询失败");
+		}
+		return map;
+	}
+
+	// 接口 -- 查询病虫害列表（分页）
+	@RequestMapping(value = "/findCasePage")
+	public Map<String, Object> findCasePage(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "name", defaultValue = "") String name,
+			@RequestParam(name = "cropsTypeCode", defaultValue = "") String cropsTypeCode,
+			@RequestParam(name = "dipTypeCode", defaultValue = "") String dipTypeCode,
+			@RequestParam(name = "page") Integer page, @RequestParam(name = "size") Integer size) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		Pageable pageable = new PageRequest(page - 1, size);
+		Page<CaseInfoEntity> caseIn = caseInfoService.findPage(name, cropsTypeCode, dipTypeCode, pageable);
+		map.put("status", "0");// 成功
+		map.put("message", "查询成功");
+		map.put("data", caseIn);
+		return map;
+	}
+
+	// 接口 -- 获取病虫害关键词
 	@RequestMapping(value = "/findCaseKey")
 	public Map<String, Object> findCaseKey(HttpServletRequest res, HttpServletResponse req) {
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -169,7 +203,7 @@ public class CaseInfoController {
 	 * 接口
 	 */
 	// 查询所有病虫害信息的最新3条记录
-	@RequestMapping(value = "findCaseInfo")
+	@RequestMapping(value = "findLatestCaseInfo")
 	public Map<String, Object> findCaseInfo(HttpServletRequest res, HttpServletResponse req) {
 
 		Map<String, Object> map = new HashMap<String, Object>();// 接收数据容器

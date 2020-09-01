@@ -28,4 +28,8 @@ public interface CaseInfoDao extends JpaRepository<CaseInfoEntity, String> {
 	@Query(value = " select distinct t.* from (sas_case_info t inner join sas_case_key d on t.id=d.case_id inner join  sas_key_word k on d.key_id=k.id) where k.name like :name order by t.create_date desc", nativeQuery = true)
 	public List<CaseInfoEntity> findCaseInfoByKey(@Param("name") String name);
 
+	@Query(value = "select * from sas_case_info  t  where if(?1 !='',t.name like ?1,1=1) and if(?2 !='',t.classi_code = ?2,1=1) and if(?3 !='',t.classi_dip_code = ?3,1=1) and t.audit_status = 1 order by t.create_date desc", 
+			countQuery = "select count(*) from sas_case_info  t  where if(?1 !='',t.name like ?1,1=1) and if(?2 !='',t.classi_code = ?2,1=1) and if(?3 !='',t.classi_dip_code = ?3,1=1) and t.audit_status = 1 order by t.create_date desc", nativeQuery = true)
+	public Page<CaseInfoEntity> findPage(String name, String cropsTypeCode, String dipTypeCode, Pageable pageable);
+
 }
