@@ -45,11 +45,11 @@ public class CaseInfoController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		CaseInfoEntity caseInfo = caseInfoService.findBId(id);
 		if (caseInfo != null) {
-			map.put("status", "0");// 查询数据成功
+			map.put("state", "0");// 查询数据成功
 			map.put("message", "查询成功");
 			map.put("data", caseInfo);
 		} else {
-			map.put("status", "1");// 查询数据失败
+			map.put("state", "1");// 查询数据失败
 			map.put("message", "查询失败");
 		}
 		return map;
@@ -65,7 +65,7 @@ public class CaseInfoController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		Pageable pageable = new PageRequest(page - 1, size);
 		Page<CaseInfoEntity> caseIn = caseInfoService.findPage(name, cropsTypeCode, dipTypeCode, pageable);
-		map.put("status", "0");// 成功
+		map.put("state", "0");// 成功
 		map.put("message", "查询成功");
 		map.put("data", caseIn);
 		return map;
@@ -241,7 +241,7 @@ public class CaseInfoController {
 		for (int i = 0; i < caseInfo.size(); i++) {
 			map.put("data", caseInfo);
 		}
-		map.put("status", "0");
+		map.put("state", "0");
 		map.put("message", "查询成功");
 		return map;
 	}

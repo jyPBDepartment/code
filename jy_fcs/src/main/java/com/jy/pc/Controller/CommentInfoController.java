@@ -51,7 +51,7 @@ public class CommentInfoController {
 		postCommentInfoEntity.setCommentDate(new Date());
 		postCommentInfoEntity.setStatus("0");
 		postCommentInfoService.save(postCommentInfoEntity);
-		map.put("status", "0");
+		map.put("state", "0");
 		map.put("message", "保存成功");
 		return map;
 	} 
@@ -68,12 +68,12 @@ public class CommentInfoController {
 			@RequestParam(name = "id") String id) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		if(postCommentInfoService.findId(id) == null) {
-			map.put("status", "1");
+			map.put("state", "1");
 			map.put("message", "该记录不存在");
 			return map;
 		}
 		postCommentInfoService.delete(id);
-		map.put("status", "0");
+		map.put("state", "0");
 		map.put("message", "删除成功");
 		return map;
 	} 

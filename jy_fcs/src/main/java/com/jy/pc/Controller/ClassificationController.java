@@ -202,10 +202,10 @@ public class ClassificationController {
 		List<ClassificationEntity> classifi = classificationService
 				.findCaseList(ClassificationEnum.CASE_CLASS.getCode());
 		if (classifi != null) {
-			map.put("status", "0");
+			map.put("state", "0");
 			map.put("data", classifi);
 		} else {
-			map.put("status", "1");
+			map.put("state", "1");
 		}
 		return map;
 	}
@@ -220,10 +220,10 @@ public class ClassificationController {
 		List<ClassificationEntity> classificat = classificationService
 				.findDipList(ClassificationEnum.DIP_CLASS.getCode());
 		if (classificat != null) {
-			map.put("status", "0");
+			map.put("state", "0");
 			map.put("data", classificat);
 		} else {
-			map.put("status", "1");
+			map.put("state", "1");
 		}
 		return map;
 	}

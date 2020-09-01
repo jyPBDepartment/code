@@ -193,19 +193,21 @@ public class AgriculturalController {
 	}
 
 	// 农服查看详情
-	@RequestMapping(value = "findById")
-	public Map<String, Object> findById(HttpServletRequest res, HttpServletResponse req,
-			@RequestParam(name = "id") String id) {
-		Map<String, Object> map = new HashMap<String, Object>();
-		AgriculturalEntity agricultural = agriculturalService.findBId(id);
-		if (agricultural != null) {
-			map.put("state", "0");// 查询数据成功
-			map.put("data", agricultural);
-		} else {
-			map.put("state", "1");// 查询数据失败
+		@RequestMapping(value = "findById")
+		public Map<String, Object> findById(HttpServletRequest res, HttpServletResponse req,
+				@RequestParam(name = "id") String id) {
+			Map<String, Object> map = new HashMap<String, Object>();
+			AgriculturalEntity agricultural = agriculturalService.findBId(id);
+			String[] agrPic = agricultural.getUrl().split(","); 
+			if (agricultural != null) {
+				map.put("state", "0");// 查询数据成功
+				map.put("data", agricultural);
+				map.put("data1", agrPic);
+			} else {
+				map.put("state", "1");// 查询数据失败
+			}
+			return map;
 		}
-		return map;
-	}
 
 	// 根据id查询农服信息详情
 	@RequestMapping(value = "findId")
