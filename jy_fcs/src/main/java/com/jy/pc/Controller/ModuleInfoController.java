@@ -160,7 +160,7 @@ public class ModuleInfoController {
 
 		Map<String, Object> map = new HashMap<String, Object>();// 接收数据容器
 		List<ModuleInfoEntity> moduleInfoEntity = moduleInfoService.findModuleListByName(name);
-		map.put("status", "0");
+		map.put("state", "0");
 		map.put("message", "查询成功");
 		map.put("data", moduleInfoEntity);
 		return map;
@@ -173,7 +173,7 @@ public class ModuleInfoController {
 		Map<String, Object> map = new HashMap<String, Object>();// 接收数据容器
 		List<ModuleInfoEntity> moduleInfoEntity = moduleInfoService.findModuleOn();
 		if (moduleInfoEntity != null) {
-			map.put("status", "0");
+			map.put("state", "0");
 			map.put("message", "查询成功");
 			map.put("data", moduleInfoEntity);
 		}
