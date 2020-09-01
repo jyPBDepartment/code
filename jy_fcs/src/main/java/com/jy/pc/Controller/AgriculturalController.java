@@ -7,7 +7,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -199,13 +198,9 @@ public class AgriculturalController {
 			Map<String, Object> map = new HashMap<String, Object>();
 			AgriculturalEntity agricultural = agriculturalService.findBId(id);
 			String[] agrPic = agricultural.getUrl().split(","); 
-			if (agricultural != null) {
-				map.put("state", "0");// 查询数据成功
-				map.put("data", agricultural);
-				map.put("data1", agrPic);
-			} else {
-				map.put("state", "1");// 查询数据失败
-			}
+			map.put("state", "0");// 查询数据成功
+			map.put("data", agricultural);
+			map.put("data1", agrPic);
 			return map;
 		}
 
