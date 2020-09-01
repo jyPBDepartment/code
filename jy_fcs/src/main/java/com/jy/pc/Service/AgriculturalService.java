@@ -17,6 +17,9 @@ public interface AgriculturalService {
 	// 农服findById
 	public AgriculturalEntity findBId(String id);
 
+	// 根据id查询农服信息详情
+	public AgriculturalEntity findId(String id);
+
 	// 农服分页与模糊查询
 	public Page<AgriculturalEntity> findListByName(String name, String status, Pageable pageable);
 
@@ -31,16 +34,28 @@ public interface AgriculturalService {
 
 	// 不同状态加载不同的发布
 	public List<AgriculturalEntity> findStatusPass(String status);
-	
+
 	// 获取农服预约信息
 	public List<AgriculturalEntity> findAppointment();
 
-	//农服审核
-	AgriculturalEntity audit(AgriculturalEntity agriculturalEntity,boolean result);
-	//根据类别获取信息
+	// 农服审核
+	AgriculturalEntity audit(AgriculturalEntity agriculturalEntity, boolean result);
+
+	// 根据类别获取信息
 	List<AgriculturalEntity> findListByType(String type);
-	//根据类别获取信息（前三条）
+
+	// 根据类别获取信息（前三条）
 	List<AgriculturalEntity> findListByTime(String type);
 
 	Page<AgriculturalEntity> findListByType(String type, Pageable pageable);
+
+//	搜索发布信息中农服信息
+	Page<AgriculturalEntity> findAgriInfo(String name, String type, Pageable pageable);
+
+//	搜索发布信息中农服信息
+	Page<AgriculturalEntity> findAgriType(String transactionTypeCode, String transactionCategoryCode, String type,
+			Pageable pageable);
+	//搜索我的发布信息（接口,标题名称）
+	public Page<AgriculturalEntity> findMyPublication(String type, String status, Pageable pageable);
+
 }

@@ -1,9 +1,6 @@
 package com.jy.pc.Service.Impl;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.transaction.Transactional;
 
@@ -157,6 +154,31 @@ public class AgriculturalServiceImpl implements AgriculturalService {
 	@Override
 	public List<AgriculturalEntity> findListByTime(String type) {
 		return agriculturalDao.findListByTime(PublicationEnum.getValueByType(type));
+	}
+
+	@Override
+	public Page<AgriculturalEntity> findAgriInfo(String name, String type, Pageable pageable) {
+		String argiName = "%" + name + "%";
+		return agriculturalDao.findAgriInfo(argiName,PublicationEnum.getValueByType(type),pageable);
+	}
+
+	@Override
+	public Page<AgriculturalEntity> findAgriType(String transactionTypeCode, String transactionCategoryCode,
+			String type, Pageable pageable) {
+		String code = "%" + transactionTypeCode + "%";
+		String category = "%" + transactionCategoryCode + "%";
+		return agriculturalDao.findAgriType(code, category, PublicationEnum.getValueByType(type), pageable);
+	}
+
+	// 根据id查询农服信息详情
+	@Override
+	public AgriculturalEntity findId(String id) {
+		return agriculturalDao.findId(id);
+	}
+
+	@Override
+	public Page<AgriculturalEntity> findMyPublication(String type, String status, Pageable pageable) {
+		return agriculturalDao.findMyPublication(PublicationEnum.getValueByType(type), status,pageable);
 	}
 
 }
