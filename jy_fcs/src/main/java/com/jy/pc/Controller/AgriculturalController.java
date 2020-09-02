@@ -138,8 +138,8 @@ public class AgriculturalController {
 	 */
 	@RequestMapping(value = "/findAgriType")
 	public Map<String, Object> findAgriType(HttpServletRequest res, HttpServletResponse req,
-			@RequestParam(name = "transactionTypeCode") String transactionTypeCode,
-			@RequestParam(name = "transactionCategoryCode") String transactionCategoryCode,
+			@RequestParam(name = "transactionTypeCode",defaultValue="") String transactionTypeCode,
+			@RequestParam(name = "transactionCategoryCode",defaultValue="") String transactionCategoryCode,
 			@RequestParam(name = "type", defaultValue = "0") String type, @RequestParam(name = "page") Integer page,
 			@RequestParam(name = "size") Integer size) {
 		Map<String, Object> map = new HashMap<String, Object>();

@@ -165,9 +165,7 @@ public class AgriculturalServiceImpl implements AgriculturalService {
 	@Override
 	public Page<AgriculturalEntity> findAgriType(String transactionTypeCode, String transactionCategoryCode,
 			String type, Pageable pageable) {
-		String code = "%" + transactionTypeCode + "%";
-		String category = "%" + transactionCategoryCode + "%";
-		return agriculturalDao.findAgriType(code, category, PublicationEnum.getValueByType(type), pageable);
+		return agriculturalDao.findAgriType(transactionTypeCode, transactionCategoryCode, PublicationEnum.getValueByType(type), pageable);
 	}
 
 	// 根据id查询农服信息详情
