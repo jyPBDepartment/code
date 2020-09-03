@@ -60,7 +60,7 @@ public interface AgriculturalDao extends JpaRepository<AgriculturalEntity, Strin
 
 //	搜索发布信息中农服信息(类型、类别)
 	@Query(value = "SELECT * FROM sas_publication_info t where t.transaction_type_code in :#{#map['type']} and t.transaction_category_code in :#{#map['category']} and if(?1 !='',t.transaction_type_code = ?1,1=1) and if(?2 !='',t.transaction_category_code = ?2,1=1) and t.status = '1' order by t.create_date desc", 
-			countQuery = "select count(*) FROM sas_publication_info t where t.transaction_type_code in :#{#map['type']} and t.transaction_category_code in :#{#map['category']} and if(?1 !='',t.transaction_type_code like ?1,1=1) and if(?2 !='',t.transaction_category_code like ?2,1=1) and t.status = '1' order by t.create_date desc", nativeQuery = true)
+			countQuery = "select count(*) FROM sas_publication_info t where t.transaction_type_code in :#{#map['type']} and t.transaction_category_code in :#{#map['category']} and if(?1 !='',t.transaction_type_code = ?1,1=1) and if(?2 !='',t.transaction_category_code = ?2,1=1) and t.status = '1' order by t.create_date desc", nativeQuery = true)
 	public Page<AgriculturalEntity> findAgriType(String transactionTypeCode, String transactionCategoryCode,
 			Map<String, List<String>> map, Pageable pageable);
 	

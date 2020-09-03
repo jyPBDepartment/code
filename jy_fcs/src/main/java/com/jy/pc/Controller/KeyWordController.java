@@ -34,6 +34,22 @@ public class KeyWordController {
 	@Autowired
 	private ClassificationService classificationService;
 
+	//农机顶部滑块接口
+	@RequestMapping(value = "/findMachineDict")
+	public Map<String, Object> findMachineDict(HttpServletRequest res, HttpServletResponse req) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		List<DictPO> dictList = new ArrayList<DictPO>();
+		DictPO dict1 = new DictPO("0","收购");
+		DictPO dict2 = new DictPO("1","出售");
+		DictPO dict3 = new DictPO("2","出租");
+		dictList.add(dict1);
+		dictList.add(dict2);
+		dictList.add(dict3);
+		map.put("state", "0");// 成功
+		map.put("data", dictList);
+		return map;
+	}
+	
 	//类型接口 
 	@RequestMapping(value = "/findCropDict")
 	public Map<String, Object> findCropDict(HttpServletRequest res, HttpServletResponse req) {

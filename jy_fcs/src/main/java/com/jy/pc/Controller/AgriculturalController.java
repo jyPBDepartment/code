@@ -138,6 +138,7 @@ public class AgriculturalController {
 	 */
 	@RequestMapping(value = "/findAgriType")
 	public Map<String, Object> findAgriType(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "name",defaultValue="") String name,
 			@RequestParam(name = "transactionTypeCode",defaultValue="") String transactionTypeCode,
 			@RequestParam(name = "transactionCategoryCode",defaultValue="") String transactionCategoryCode,
 			@RequestParam(name = "type", defaultValue = "0") String type, @RequestParam(name = "page") Integer page,
