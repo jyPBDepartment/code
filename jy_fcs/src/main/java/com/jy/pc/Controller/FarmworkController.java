@@ -144,7 +144,7 @@ public class FarmworkController {
 		return map;
 	}
 
-	// 农活预约添加
+	// 农活预约添加（接口）
 	@RequestMapping(value = "/save")
 	public Map<String, String> addPostInfo(HttpServletRequest res, HttpSession session, HttpServletResponse req,
 			FarmworkEntity farmworkEntity,@RequestParam(name = "addItem") String[] addItem) {
@@ -163,7 +163,7 @@ public class FarmworkController {
 			farm.setPicId(pictureInfoEntity.getId());
 			farmworkPictureService.save(farm);			
 		}
-		map.put("status", "0");
+		map.put("state", "0");
 		map.put("message", "添加成功");
 		return map;
 	}

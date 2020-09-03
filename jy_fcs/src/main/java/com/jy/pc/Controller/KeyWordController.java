@@ -1,7 +1,9 @@
 package com.jy.pc.Controller;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSONObject;
 import com.jy.pc.Entity.ClassificationEntity;
 import com.jy.pc.Entity.KeyWordEntity;
+import com.jy.pc.POJO.DictPO;
 import com.jy.pc.Service.ClassificationService;
 import com.jy.pc.Service.KeyWordService;
 
@@ -30,6 +33,48 @@ public class KeyWordController {
 	private KeyWordService keyWordService;
 	@Autowired
 	private ClassificationService classificationService;
+
+	//类型接口 
+	@RequestMapping(value = "/findCropDict")
+	public Map<String, Object> findCropDict(HttpServletRequest res, HttpServletResponse req) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		List<DictPO> dictList = new ArrayList<DictPO>();
+		DictPO dict1 = new DictPO("0","收购");
+		DictPO dict2 = new DictPO("1","出售");
+		DictPO dict3 = new DictPO("2","出租");
+		DictPO dict4 = new DictPO("3","播种");
+		DictPO dict5 = new DictPO("4","植保");
+		DictPO dict6 = new DictPO("5","收割");
+		dictList.add(dict1);
+		dictList.add(dict2);
+		dictList.add(dict3);
+		dictList.add(dict4);
+		dictList.add(dict5);
+		dictList.add(dict6);
+		map.put("state", "0");// 成功
+		map.put("data", dictList);
+		return map;
+	}
+	
+	//类别接口 
+		@RequestMapping(value = "/findTypeDict")
+		public Map<String, Object> findTypeDict(HttpServletRequest res, HttpServletResponse req) {
+			Map<String, Object> map = new HashMap<String, Object>();
+			List<DictPO> dictList = new ArrayList<DictPO>();
+			DictPO dict1 = new DictPO("0","玉米");
+			DictPO dict2 = new DictPO("1","农机");
+			DictPO dict3 = new DictPO("2","水稻");
+			DictPO dict4 = new DictPO("3","高粱");
+			DictPO dict5 = new DictPO("4","黄豆");
+			dictList.add(dict1);
+			dictList.add(dict2);
+			dictList.add(dict3);
+			dictList.add(dict4);
+			dictList.add(dict5);
+			map.put("state", "0");// 成功
+			map.put("data", dictList);
+			return map;
+		}
 
 	// 查询 分页
 	@RequestMapping(value = "/findByName")
@@ -134,7 +179,7 @@ public class KeyWordController {
 			map.put("message", "禁用成功");
 			result = false;
 		}
-		keyWordService.enable(keyWordEntity,result);
+		keyWordService.enable(keyWordEntity, result);
 		return map;
 	}
 }

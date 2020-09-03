@@ -168,7 +168,7 @@ public class PostInfoController {
 		postInfo.setCreateDate(date);
 		postInfo.setStatus("0");
 		postInfoService.save(postInfo);
-		map.put("status", "0");
+		map.put("state", "0");
 		map.put("message", "添加成功");
 		return map;
 	}

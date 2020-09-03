@@ -63,7 +63,7 @@ public class ReplyInfoController {
 		commentReplyInfoEntity.setReplyDate(new Date());
 		commentReplyInfoEntity.setStatus("0");
 		commentReplyInfoService.save(commentReplyInfoEntity);
-		map.put("status", "0");
+		map.put("state", "0");
 		map.put("message", "保存成功");
 		return map;
 	}
@@ -84,7 +84,7 @@ public class ReplyInfoController {
 			return map;
 		}
 		commentReplyInfoService.delete(id);
-		map.put("status", "0");
+		map.put("state", "0");
 		map.put("message", "删除成功");
 		return map;
 	}

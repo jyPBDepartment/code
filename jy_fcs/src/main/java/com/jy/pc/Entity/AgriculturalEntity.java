@@ -31,14 +31,10 @@ public class AgriculturalEntity {
 	private String transactionTypeCode;//农服交易类型
 	@Column(length=8)
 	private String transactionCategoryCode;//农服交易类别
-	@Column
-	private float purchasingPrice;//收购价格
 	@Column(length=255)
-	private String purchasingArea;//收购区域
-	@Column
-	private float sellingPrice;//出售价格
+	private float price;//收购价格
 	@Column(length=255)
-	private String sellingArea;//出售区域
+	private String address;//区域
 	@Column(length=255)
 	private String contactsUser;//联系人
 	@Column(length=11)
@@ -47,7 +43,6 @@ public class AgriculturalEntity {
 	private String url;//图片
 	@Column(length=255)
 	private String classiCode;//机器类型
-	
 	@Column(length=8)
 	private String machineType;//机器类型
 	@Column(length=255)
@@ -92,10 +87,6 @@ public class AgriculturalEntity {
 	private String isFace; //是否面议(0是1否)
 	@Column(length=1)
 	private String farmingMode;  //农活类型(0整活1零活)
-	@Column
-	private float agriPrice;//农活价格
-	@Column(length=255)
-	private String workArea;//干活地点
 	
 	public Date getBeginDate() {
 		return beginDate;
@@ -163,29 +154,17 @@ public class AgriculturalEntity {
 	public void setTransactionCategoryCode(String transactionCategoryCode) {
 		this.transactionCategoryCode = transactionCategoryCode;
 	}
-	public float getPurchasingPrice() {
-		return purchasingPrice;
+	public float getPrice() {
+		return price;
 	}
-	public void setPurchasingPrice(float purchasingPrice) {
-		this.purchasingPrice = purchasingPrice;
+	public void setPrice(float price) {
+		this.price = price;
 	}
-	public String getPurchasingArea() {
-		return purchasingArea;
+	public String getAddress() {
+		return address;
 	}
-	public void setPurchasingArea(String purchasingArea) {
-		this.purchasingArea = purchasingArea;
-	}
-	public float getSellingPrice() {
-		return sellingPrice;
-	}
-	public void setSellingPrice(float sellingPrice) {
-		this.sellingPrice = sellingPrice;
-	}
-	public String getSellingArea() {
-		return sellingArea;
-	}
-	public void setSellingArea(String sellingArea) {
-		this.sellingArea = sellingArea;
+	public void setAddress(String address) {
+		this.address = address;
 	}
 	public String getContactsUser() {
 		return contactsUser;
@@ -277,18 +256,4 @@ public class AgriculturalEntity {
 	public void setClassiCode(String classiCode) {
 		this.classiCode = classiCode;
 	}
-	public float getAgriPrice() {
-		return agriPrice;
-	}
-	public void setAgriPrice(float agriPrice) {
-		this.agriPrice = agriPrice;
-	}
-	public String getWorkArea() {
-		return workArea;
-	}
-	public void setWorkArea(String workArea) {
-		this.workArea = workArea;
-	}
-	
-	
 }
