@@ -54,6 +54,9 @@ public class ModuleInfoEntity {
 	//请求路径
 	@Column
 	private String routeUrl;
+	//跳转方式 0:tab
+	@Column
+	private String tabMode;
 	
 	public String getRouteUrl() {
 		return routeUrl;
@@ -61,6 +64,14 @@ public class ModuleInfoEntity {
 
 	public void setRouteUrl(String routeUrl) {
 		this.routeUrl = routeUrl;
+	}
+
+	public String getTabMode() {
+		return tabMode;
+	}
+
+	public void setTabMode(String tabMode) {
+		this.tabMode = tabMode;
 	}
 
 	public String getId() {

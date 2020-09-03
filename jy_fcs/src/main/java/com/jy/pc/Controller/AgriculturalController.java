@@ -101,7 +101,7 @@ public class AgriculturalController {
 	 */
 	@RequestMapping(value = "/findAgriInfo")
 	public Map<String, Object> findAgriInfo(HttpServletRequest res, HttpServletResponse req,
-			@RequestParam(name = "name") String name, @RequestParam(name = "type", defaultValue = "0") String type,
+			@RequestParam(name = "name",defaultValue="") String name, @RequestParam(name = "type", defaultValue = "0") String type,
 			@RequestParam(name = "page") Integer page, @RequestParam(name = "size") Integer size) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		Pageable pageable = new PageRequest(page - 1, size);
@@ -276,7 +276,7 @@ public class AgriculturalController {
 	 */
 	@RequestMapping(value = "/findNewInfo")
 	public Map<String, Object> findNewInfo(HttpServletRequest res, HttpServletResponse req,
-			@RequestParam(name = "type") String type) {
+			@RequestParam(name = "type",defaultValue = "0") String type) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		List<AgriculturalEntity> agri = agriculturalService.findListByTime(type);
 		map.put("state", "0");// 成功

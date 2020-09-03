@@ -69,7 +69,7 @@ public class ModuleInfoServiceImpl implements ModuleInfoService {
 	// 根据模块名称查询非禁用模块信息
 	@Override
 	public List<ModuleInfoEntity> findModuleListByName(String name) {
-		String moduleName = "%" + name + "%";
+		String moduleName = "".equals(name)? "":"%" + name + "%";
 		return moduleInfoDao.findModuleListByName(moduleName);
 	}
 

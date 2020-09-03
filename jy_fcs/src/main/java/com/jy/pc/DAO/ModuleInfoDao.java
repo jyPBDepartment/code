@@ -24,7 +24,7 @@ public interface ModuleInfoDao extends JpaRepository<ModuleInfoEntity, String> {
 	public List<ModuleInfoEntity> findModuleOn();
 
 	// 根据模块名称查询模块表非禁用信息
-	@Query(value = "select * from sas_module_info t where t.status='0' and  if(?1 !='',t.name like ?1,1=1) order by t.create_date desc", nativeQuery = true)
+	@Query(value = "select * from sas_module_info t where t.status='0' and  if(?1 ='',1=2,t.name like ?1) order by t.create_date desc", nativeQuery = true)
 	public List<ModuleInfoEntity> findModuleListByName(String name);
 
 	// 查询所有有效的模块信息

@@ -55,7 +55,7 @@ public interface AgriculturalDao extends JpaRepository<AgriculturalEntity, Strin
 	public Page<AgriculturalEntity> findListByType(Map<String, List<String>> map, Pageable pageable);
 
 //	搜索发布信息中农服信息(标题名称)
-	@Query(value = "SELECT * FROM sas_publication_info t where t.transaction_type_code in :#{#map['type']} and t.transaction_category_code in :#{#map['category']} and if(?1 !='',t.name like ?1,1=1) and t.status = '1' order by t.create_date desc", countQuery = "select count(*) FROM sas_publication_info t where t.transaction_type_code in :#{#map['type']} and t.transaction_category_code in :#{#map['category']} and if(?1 !='',t.name like ?1,1=1) and t.status = '1' order by t.create_date desc", nativeQuery = true)
+	@Query(value = "SELECT * FROM sas_publication_info t where t.transaction_type_code in :#{#map['type']} and t.transaction_category_code in :#{#map['category']} and if(?1 !='',t.name like ?1,1=1) and t.status in ('1','4') order by t.create_date desc", countQuery = "select count(*) FROM sas_publication_info t where t.transaction_type_code in :#{#map['type']} and t.transaction_category_code in :#{#map['category']} and if(?1 !='',t.name like ?1,1=1) and t.status in ('1','4') order by t.create_date desc", nativeQuery = true)
 	public Page<AgriculturalEntity> findAgriInfo(String name, Map<String, List<String>> map, Pageable pageable);
 
 //	搜索发布信息中农服信息(类型、类别)
