@@ -1,5 +1,7 @@
 package com.jy.pc.DAO;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -16,6 +18,6 @@ public interface DeployModuleDao extends JpaRepository<DeployModuleEntity, Strin
 	@Query(value = "select * from sas_deploy_module_info  t  where if(?1 !='',t.deploy_module_name like ?1,1=1) order by t.create_date desc", countQuery = "select count(*) from sas_deploy_module_info t  where if(?1 !='',t.deploy_module_name like ?1,1=1) order by t.create_date desc", nativeQuery = true)
 	public Page<DeployModuleEntity> findListByName(String deployModuleName, Pageable pageable);
 	// 查询有效的模块信息
-	@Query(value = "select * from sas_deploy_module_info t where t.status='0' order by t.create_date desc", countQuery = "select count(*) from sas_deploy_module_info t where t.status='0' order by t.create_date desc", nativeQuery = true)
-	public Page<DeployModuleEntity> findAllDeployModuleInfo(Pageable pageable);
+	@Query(value = "select * from sas_deploy_module_info t where t.status='0' order by t.create_date desc", nativeQuery = true)
+	public List<DeployModuleEntity> findAllDeployModuleInfo();
 }

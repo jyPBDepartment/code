@@ -2,6 +2,8 @@ package com.jy.pc.Service.Impl;
 
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
@@ -47,8 +49,8 @@ public class DeployModuleServiceImpl implements DeployModuleService{
 
 	//查询所有有效模块信息
 	@Override
-	public Page<DeployModuleEntity> findAllDeployModuleInfo(Pageable pageable) {
-		return deployModuleDao.findAllDeployModuleInfo(pageable);
+	public List<DeployModuleEntity> findAllDeployModuleInfo() {
+		return deployModuleDao.findAllDeployModuleInfo();
 	}
 
 }
