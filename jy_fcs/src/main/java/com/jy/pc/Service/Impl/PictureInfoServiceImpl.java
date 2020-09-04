@@ -1,6 +1,9 @@
 package com.jy.pc.Service.Impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 import com.jy.pc.DAO.PictureInfoDAO;
@@ -27,4 +30,8 @@ public class PictureInfoServiceImpl implements PictureInfoService{
 		pictureInfoDao.deleteById(id);
 	}
 
+	@Override
+	public List<PictureInfoEntity> findByAgrId(@Param("id") String id){
+		return 	pictureInfoDao.findByAgrId(id);
+	}
 }

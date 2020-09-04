@@ -1,5 +1,7 @@
 package com.jy.pc.Service.Impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +27,12 @@ public class AgriculturaPictureServiceImpl implements AgriculturalPictureService
 	@Override
 	public void delete(String id) {
 		agriculturalPivtureDAO.deleteById(id);
+		
+	}
+	
+	@Override
+	public List<AgriculturalPictureEntity> findByAgrId(String id){
+		return agriculturalPivtureDAO.findByAgrId(id);
 	}
 
 }

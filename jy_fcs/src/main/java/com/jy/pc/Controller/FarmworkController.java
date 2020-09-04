@@ -149,8 +149,8 @@ public class FarmworkController {
 	public Map<String, String> addPostInfo(HttpServletRequest res, HttpSession session, HttpServletResponse req,
 			FarmworkEntity farmworkEntity,@RequestParam(name = "addItem") String[] addItem) {
 		Map<String, String> map = new HashMap<String, String>();
-		Date date = new Date();
-		farmworkEntity.setBeginDate(date);
+//		Date date = new Date();
+//		farmworkEntity.setBeginDate(date);
 		farmworkEntity.setStatus("0");
 		farmworkService.save(farmworkEntity);
 		for(int i=0;i<addItem.length;i++) {

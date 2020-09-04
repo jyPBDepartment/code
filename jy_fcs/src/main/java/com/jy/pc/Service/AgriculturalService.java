@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.query.Param;
 
 import com.jy.pc.Entity.AgriculturalEntity;
 
@@ -58,5 +59,8 @@ public interface AgriculturalService {
 
 	// 搜索我的发布信息（接口,标题名称）
 	Page<AgriculturalEntity> findMyPublication( String status,String type,Pageable pageable);
+	
+	//计算天数
+	public String findDay(@Param("id") String id);
 
 }
