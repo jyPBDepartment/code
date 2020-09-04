@@ -100,11 +100,14 @@ public class AgriculturalController {
 	 */
 	@RequestMapping(value = "/findAgriInfo")
 	public Map<String, Object> findAgriInfo(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "transactionTypeCode",defaultValue="") String transactionTypeCode,
+			@RequestParam(name = "transactionCategoryCode",defaultValue="") String transactionCategoryCode,
 			@RequestParam(name = "name",defaultValue="") String name, @RequestParam(name = "type", defaultValue = "0") String type,
 			@RequestParam(name = "page") Integer page, @RequestParam(name = "size") Integer size) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		Pageable pageable = new PageRequest(page - 1, size);
-		Page<AgriculturalEntity> agriculturalList = agriculturalService.findAgriInfo(name, type, pageable);
+		Page<AgriculturalEntity> agriculturalList = agriculturalService.findAgriInfo(name, type, transactionTypeCode,
+				transactionCategoryCode,pageable);
 		map.put("state", "0");// 成功
 		map.put("message", "查询成功");
 		map.put("data", agriculturalList);

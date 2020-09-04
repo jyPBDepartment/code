@@ -157,9 +157,10 @@ public class AgriculturalServiceImpl implements AgriculturalService {
 	}
 
 	@Override
-	public Page<AgriculturalEntity> findAgriInfo(String name, String type, Pageable pageable) {
-		String argiName = "%" + name + "%";
-		return agriculturalDao.findAgriInfo(argiName,PublicationEnum.getValueByType(type),pageable);
+	public Page<AgriculturalEntity> findAgriInfo(String name, String type, String transactionTypeCode,
+			String transactionCategoryCode,Pageable pageable) {
+		String argiName = "".equals(name)? "":"%" + name + "%";
+		return agriculturalDao.findAgriInfo(argiName,transactionTypeCode,transactionCategoryCode,PublicationEnum.getValueByType(type),pageable);
 	}
 
 	@Override
