@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -87,7 +88,15 @@ public class AgriculturalEntity {
 	private String isFace; //是否面议(0是1否)
 	@Column(length=1)
 	private String farmingMode;  //农活类型(0整活1零活)
+	@Transient
+	private String[] picArr;
 	
+	public String[] getPicArr() {
+		return picArr;
+	}
+	public void setPicArr(String[] picArr) {
+		this.picArr = picArr;
+	}
 	public Date getBeginDate() {
 		return beginDate;
 	}
