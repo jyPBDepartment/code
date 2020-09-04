@@ -7,6 +7,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 import com.jy.pc.DAO.AgriculturalDao;
@@ -51,7 +52,7 @@ public class AgriculturalServiceImpl implements AgriculturalService {
 		return agriculturalDao.findListByName(argicuturalName, status, pageable);
 	}
 
-	//农夫审核
+	//农服审核
 	@Override
 	@Transactional
 	public AgriculturalEntity audit(AgriculturalEntity agriculturalEntity, boolean result) {
@@ -178,6 +179,12 @@ public class AgriculturalServiceImpl implements AgriculturalService {
 	@Override
 	public Page<AgriculturalEntity> findMyPublication( String status,String type,Pageable pageable) {
 		return agriculturalDao.findMyPublication(status, PublicationEnum.getValueByType(type),pageable);
+	}
+	
+	//计算天数
+	@Override
+	public String findDay(@Param("id") String id) {
+		return agriculturalDao.findDay(id);
 	}
 
 }

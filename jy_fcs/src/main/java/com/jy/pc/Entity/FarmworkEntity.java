@@ -9,6 +9,9 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 //农服预约表
 @Entity
@@ -32,8 +35,13 @@ public class FarmworkEntity {
 	@Column(length = 2)
 	private String status;// 状态（0.待确认1.已确认2.已完成3已取消）
 	@Column
+	@JsonFormat(pattern = "yyyy-MM-dd",timezone="GMT+8")
+	@DateTimeFormat(pattern="yyyy-MM-dd")
+	
 	private Date beginDate; // 干活开始时间
 	@Column
+	@JsonFormat(pattern = "yyyy-MM-dd",timezone="GMT+8")
+	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private Date endDate; // 干活结束时间
 	@Column
 	private String area; // 面积

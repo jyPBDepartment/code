@@ -2,6 +2,7 @@ package com.jy.pc.Controller;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -134,11 +135,9 @@ public class DeployModuleController {
 
 	// 查询所有有效模块信息
 	@RequestMapping(value = "/findAllDeployModuleInfo")
-	public Map<String, Object> findAllDeployModuleInfo(HttpServletRequest res, HttpServletResponse req,
-			@RequestParam(name = "page") Integer page, @RequestParam(name = "size") Integer size) {
+	public Map<String, Object> findAllDeployModuleInfo(HttpServletRequest res, HttpServletResponse req) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		Pageable pageable = new PageRequest(page - 1, size);
-		Page<DeployModuleEntity> deployModuleList = deployModuleService.findAllDeployModuleInfo(pageable);
+		List<DeployModuleEntity> deployModuleList = deployModuleService.findAllDeployModuleInfo();
 		map.put("state", "0");// 成功
 		map.put("message", "查询成功");
 		map.put("data", deployModuleList);

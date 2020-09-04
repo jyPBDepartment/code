@@ -1,5 +1,7 @@
 package com.jy.pc.Service;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -25,5 +27,5 @@ public interface DeployModuleService {
 	void enable(DeployModuleEntity deployModule, boolean result);
 	
 	//查询所有有效模块信息
-	public Page<DeployModuleEntity> findAllDeployModuleInfo(Pageable pageable);
+	public List<DeployModuleEntity> findAllDeployModuleInfo();
 }

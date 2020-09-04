@@ -1,5 +1,9 @@
 package com.jy.pc.Service;
 
+import java.util.List;
+
+import org.springframework.data.repository.query.Param;
+
 import com.jy.pc.Entity.PictureInfoEntity;
 
 public interface PictureInfoService {
@@ -12,4 +16,6 @@ public interface PictureInfoService {
 
 	// 删除
 	public void delete(String id);
+	
+	public List<PictureInfoEntity> findByAgrId(@Param("id") String id);
 }

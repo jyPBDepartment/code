@@ -51,29 +51,31 @@ public class AgriculturalController {
 		return map;
 	}
 	// 农服添加(接口)
-		@RequestMapping(value = "/save")
-		public Map<String, Object> save(HttpServletRequest res, HttpServletResponse req,
-				AgriculturalEntity agriculturalEntity,@RequestParam(name = "addItem") String[] addItem){
-			Date date = new Date();
-			agriculturalEntity.setCreateDate(date);// 设置创建时间
-			agriculturalEntity.setStatus("0");// 初始化值为待审核0
-			Map<String, Object> map = new HashMap<String, Object>();
-			agriculturalService.save(agriculturalEntity);
-			for(int i=0;i<addItem.length;i++) {
-				PictureInfoEntity pictureInfoEntity = new PictureInfoEntity();
-				AgriculturalPictureEntity agriculturalPictureEntity = new AgriculturalPictureEntity();
-				pictureInfoEntity.setPicName(agriculturalEntity.getName());
-				pictureInfoEntity.setPicUrl(addItem[i]);
-				pictureInfoService.save(pictureInfoEntity);
-				agriculturalPictureEntity.setAgrId(agriculturalEntity.getId());
-				agriculturalPictureEntity.setPicId(pictureInfoEntity.getId());
-				agriculturalPictureService.save(agriculturalPictureEntity);
+			@RequestMapping(value = "/save")
+			public Map<String, Object> save(HttpServletRequest res, HttpServletResponse req,
+					AgriculturalEntity agriculturalEntity,@RequestParam(name = "addItem") String[] addItem){
+				Date date = new Date();
+				agriculturalEntity.setCreateDate(date);// 设置创建时间
+				agriculturalEntity.setStatus("0");// 初始化值为待审核0
+				Map<String, Object> map = new HashMap<String, Object>();
+				agriculturalService.save(agriculturalEntity);
+				agriculturalEntity.setDays(agriculturalService.findDay(agriculturalEntity.getId()));
+				agriculturalService.update(agriculturalEntity);
+				for(int i=0;i<addItem.length;i++) {
+					PictureInfoEntity pictureInfoEntity = new PictureInfoEntity();
+					AgriculturalPictureEntity agriculturalPictureEntity = new AgriculturalPictureEntity();
+					pictureInfoEntity.setPicName(agriculturalEntity.getName());
+					pictureInfoEntity.setPicUrl(addItem[i]);
+					pictureInfoService.save(pictureInfoEntity);
+					agriculturalPictureEntity.setAgrId(agriculturalEntity.getId());
+					agriculturalPictureEntity.setPicId(pictureInfoEntity.getId());
+					agriculturalPictureService.save(agriculturalPictureEntity);
+				}
+				map.put("state", "0");
+				map.put("data", agriculturalEntity);
+				map.put("message", "添加成功");
+				return map;
 			}
-			map.put("state", "0");
-			map.put("data", agriculturalEntity);
-			map.put("message", "添加成功");
-			return map;
-		}
 
 	/**
 	 * 根据类型查询发布信息（接口）
@@ -208,20 +210,25 @@ public class AgriculturalController {
 			return map;
 		}
 
-	// 根据id查询农服信息详情
-	@RequestMapping(value = "findId")
-	public Map<String, Object> findId(HttpServletRequest res, HttpServletResponse req,
-			@RequestParam(name = "id") String id) {
-		Map<String, Object> map = new HashMap<String, Object>();
-		AgriculturalEntity agricultural = agriculturalService.findId(id);
-		if (agricultural != null) {
-			map.put("state", "0");// 查询数据成功
-			map.put("data", agricultural);
-		} else {
-			map.put("state", "1");// 查询数据失败
+		// 根据id查询农服信息详情
+		@RequestMapping(value = "findId")
+		public Map<String, Object> findId(HttpServletRequest res, HttpServletResponse req,
+				@RequestParam(name = "id") String id) {
+			Map<String, Object> map = new HashMap<String, Object>();
+			AgriculturalEntity agricultural = agriculturalService.findId(id);
+			List<PictureInfoEntity> agrPic = pictureInfoService.findByAgrId(id);
+			if (agricultural != null) {
+				map.put("state", "0");// 查询数据成功
+				map.put("data", agricultural);
+				map.put("dataPic", agrPic);
+			} else {
+				map.put("state", "1");// 查询数据失败
+			}
+			return map;
 		}
-		return map;
-	}
+
+
+
 
 	// 审核通过
 	@RequestMapping(value = "/passPostInfo")
