@@ -108,21 +108,17 @@ public class DeployModuleController {
 			@RequestParam(name = "updateUser") String updateUser) {
 
 		Map<String, String> map = new HashMap<String, String>();
+		Date date = new Date();
 		DeployModuleEntity deployModuleEntity = deployModuleService.findBId(id);
 		deployModuleEntity.setStatus(status);
-		deployModuleEntity.getStatus();
-		Date date = new Date();
+		deployModuleEntity.setUpdateDate(date);
+		deployModuleEntity.setUpdateUser(updateUser);
 		boolean result = true;
 		if (status.equals("0")) {
-			deployModuleEntity.setStatus("0");
-			deployModuleEntity.setUpdateDate(date);
-			deployModuleEntity.setUpdateUser(updateUser);
 			map.put("status", "0");
 			map.put("message", "启用成功");
-		} else if (status.equals("1")) {
-			deployModuleEntity.setStatus("1");
-			deployModuleEntity.setUpdateDate(date);
-			deployModuleEntity.setUpdateUser(updateUser);
+		}
+		if (status.equals("1")) {
 			map.put("status", "1");
 			map.put("message", "禁用成功");
 			result = false;

@@ -123,14 +123,15 @@ public class ClassificationController {
 		Map<String, String> map = new HashMap<String, String>();
 		ClassificationEntity classificationEntity = classificationService.findBId(id);
 		classificationEntity.setStatus(status);
-		classificationEntity.getStatus();
+//		classificationEntity.getStatus();
 		boolean result = true;
 		if (status.equals("1")) {
-			classificationEntity.setStatus("1");
+//			classificationEntity.setStatus("1");
 			map.put("state", "0");
 			map.put("message", "启用成功");
-		} else if (status.equals("0")) {
-			classificationEntity.setStatus("0");
+		}
+		if (status.equals("0")) {
+//			classificationEntity.setStatus("0");
 			map.put("state", "0");
 			map.put("message", "禁用成功");
 			result = false;

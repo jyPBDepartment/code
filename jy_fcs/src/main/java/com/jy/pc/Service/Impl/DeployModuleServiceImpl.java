@@ -11,23 +11,29 @@ import org.springframework.stereotype.Service;
 import com.jy.pc.DAO.DeployModuleDao;
 import com.jy.pc.Entity.DeployModuleEntity;
 import com.jy.pc.Service.DeployModuleService;
+import com.jy.pc.Utils.DbLogUtil;
 
 @Service
 public class DeployModuleServiceImpl implements DeployModuleService{
 	@Autowired
 	private DeployModuleDao deployModuleDao;
+	@Autowired
+	DbLogUtil logger;
 	@Override
 	public DeployModuleEntity save(DeployModuleEntity deployModule) {
+		logger.initAddLog(deployModule);
 		return deployModuleDao.saveAndFlush(deployModule);
 	}
 
 	@Override
 	public void update(DeployModuleEntity deployModule) {
+		logger.initUpdateLog(deployModule);
 		deployModuleDao.saveAndFlush(deployModule);
 	}
 
 	@Override
 	public void delete(String id) {
+		logger.initDeleteLog(deployModuleDao.findBId(id));
 		deployModuleDao.deleteById(id);
 	}
 
@@ -44,6 +50,7 @@ public class DeployModuleServiceImpl implements DeployModuleService{
 
 	@Override
 	public void enable(DeployModuleEntity deployModule, boolean result) {
+		logger.initEnableLog(deployModule, result);
 		deployModuleDao.saveAndFlush(deployModule);
 	}
 

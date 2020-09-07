@@ -107,14 +107,12 @@ public class PostInfoController {
 		Map<String, String> map = new HashMap<String, String>();
 		PostInfoEntity invitationEntity = postInfoService.findId(id);
 		invitationEntity.setStatus(status);
-		invitationEntity.getStatus();
 		boolean result = true;
 		if (status.equals("0")) {
-			invitationEntity.setStatus("0");
 			map.put("status", "0");
 			map.put("message", "启用成功");
-		} else if (status.equals("1")) {
-			invitationEntity.setStatus("1");
+		}
+		if (status.equals("1")) {
 			map.put("status", "1");
 			map.put("message", "禁用成功");
 			result = false;

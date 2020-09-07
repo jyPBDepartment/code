@@ -178,22 +178,18 @@ public class KeyWordController {
 			@RequestParam(name = "auditStatus") String auditStatus, @RequestParam(name = "id") String id,
 			@RequestParam(name = "updateUser") String updateUser) {
 
+		Date date = new Date();
 		Map<String, String> map = new HashMap<String, String>();
 		KeyWordEntity keyWordEntity = keyWordService.findId(id);
 		keyWordEntity.setAuditStatus(auditStatus);
-		keyWordEntity.getAuditStatus();
-		Date date = new Date();
+		keyWordEntity.setUpdateDate(date);
+		keyWordEntity.setUpdateUser(updateUser);
 		boolean result = true;
 		if (auditStatus.equals("0")) {
-			keyWordEntity.setAuditStatus("0");
-			keyWordEntity.setUpdateDate(date);
-			keyWordEntity.setUpdateUser(updateUser);
 			map.put("state", "0");
 			map.put("message", "启用成功");
-		} else if (auditStatus.equals("1")) {
-			keyWordEntity.setAuditStatus("1");
-			keyWordEntity.setUpdateDate(date);
-			keyWordEntity.setUpdateUser(updateUser);
+		}
+		if (auditStatus.equals("1")) {
 			map.put("state", "1");
 			map.put("message", "禁用成功");
 			result = false;
