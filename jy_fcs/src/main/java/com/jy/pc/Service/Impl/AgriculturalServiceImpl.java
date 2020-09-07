@@ -23,7 +23,7 @@ public class AgriculturalServiceImpl implements AgriculturalService {
 	private AgriculturalDao agriculturalDao;
 	@Autowired
 	private DbLogUtil logger;
-	
+
 	// 农服关联Echart图
 	@Override
 	public List<AgriculturalEntity> findAgrSum() {
@@ -47,19 +47,19 @@ public class AgriculturalServiceImpl implements AgriculturalService {
 
 	// 农服分页与模糊查询
 	@Override
-	public Page<AgriculturalEntity> findListByName(String name, String status, Pageable pageable) {
+	public Page<AgriculturalEntity> findListByName(String type, String name, String status, Pageable pageable) {
 		String argicuturalName = "%" + name + "%";
-		return agriculturalDao.findListByName(argicuturalName, status, pageable);
+		return agriculturalDao.findListByName(argicuturalName, status, PublicationEnum.getValueByType(type), pageable);
 	}
 
-	//农服审核
+	// 农服审核
 	@Override
 	@Transactional
 	public AgriculturalEntity audit(AgriculturalEntity agriculturalEntity, boolean result) {
 		logger.initAuditLog(agriculturalEntity, result);
 		return agriculturalDao.saveAndFlush(agriculturalEntity);
 	}
-	
+
 	// 农服修改
 	@Override
 	public AgriculturalEntity update(AgriculturalEntity agriculturalEntity) {
@@ -94,63 +94,41 @@ public class AgriculturalServiceImpl implements AgriculturalService {
 
 		return agriculturalDao.findAppointment();
 	}
-	
-	
+
 	public List<AgriculturalEntity> findListByType(String type) {
 
-		/*Map<String, Object> map = this.processing(type);
-		List<String> list1 = (List<String>) map.get("list1");//交易类型
-		List<String> list2 = (List<String>) map.get("list2");//交易类别
-		Map<String, List<String>> map2 = new HashMap<String, List<String>>();
-		map2.put("list1", list1);
-		map2.put("list2", list2);*/
+		/*
+		 * Map<String, Object> map = this.processing(type); List<String> list1 =
+		 * (List<String>) map.get("list1");//交易类型 List<String> list2 = (List<String>)
+		 * map.get("list2");//交易类别 Map<String, List<String>> map2 = new HashMap<String,
+		 * List<String>>(); map2.put("list1", list1); map2.put("list2", list2);
+		 */
 		return agriculturalDao.findListByType(PublicationEnum.getValueByType(type));
 	}
 
 	@Override
 	public Page<AgriculturalEntity> findListByType(String type, Pageable pageable) {
-		return agriculturalDao.findListByType(PublicationEnum.getValueByType(type),pageable);
+		return agriculturalDao.findListByType(PublicationEnum.getValueByType(type), pageable);
 	}
-	
-/*	// 业务处理
-	public Map<String, Object> processing(String type) {
-		Map<String, Object> map = new HashMap<String, Object>();
-//		农服类0，粮食买卖1，农机类2
-		List<String> list1 = new ArrayList<String>();
-		List<String> list2 = new ArrayList<String>();
 
-		switch (type) {
-		case "0":
-			list1.add("3");
-			list1.add("4");
-			list1.add("5");
-			list2.add("0");
-			list2.add("2");
-			list2.add("3");
-			list2.add("4");
-			break;
-		case "1":
-			list1.add("0");
-			list1.add("1");
-			list2.add("0");
-			list2.add("2");
-			list2.add("3");
-			list2.add("4");
-			break;
-		case "2":
-			list1.add("0");
-			list1.add("1");
-			list1.add("2");
-			list2.add("1");
-			break;
-
-		}
-
-		map.put("list1", list1);
-		map.put("list2", list2);
-
-		return map;
-	}*/
+	/*
+	 * // 业务处理 public Map<String, Object> processing(String type) { Map<String,
+	 * Object> map = new HashMap<String, Object>(); // 农服类0，粮食买卖1，农机类2 List<String>
+	 * list1 = new ArrayList<String>(); List<String> list2 = new
+	 * ArrayList<String>();
+	 * 
+	 * switch (type) { case "0": list1.add("3"); list1.add("4"); list1.add("5");
+	 * list2.add("0"); list2.add("2"); list2.add("3"); list2.add("4"); break; case
+	 * "1": list1.add("0"); list1.add("1"); list2.add("0"); list2.add("2");
+	 * list2.add("3"); list2.add("4"); break; case "2": list1.add("0");
+	 * list1.add("1"); list1.add("2"); list2.add("1"); break;
+	 * 
+	 * }
+	 * 
+	 * map.put("list1", list1); map.put("list2", list2);
+	 * 
+	 * return map; }
+	 */
 
 	@Override
 	public List<AgriculturalEntity> findListByTime(String type) {
@@ -159,15 +137,17 @@ public class AgriculturalServiceImpl implements AgriculturalService {
 
 	@Override
 	public Page<AgriculturalEntity> findAgriInfo(String name, String type, String transactionTypeCode,
-			String transactionCategoryCode,Pageable pageable) {
-		String argiName = "".equals(name)? "":"%" + name + "%";
-		return agriculturalDao.findAgriInfo(argiName,transactionTypeCode,transactionCategoryCode,PublicationEnum.getValueByType(type),pageable);
+			String transactionCategoryCode, Pageable pageable) {
+		String argiName = "".equals(name) ? "" : "%" + name + "%";
+		return agriculturalDao.findAgriInfo(argiName, transactionTypeCode, transactionCategoryCode,
+				PublicationEnum.getValueByType(type), pageable);
 	}
 
 	@Override
 	public Page<AgriculturalEntity> findAgriType(String transactionTypeCode, String transactionCategoryCode,
 			String type, Pageable pageable) {
-		return agriculturalDao.findAgriType(transactionTypeCode, transactionCategoryCode, PublicationEnum.getValueByType(type), pageable);
+		return agriculturalDao.findAgriType(transactionTypeCode, transactionCategoryCode,
+				PublicationEnum.getValueByType(type), pageable);
 	}
 
 	// 根据id查询农服信息详情
@@ -177,11 +157,11 @@ public class AgriculturalServiceImpl implements AgriculturalService {
 	}
 
 	@Override
-	public Page<AgriculturalEntity> findMyPublication( String status,String type,Pageable pageable) {
-		return agriculturalDao.findMyPublication(status, PublicationEnum.getValueByType(type),pageable);
+	public Page<AgriculturalEntity> findMyPublication(String status, String type, Pageable pageable) {
+		return agriculturalDao.findMyPublication(status, PublicationEnum.getValueByType(type), pageable);
 	}
-	
-	//计算天数
+
+	// 计算天数
 	@Override
 	public String findDay(@Param("id") String id) {
 		return agriculturalDao.findDay(id);
