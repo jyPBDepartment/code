@@ -42,7 +42,7 @@ public class PostInfoController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		List<ClassificationEntity> classList = classificationService
 				.findClassByCode(ClassificationEnum.POSTINFO_TYPE.getCode());
-		map.put("status", "0");// 成功
+		map.put("state", "0");// 成功
 		map.put("message", "查询成功");
 		map.put("data", classList);
 		return map;
@@ -63,7 +63,7 @@ public class PostInfoController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		Pageable pageable = new PageRequest(page - 1, size);
 		Page<PostInfoEntity> invitationList = postInfoService.findListWithSub(postType, pageable);
-		map.put("status", "0");// 成功
+		map.put("state", "0");// 成功
 		map.put("message", "查询成功");
 		map.put("data", invitationList);
 		return map;
@@ -107,25 +107,15 @@ public class PostInfoController {
 		Map<String, String> map = new HashMap<String, String>();
 		PostInfoEntity invitationEntity = postInfoService.findId(id);
 		invitationEntity.setStatus(status);
-<<<<<<< HEAD
 		Date date = new Date();
-=======
->>>>>>> 6cf23403c7b79c0d4109b5b487a69cc247f91d7c
+		invitationEntity.setUpdateDate(date);
 		boolean result = true;
 		invitationEntity.setStatus(status);
 		if (status.equals("0")) {
-<<<<<<< HEAD
-			invitationEntity.setUpdateDate(date);
 			map.put("status", "0");
 			map.put("message", "启用成功");
-		} else if (status.equals("1")) {
-			invitationEntity.setUpdateDate(date);
-=======
-			map.put("status", "0");
-			map.put("message", "启用成功");
-		}
+		} 
 		if (status.equals("1")) {
->>>>>>> 6cf23403c7b79c0d4109b5b487a69cc247f91d7c
 			map.put("status", "1");
 			map.put("message", "禁用成功");
 			result = false;
