@@ -175,7 +175,8 @@ public class KeyWordController {
 	// 启用/禁用
 	@RequestMapping(value = "/enable")
 	public Map<String, String> opensulf(HttpServletRequest res, HttpServletResponse req,
-			@RequestParam(name = "auditStatus") String auditStatus, @RequestParam(name = "id") String id) {
+			@RequestParam(name = "auditStatus") String auditStatus, @RequestParam(name = "id") String id,
+			@RequestParam(name = "updateUser") String updateUser) {
 
 		Map<String, String> map = new HashMap<String, String>();
 		KeyWordEntity keyWordEntity = keyWordService.findId(id);
@@ -186,11 +187,13 @@ public class KeyWordController {
 		if (auditStatus.equals("0")) {
 			keyWordEntity.setAuditStatus("0");
 			keyWordEntity.setUpdateDate(date);
+			keyWordEntity.setUpdateUser(updateUser);
 			map.put("state", "0");
 			map.put("message", "启用成功");
 		} else if (auditStatus.equals("1")) {
 			keyWordEntity.setAuditStatus("1");
 			keyWordEntity.setUpdateDate(date);
+			keyWordEntity.setUpdateUser(updateUser);
 			map.put("state", "1");
 			map.put("message", "禁用成功");
 			result = false;

@@ -108,16 +108,13 @@ public class PostInfoController {
 		PostInfoEntity invitationEntity = postInfoService.findId(id);
 		invitationEntity.setStatus(status);
 		invitationEntity.getStatus();
-		Date date = new Date();
 		boolean result = true;
 		if (status.equals("0")) {
 			invitationEntity.setStatus("0");
-			invitationEntity.setUpdateDate(date);
 			map.put("status", "0");
 			map.put("message", "启用成功");
 		} else if (status.equals("1")) {
 			invitationEntity.setStatus("1");
-			invitationEntity.setUpdateDate(date);
 			map.put("status", "1");
 			map.put("message", "禁用成功");
 			result = false;
@@ -133,8 +130,10 @@ public class PostInfoController {
 		Map<String, String> map = new HashMap<String, String>();
 		String s = res.getParameter("postInfoEntity");
 		JSONObject jsonObject = JSONObject.parseObject(s);
+		Date date = new Date();
 		PostInfoEntity postInfoEntity = jsonObject.toJavaObject(PostInfoEntity.class);
 		postInfoEntity.setAuditStatus("1");
+		postInfoEntity.setUpdateDate(date);
 		postInfoService.audit(postInfoEntity, true);
 		map.put("state", "0");
 		map.put("message", "审核通过");
@@ -145,11 +144,13 @@ public class PostInfoController {
 	@RequestMapping(value = "/refusePostInfo")
 	public Map<String, String> refusePostInfo(HttpServletRequest res, HttpServletResponse req) {
 
+		Date date = new Date();
 		Map<String, String> map = new HashMap<String, String>();
 		String s = res.getParameter("postInfoEntity");
 		JSONObject jsonObject = JSONObject.parseObject(s);
 		PostInfoEntity postInfoEntity = jsonObject.toJavaObject(PostInfoEntity.class);
 		postInfoEntity.setAuditStatus("2");
+		postInfoEntity.setUpdateDate(date);
 		postInfoService.audit(postInfoEntity, false);
 		map.put("state", "0");
 		map.put("message", "审核驳回");

@@ -149,7 +149,8 @@ public class AccountInfoController {
 	// 启用/禁用
 	@RequestMapping(value = "/enable")
 	public Map<String, String> opensulf(HttpServletRequest res, HttpServletResponse req,
-			@RequestParam(name = "auditStatus") String auditStatus, @RequestParam(name = "id") String id) {
+			@RequestParam(name = "auditStatus") String auditStatus, @RequestParam(name = "id") String id,
+			@RequestParam(name = "updateUser") String updateUser) {
 
 		Map<String, String> map = new HashMap<String, String>();
 		AccountInfoEntity accountInfoEntity = accountInfoService.findId(id);
@@ -160,11 +161,13 @@ public class AccountInfoController {
 		if (auditStatus.equals("0")) {
 			accountInfoEntity.setAuditStatus("0");
 			accountInfoEntity.setUpdateDate(date);
+			accountInfoEntity.setUpdateUser(updateUser);
 			map.put("status", "0");
 			map.put("message", "启用成功");
 		} else if (auditStatus.equals("1")) {
 			accountInfoEntity.setAuditStatus("1");
 			accountInfoEntity.setUpdateDate(date);
+			accountInfoEntity.setUpdateUser(updateUser);
 			map.put("status", "1");
 			map.put("message", "禁用成功");
 			result = false;

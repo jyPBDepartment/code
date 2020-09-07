@@ -104,7 +104,8 @@ public class DeployModuleController {
 	// 启用/禁用
 	@RequestMapping(value = "/enable")
 	public Map<String, String> opensulf(HttpServletRequest res, HttpServletResponse req,
-			@RequestParam(name = "status") String status, @RequestParam(name = "id") String id) {
+			@RequestParam(name = "status") String status, @RequestParam(name = "id") String id,
+			@RequestParam(name = "updateUser") String updateUser) {
 
 		Map<String, String> map = new HashMap<String, String>();
 		DeployModuleEntity deployModuleEntity = deployModuleService.findBId(id);
@@ -115,11 +116,13 @@ public class DeployModuleController {
 		if (status.equals("0")) {
 			deployModuleEntity.setStatus("0");
 			deployModuleEntity.setUpdateDate(date);
+			deployModuleEntity.setUpdateUser(updateUser);
 			map.put("status", "0");
 			map.put("message", "启用成功");
 		} else if (status.equals("1")) {
 			deployModuleEntity.setStatus("1");
 			deployModuleEntity.setUpdateDate(date);
+			deployModuleEntity.setUpdateUser(updateUser);
 			map.put("status", "1");
 			map.put("message", "禁用成功");
 			result = false;
