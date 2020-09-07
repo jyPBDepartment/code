@@ -138,6 +138,15 @@ public class DbLogUtil {
 		case "sas_role": 
 			result = "角色管理";
 			break;
+		case "sas_dict_type": 
+			result = "字典管理(类型)管理";
+			break;
+		case "sas_dict_data": 
+			result = "字典管理(键值)管理";
+			break;
+		case "sas_deploy_module_info":
+			result = "发布信息模块管理";
+			break;
 		default:
 			result = tableName;
 			break;

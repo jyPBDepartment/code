@@ -88,15 +88,7 @@ public class AgriculturalEntity {
 	private String isFace; //是否面议(0是1否)
 	@Column(length=1)
 	private String farmingMode;  //农活类型(0整活1零活)
-	@Transient
-	private String[] picArr;
-	
-	public String[] getPicArr() {
-		return picArr;
-	}
-	public void setPicArr(String[] picArr) {
-		this.picArr = picArr;
-	}
+
 	public Date getBeginDate() {
 		return beginDate;
 	}
