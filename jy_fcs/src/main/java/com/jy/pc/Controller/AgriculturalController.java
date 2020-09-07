@@ -159,18 +159,23 @@ public class AgriculturalController {
 	}
 
 	// 农服模糊查询与分页
-	@RequestMapping(value = "/findByName")
-	public Map<String, Object> findByName(HttpServletRequest res, HttpServletResponse req,
-			@RequestParam(name = "name") String name, @RequestParam(name = "status") String status,
-			@RequestParam(name = "page") Integer page, @RequestParam(name = "size") Integer size) {
-		Map<String, Object> map = new HashMap<String, Object>();
-		Pageable pageable = new PageRequest(page - 1, size);
-		Page<AgriculturalEntity> AgriculturalList = agriculturalService.findListByName(name, status, pageable);
-		map.put("state", "0");// 成功
-		map.put("message", "查询成功");
-		map.put("data", AgriculturalList);
-		return map;
-	}
+		// @param type 包括：农服类0，粮食买卖1，农机类2
+		@RequestMapping(value = "/findByName")
+		public Map<String, Object> findByName(HttpServletRequest res, HttpServletResponse req,
+				@RequestParam(name = "type", defaultValue = "0") String type, @RequestParam(name = "name") String name,
+				@RequestParam(name = "status") String status, @RequestParam(name = "page") Integer page,
+				@RequestParam(name = "size") Integer size) {
+			Map<String, Object> map = new HashMap<String, Object>();
+			Pageable pageable = new PageRequest(page - 1, size);
+
+			Page<AgriculturalEntity> AgriculturalList = agriculturalService.findListByName(type, name, status, pageable);
+
+			map.put("state", "0");// 成功
+			map.put("message", "查询成功");
+			map.put("data", AgriculturalList);
+			return map;
+		}
+
 
 	// 农服模糊查询标题名称
 	@RequestMapping(value = "/findListByAgrName")

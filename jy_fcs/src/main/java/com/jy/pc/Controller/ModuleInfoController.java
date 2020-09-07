@@ -105,22 +105,21 @@ public class ModuleInfoController {
 	// 启用/禁用
 	@RequestMapping(value = "/enable")
 	public Map<String, String> opensulf(HttpServletRequest res, HttpServletResponse req,
-			@RequestParam(name = "status") String status, @RequestParam(name = "id") String id) {
+			@RequestParam(name = "status") String status, @RequestParam(name = "id") String id,
+			@RequestParam(name = "updateUser") String updateUser) {
 
+		Date date = new Date();
 		Map<String, String> map = new HashMap<String, String>();
 		ModuleInfoEntity moduleInfoEntity = moduleInfoService.findId(id);
 		moduleInfoEntity.setStatus(status);
-		moduleInfoEntity.getStatus();
-		Date date = new Date();
+		moduleInfoEntity.setUpdateDate(date);
+		moduleInfoEntity.setUpdateUser(updateUser);
 		boolean result = true;
 		if (status.equals("0")) {
-			moduleInfoEntity.setStatus("0");
-			moduleInfoEntity.setUpdateDate(date);
 			map.put("state", "0");
 			map.put("message", "启用成功");
-		} else if (status.equals("1")) {
-			moduleInfoEntity.setStatus("1");
-			moduleInfoEntity.setUpdateDate(date);
+		}
+		if (status.equals("1")) {
 			map.put("state", "1");
 			map.put("message", "禁用成功");
 			result = false;

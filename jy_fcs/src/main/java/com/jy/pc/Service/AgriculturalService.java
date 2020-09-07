@@ -22,7 +22,7 @@ public interface AgriculturalService {
 	public AgriculturalEntity findId(String id);
 
 	// 农服分页与模糊查询
-	public Page<AgriculturalEntity> findListByName(String name, String status, Pageable pageable);
+	public Page<AgriculturalEntity> findListByName(String type, String name, String status, Pageable pageable);
 
 	// 农服状态修改
 	public AgriculturalEntity update(AgriculturalEntity agriculturalEntity);
@@ -52,16 +52,16 @@ public interface AgriculturalService {
 
 	// 搜索发布信息中农服信息(标题名称)
 	Page<AgriculturalEntity> findAgriInfo(String name, String type, String transactionTypeCode,
-			String transactionCategoryCode,Pageable pageable);
+			String transactionCategoryCode, Pageable pageable);
 
 	// 搜索发布信息中农服信息（类型、类别）
 	Page<AgriculturalEntity> findAgriType(String transactionTypeCode, String transactionCategoryCode, String type,
 			Pageable pageable);
 
 	// 搜索我的发布信息（接口,标题名称）
-	Page<AgriculturalEntity> findMyPublication( String status,String type,Pageable pageable);
-	
-	//计算天数
+	Page<AgriculturalEntity> findMyPublication(String status, String type, Pageable pageable);
+
+	// 计算天数
 	public String findDay(@Param("id") String id);
 
 }
