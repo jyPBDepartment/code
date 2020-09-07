@@ -165,7 +165,8 @@ public class PostInfoController {
 		Map<String, String> map = new HashMap<String, String>();
 		Date date = new Date();
 		postInfo.setCreateDate(date);
-		postInfo.setStatus("0");
+		postInfo.setStatus("1");//默认禁用
+		postInfo.setAuditStatus("0");//默认审核状态 未审核
 		postInfoService.save(postInfo);
 		map.put("state", "0");
 		map.put("message", "添加成功");
