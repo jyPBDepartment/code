@@ -243,6 +243,8 @@ public class AgriculturalController {
 		String s = res.getParameter("agriculturalEntity");
 		JSONObject jsonObject = JSONObject.parseObject(s);
 		AgriculturalEntity agriculturalEntity = jsonObject.toJavaObject(AgriculturalEntity.class);
+		Date date = new Date();
+		agriculturalEntity.setUpdateDate(date);// 设置修改时间
 		agriculturalEntity.setStatus("1");
 		agriculturalService.audit(agriculturalEntity, true);
 		map.put("state", "0");
@@ -258,6 +260,8 @@ public class AgriculturalController {
 		String s = res.getParameter("agriculturalEntity");
 		JSONObject jsonObject = JSONObject.parseObject(s);
 		AgriculturalEntity agriculturalEntity = jsonObject.toJavaObject(AgriculturalEntity.class);
+		Date date = new Date();
+		agriculturalEntity.setUpdateDate(date);// 设置修改时间
 		agriculturalEntity.setStatus("2");
 		agriculturalService.audit(agriculturalEntity, false);
 		map.put("state", "0");
