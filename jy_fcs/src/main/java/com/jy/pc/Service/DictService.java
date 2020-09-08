@@ -23,7 +23,7 @@ public interface DictService {
 	
 	public Page<DictTypeEntity> findPageByName(String name, String status, Pageable pageable); 
 	
-	public List<DictDataEntity> findListByType(String type);
+	public List<DictDataEntity> findListByType(String type,String status);
 	
 	public void deleteType(String id);
 	

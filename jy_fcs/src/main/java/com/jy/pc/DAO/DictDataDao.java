@@ -15,12 +15,12 @@ public interface DictDataDao extends JpaRepository<DictDataEntity, String> {
 	public DictDataEntity GetById(@Param("id") String id);
 
 	// fingByTypeId方法 根据字典类型查询所有键值
-	@Query(value = "select * from sas_dict_data  where dict_type =:type order by dict_sort ASC", nativeQuery = true)
-	public List<DictDataEntity> fingByTypeId(@Param("type") String type);
+	@Query(value = "select * from sas_dict_data  where dict_type = ?1 and if(?2 !='',status = ?2,1=1) order by dict_sort ASC", nativeQuery = true)
+	public List<DictDataEntity> fingByTypeId(String type,String status);
 	
 	//根据type清空所有键值
-	@Query(value = "delete from sas_dict_data  where dict_type =:type", nativeQuery = true)
 	@Modifying
+	@Query(value = "delete from sas_dict_data  where dict_type =:type", nativeQuery = true)
 	public void removeData(@Param("type") String type);
 	
 }

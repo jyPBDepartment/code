@@ -1,5 +1,6 @@
 package com.jy.pc.Controller;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSONObject;
 import com.jy.pc.Entity.DictDataEntity;
 import com.jy.pc.Entity.DictTypeEntity;
+import com.jy.pc.POJO.DictPO;
 import com.jy.pc.Service.DictService;
 
 @Controller
@@ -111,9 +113,16 @@ public class DictController {
 	public Map<String, Object> deleteDictType(HttpServletRequest res, HttpServletResponse req,
 			@RequestParam(name = "id") String id) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		dictService.deleteType(id);
-		map.put("state", "0");
-		map.put("message", "删除成功");
+		DictTypeEntity dictTypeEntity = dictService.findTypeById(id);
+		List<DictDataEntity> list = dictService.findListByType(dictTypeEntity.getDictType(),"");
+		if (list.isEmpty()) {
+			dictService.deleteType(id);
+			map.put("state", "0");
+			map.put("message", "删除成功");
+		} else {
+			map.put("state", "1");
+			map.put("message", "请先清空该字典所包含的键值");
+		}
 		return map;
 	}
 
@@ -128,12 +137,27 @@ public class DictController {
 		return map;
 	}
 
+	// 根据字典类型获取对应所有生效键值getDictValue
+	@RequestMapping(value = "/getDictValue")
+	public Map<String, Object> getDictValue(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "type") String type) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		List<DictDataEntity> dataList = dictService.findListByType(type,"0");
+		List<DictPO> result =  new ArrayList<DictPO>();
+		for(DictDataEntity data : dataList) {
+			DictPO dictPo = new DictPO(data.getDictValue(),data.getDictLabel());
+			result.add(dictPo);
+		}
+		map.put("data", result);
+		return map;
+	}
+
 	// 根据字典类型获取对应所有键值
 	@RequestMapping(value = "/findDataByType")
 	public Map<String, Object> findDataByType(HttpServletRequest res, HttpServletResponse req,
 			@RequestParam(name = "type") String type) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		List<DictDataEntity> dataList = dictService.findListByType(type);
+		List<DictDataEntity> dataList = dictService.findListByType(type,"");
 		map.put("state", "0");
 		map.put("message", "添加成功");
 		map.put("data", dataList);

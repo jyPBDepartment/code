@@ -28,7 +28,7 @@ public class DictDataEntity {
 	@Column
 	private String dictType;
 	@Column
-	private int dictValue;
+	private String dictValue;
 	@Column
 	private int dictSort;
 	@Column
@@ -76,11 +76,11 @@ public class DictDataEntity {
 		this.dictType = dictType;
 	}
 
-	public int getDictValue() {
+	public String getDictValue() {
 		return dictValue;
 	}
 
-	public void setDictValue(int dictValue) {
+	public void setDictValue(String dictValue) {
 		this.dictValue = dictValue;
 	}
 
