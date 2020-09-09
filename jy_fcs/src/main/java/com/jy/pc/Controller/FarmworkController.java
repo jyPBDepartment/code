@@ -147,11 +147,13 @@ public class FarmworkController {
 	// 农活预约添加（接口）
 	@RequestMapping(value = "/save")
 	public Map<String, String> addPostInfo(HttpServletRequest res, HttpSession session, HttpServletResponse req,
-			FarmworkEntity farmworkEntity,@RequestParam(name = "addItem") String[] addItem) {
+			FarmworkEntity farmworkEntity,@RequestParam(name = "addItem") String[] addItem,
+			@RequestParam(name = "id") String id) {
 		Map<String, String> map = new HashMap<String, String>();
 //		Date date = new Date();
 //		farmworkEntity.setBeginDate(date);
 		farmworkEntity.setStatus("0");
+		farmworkEntity.setAgriculturalId(id);
 		farmworkService.save(farmworkEntity);
 		for(int i=0;i<addItem.length;i++) {
 			PictureInfoEntity pictureInfoEntity = new PictureInfoEntity();
