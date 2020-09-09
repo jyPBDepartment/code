@@ -33,7 +33,7 @@ public class PostInfoEntity {
 	@Column(length = 36)
 	private String parentCode;// 分类Id（分类表编码）
 	@Column(length = 1)
-	private String auditStatus;// 审核状态（0未审核1审核中2审核通过3审核驳回）
+	private String auditStatus;// 审核状态（0未审核1审核通过2审核驳回）
 	@Column(length = 36)
 	private String auditOptinion;// 审核意见
 	@Column

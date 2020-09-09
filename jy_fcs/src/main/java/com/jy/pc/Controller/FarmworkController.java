@@ -46,7 +46,7 @@ public class FarmworkController {
 
 	@RequestMapping(value = "/findMyFarm")
 	public Map<String, Object> findMyFarm(HttpServletRequest res, HttpServletResponse req,
-			@RequestParam(name = "userId") String userId, @RequestParam(name = "user") String user,
+			@RequestParam(name = "userId") String userId, @RequestParam(name = "user",defaultValue="") String user,
 			@RequestParam(name = "page") Integer page, @RequestParam(name = "size") Integer size) {
 
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -61,7 +61,7 @@ public class FarmworkController {
 	// 预约我的农服列表
 	@RequestMapping(value = "/findFarmForMe")
 	public Map<String, Object> findFarmForMe(HttpServletRequest res, HttpServletResponse req,
-			@RequestParam(name = "userId") String userId, @RequestParam(name = "user") String user,
+			@RequestParam(name = "userId") String userId, @RequestParam(name = "user",defaultValue="") String user,
 			@RequestParam(name = "page") Integer page, @RequestParam(name = "size") Integer size) {
 
 		Map<String, Object> map = new HashMap<String, Object>();

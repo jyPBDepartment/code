@@ -26,8 +26,8 @@ public interface FarmworkDao extends JpaRepository<FarmworkEntity, String> {
 			nativeQuery = true)
 	public Page<FarmworkEntity> findMyFarm(String userId, String user, Pageable pageable);
 	
-	@Query(value = "SELECT * FROM sas_farmwork_appointment_info t where  t.agricultural_id in (select id from sas_publication_info and create_user_id = ?1 order by create_date desc )", 
-			countQuery="SELECT * FROM sas_farmwork_appointment_info t where  t.agricultural_id in (select id from sas_publication_info and create_user_id = ?1 order by create_date desc )",
+	@Query(value = "SELECT * FROM sas_farmwork_appointment_info t where  t.agricultural_id in (select id from sas_publication_info where create_user_id = ?1 order by create_date desc )", 
+			countQuery="SELECT * FROM sas_farmwork_appointment_info t where  t.agricultural_id in (select id from sas_publication_info where create_user_id = ?1 order by create_date desc )",
 			nativeQuery = true)
 	public Page<FarmworkEntity> findFarmForMe(String userId, String user, Pageable pageable);
 
