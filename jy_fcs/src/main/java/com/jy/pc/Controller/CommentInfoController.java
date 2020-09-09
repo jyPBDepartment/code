@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
 import com.jy.pc.Entity.PostCommentInfoEntity;
+import com.jy.pc.Entity.PostInfoEntity;
 import com.jy.pc.POJO.PostCommentInfoPO;
 import com.jy.pc.Service.PostCommentInfoService;
 
@@ -46,10 +47,13 @@ public class CommentInfoController {
 	 */
 	@RequestMapping(value = "/addCommentInfo")
 	public Map<String, Object> addComment(HttpServletRequest res, HttpServletResponse req,
-			 PostCommentInfoEntity postCommentInfoEntity) {
+			 PostCommentInfoEntity postCommentInfoEntity,String postId) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		postCommentInfoEntity.setCommentDate(new Date());
 		postCommentInfoEntity.setStatus("0");
+		PostInfoEntity postInfoEntity = new PostInfoEntity();
+		postInfoEntity.setId(postId);
+		postCommentInfoEntity.setPostInfoEntity(postInfoEntity);
 		postCommentInfoService.save(postCommentInfoEntity);
 		map.put("state", "0");
 		map.put("message", "保存成功");

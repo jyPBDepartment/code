@@ -76,15 +76,13 @@ public class PostCommentInfoServiceImpl implements PostCommentInfoService {
 	@Override
 	public Page<PostCommentInfoPO> findByPostId(String postId, Pageable pageable) {
 		Page<PostCommentInfoPO> page = postCommentInfoDao.findPageByPostPO(postId,pageable);
-		List<CommentReplyInfoPO> replyList = null;
-		List<CommentReplyInfoPO> simpleList = null;
 		for(PostCommentInfoPO info : page.getContent()) {
-			replyList = commentReplyInfoDao.findByCommentPO(info.getId());
+			List<CommentReplyInfoPO> replyList = commentReplyInfoDao.findByCommentPO(info.getId());
 			info.setReplySize(replyList.size());
 			if(!replyList.isEmpty()) {
-				simpleList = replyList.subList(0, 1);
+				List<CommentReplyInfoPO> simpleList = replyList.subList(0, 1);
+				info.setReplyList(simpleList);
 			}
-			info.setReplyList(simpleList);
 		}
 		return page;
 	}

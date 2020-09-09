@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
 import com.jy.pc.Entity.CommentReplyInfoEntity;
+import com.jy.pc.Entity.PostCommentInfoEntity;
 import com.jy.pc.POJO.CommentReplyInfoPO;
 import com.jy.pc.Service.CommentReplyInfoService;
 
@@ -58,8 +59,11 @@ public class ReplyInfoController {
 	 */
 	@RequestMapping(value = "/addReplyInfo")
 	public Map<String, Object> addReplyInfo(HttpServletRequest res, HttpServletResponse req,
-			CommentReplyInfoEntity commentReplyInfoEntity) {
+			CommentReplyInfoEntity commentReplyInfoEntity,String commentId) {
 		Map<String, Object> map = new HashMap<String, Object>();
+		PostCommentInfoEntity postCommentInfoEntity = new PostCommentInfoEntity();
+		postCommentInfoEntity.setId(commentId);
+		commentReplyInfoEntity.setPostCommentInfoEntity(postCommentInfoEntity);
 		commentReplyInfoEntity.setReplyDate(new Date());
 		commentReplyInfoEntity.setStatus("0");
 		commentReplyInfoService.save(commentReplyInfoEntity);
