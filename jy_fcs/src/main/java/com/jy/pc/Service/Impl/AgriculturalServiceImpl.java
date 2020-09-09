@@ -167,4 +167,10 @@ public class AgriculturalServiceImpl implements AgriculturalService {
 		return agriculturalDao.findDay(id);
 	}
 
+	// 根据id查询我的农服，农机，粮食买卖信息详情（h5）
+	@Override
+	public AgriculturalEntity findMineId(String id) {
+		return agriculturalDao.findMineId(id);
+	}
+
 }

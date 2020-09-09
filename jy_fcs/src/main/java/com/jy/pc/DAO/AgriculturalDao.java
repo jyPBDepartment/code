@@ -25,6 +25,10 @@ public interface AgriculturalDao extends JpaRepository<AgriculturalEntity, Strin
 	@Query(value = "select * from sas_publication_info t where t.id =:id and t.status = '1' ", nativeQuery = true)
 	public AgriculturalEntity findId(@Param("id") String id);
 
+	// 根据id查询我的农服，农机，粮食买卖信息详情（h5）
+	@Query(value = "select * from sas_publication_info t where t.id =:id", nativeQuery = true)
+	public AgriculturalEntity findMineId(@Param("id") String id);
+
 	// 分页与模糊查询
 	@Query(value = "select * from sas_publication_info  t  where t.transaction_type_code in :#{#map['type']} and t.transaction_category_code in :#{#map['category']} and if(?1 !='',t.name like ?1,1=1) and if(?2 !='',t.status like ?2,1=1) order by t.create_date desc", countQuery = "select count(*) from sas_publication_info t where t.transaction_type_code in :#{#map['type']} and t.transaction_category_code in :#{#map['category']} and if(?1 !='',t.name like ?1,1=1) and if(?2 !='',t.status like ?2,1=1) order by t.create_date desc", nativeQuery = true)
 	public Page<AgriculturalEntity> findListByName(String name, String status, Map<String, List<String>> map,

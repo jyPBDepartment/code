@@ -50,32 +50,33 @@ public class AgriculturalController {
 		}
 		return map;
 	}
+
 	// 农服添加(接口)
-			@RequestMapping(value = "/save")
-			public Map<String, Object> save(HttpServletRequest res, HttpServletResponse req,
-					AgriculturalEntity agriculturalEntity,@RequestParam(name = "addItem") String[] addItem){
-				Date date = new Date();
-				agriculturalEntity.setCreateDate(date);// 设置创建时间
-				agriculturalEntity.setStatus("0");// 初始化值为待审核0
-				Map<String, Object> map = new HashMap<String, Object>();
-				agriculturalService.save(agriculturalEntity);
-				agriculturalEntity.setDays(agriculturalService.findDay(agriculturalEntity.getId()));
-				agriculturalService.update(agriculturalEntity);
-				for(int i=0;i<addItem.length;i++) {
-					PictureInfoEntity pictureInfoEntity = new PictureInfoEntity();
-					AgriculturalPictureEntity agriculturalPictureEntity = new AgriculturalPictureEntity();
-					pictureInfoEntity.setPicName(agriculturalEntity.getName());
-					pictureInfoEntity.setPicUrl(addItem[i]);
-					pictureInfoService.save(pictureInfoEntity);
-					agriculturalPictureEntity.setAgrId(agriculturalEntity.getId());
-					agriculturalPictureEntity.setPicId(pictureInfoEntity.getId());
-					agriculturalPictureService.save(agriculturalPictureEntity);
-				}
-				map.put("state", "0");
-				map.put("data", agriculturalEntity);
-				map.put("message", "添加成功");
-				return map;
-			}
+	@RequestMapping(value = "/save")
+	public Map<String, Object> save(HttpServletRequest res, HttpServletResponse req,
+			AgriculturalEntity agriculturalEntity, @RequestParam(name = "addItem") String[] addItem) {
+		Date date = new Date();
+		agriculturalEntity.setCreateDate(date);// 设置创建时间
+		agriculturalEntity.setStatus("0");// 初始化值为待审核0
+		Map<String, Object> map = new HashMap<String, Object>();
+		agriculturalService.save(agriculturalEntity);
+		agriculturalEntity.setDays(agriculturalService.findDay(agriculturalEntity.getId()));
+		agriculturalService.update(agriculturalEntity);
+		for (int i = 0; i < addItem.length; i++) {
+			PictureInfoEntity pictureInfoEntity = new PictureInfoEntity();
+			AgriculturalPictureEntity agriculturalPictureEntity = new AgriculturalPictureEntity();
+			pictureInfoEntity.setPicName(agriculturalEntity.getName());
+			pictureInfoEntity.setPicUrl(addItem[i]);
+			pictureInfoService.save(pictureInfoEntity);
+			agriculturalPictureEntity.setAgrId(agriculturalEntity.getId());
+			agriculturalPictureEntity.setPicId(pictureInfoEntity.getId());
+			agriculturalPictureService.save(agriculturalPictureEntity);
+		}
+		map.put("state", "0");
+		map.put("data", agriculturalEntity);
+		map.put("message", "添加成功");
+		return map;
+	}
 
 	/**
 	 * 根据类型查询发布信息（接口）
@@ -102,20 +103,21 @@ public class AgriculturalController {
 	 */
 	@RequestMapping(value = "/findAgriInfo")
 	public Map<String, Object> findAgriInfo(HttpServletRequest res, HttpServletResponse req,
-			@RequestParam(name = "transactionTypeCode",defaultValue="") String transactionTypeCode,
-			@RequestParam(name = "transactionCategoryCode",defaultValue="") String transactionCategoryCode,
-			@RequestParam(name = "name",defaultValue="") String name, @RequestParam(name = "type", defaultValue = "0") String type,
-			@RequestParam(name = "page") Integer page, @RequestParam(name = "size") Integer size) {
+			@RequestParam(name = "transactionTypeCode", defaultValue = "") String transactionTypeCode,
+			@RequestParam(name = "transactionCategoryCode", defaultValue = "") String transactionCategoryCode,
+			@RequestParam(name = "name", defaultValue = "") String name,
+			@RequestParam(name = "type", defaultValue = "0") String type, @RequestParam(name = "page") Integer page,
+			@RequestParam(name = "size") Integer size) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		Pageable pageable = new PageRequest(page - 1, size);
 		Page<AgriculturalEntity> agriculturalList = agriculturalService.findAgriInfo(name, type, transactionTypeCode,
-				transactionCategoryCode,pageable);
+				transactionCategoryCode, pageable);
 		map.put("state", "0");// 成功
 		map.put("message", "查询成功");
 		map.put("data", agriculturalList);
 		return map;
 	}
-	
+
 	/**
 	 * 搜索我的发布信息（接口,标题名称）
 	 * 
@@ -123,10 +125,8 @@ public class AgriculturalController {
 	 */
 	@RequestMapping(value = "/findMyPublication")
 	public Map<String, Object> findMyPublication(HttpServletRequest res, HttpServletResponse req,
-			@RequestParam(name = "status")String status,
-			@RequestParam(name = "type", defaultValue = "0") String type,			
-			@RequestParam(name = "page") Integer page,
-			@RequestParam(name = "size") Integer size) {
+			@RequestParam(name = "status") String status, @RequestParam(name = "type", defaultValue = "0") String type,
+			@RequestParam(name = "page") Integer page, @RequestParam(name = "size") Integer size) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		Pageable pageable = new PageRequest(page - 1, size);
 		Page<AgriculturalEntity> agriculturalList = agriculturalService.findMyPublication(status, type, pageable);
@@ -143,9 +143,9 @@ public class AgriculturalController {
 	 */
 	@RequestMapping(value = "/findAgriType")
 	public Map<String, Object> findAgriType(HttpServletRequest res, HttpServletResponse req,
-			@RequestParam(name = "name",defaultValue="") String name,
-			@RequestParam(name = "transactionTypeCode",defaultValue="") String transactionTypeCode,
-			@RequestParam(name = "transactionCategoryCode",defaultValue="") String transactionCategoryCode,
+			@RequestParam(name = "name", defaultValue = "") String name,
+			@RequestParam(name = "transactionTypeCode", defaultValue = "") String transactionTypeCode,
+			@RequestParam(name = "transactionCategoryCode", defaultValue = "") String transactionCategoryCode,
 			@RequestParam(name = "type", defaultValue = "0") String type, @RequestParam(name = "page") Integer page,
 			@RequestParam(name = "size") Integer size) {
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -159,23 +159,22 @@ public class AgriculturalController {
 	}
 
 	// 农服模糊查询与分页
-		// @param type 包括：农服类0，粮食买卖1，农机类2
-		@RequestMapping(value = "/findByName")
-		public Map<String, Object> findByName(HttpServletRequest res, HttpServletResponse req,
-				@RequestParam(name = "type", defaultValue = "0") String type, @RequestParam(name = "name") String name,
-				@RequestParam(name = "status") String status, @RequestParam(name = "page") Integer page,
-				@RequestParam(name = "size") Integer size) {
-			Map<String, Object> map = new HashMap<String, Object>();
-			Pageable pageable = new PageRequest(page - 1, size);
+	// @param type 包括：农服类0，粮食买卖1，农机类2
+	@RequestMapping(value = "/findByName")
+	public Map<String, Object> findByName(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "type", defaultValue = "0") String type, @RequestParam(name = "name") String name,
+			@RequestParam(name = "status") String status, @RequestParam(name = "page") Integer page,
+			@RequestParam(name = "size") Integer size) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		Pageable pageable = new PageRequest(page - 1, size);
 
-			Page<AgriculturalEntity> AgriculturalList = agriculturalService.findListByName(type, name, status, pageable);
+		Page<AgriculturalEntity> AgriculturalList = agriculturalService.findListByName(type, name, status, pageable);
 
-			map.put("state", "0");// 成功
-			map.put("message", "查询成功");
-			map.put("data", AgriculturalList);
-			return map;
-		}
-
+		map.put("state", "0");// 成功
+		map.put("message", "查询成功");
+		map.put("data", AgriculturalList);
+		return map;
+	}
 
 	// 农服模糊查询标题名称
 	@RequestMapping(value = "/findListByAgrName")
@@ -203,37 +202,51 @@ public class AgriculturalController {
 	}
 
 	// 农服查看详情
-		@RequestMapping(value = "findById")
-		public Map<String, Object> findById(HttpServletRequest res, HttpServletResponse req,
-				@RequestParam(name = "id") String id) {
-			Map<String, Object> map = new HashMap<String, Object>();
-			AgriculturalEntity agricultural = agriculturalService.findBId(id);
-			String[] agrPic = agricultural.getUrl().split(","); 
+	@RequestMapping(value = "findById")
+	public Map<String, Object> findById(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "id") String id) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		AgriculturalEntity agricultural = agriculturalService.findBId(id);
+		String[] agrPic = agricultural.getUrl().split(",");
+		map.put("state", "0");// 查询数据成功
+		map.put("data", agricultural);
+		map.put("data1", agrPic);
+		return map;
+	}
+
+	// 根据id查询农服信息详情
+	@RequestMapping(value = "findId")
+	public Map<String, Object> findId(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "id") String id) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		AgriculturalEntity agricultural = agriculturalService.findId(id);
+		List<PictureInfoEntity> agrPic = pictureInfoService.findByAgrId(id);
+		if (agricultural != null) {
 			map.put("state", "0");// 查询数据成功
 			map.put("data", agricultural);
-			map.put("data1", agrPic);
-			return map;
+			map.put("dataPic", agrPic);
+		} else {
+			map.put("state", "1");// 查询数据失败
 		}
+		return map;
+	}
 
-		// 根据id查询农服信息详情
-		@RequestMapping(value = "findId")
-		public Map<String, Object> findId(HttpServletRequest res, HttpServletResponse req,
-				@RequestParam(name = "id") String id) {
-			Map<String, Object> map = new HashMap<String, Object>();
-			AgriculturalEntity agricultural = agriculturalService.findId(id);
-			List<PictureInfoEntity> agrPic = pictureInfoService.findByAgrId(id);
-			if (agricultural != null) {
-				map.put("state", "0");// 查询数据成功
-				map.put("data", agricultural);
-				map.put("dataPic", agrPic);
-			} else {
-				map.put("state", "1");// 查询数据失败
-			}
-			return map;
+	// 根据id查询我的农服，农机，粮食买卖信息详情（h5）
+	@RequestMapping(value = "findMineId")
+	public Map<String, Object> findMineId(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "id") String id) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		AgriculturalEntity agricultural = agriculturalService.findMineId(id);
+		List<PictureInfoEntity> agrPic = pictureInfoService.findByAgrId(id);
+		if (agricultural != null) {
+			map.put("state", "0");// 查询数据成功
+			map.put("data", agricultural);
+			map.put("dataPic", agrPic);
+		} else {
+			map.put("state", "1");// 查询数据失败
 		}
-
-
-
+		return map;
+	}
 
 	// 审核通过
 	@RequestMapping(value = "/passPostInfo")
@@ -293,7 +306,7 @@ public class AgriculturalController {
 	 */
 	@RequestMapping(value = "/findNewInfo")
 	public Map<String, Object> findNewInfo(HttpServletRequest res, HttpServletResponse req,
-			@RequestParam(name = "type",defaultValue = "0") String type) {
+			@RequestParam(name = "type", defaultValue = "0") String type) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		List<AgriculturalEntity> agri = agriculturalService.findListByTime(type);
 		map.put("state", "0");// 成功

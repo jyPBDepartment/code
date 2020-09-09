@@ -57,7 +57,7 @@ public class AgriculturalEntity {
 	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private Date purchaseDate;//购买时间
 	@Column(length=1)
-	private String status;//状态
+	private String status;//状态(0:待审核,1:审核通过,2:审核拒绝)
 	@Column
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     @Temporal(TemporalType.TIMESTAMP)
