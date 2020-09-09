@@ -20,7 +20,10 @@ public interface AgriculturalService {
 
 	// 根据id查询农服信息详情
 	public AgriculturalEntity findId(String id);
-
+	
+	// 根据id查询我的农服，农机，粮食买卖信息详情（h5）
+	public AgriculturalEntity findMineId(String id);
+	
 	// 农服分页与模糊查询
 	public Page<AgriculturalEntity> findListByName(String type, String name, String status, Pageable pageable);
 
