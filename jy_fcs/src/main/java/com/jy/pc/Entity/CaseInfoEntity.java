@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -51,6 +52,7 @@ public class CaseInfoEntity {
 	private Date updateDate;//修改时间
 	@Column(length=255)
 	private String createUser;//创建人
+	@Transient
 	@ElementCollection(targetClass=KeyWordEntity.class)
 	private List<KeyWordEntity> keyCodes;//关键字关联
 	
