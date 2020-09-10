@@ -25,6 +25,7 @@ import com.jy.pc.Enum.ClassificationEnum;
 import com.jy.pc.Service.CaseInfoService;
 import com.jy.pc.Service.ClassificationService;
 import com.jy.pc.Service.KeyWordService;
+import com.jy.pc.Utils.Aes;
 
 @Controller
 @ResponseBody
@@ -90,8 +91,15 @@ public class CaseInfoController {
 	@RequestMapping(value = "/save")
 
 	public Map<String, String> save(HttpServletRequest res, HttpServletResponse req) {
+		Aes aes = new Aes();
+		String s = "";
 		Map<String, String> map = new HashMap<String, String>();
-		String s = res.getParameter("caseInfoEntity");
+		String temp = res.getParameter("caseInfoEntity");
+		try {
+			s = aes.desEncrypt(temp);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		JSONObject jsonObject = JSONObject.parseObject(s);
 		Date date = new Date();
 		CaseInfoEntity caseInfoEntity = jsonObject.toJavaObject(CaseInfoEntity.class);

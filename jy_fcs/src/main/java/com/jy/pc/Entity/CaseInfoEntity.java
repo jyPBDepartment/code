@@ -38,7 +38,7 @@ public class CaseInfoEntity {
 	private String dipTypeCode;//病虫害种类编码
 	@Column
 	private String classiDipCode;//农作物种类编码分类
-	@Column(length=255)
+	@Column(columnDefinition="TEXT")
 	private String describetion;//描述
 	@Column(length=1)
 	private String auditStatus;//状态（0禁用1启用）
