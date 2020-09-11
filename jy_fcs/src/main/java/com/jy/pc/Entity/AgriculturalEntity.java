@@ -88,7 +88,16 @@ public class AgriculturalEntity {
 	private String isFace; //是否面议(0是1否)
 	@Column(length=1)
 	private String farmingMode;  //农活类型(0整活1零活)
+	@Column(length=36)
+	private String createUserId;  //客户id
+	
 
+	public String getCreateUserId() {
+		return createUserId;
+	}
+	public void setCreateUserId(String createUserId) {
+		this.createUserId = createUserId;
+	}
 	public Date getBeginDate() {
 		return beginDate;
 	}
