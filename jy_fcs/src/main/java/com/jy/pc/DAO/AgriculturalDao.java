@@ -70,8 +70,8 @@ public interface AgriculturalDao extends JpaRepository<AgriculturalEntity, Strin
 			Map<String, List<String>> map, Pageable pageable);
 
 	// 搜索我的发布信息（接口,标题名称）
-	@Query(value = "SELECT * FROM sas_publication_info t where t.transaction_type_code in :#{#map['type']} and t.transaction_category_code in :#{#map['category']} and if(?1 !='',t.status like ?1,1=1) order by t.create_date desc", countQuery = "select count(*) FROM sas_publication_info t where t.transaction_type_code in :#{#map['type']} and t.transaction_category_code in :#{#map['category']} and if(?1 !='',t.status like ?1,1=1) order by t.create_date desc", nativeQuery = true)
-	public Page<AgriculturalEntity> findMyPublication(String status, Map<String, List<String>> map, Pageable pageable);
+	@Query(value = "SELECT * FROM sas_publication_info t where t.transaction_type_code in :#{#map['type']} and t.transaction_category_code in :#{#map['category']} and if(?1 !='',t.status like ?1,1=1) and if(?2 !='',t.create_user_id = ?2,1=1) order by t.create_date desc", countQuery = "select count(*) FROM sas_publication_info t where t.transaction_type_code in :#{#map['type']} and t.transaction_category_code in :#{#map['category']} and if(?1 !='',t.status like ?1,1=1) and if(?2 !='',t.create_user_id = ?2,1=1) order by t.create_date desc", nativeQuery = true)
+	public Page<AgriculturalEntity> findMyPublication(String status, String userId,Map<String, List<String>> map, Pageable pageable);
 
 	// 计算天数
 	@Query(value = "select to_days(t.end_date) - to_days(t.begin_date) from sas_publication_info t where id=:id", nativeQuery = true)

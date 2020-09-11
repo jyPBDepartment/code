@@ -157,8 +157,8 @@ public class AgriculturalServiceImpl implements AgriculturalService {
 	}
 
 	@Override
-	public Page<AgriculturalEntity> findMyPublication(String status, String type, Pageable pageable) {
-		return agriculturalDao.findMyPublication(status, PublicationEnum.getValueByType(type), pageable);
+	public Page<AgriculturalEntity> findMyPublication(String status, String type,String userId ,Pageable pageable) {
+		return agriculturalDao.findMyPublication(status, userId,PublicationEnum.getValueByType(type), pageable);
 	}
 
 	// 计算天数

@@ -62,7 +62,7 @@ public interface AgriculturalService {
 			Pageable pageable);
 
 	// 搜索我的发布信息（接口,标题名称）
-	Page<AgriculturalEntity> findMyPublication(String status, String type, Pageable pageable);
+	Page<AgriculturalEntity> findMyPublication(String status, String type, String userId,Pageable pageable);
 
 	// 计算天数
 	public String findDay(@Param("id") String id);
