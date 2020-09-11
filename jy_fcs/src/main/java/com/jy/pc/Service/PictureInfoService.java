@@ -18,4 +18,6 @@ public interface PictureInfoService {
 	public void delete(String id);
 	
 	public List<PictureInfoEntity> findByAgrId(@Param("id") String id);
+	
+	public List<PictureInfoEntity> findByFarmId(@Param("id") String id);
 }

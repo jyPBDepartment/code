@@ -2,6 +2,8 @@ package com.jy.pc.Service.Impl;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,6 +12,7 @@ import com.jy.pc.Entity.FarmworkPictureEntity;
 import com.jy.pc.Service.FarmworkPictureService;
 
 @Service
+@Transactional
 public class FarmworkPictureServiceImpl implements FarmworkPictureService{
 	@Autowired 
 	private FarmworkPictureDAO farmworkPictureDAO;
