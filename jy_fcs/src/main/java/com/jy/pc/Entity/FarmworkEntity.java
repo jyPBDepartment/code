@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -53,6 +54,16 @@ public class FarmworkEntity {
 	private String contactUser; // 联系人
 	@Column
 	private String contactPhone; // 联系方式
+	@Transient
+	private String agriName;
+	
+	public String getAgriName() {
+		return agriName;
+	}
+
+	public void setAgriName(String agriName) {
+		this.agriName = agriName;
+	}
 
 	public String getAgriculturalId() {
 		return agriculturalId;

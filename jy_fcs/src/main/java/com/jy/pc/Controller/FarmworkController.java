@@ -2,6 +2,7 @@ package com.jy.pc.Controller;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -47,32 +48,51 @@ public class FarmworkController {
 	@RequestMapping(value = "/findMyFarm")
 	public Map<String, Object> findMyFarm(HttpServletRequest res, HttpServletResponse req,
 			@RequestParam(name = "userId") String userId, @RequestParam(name = "user",defaultValue="") String user,
+			@RequestParam(name = "status") String status,
 			@RequestParam(name = "page") Integer page, @RequestParam(name = "size") Integer size) {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 		Pageable pageable = new PageRequest(page - 1, size);
-		Page<FarmworkEntity> replyList = farmworkService.findMyFarm(userId, user, pageable);
+		Page<FarmworkEntity> replyList = farmworkService.findMyFarm(userId,status, user, pageable);
+		for(FarmworkEntity frame : replyList.getContent()) {
+			AgriculturalEntity agriclu =agriculturalService.findBId(frame.getAgriculturalId());
+			frame.setAgriName(agriclu.getName());
+//			List<FarmworkPictureEntity> farmPic =farmworkPictureService.findPicId(frame.getId());
+		}
+
 		map.put("state", "0");// 成功
 		map.put("message", "查询成功");
 		map.put("data", replyList);
+//		map.put("data1", agricluPic);
 		return map;
 	}
 
 	// 预约我的农服列表
-	@RequestMapping(value = "/findFarmForMe")
-	public Map<String, Object> findFarmForMe(HttpServletRequest res, HttpServletResponse req,
-			@RequestParam(name = "userId") String userId, @RequestParam(name = "user",defaultValue="") String user,
-			@RequestParam(name = "page") Integer page, @RequestParam(name = "size") Integer size) {
+	// 意向用户滑块列表
+		@RequestMapping(value = "/findFarmForMe")
+		public Map<String, Object> findFarmForMe(HttpServletRequest res, HttpServletResponse req,
+				
+				@RequestParam(name = "userId") String userId,
+				@RequestParam(name = "status") String status,
+				@RequestParam(name = "user",defaultValue="") String user,
+				@RequestParam(name = "page") Integer page, 
+				@RequestParam(name = "size") Integer size
+				) {
 
-		Map<String, Object> map = new HashMap<String, Object>();
-		//找到农服集合对应的所有预约
-		Pageable pageable = new PageRequest(page - 1, size);
-		Page<FarmworkEntity> replyList = farmworkService.findFarmForMe(userId, user, pageable);
-		map.put("state", "0");// 成功
-		map.put("message", "查询成功");
-		map.put("data", replyList);
-		return map;
-	}
+			Map<String, Object> map = new HashMap<String, Object>();
+			//找到农服集合对应的所有预约
+			Pageable pageable = new PageRequest(page - 1, size);
+			Page<FarmworkEntity> replyList = farmworkService.findFarmForMe(userId,status, user, pageable);
+			for(FarmworkEntity frame : replyList.getContent()) {
+				   AgriculturalEntity agriclu =agriculturalService.findBId(frame.getAgriculturalId());
+				   frame.setAgriName(agriclu.getName());
+			}
+			map.put("state", "0");// 成功
+			map.put("message", "查询成功");
+			map.put("data", replyList);
+			return map;
+		}
+		
 	
 	
 	// 获取客户联系方式

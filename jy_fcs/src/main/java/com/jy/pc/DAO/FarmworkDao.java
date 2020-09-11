@@ -21,14 +21,16 @@ public interface FarmworkDao extends JpaRepository<FarmworkEntity, String> {
 	public FarmworkEntity findId(@Param("id") String id);
 
 	
-	@Query(value = "SELECT * FROM sas_farmwork_appointment_info t where t.operate_user_id = ?1", 
-			countQuery="SELECT count(*) FROM sas_farmwork_appointment_info t where t.operate_user_id = ?1",
+	@Query(value = "SELECT * FROM sas_farmwork_appointment_info t where t.operate_user_id = ?1 and if(?2 !='',t.status like ?2,1=1)", 
+			countQuery="SELECT count(*) FROM sas_farmwork_appointment_info t where t.operate_user_id = ?1 and if(?2 !='',t.status like ?2,1=1)",
 			nativeQuery = true)
-	public Page<FarmworkEntity> findMyFarm(String userId, String user, Pageable pageable);
+	public Page<FarmworkEntity> findMyFarm(String userId,String status, String user, Pageable pageable);
 	
-	@Query(value = "SELECT * FROM sas_farmwork_appointment_info t where  t.agricultural_id in (select id from sas_publication_info where create_user_id = ?1 order by create_date desc )", 
-			countQuery="SELECT * FROM sas_farmwork_appointment_info t where  t.agricultural_id in (select id from sas_publication_info where create_user_id = ?1 order by create_date desc )",
+	//意向用户
+	@Query(value = "SELECT * FROM sas_farmwork_appointment_info t where  t.agricultural_id in (select d.id from sas_publication_info d where d.create_user_id = ?1 order by d.create_date desc ) and if(?2 !='',t.status like ?2,1=1)",
+			countQuery="SELECT count(*) FROM sas_farmwork_appointment_info t where t.agricultural_id in (select d.id from sas_publication_info d where d.create_user_id = ?1 order by d.create_date desc ) and if(?2 !='',t.status like ?2,1=1)",
 			nativeQuery = true)
-	public Page<FarmworkEntity> findFarmForMe(String userId, String user, Pageable pageable);
+	public Page<FarmworkEntity> findFarmForMe(String userId,String status, String user, Pageable pageable);
+
 
 }

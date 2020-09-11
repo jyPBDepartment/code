@@ -36,14 +36,13 @@ public class FarmworkServiceImpl implements FarmworkService {
 	}
 
 	@Override
-	public Page<FarmworkEntity> findMyFarm(String userId, String user, Pageable pageable) {
-		return farmworkDao.findMyFarm(userId,user, pageable);
+	public Page<FarmworkEntity> findMyFarm(String userId,String status, String user, Pageable pageable) {
+		return farmworkDao.findMyFarm(userId,status,user, pageable);
 	}
 
 	@Override
-	public Page<FarmworkEntity> findFarmForMe(String userId, String user, Pageable pageable) {
-		return farmworkDao.findFarmForMe(userId,user, pageable);
+	public Page<FarmworkEntity> findFarmForMe(String userId,String status, String user, Pageable pageable) {
+		return farmworkDao.findFarmForMe(userId,status,user, pageable);
 	}
-
 	
 }

@@ -17,8 +17,9 @@ public interface FarmworkService {
 	//根据id获取实体
 	public FarmworkEntity findById(String id);
 
-	public Page<FarmworkEntity> findMyFarm(String userId, String user, Pageable pageable);
+	public Page<FarmworkEntity> findMyFarm(String userId,String status, String user, Pageable pageable);
 
-	public Page<FarmworkEntity> findFarmForMe(String userId, String user, Pageable pageable);
+	public Page<FarmworkEntity> findFarmForMe(String userId,String status, String user, Pageable pageable);
+	
 
 }

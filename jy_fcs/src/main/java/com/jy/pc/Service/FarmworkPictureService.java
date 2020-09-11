@@ -1,5 +1,9 @@
 package com.jy.pc.Service;
 
+import java.util.List;
+
+import org.springframework.data.repository.query.Param;
+
 import com.jy.pc.Entity.FarmworkPictureEntity;
 
 public interface FarmworkPictureService {
@@ -12,4 +16,5 @@ public interface FarmworkPictureService {
 
 	// 删除
 	public void delete(String id);
+	public List<FarmworkPictureEntity> findPicId(String farmworkId);
 }
