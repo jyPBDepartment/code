@@ -50,13 +50,43 @@ public class FarmworkEntity {
 	private String workArea; // 干活地点
 	@Column(length = 36)
 	private double workPrice; // 农活价格
+	@Column(length = 36)
+	private String days; // 干活天数
 	@Column
 	private String contactUser; // 联系人
 	@Column
 	private String contactPhone; // 联系方式
+	@Column
+	private String url; // 图片
+	@Column
+	private String reason; // 原因
 	@Transient
 	private String agriName;
 	
+	public String getDays() {
+		return days;
+	}
+
+	public void setDays(String days) {
+		this.days = days;
+	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
+
+	public String getReason() {
+		return reason;
+	}
+
+	public void setReason(String reason) {
+		this.reason = reason;
+	}
+
 	public String getAgriName() {
 		return agriName;
 	}

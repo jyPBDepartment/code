@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.alibaba.fastjson.JSONObject;
+import com.jy.pc.Entity.AccountInfoEntity;
 import com.jy.pc.Entity.AgriculturalEntity;
 import com.jy.pc.Entity.FarmworkEntity;
 import com.jy.pc.Entity.FarmworkPictureEntity;
@@ -57,17 +59,14 @@ public class FarmworkController {
 		for(FarmworkEntity frame : replyList.getContent()) {
 			AgriculturalEntity agriclu =agriculturalService.findBId(frame.getAgriculturalId());
 			frame.setAgriName(agriclu.getName());
-//			List<FarmworkPictureEntity> farmPic =farmworkPictureService.findPicId(frame.getId());
 		}
 
 		map.put("state", "0");// 成功
 		map.put("message", "查询成功");
 		map.put("data", replyList);
-//		map.put("data1", agricluPic);
 		return map;
 	}
 
-	// 预约我的农服列表
 	// 意向用户滑块列表
 		@RequestMapping(value = "/findFarmForMe")
 		public Map<String, Object> findFarmForMe(HttpServletRequest res, HttpServletResponse req,
@@ -148,45 +147,103 @@ public class FarmworkController {
 		farmworkService.save(agricultural);
 		return map;
 	}
-
+	
 	// 获取预约详情
-	@RequestMapping(value = "/findDetail")
-	public Map<String, Object> findDetail(HttpServletRequest res, HttpServletResponse req,
-			@RequestParam(name = "id") String id) {
-		Map<String, Object> map = new HashMap<String, Object>();
-		FarmworkEntity agricultural = farmworkService.findById(id);
-		if (agricultural != null) {
+		@RequestMapping(value = "/findDetail")
+		public Map<String, Object> findDetail(HttpServletRequest res, HttpServletResponse req,
+				@RequestParam(name = "id") String id) {
+			Map<String, Object> map = new HashMap<String, Object>();
+			FarmworkEntity agricultural = farmworkService.findById(id);
+			AgriculturalEntity agriclu =agriculturalService.findBId(agricultural.getAgriculturalId());
+			agricultural.setAgriName(agriclu.getName());
+			List<PictureInfoEntity> farmPic = pictureInfoService.findByFarmId(id);
 			map.put("state", "0");// 查询数据成功
 			map.put("data", agricultural);
-		} else {
-			map.put("state", "1");// 查询数据失败
+			map.put("dataFarmPic", farmPic);
+			return map;
 		}
-		return map;
-	}
-
 	// 农活预约添加（接口）
 	@RequestMapping(value = "/save")
 	public Map<String, String> addPostInfo(HttpServletRequest res, HttpSession session, HttpServletResponse req,
-			FarmworkEntity farmworkEntity,@RequestParam(name = "addItem") String[] addItem,
-			@RequestParam(name = "id") String id) {
+			FarmworkEntity farmworkEntity,@RequestParam(name = "addItem") String addItem,
+			@RequestParam(name = "agrId") String agrId) {
 		Map<String, String> map = new HashMap<String, String>();
-//		Date date = new Date();
-//		farmworkEntity.setBeginDate(date);
+		String[] picArray = null;
+		if(addItem.indexOf(",")>-1) {
+			picArray = addItem.split(",");
+		}else {
+			picArray[0]= addItem;
+		}
 		farmworkEntity.setStatus("0");
-		farmworkEntity.setAgriculturalId(id);
-		farmworkService.save(farmworkEntity);
-		for(int i=0;i<addItem.length;i++) {
+		farmworkEntity.setAgriculturalId(agrId);
+		farmworkEntity.setUrl(picArray[0]);
+		FarmworkEntity farmwork= farmworkService.save(farmworkEntity);
+		farmworkEntity.setDays(farmworkService.findDay(farmworkEntity.getId()));
+		farmworkService.update(farmworkEntity);
+		for(int i=0;i<picArray.length;i++) {
 			PictureInfoEntity pictureInfoEntity = new PictureInfoEntity();
+			pictureInfoEntity.setPicName(farmwork.getId());
+			pictureInfoEntity.setPicUrl(picArray[i]);
+			PictureInfoEntity pictureInfo = pictureInfoService.save(pictureInfoEntity);
+			
 			FarmworkPictureEntity farm = new FarmworkPictureEntity();
-			pictureInfoEntity.setPicName(farmworkEntity.getId());
-			pictureInfoEntity.setPicUrl(addItem[i]);
-			pictureInfoService.save(pictureInfoEntity);
-			farm.setFarmworkId(farmworkEntity.getId());
-			farm.setPicId(pictureInfoEntity.getId());
-			farmworkPictureService.save(farm);			
+			farm.setFarmworkId(farmwork.getId());
+			farm.setPicId(pictureInfo.getId());
+			farmworkPictureService.save(farm);		
 		}
 		map.put("state", "0");
 		map.put("message", "添加成功");
 		return map;
 	}
+	//我的预约取消方法
+	@RequestMapping(value = "/cancel")
+	public Map<String, String> cancel(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "id") String id,@RequestParam(name = "reason") String reason,FarmworkEntity farmworkEntity) {
+		Map<String, String> map = new HashMap<String, String>();
+		farmworkEntity = farmworkService.findById(id);
+		farmworkEntity.setStatus("3");
+		farmworkEntity.setReason(reason);
+		farmworkService.update(farmworkEntity);
+		map.put("state", "0");
+		map.put("message", "添加成功");
+		return map;
+	}
+	//我的预约重新预约方法
+	@RequestMapping(value = "/again")
+	public Map<String, String> again(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "id") String id,FarmworkEntity farmworkEntity) {
+		Map<String, String> map = new HashMap<String, String>();
+		farmworkEntity = farmworkService.findById(id);
+		farmworkEntity.setStatus("0");
+		farmworkEntity.setReason("");
+		farmworkService.update(farmworkEntity);
+		map.put("state", "0");
+		map.put("message", "添加成功");
+		return map;
+	}
+	//我的预约确认完成方法
+	@RequestMapping(value = "/finish")
+	public Map<String, String> finish(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "id") String id,FarmworkEntity farmworkEntity) {
+		Map<String, String> map = new HashMap<String, String>();
+		farmworkEntity = farmworkService.findById(id);
+		farmworkEntity.setStatus("2");
+		farmworkService.update(farmworkEntity);
+		map.put("state", "0");
+		map.put("message", "添加成功");
+		return map;
+	}
+	//意向用户待确认修改方法
+		 @RequestMapping(value = "/confirm")
+		 public Map<String, String> confirm(HttpServletRequest res, HttpServletResponse req,
+		   @RequestParam(name = "id") String id,FarmworkEntity farmworkEntity) {
+		  Map<String, String> map = new HashMap<String, String>();
+		  farmworkEntity = farmworkService.findById(id);
+		  farmworkEntity.setStatus("1");
+		  farmworkService.update(farmworkEntity);
+		  map.put("state", "0");
+		  map.put("message", "添加成功");
+		  return map;
+		 }
+
 }

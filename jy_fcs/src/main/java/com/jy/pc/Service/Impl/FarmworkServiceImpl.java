@@ -2,6 +2,8 @@ package com.jy.pc.Service.Impl;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -12,6 +14,7 @@ import com.jy.pc.Entity.FarmworkEntity;
 import com.jy.pc.Service.FarmworkService;
 
 @Service
+@Transactional
 public class FarmworkServiceImpl implements FarmworkService {
 	@Autowired
 	private FarmworkDao farmworkDao;
@@ -44,5 +47,16 @@ public class FarmworkServiceImpl implements FarmworkService {
 	public Page<FarmworkEntity> findFarmForMe(String userId,String status, String user, Pageable pageable) {
 		return farmworkDao.findFarmForMe(userId,status,user, pageable);
 	}
-	
+
+	@Override
+	public String findDay(String id) {
+		return farmworkDao.findDay(id);
+	}
+
+	@Override
+	public void update(FarmworkEntity farmworkEntity) {
+		farmworkDao.saveAndFlush(farmworkEntity);
+		
+	}
+
 }

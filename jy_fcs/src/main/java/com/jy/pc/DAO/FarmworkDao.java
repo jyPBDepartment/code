@@ -20,7 +20,7 @@ public interface FarmworkDao extends JpaRepository<FarmworkEntity, String> {
 	@Query(value = "select * from sas_farmwork_appointment_info t where t.id =:id", nativeQuery = true)
 	public FarmworkEntity findId(@Param("id") String id);
 
-	
+	//我的预约
 	@Query(value = "SELECT * FROM sas_farmwork_appointment_info t where t.operate_user_id = ?1 and if(?2 !='',t.status like ?2,1=1)", 
 			countQuery="SELECT count(*) FROM sas_farmwork_appointment_info t where t.operate_user_id = ?1 and if(?2 !='',t.status like ?2,1=1)",
 			nativeQuery = true)
@@ -32,5 +32,8 @@ public interface FarmworkDao extends JpaRepository<FarmworkEntity, String> {
 			nativeQuery = true)
 	public Page<FarmworkEntity> findFarmForMe(String userId,String status, String user, Pageable pageable);
 
+	// 计算天数
+	@Query(value = "select to_days(t.end_date) - to_days(t.begin_date) from sas_farmwork_appointment_info t where id=:id", nativeQuery = true)
+	public String findDay(@Param("id") String id);
 
 }
