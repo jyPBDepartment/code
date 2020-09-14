@@ -79,10 +79,11 @@ public class AdminController<RolesService> {
 			}
 			return map;
 		}
+		
 		// 管理员修改
 		@RequestMapping(value = "update")
-		public Map<String, String> update(HttpServletRequest res, HttpServletResponse req) {
-			Map<String, String> map = new HashMap<String, String>();
+		public Map<String, Object> update(HttpServletRequest res, HttpServletResponse req) {
+			
 			String s = res.getParameter("adminEntity");
 			JSONObject jsonObject = JSONObject.parseObject(s);
 			Date date = new Date();
@@ -93,8 +94,17 @@ public class AdminController<RolesService> {
 			RoleEntity roleEntity = new RoleEntity();
 			roleEntity = roleService.findId(adminEntity.getRoleId());
 			adminEntity.setRoleName(roleEntity.getName());	
-			adminService.update(adminEntity);
-			map.put("message", "修改成功");
+			
+			Map<String, Object> map = new HashMap<String, Object>();
+			try {
+				adminService.update(adminEntity);
+				map.put("status", "0");
+				map.put("data", adminEntity);
+				map.put("message", "修改成功");
+			} catch (Exception e) {
+				map.put("status", "1");
+				map.put("message","修改失败");
+			}		
 			return map;
 		}
 		// 管理员删除

@@ -37,9 +37,6 @@ public class QuestionController {
 		Date date = new Date();
 		QuestionEntity questionEntity = jsonObject.toJavaObject(QuestionEntity.class);
 		questionEntity.setCreateDate(date);
-
-		
-
 		QuestionEntity questionn =questionService.save(questionEntity);
 		if (questionn.getQuestionScore() > 26) {
 			map.put("status", "0");

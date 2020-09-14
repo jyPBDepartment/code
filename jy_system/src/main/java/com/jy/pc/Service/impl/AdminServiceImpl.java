@@ -17,7 +17,7 @@ public class AdminServiceImpl implements AdminService{
 	@Override
 	public AdminEntity save(AdminEntity adminEntity) {
 		
-		return adminDao.save(adminEntity);
+		return adminDao.saveAndFlush(adminEntity);
 	}
 	//修改
 	@Override
