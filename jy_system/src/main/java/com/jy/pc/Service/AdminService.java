@@ -7,6 +7,8 @@ import com.jy.pc.Entity.AdminEntity;
 
 
 public interface AdminService {
+	//登录
+	public Boolean checkUser(String userName, String password);
 	//管理员添加
 	public AdminEntity save(AdminEntity adminEntity);
 	//管理员修改

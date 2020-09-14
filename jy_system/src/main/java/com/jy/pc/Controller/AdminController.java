@@ -32,6 +32,23 @@ public class AdminController<RolesService> {
 	private AdminService adminService;
 	@Autowired
 	private RoleService roleService;
+	//登录
+	@RequestMapping(value = "/login")
+	@ResponseBody
+	public Map<String, String> login(HttpServletRequest req, HttpServletResponse res,
+			@RequestParam(name = "username") String username, @RequestParam(name = "password") String password) {
+
+		Map<String, String> map = new HashMap<String, String>();
+		Boolean flag = adminService.checkUser(username, password);
+		if (flag) {
+			map.put("status", "1");
+			map.put("message", "登陆成功");
+		} else {
+			map.put("status", "0");
+			map.put("message", "用户不存在或密码错误");
+		}
+		return map;
+	}
 	//管理员添加
 
 	@RequestMapping(value="/save")

@@ -7,9 +7,13 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.jy.pc.Entity.AdminEntity;
+import com.jy.pc.Entity.UserEntity;
 
 
 public interface AdminDao extends JpaRepository<AdminEntity, String>{
+	//登录
+	@Query(value = "select * from w_admin t where t.login_name=:userName and t.password =:userPassword", nativeQuery = true)
+	public AdminEntity findUserInfo(@Param("userName") String userName,@Param("userPassword") String userPassword);
 //	fingById方法
 	@Query(value="select * from w_admin  where id =:id",nativeQuery = true)
 	public AdminEntity findBId(@Param("id")String id);

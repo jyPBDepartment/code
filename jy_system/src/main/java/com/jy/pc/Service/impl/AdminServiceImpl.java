@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.jy.pc.DAO.AdminDao;
 import com.jy.pc.Entity.AdminEntity;
+import com.jy.pc.Entity.UserEntity;
 import com.jy.pc.Service.AdminService;
 
 @Service
@@ -44,6 +45,17 @@ public class AdminServiceImpl implements AdminService{
 		String adminName = "%"+loginName+"%";
 		return adminDao.findListByName(adminName, pageable);
 	}
-	
+	// 验证用户登录
+		public Boolean checkUser(String userName, String password) {
+
+			AdminEntity userInfo = adminDao.findUserInfo(userName,password);
+
+			if (userInfo != null) {
+				return true;
+			} else {
+				return false;
+			}
+
+		}
 
 }
