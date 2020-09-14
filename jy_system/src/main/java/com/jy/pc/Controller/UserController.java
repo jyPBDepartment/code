@@ -33,9 +33,8 @@ public class UserController {
 			map.put("message", "登陆成功");
 		} else {
 			map.put("status", "0");
-			map.put("message", "用户不存在");
+			map.put("message", "用户不存在或密码错误");
 		}
-
 		return map;
 	}
 }

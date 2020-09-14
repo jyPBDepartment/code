@@ -17,6 +17,7 @@ public interface BannerService {
 	public Page<BannerEntity> findPageInfo(String name,Pageable pageable);
 	public BannerEntity findInfoById(String id);
 	
+	//查找非禁用banner图
 	public List<BannerEntity> findId();
 
 }

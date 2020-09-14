@@ -8,7 +8,7 @@ import com.jy.pc.Entity.UserEntity;
 
 public interface UserDao extends JpaRepository<UserEntity, Long> {
 
-	@Query(value = "select * from w_user t where t.user_name=:userName", nativeQuery = true)
-	public UserEntity findUserInfo(@Param("userName") String userName);
+	@Query(value = "select * from w_user t where t.user_name=:userName and t.user_password =:userPassword", nativeQuery = true)
+	public UserEntity findUserInfo(@Param("userName") String userName,@Param("userPassword") String userPassword);
 
 }

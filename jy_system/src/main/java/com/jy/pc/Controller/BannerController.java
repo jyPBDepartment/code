@@ -127,9 +127,7 @@ public class BannerController {
 		return map;
 	}
 	
-	
-	
-	//查询所有
+	//查找非禁用banner图
 		@RequestMapping(value = "/findAll")
 		@ResponseBody
 		public Map<String,Object> findAll(HttpServletRequest res,HttpServletResponse req) {

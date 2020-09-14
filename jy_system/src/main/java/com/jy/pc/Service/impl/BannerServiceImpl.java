@@ -37,12 +37,9 @@ public class BannerServiceImpl implements BannerService{
 	public BannerEntity findInfoById(String id) {
 		return bannerDao.findInfoById(id);
 	}
+	//查找非禁用banner图
 	@Override
 	public List<BannerEntity> findId() {
-		
-		return bannerDao.findAll();
+		return bannerDao.findId();
 	}
-	
-	
-
 }

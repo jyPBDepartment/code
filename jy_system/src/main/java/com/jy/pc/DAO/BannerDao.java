@@ -1,5 +1,7 @@
 package com.jy.pc.DAO;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -15,7 +17,8 @@ public interface BannerDao extends JpaRepository<BannerEntity, String> {
 
 	@Query(value = "select * from  w_banner t where t.id=:id", nativeQuery = true)
 	public BannerEntity findInfoById(@Param("id") String id);
-	@Query(value="select * from  w_banner ",nativeQuery = true)
-	public BannerEntity findId();
+	//查找非禁用banner图
+	@Query(value="select * from  w_banner t where t.status='0' ",nativeQuery = true)
+	public List<BannerEntity> findId();
 
 }

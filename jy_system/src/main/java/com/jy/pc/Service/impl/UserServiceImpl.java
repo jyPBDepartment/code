@@ -19,7 +19,7 @@ public class UserServiceImpl implements UserService{
 	// 验证用户登录
 	public Boolean checkUser(String userName, String password) {
 
-		UserEntity userInfo = userDao.findUserInfo(userName);
+		UserEntity userInfo = userDao.findUserInfo(userName,password);
 
 		if (userInfo != null) {
 			return true;
