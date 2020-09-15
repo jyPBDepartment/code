@@ -143,8 +143,15 @@ public class CaseInfoController {
 	// 修改
 	@RequestMapping(value = "update")
 	public Map<String, String> update(HttpServletRequest res, HttpServletResponse req) {
+		Aes aes = new Aes();
+		String s = "";
 		Map<String, String> map = new HashMap<String, String>();
-		String s = res.getParameter("caseInfoEntity");
+		String temp = res.getParameter("caseInfoEntity");
+		try {
+			s = aes.desEncrypt(temp);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		JSONObject jsonObject = JSONObject.parseObject(s);
 		Date date = new Date();
 		CaseInfoEntity caseInfoEntity = jsonObject.toJavaObject(CaseInfoEntity.class);
