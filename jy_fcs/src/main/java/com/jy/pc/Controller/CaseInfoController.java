@@ -1,5 +1,8 @@
 package com.jy.pc.Controller;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -8,6 +11,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.hibernate.validator.constraints.SafeHtml.Attribute;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -90,17 +94,11 @@ public class CaseInfoController {
 
 	@RequestMapping(value = "/save")
 
-	public Map<String, String> save(HttpServletRequest res, HttpServletResponse req) {
-		Aes aes = new Aes();
-		String s = "";
+	public Map<String, String> save(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam("caseInfoEntity") String caseInfo) {
+
 		Map<String, String> map = new HashMap<String, String>();
-		String temp = res.getParameter("caseInfoEntity");
-		try {
-			s = aes.desEncrypt(temp);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		JSONObject jsonObject = JSONObject.parseObject(s);
+		JSONObject jsonObject = JSONObject.parseObject(caseInfo);
 		Date date = new Date();
 		CaseInfoEntity caseInfoEntity = jsonObject.toJavaObject(CaseInfoEntity.class);
 		caseInfoEntity.setCreateDate(date);
