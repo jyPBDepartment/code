@@ -89,8 +89,15 @@ public class AgriculturalEntity {
 	private String farmingMode;  //农活类型(0整活1零活)
 	@Column(length=36)
 	private String createUserId;  //客户id
-	
+	@Column(length=1)
+	private String identityCode;  //身份标识码 1.农户 2.粮贩 3.粮库
 
+	public String getIdentityCode() {
+		return identityCode;
+	}
+	public void setIdentityCode(String identityCode) {
+		this.identityCode = identityCode;
+	}
 	public String getCreateUserId() {
 		return createUserId;
 	}

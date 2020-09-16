@@ -137,16 +137,17 @@ public class AgriculturalServiceImpl implements AgriculturalService {
 
 	@Override
 	public Page<AgriculturalEntity> findAgriInfo(String name, String type, String transactionTypeCode,
-			String transactionCategoryCode, Pageable pageable) {
+			String transactionCategoryCode, String identityCode,String address, Pageable pageable) {
 		String argiName = "".equals(name) ? "" : "%" + name + "%";
-		return agriculturalDao.findAgriInfo(argiName, transactionTypeCode, transactionCategoryCode,
+		String addr = "".equals(address) ? "" : "%" + address + "%";
+		return agriculturalDao.findAgriInfo(argiName, transactionTypeCode, transactionCategoryCode, identityCode,addr,
 				PublicationEnum.getValueByType(type), pageable);
 	}
 
 	@Override
 	public Page<AgriculturalEntity> findAgriType(String transactionTypeCode, String transactionCategoryCode,
-			String type, Pageable pageable) {
-		return agriculturalDao.findAgriType(transactionTypeCode, transactionCategoryCode,
+			String identityCode, String type, Pageable pageable) {
+		return agriculturalDao.findAgriType(transactionTypeCode, transactionCategoryCode, identityCode,
 				PublicationEnum.getValueByType(type), pageable);
 	}
 
@@ -157,8 +158,8 @@ public class AgriculturalServiceImpl implements AgriculturalService {
 	}
 
 	@Override
-	public Page<AgriculturalEntity> findMyPublication(String status, String type,String userId ,Pageable pageable) {
-		return agriculturalDao.findMyPublication(status, userId,PublicationEnum.getValueByType(type), pageable);
+	public Page<AgriculturalEntity> findMyPublication(String status, String type, String userId, Pageable pageable) {
+		return agriculturalDao.findMyPublication(status, userId, PublicationEnum.getValueByType(type), pageable);
 	}
 
 	// 计算天数

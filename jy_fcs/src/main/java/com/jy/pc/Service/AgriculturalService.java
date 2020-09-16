@@ -20,10 +20,10 @@ public interface AgriculturalService {
 
 	// 根据id查询农服信息详情
 	public AgriculturalEntity findId(String id);
-	
+
 	// 根据id查询我的农服，农机，粮食买卖信息详情（h5）
 	public AgriculturalEntity findMineId(String id);
-	
+
 	// 农服分页与模糊查询
 	public Page<AgriculturalEntity> findListByName(String type, String name, String status, Pageable pageable);
 
@@ -55,14 +55,14 @@ public interface AgriculturalService {
 
 	// 搜索发布信息中农服信息(标题名称)
 	Page<AgriculturalEntity> findAgriInfo(String name, String type, String transactionTypeCode,
-			String transactionCategoryCode, Pageable pageable);
+			String transactionCategoryCode, String identityCode,String address, Pageable pageable);
 
 	// 搜索发布信息中农服信息（类型、类别）
-	Page<AgriculturalEntity> findAgriType(String transactionTypeCode, String transactionCategoryCode, String type,
-			Pageable pageable);
+	Page<AgriculturalEntity> findAgriType(String transactionTypeCode, String transactionCategoryCode,
+			String identityCode, String type, Pageable pageable);
 
 	// 搜索我的发布信息（接口,标题名称）
-	Page<AgriculturalEntity> findMyPublication(String status, String type, String userId,Pageable pageable);
+	Page<AgriculturalEntity> findMyPublication(String status, String type, String userId, Pageable pageable);
 
 	// 计算天数
 	public String findDay(@Param("id") String id);

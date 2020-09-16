@@ -37,6 +37,30 @@ public class AgriculturalController {
 	@Autowired
 	private PictureInfoService pictureInfoService;
 
+//	public AgriculturalService getAgriculturalService() {
+//		return agriculturalService;
+//	}
+//
+//	public void setAgriculturalService(AgriculturalService agriculturalService) {
+//		this.agriculturalService = agriculturalService;
+//	}
+//
+//	public AgriculturalPictureService getAgriculturalPictureService() {
+//		return agriculturalPictureService;
+//	}
+//
+//	public void setAgriculturalPictureService(AgriculturalPictureService agriculturalPictureService) {
+//		this.agriculturalPictureService = agriculturalPictureService;
+//	}
+//
+//	public PictureInfoService getPictureInfoService() {
+//		return pictureInfoService;
+//	}
+//
+//	public void setPictureInfoService(PictureInfoService pictureInfoService) {
+//		this.pictureInfoService = pictureInfoService;
+//	}
+
 	@RequestMapping(value = "/findDetail")
 	public Map<String, Object> findDetail(HttpServletRequest res, HttpServletResponse req,
 			@RequestParam(name = "id") String id) {
@@ -108,10 +132,19 @@ public class AgriculturalController {
 			@RequestParam(name = "name", defaultValue = "") String name,
 			@RequestParam(name = "type", defaultValue = "0") String type, @RequestParam(name = "page") Integer page,
 			@RequestParam(name = "size") Integer size) {
+
 		Map<String, Object> map = new HashMap<String, Object>();
 		Pageable pageable = new PageRequest(page - 1, size);
+
+		String identityCode = "";
+		String address = "";
+		if (type.equals("1")) {
+			identityCode = res.getParameter("identityCode");
+			address = res.getParameter("address");
+		}
+
 		Page<AgriculturalEntity> agriculturalList = agriculturalService.findAgriInfo(name, type, transactionTypeCode,
-				transactionCategoryCode, pageable);
+				transactionCategoryCode, identityCode,address, pageable);
 		map.put("state", "0");// 成功
 		map.put("message", "查询成功");
 		map.put("data", agriculturalList);
@@ -126,10 +159,12 @@ public class AgriculturalController {
 	@RequestMapping(value = "/findMyPublication")
 	public Map<String, Object> findMyPublication(HttpServletRequest res, HttpServletResponse req,
 			@RequestParam(name = "status") String status, @RequestParam(name = "type", defaultValue = "0") String type,
-			@RequestParam(name = "page") Integer page, @RequestParam(name = "size") Integer size,@RequestParam(name = "userId") String userId) {
+			@RequestParam(name = "page") Integer page, @RequestParam(name = "size") Integer size,
+			@RequestParam(name = "userId") String userId) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		Pageable pageable = new PageRequest(page - 1, size);
-		Page<AgriculturalEntity> agriculturalList = agriculturalService.findMyPublication(status, type,userId, pageable);
+		Page<AgriculturalEntity> agriculturalList = agriculturalService.findMyPublication(status, type, userId,
+				pageable);
 		map.put("state", "0");// 成功
 		map.put("message", "查询成功");
 		map.put("data", agriculturalList);
@@ -148,10 +183,17 @@ public class AgriculturalController {
 			@RequestParam(name = "transactionCategoryCode", defaultValue = "") String transactionCategoryCode,
 			@RequestParam(name = "type", defaultValue = "0") String type, @RequestParam(name = "page") Integer page,
 			@RequestParam(name = "size") Integer size) {
+
 		Map<String, Object> map = new HashMap<String, Object>();
 		Pageable pageable = new PageRequest(page - 1, size);
+
+		String identityCode = "";
+		if (type.equals("1")) {
+			identityCode = res.getParameter("identityCode");
+		}
+
 		Page<AgriculturalEntity> agriculturalList = agriculturalService.findAgriType(transactionTypeCode,
-				transactionCategoryCode, type, pageable);
+				transactionCategoryCode, identityCode, type, pageable);
 		map.put("state", "0");// 成功
 		map.put("message", "查询成功");
 		map.put("data", agriculturalList);
