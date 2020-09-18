@@ -386,6 +386,8 @@ public class AgriculturalController {
 	@RequestMapping(value = "/update")
 	public Map<String, Object> update(HttpServletRequest res, HttpServletResponse req,
 			AgriculturalEntity agriculturalEntity,@RequestParam(name = "id") String id,
+			@RequestParam(name = "transactionTypeCode") String transactionTypeCode,
+			@RequestParam(name = "transactionCategoryCode") String transactionCategoryCode,
 			@RequestParam(name = "addItem") String[] addItem) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		AgriculturalEntity agricultural = agriculturalService.findBId(id);
@@ -393,8 +395,8 @@ public class AgriculturalController {
 		agriculturalEntity.setUpdateDate(date);// 设置修改时间
 		agriculturalEntity.setStatus("0");     //修改后状态为待审核
 		agriculturalEntity.setCreateDate(agricultural.getCreateDate());
-		agriculturalEntity.setTransactionCategoryCode(agricultural.getTransactionCategoryCode());
-		agriculturalEntity.setTransactionTypeCode(agricultural.getTransactionTypeCode());
+		agriculturalEntity.setTransactionCategoryCode(transactionCategoryCode);
+		agriculturalEntity.setTransactionTypeCode(transactionTypeCode);
 		agriculturalService.save(agriculturalEntity);
 		agriculturalEntity.setDays(agriculturalService.findDay(id)); //计算天数
 		agriculturalService.update(agriculturalEntity);
