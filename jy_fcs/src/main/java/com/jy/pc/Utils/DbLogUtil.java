@@ -9,7 +9,6 @@ import com.alibaba.fastjson.JSON;
 import com.jy.pc.DAO.DbLogInfoDao;
 import com.jy.pc.Entity.DbLogInfoEntity;
 
-import javax.persistence.Entity;
 import javax.persistence.Table;
 /**
  *  再service中涉及修改、删除、新增、状态设置的代码中
@@ -73,6 +72,13 @@ public class DbLogUtil {
 	}
 	
 	private void saveLog(String module,String action,String obj) {
+		Aes aes = new Aes();
+		String result = "";
+		System.out.println("obj.length() = "+obj.length());
+		if(obj!=null && obj.length()>65000) {
+			obj = obj.substring(0,65000);
+		}
+		System.out.println("ActObj = " + obj.length());
 		DbLogInfoEntity entity = new DbLogInfoEntity();
 		entity.setAction(action);
 		entity.setActObj(obj);
