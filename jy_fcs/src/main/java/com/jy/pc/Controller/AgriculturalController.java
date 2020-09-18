@@ -367,4 +367,50 @@ public class AgriculturalController {
 		map.put("data", agricul);
 		return map;
 	}
+	
+	//取消发布接口
+	@RequestMapping(value = "/unpublish")
+	public Map<String, String> unpublish(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "id") String id,@RequestParam(name = "reason") String reason,
+			AgriculturalEntity agriculturalEntity) {
+		Map<String, String> map = new HashMap<String, String>();
+		agriculturalEntity = agriculturalService.findBId(id);
+		agriculturalEntity.setStatus("3");
+		agriculturalEntity.setReason(reason);
+		agriculturalService.update(agriculturalEntity);
+		map.put("state", "0");
+		map.put("message", "取消成功");
+		return map;
+	}
+	//修改接口
+	@RequestMapping(value = "/update")
+	public Map<String, Object> update(HttpServletRequest res, HttpServletResponse req,
+			AgriculturalEntity agriculturalEntity,@RequestParam(name = "id") String id,
+			@RequestParam(name = "addItem") String[] addItem) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		AgriculturalEntity agricultural = agriculturalService.findBId(id);
+		Date date = new Date();
+		agriculturalEntity.setUpdateDate(date);// 设置修改时间
+		agriculturalEntity.setStatus("0");     //修改后状态为待审核
+		agriculturalEntity.setCreateDate(agricultural.getCreateDate());
+		agriculturalEntity.setTransactionCategoryCode(agricultural.getTransactionCategoryCode());
+		agriculturalEntity.setTransactionTypeCode(agricultural.getTransactionTypeCode());
+		agriculturalService.save(agriculturalEntity);
+		agriculturalEntity.setDays(agriculturalService.findDay(id)); //计算天数
+		agriculturalService.update(agriculturalEntity);
+		for (int i = 0; i < addItem.length; i++) {
+			PictureInfoEntity pictureInfoEntity = new PictureInfoEntity();
+			AgriculturalPictureEntity agriculturalPictureEntity = new AgriculturalPictureEntity();
+			pictureInfoEntity.setPicName(agriculturalEntity.getName());
+			pictureInfoEntity.setPicUrl(addItem[i]);
+			pictureInfoService.save(pictureInfoEntity);
+			agriculturalPictureEntity.setAgrId(agriculturalEntity.getId());
+			agriculturalPictureEntity.setPicId(pictureInfoEntity.getId());
+			agriculturalPictureService.save(agriculturalPictureEntity);
+		}
+		map.put("state", "0");
+		map.put("data", agriculturalEntity);
+		map.put("message", "修改成功");
+		return map;
+	}
 }

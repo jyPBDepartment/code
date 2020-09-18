@@ -91,7 +91,15 @@ public class AgriculturalEntity {
 	private String createUserId;  //客户id
 	@Column(length=1)
 	private String identityCode;  //身份标识码 1.农户 2.粮贩 3.粮库
-
+	@Column(length=255)
+	private String reason; //取消发布理由
+	
+	public String getReason() {
+		return reason;
+	}
+	public void setReason(String reason) {
+		this.reason = reason;
+	}
 	public String getIdentityCode() {
 		return identityCode;
 	}
