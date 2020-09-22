@@ -12,7 +12,7 @@ public interface AgriculturalService {
 	// 农服关联Echart图
 	public List<AgriculturalEntity> findAgrSum();
 
-	// 农服添加
+	//添加
 	public AgriculturalEntity save(AgriculturalEntity agriculturalEntity);
 
 	// 农服findById
@@ -63,8 +63,10 @@ public interface AgriculturalService {
 
 	// 搜索我的发布信息（接口,标题名称）
 	Page<AgriculturalEntity> findMyPublication(String status, String type, String userId, Pageable pageable);
-
-	// 计算天数
-	public String findDay(@Param("id") String id);
+	
+	// 农服修改
+	public AgriculturalEntity updateAgr(AgriculturalEntity agriculturalEntity,String id,String[] addItem,String transactionTypeCode,String transactionCategoryCode);
+	// 农服添加
+	public AgriculturalEntity saveAgr(String[] addItem,AgriculturalEntity agriculturalEntity);
 
 }

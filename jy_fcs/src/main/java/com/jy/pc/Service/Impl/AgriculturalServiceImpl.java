@@ -1,5 +1,6 @@
 package com.jy.pc.Service.Impl;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -11,7 +12,11 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 import com.jy.pc.DAO.AgriculturalDao;
+import com.jy.pc.DAO.AgriculturalPivtureDAO;
+import com.jy.pc.DAO.PictureInfoDAO;
 import com.jy.pc.Entity.AgriculturalEntity;
+import com.jy.pc.Entity.AgriculturalPictureEntity;
+import com.jy.pc.Entity.PictureInfoEntity;
 import com.jy.pc.Enum.PublicationEnum;
 import com.jy.pc.Service.AgriculturalService;
 import com.jy.pc.Utils.DbLogUtil;
@@ -21,6 +26,10 @@ public class AgriculturalServiceImpl implements AgriculturalService {
 
 	@Autowired
 	private AgriculturalDao agriculturalDao;
+	@Autowired
+	private PictureInfoDAO pictureInfoDAO;
+	@Autowired
+	private AgriculturalPivtureDAO agriculturalPivtureDAO;
 	@Autowired
 	private DbLogUtil logger;
 
@@ -34,7 +43,6 @@ public class AgriculturalServiceImpl implements AgriculturalService {
 	// 农服添加
 	@Override
 	public AgriculturalEntity save(AgriculturalEntity agriculturalEntity) {
-
 		return agriculturalDao.saveAndFlush(agriculturalEntity);
 	}
 
@@ -161,17 +169,65 @@ public class AgriculturalServiceImpl implements AgriculturalService {
 	public Page<AgriculturalEntity> findMyPublication(String status, String type, String userId, Pageable pageable) {
 		return agriculturalDao.findMyPublication(status, userId, PublicationEnum.getValueByType(type), pageable);
 	}
-
-	// 计算天数
-	@Override
-	public String findDay(@Param("id") String id) {
-		return agriculturalDao.findDay(id);
-	}
-
+	
 	// 根据id查询我的农服，农机，粮食买卖信息详情（h5）
 	@Override
 	public AgriculturalEntity findMineId(String id) {
 		return agriculturalDao.findMineId(id);
+	}
+
+	private static int calBetweenDate(Date begin,Date end) {
+		int days = 0;
+		if(begin!=null && end!=null) {
+			days = (int)((end.getTime() - begin.getTime()) / (24*3600*1000));
+		}
+		return days;
+	}
+	
+	@Transactional
+	@Override
+	public AgriculturalEntity updateAgr(AgriculturalEntity agriculturalEntity,String id,String[] addItem,String transactionTypeCode,String transactionCategoryCode) {
+		
+		AgriculturalEntity agricultural = agriculturalDao.findBId(id);
+		Date date = new Date();
+		agriculturalEntity.setUpdateDate(date);// 设置修改时间
+		agriculturalEntity.setStatus("0");     //修改后状态为待审核
+		agriculturalEntity.setCreateDate(agricultural.getCreateDate());
+		agriculturalEntity.setTransactionCategoryCode(transactionCategoryCode);
+		agriculturalEntity.setTransactionTypeCode(transactionTypeCode);
+		agriculturalEntity.setDays(String.valueOf(calBetweenDate(agriculturalEntity.getBeginDate(),agriculturalEntity.getEndDate())));
+		agriculturalDao.save(agriculturalEntity);
+		for (int i = 0; i < addItem.length; i++) {
+			PictureInfoEntity pictureInfoEntity = new PictureInfoEntity();
+			AgriculturalPictureEntity agriculturalPictureEntity = new AgriculturalPictureEntity();
+			pictureInfoEntity.setPicName(agriculturalEntity.getName());
+			pictureInfoEntity.setPicUrl(addItem[i]);
+			pictureInfoDAO.save(pictureInfoEntity);
+			agriculturalPictureEntity.setAgrId(agriculturalEntity.getId());
+			agriculturalPictureEntity.setPicId(pictureInfoEntity.getId());
+			agriculturalPivtureDAO.save(agriculturalPictureEntity);
+		}
+		return agriculturalEntity;
+	}
+	
+	@Override
+	public AgriculturalEntity saveAgr(String[] addItem, AgriculturalEntity agriculturalEntity) {
+		Date date = new Date();
+		agriculturalEntity.setCreateDate(date);// 设置创建时间
+		agriculturalEntity.setStatus("0");// 初始化值为待审核0
+		agriculturalEntity.setDays(String.valueOf(calBetweenDate(agriculturalEntity.getBeginDate(),agriculturalEntity.getEndDate())));
+		agriculturalDao.saveAndFlush(agriculturalEntity);
+		for (int i = 0; i < addItem.length; i++) {
+			PictureInfoEntity pictureInfoEntity = new PictureInfoEntity();
+			AgriculturalPictureEntity agriculturalPictureEntity = new AgriculturalPictureEntity();
+			pictureInfoEntity.setPicName(agriculturalEntity.getName());
+			pictureInfoEntity.setPicUrl(addItem[i]);
+			pictureInfoDAO.saveAndFlush(pictureInfoEntity);
+			agriculturalPictureEntity.setAgrId(agriculturalEntity.getId());
+			agriculturalPictureEntity.setPicId(pictureInfoEntity.getId());
+			agriculturalPivtureDAO.saveAndFlush(agriculturalPictureEntity);
+		}
+		return agriculturalEntity;
 	}
 
 }

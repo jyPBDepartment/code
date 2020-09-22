@@ -79,23 +79,8 @@ public class AgriculturalController {
 	@RequestMapping(value = "/save")
 	public Map<String, Object> save(HttpServletRequest res, HttpServletResponse req,
 			AgriculturalEntity agriculturalEntity, @RequestParam(name = "addItem") String[] addItem) {
-		Date date = new Date();
-		agriculturalEntity.setCreateDate(date);// 设置创建时间
-		agriculturalEntity.setStatus("0");// 初始化值为待审核0
 		Map<String, Object> map = new HashMap<String, Object>();
-		agriculturalService.save(agriculturalEntity);
-		agriculturalEntity.setDays(agriculturalService.findDay(agriculturalEntity.getId()));
-		agriculturalService.update(agriculturalEntity);
-		for (int i = 0; i < addItem.length; i++) {
-			PictureInfoEntity pictureInfoEntity = new PictureInfoEntity();
-			AgriculturalPictureEntity agriculturalPictureEntity = new AgriculturalPictureEntity();
-			pictureInfoEntity.setPicName(agriculturalEntity.getName());
-			pictureInfoEntity.setPicUrl(addItem[i]);
-			pictureInfoService.save(pictureInfoEntity);
-			agriculturalPictureEntity.setAgrId(agriculturalEntity.getId());
-			agriculturalPictureEntity.setPicId(pictureInfoEntity.getId());
-			agriculturalPictureService.save(agriculturalPictureEntity);
-		}
+		agriculturalService.saveAgr(addItem,agriculturalEntity);
 		map.put("state", "0");
 		map.put("data", agriculturalEntity);
 		map.put("message", "添加成功");
@@ -249,7 +234,7 @@ public class AgriculturalController {
 			@RequestParam(name = "id") String id) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		AgriculturalEntity agricultural = agriculturalService.findBId(id);
-		String[] agrPic = agricultural.getUrl().split(",");
+		List<PictureInfoEntity> agrPic = pictureInfoService.findByAgrId(id);
 		map.put("state", "0");// 查询数据成功
 		map.put("data", agricultural);
 		map.put("data1", agrPic);
@@ -368,7 +353,7 @@ public class AgriculturalController {
 		return map;
 	}
 	
-	//取消发布接口
+	//取消发布(接口)
 	@RequestMapping(value = "/unpublish")
 	public Map<String, String> unpublish(HttpServletRequest res, HttpServletResponse req,
 			@RequestParam(name = "id") String id,@RequestParam(name = "reason") String reason,
@@ -382,7 +367,7 @@ public class AgriculturalController {
 		map.put("message", "取消成功");
 		return map;
 	}
-	//修改接口
+	//修改(接口)
 	@RequestMapping(value = "/update")
 	public Map<String, Object> update(HttpServletRequest res, HttpServletResponse req,
 			AgriculturalEntity agriculturalEntity,@RequestParam(name = "id") String id,
@@ -390,29 +375,21 @@ public class AgriculturalController {
 			@RequestParam(name = "transactionCategoryCode") String transactionCategoryCode,
 			@RequestParam(name = "addItem") String[] addItem) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		AgriculturalEntity agricultural = agriculturalService.findBId(id);
-		Date date = new Date();
-		agriculturalEntity.setUpdateDate(date);// 设置修改时间
-		agriculturalEntity.setStatus("0");     //修改后状态为待审核
-		agriculturalEntity.setCreateDate(agricultural.getCreateDate());
-		agriculturalEntity.setTransactionCategoryCode(transactionCategoryCode);
-		agriculturalEntity.setTransactionTypeCode(transactionTypeCode);
-		agriculturalService.save(agriculturalEntity);
-		agriculturalEntity.setDays(agriculturalService.findDay(id)); //计算天数
-		agriculturalService.update(agriculturalEntity);
-		for (int i = 0; i < addItem.length; i++) {
-			PictureInfoEntity pictureInfoEntity = new PictureInfoEntity();
-			AgriculturalPictureEntity agriculturalPictureEntity = new AgriculturalPictureEntity();
-			pictureInfoEntity.setPicName(agriculturalEntity.getName());
-			pictureInfoEntity.setPicUrl(addItem[i]);
-			pictureInfoService.save(pictureInfoEntity);
-			agriculturalPictureEntity.setAgrId(agriculturalEntity.getId());
-			agriculturalPictureEntity.setPicId(pictureInfoEntity.getId());
-			agriculturalPictureService.save(agriculturalPictureEntity);
-		}
+		agriculturalService.updateAgr(agriculturalEntity,id,addItem,transactionTypeCode,transactionCategoryCode);
 		map.put("state", "0");
 		map.put("data", agriculturalEntity);
 		map.put("message", "修改成功");
 		return map;
+	}
+	//图片删除
+	@RequestMapping(value = "/deletePic")
+	public void delete(HttpServletRequest res, HttpServletResponse req,
+			AgriculturalEntity agriculturalEntity,@RequestParam(name = "url") String url) {
+			PictureInfoEntity pictureInfoEntity = pictureInfoService.findByAgrUrl(url);
+			if(pictureInfoEntity != null) {
+				AgriculturalPictureEntity agriculturalPicture = agriculturalPictureService.findByPicId(pictureInfoEntity.getId());
+				agriculturalPictureService.delete(agriculturalPicture.getId());
+				pictureInfoService.delete(pictureInfoEntity.getId());
+			}
 	}
 }

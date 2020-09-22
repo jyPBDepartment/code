@@ -43,4 +43,9 @@ public class PictureInfoServiceImpl implements PictureInfoService{
 	
 		return pictureInfoDao.findByFarmId(id);
 	}
+
+	@Override
+	public PictureInfoEntity findByAgrUrl(String url) {
+		return pictureInfoDao.findByAgrUrl(url);
+	}
 }

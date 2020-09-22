@@ -20,4 +20,6 @@ public interface PictureInfoService {
 	public List<PictureInfoEntity> findByAgrId(@Param("id") String id);
 	
 	public List<PictureInfoEntity> findByFarmId(@Param("id") String id);
+	//根据图片查整条
+	public PictureInfoEntity findByAgrUrl(String url);
 }

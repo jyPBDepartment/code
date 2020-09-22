@@ -35,4 +35,9 @@ public class AgriculturaPictureServiceImpl implements AgriculturalPictureService
 		return agriculturalPivtureDAO.findByAgrId(id);
 	}
 
+	@Override
+	public AgriculturalPictureEntity findByPicId(String picId) {
+		return agriculturalPivtureDAO.findByPicId(picId);
+	}
+
 }
