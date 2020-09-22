@@ -1,21 +1,31 @@
 package com.jy.pc.Service.Impl;
 
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import com.alibaba.fastjson.JSONObject;
 import com.jy.pc.DAO.CaseInfoDao;
 import com.jy.pc.DAO.CaseKeyDAO;
+import com.jy.pc.DAO.ClassificationDao;
 import com.jy.pc.DAO.KeyWordDao;
 import com.jy.pc.Entity.CaseInfoEntity;
 import com.jy.pc.Entity.CaseKeyEntity;
+import com.jy.pc.Entity.ClassificationEntity;
 import com.jy.pc.Entity.KeyWordEntity;
 import com.jy.pc.Service.CaseInfoService;
+import com.jy.pc.Utils.Aes;
 import com.jy.pc.Utils.DbLogUtil;
 import com.mysql.cj.util.StringUtils;
 
@@ -28,6 +38,8 @@ public class CaseInfoServiceImpl implements CaseInfoService {
 	public KeyWordDao keyWordDao;
 	@Autowired
 	public CaseKeyDAO caseKeyDAO;
+	@Autowired
+	public ClassificationDao  classificationDao;
 	@Autowired
 	private DbLogUtil logger;
 
@@ -135,5 +147,74 @@ public class CaseInfoServiceImpl implements CaseInfoService {
 	public Page<CaseInfoEntity> findPage(String name, String cropsTypeCode, String dipTypeCode, Pageable pageable) {
 		String caseName = "".equals(name)? "":"%" + name + "%";
 		return caseInfoDao.findPage(caseName,cropsTypeCode,dipTypeCode, pageable);
+	}
+
+	@Override
+	public CaseInfoEntity updateCase(CaseInfoEntity caseInfoEntity,HttpServletRequest res,HttpServletResponse req) {
+		
+		Aes aes = new Aes();
+		String s = "";
+		String temp = res.getParameter("caseInfoEntity");
+		try {
+			s = aes.desEncrypt(temp);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		JSONObject jsonObject = JSONObject.parseObject(s);
+		Date date = new Date();
+		caseInfoEntity = jsonObject.toJavaObject(CaseInfoEntity.class);
+		caseInfoEntity.setUpdateDate(date);
+
+		ClassificationEntity classificationEntity = classificationDao.findBId(caseInfoEntity.getClassiCode());
+		caseInfoEntity.setCropsTypeCode(classificationEntity.getName());
+
+		ClassificationEntity classification = classificationDao.findBId(caseInfoEntity.getClassiDipCode());
+		caseInfoEntity.setDipTypeCode(classification.getName());
+		String keywords = jsonObject.getString("keys");
+		caseInfoDao.save(caseInfoEntity);
+		caseKeyDAO.deleteByCase(caseInfoEntity.getId());
+		if (!StringUtils.isNullOrEmpty(keywords)) {
+			String[] arr = keywords.split(",");
+			for (String item : arr) {
+				CaseKeyEntity entity = new CaseKeyEntity();
+				entity.setKeyId(item);
+				entity.setCaseId(caseInfoEntity.getId());
+				caseKeyDAO.save(entity);
+			}
+		}
+		return caseInfoEntity;
+	}
+
+	@Override
+	public CaseInfoEntity saveCase(CaseInfoEntity caseInfoEntity,String caseInfo) {
+		
+		
+		JSONObject jsonObject = JSONObject.parseObject(caseInfo);
+		Date date = new Date();
+		caseInfoEntity = jsonObject.toJavaObject(CaseInfoEntity.class);
+		caseInfoEntity.setCreateDate(date);
+		caseInfoEntity.setAuditStatus("0");
+
+		ClassificationEntity classificationEntity = classificationDao.findBId(caseInfoEntity.getClassiCode());
+		caseInfoEntity.setCropsTypeCode(classificationEntity.getName());
+
+		ClassificationEntity classification = classificationDao.findBId(caseInfoEntity.getClassiDipCode());
+		caseInfoEntity.setDipTypeCode(classification.getName());
+
+		String keywords = jsonObject.getString("keys");
+		
+//			caseInfoDao.saveWithKeyword(caseInfoEntity, keywords);
+			caseInfoDao.save(caseInfoEntity);
+			if (!StringUtils.isNullOrEmpty(keywords)) {
+				String[] arr = keywords.split(",");
+				for (String item : arr) {
+					CaseKeyEntity entity = new CaseKeyEntity();
+					entity.setKeyId(item);
+					entity.setCaseId(caseInfoEntity.getId());
+					caseKeyDAO.save(entity);
+				}
+			}
+			return caseInfoEntity;
+		
 	}
 }

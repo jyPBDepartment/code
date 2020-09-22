@@ -2,6 +2,9 @@ package com.jy.pc.Service;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -11,6 +14,7 @@ public interface CaseInfoService {
 
 	// 添加
 	public CaseInfoEntity save(CaseInfoEntity caseInfoEntity);
+	public CaseInfoEntity saveCase(CaseInfoEntity caseInfoEntity,String caseInfo);
 
 	// 添加(级联添加关键词)
 	public CaseInfoEntity saveWithKeyword(CaseInfoEntity caseInfoEntity, String keywords);
@@ -29,6 +33,7 @@ public interface CaseInfoService {
 
 	// 修改
 	public CaseInfoEntity update(CaseInfoEntity caseInfoEntity);
+	public CaseInfoEntity updateCase(CaseInfoEntity caseInfoEntity,HttpServletRequest res,HttpServletResponse req);
 
 	// 删除
 	public void delete(String id);
@@ -41,4 +46,5 @@ public interface CaseInfoService {
 
 	//切换状态 启用禁用
 	CaseInfoEntity enable(CaseInfoEntity caseInfoEntity, boolean result);
+	
 }

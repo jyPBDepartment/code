@@ -168,29 +168,29 @@ public class FarmworkController {
 			FarmworkEntity farmworkEntity,@RequestParam(name = "addItem") String addItem,
 			@RequestParam(name = "agrId") String agrId) {
 		Map<String, String> map = new HashMap<String, String>();
-		String[] picArray = null;
-		if(addItem.indexOf(",")>-1) {
-			picArray = addItem.split(",");
-		}else {
-			picArray[0]= addItem;
-		}
-		farmworkEntity.setStatus("0");
-		farmworkEntity.setAgriculturalId(agrId);
-		farmworkEntity.setUrl(picArray[0]);
-		FarmworkEntity farmwork= farmworkService.save(farmworkEntity);
-		farmworkEntity.setDays(farmworkService.findDay(farmworkEntity.getId()));
-		farmworkService.update(farmworkEntity);
-		for(int i=0;i<picArray.length;i++) {
-			PictureInfoEntity pictureInfoEntity = new PictureInfoEntity();
-			pictureInfoEntity.setPicName(farmwork.getId());
-			pictureInfoEntity.setPicUrl(picArray[i]);
-			PictureInfoEntity pictureInfo = pictureInfoService.save(pictureInfoEntity);
-			
-			FarmworkPictureEntity farm = new FarmworkPictureEntity();
-			farm.setFarmworkId(farmwork.getId());
-			farm.setPicId(pictureInfo.getId());
-			farmworkPictureService.save(farm);		
-		}
+//		String[] picArray = null;
+//		if(addItem.indexOf(",")>-1) {
+//			picArray = addItem.split(",");
+//		}else {
+//			picArray[0]= addItem;
+//		}
+//		farmworkEntity.setStatus("0");
+//		farmworkEntity.setAgriculturalId(agrId);
+//		farmworkEntity.setUrl(picArray[0]);
+		farmworkService.saveFarmwork(farmworkEntity, addItem, agrId);
+//		farmworkEntity.setDays(farmworkService.findDay(farmworkEntity.getId()));
+//		farmworkService.update(farmworkEntity);
+//		for(int i=0;i<picArray.length;i++) {
+//			PictureInfoEntity pictureInfoEntity = new PictureInfoEntity();
+//			pictureInfoEntity.setPicName(farmwork.getId());
+//			pictureInfoEntity.setPicUrl(picArray[i]);
+//			PictureInfoEntity pictureInfo = pictureInfoService.save(pictureInfoEntity);
+//			
+//			FarmworkPictureEntity farm = new FarmworkPictureEntity();
+//			farm.setFarmworkId(farmwork.getId());
+//			farm.setPicId(pictureInfo.getId());
+//			farmworkPictureService.save(farm);		
+//		}
 		map.put("state", "0");
 		map.put("message", "添加成功");
 		return map;

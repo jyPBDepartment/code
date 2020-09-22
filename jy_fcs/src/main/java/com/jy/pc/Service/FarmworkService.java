@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.query.Param;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.jy.pc.Entity.AccountInfoEntity;
 import com.jy.pc.Entity.AgriculturalEntity;
@@ -16,6 +17,7 @@ public interface FarmworkService {
 
 	// 农活预约添加
 	public FarmworkEntity save(FarmworkEntity farmworkEntity);
+	public FarmworkEntity saveFarmwork(FarmworkEntity farmworkEntity,String addItem,String agrId);
 
 	//根据id获取实体
 	public FarmworkEntity findById(String id);

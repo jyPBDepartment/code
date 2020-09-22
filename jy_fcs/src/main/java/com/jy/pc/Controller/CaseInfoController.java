@@ -1,17 +1,13 @@
 package com.jy.pc.Controller;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.transaction.Transactional;
 
-import org.hibernate.validator.constraints.SafeHtml.Attribute;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -21,15 +17,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.alibaba.fastjson.JSONObject;
 import com.jy.pc.Entity.CaseInfoEntity;
-import com.jy.pc.Entity.ClassificationEntity;
 import com.jy.pc.Entity.KeyWordEntity;
 import com.jy.pc.Enum.ClassificationEnum;
 import com.jy.pc.Service.CaseInfoService;
-import com.jy.pc.Service.ClassificationService;
 import com.jy.pc.Service.KeyWordService;
-import com.jy.pc.Utils.Aes;
 
 @Controller
 @ResponseBody
@@ -38,8 +30,7 @@ public class CaseInfoController {
 
 	@Autowired
 	private CaseInfoService caseInfoService;
-	@Autowired
-	private ClassificationService classificationService;
+	
 	@Autowired
 	private KeyWordService keyWordService;
 
@@ -94,27 +85,13 @@ public class CaseInfoController {
 
 	@RequestMapping(value = "/save")
 
-	public Map<String, String> save(HttpServletRequest res, HttpServletResponse req,
+	public Map<String, String> save(HttpServletRequest res, HttpServletResponse req,CaseInfoEntity caseInfoEntity,
 			@RequestParam("caseInfoEntity") String caseInfo) {
-
 		Map<String, String> map = new HashMap<String, String>();
-		JSONObject jsonObject = JSONObject.parseObject(caseInfo);
-		Date date = new Date();
-		CaseInfoEntity caseInfoEntity = jsonObject.toJavaObject(CaseInfoEntity.class);
-		caseInfoEntity.setCreateDate(date);
-		caseInfoEntity.setAuditStatus("0");
 
-		ClassificationEntity classificationEntity = classificationService.findBId(caseInfoEntity.getClassiCode());
-		caseInfoEntity.setCropsTypeCode(classificationEntity.getName());
-
-		ClassificationEntity classification = classificationService.findBId(caseInfoEntity.getClassiDipCode());
-		caseInfoEntity.setDipTypeCode(classification.getName());
-
-		String keywords = jsonObject.getString("keys");
 		try {
-			caseInfoService.saveWithKeyword(caseInfoEntity, keywords);
+			caseInfoService.saveCase(caseInfoEntity, caseInfo);
 			map.put("state", "0");
-
 			map.put("message", "添加成功");
 		} catch (Exception e) {
 			map.put("state", "1");
@@ -139,29 +116,11 @@ public class CaseInfoController {
 	}
 
 	// 修改
+	@Transactional
 	@RequestMapping(value = "update")
-	public Map<String, String> update(HttpServletRequest res, HttpServletResponse req) {
-		Aes aes = new Aes();
-		String s = "";
+	public Map<String, String> update(HttpServletRequest res, HttpServletResponse req,CaseInfoEntity caseInfo) {
 		Map<String, String> map = new HashMap<String, String>();
-		String temp = res.getParameter("caseInfoEntity");
-		try {
-			s = aes.desEncrypt(temp);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		JSONObject jsonObject = JSONObject.parseObject(s);
-		Date date = new Date();
-		CaseInfoEntity caseInfoEntity = jsonObject.toJavaObject(CaseInfoEntity.class);
-		caseInfoEntity.setUpdateDate(date);
-
-		ClassificationEntity classificationEntity = classificationService.findBId(caseInfoEntity.getClassiCode());
-		caseInfoEntity.setCropsTypeCode(classificationEntity.getName());
-
-		ClassificationEntity classification = classificationService.findBId(caseInfoEntity.getClassiDipCode());
-		caseInfoEntity.setDipTypeCode(classification.getName());
-		String keywords = jsonObject.getString("keys");
-		caseInfoService.updateWithKeyword(caseInfoEntity, keywords);
+		caseInfoService.updateCase(caseInfo,res,req);	
 		map.put("message", "修改成功");
 		return map;
 	}
