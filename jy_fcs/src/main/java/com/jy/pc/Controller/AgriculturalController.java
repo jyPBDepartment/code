@@ -393,4 +393,14 @@ public class AgriculturalController {
 				pictureInfoService.delete(pictureInfoEntity.getId());
 			}
 	}
+	// 删除
+	@RequestMapping(value = "/delete")
+	public Map<String, Object> delete(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "id") String id) {
+		Map<String, Object> map = new HashMap<String, Object>();// 接收数据容器
+		agriculturalService.delete(id);
+		map.put("state", "0");
+		map.put("message", "删除成功");
+		return map;
+}
 }

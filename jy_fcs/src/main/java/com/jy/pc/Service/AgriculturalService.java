@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.repository.query.Param;
 
 import com.jy.pc.Entity.AgriculturalEntity;
 
@@ -68,5 +67,7 @@ public interface AgriculturalService {
 	public AgriculturalEntity updateAgr(AgriculturalEntity agriculturalEntity,String id,String[] addItem,String[] deleteItem,String transactionTypeCode,String transactionCategoryCode);
 	// 农服添加
 	public AgriculturalEntity saveAgr(String[] addItem,AgriculturalEntity agriculturalEntity);
+	// 删除
+	public void delete(String id);
 
 }
