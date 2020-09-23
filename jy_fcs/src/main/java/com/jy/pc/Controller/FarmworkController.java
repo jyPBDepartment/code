@@ -1,6 +1,5 @@
 package com.jy.pc.Controller;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,14 +18,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.alibaba.fastjson.JSONObject;
-import com.jy.pc.Entity.AccountInfoEntity;
 import com.jy.pc.Entity.AgriculturalEntity;
 import com.jy.pc.Entity.FarmworkEntity;
-import com.jy.pc.Entity.FarmworkPictureEntity;
 import com.jy.pc.Entity.PictureInfoEntity;
 import com.jy.pc.Service.AgriculturalService;
-import com.jy.pc.Service.ClassificationService;
 import com.jy.pc.Service.FarmworkPictureService;
 import com.jy.pc.Service.FarmworkService;
 import com.jy.pc.Service.PictureInfoService;
@@ -100,8 +95,6 @@ public class FarmworkController {
 			@RequestParam(name = "id") String id) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		FarmworkEntity agricultural = farmworkService.findById(id);
-		// AgriculturalEntity entity =
-		// agriculturalService.findBId(agricultural.getAgriculturalId());
 		if (agricultural != null) {
 			map.put("state", "0");// 查询成功
 			map.put("message", "查询成功");
@@ -168,29 +161,7 @@ public class FarmworkController {
 			FarmworkEntity farmworkEntity,@RequestParam(name = "addItem") String addItem,
 			@RequestParam(name = "agrId") String agrId) {
 		Map<String, String> map = new HashMap<String, String>();
-//		String[] picArray = null;
-//		if(addItem.indexOf(",")>-1) {
-//			picArray = addItem.split(",");
-//		}else {
-//			picArray[0]= addItem;
-//		}
-//		farmworkEntity.setStatus("0");
-//		farmworkEntity.setAgriculturalId(agrId);
-//		farmworkEntity.setUrl(picArray[0]);
 		farmworkService.saveFarmwork(farmworkEntity, addItem, agrId);
-//		farmworkEntity.setDays(farmworkService.findDay(farmworkEntity.getId()));
-//		farmworkService.update(farmworkEntity);
-//		for(int i=0;i<picArray.length;i++) {
-//			PictureInfoEntity pictureInfoEntity = new PictureInfoEntity();
-//			pictureInfoEntity.setPicName(farmwork.getId());
-//			pictureInfoEntity.setPicUrl(picArray[i]);
-//			PictureInfoEntity pictureInfo = pictureInfoService.save(pictureInfoEntity);
-//			
-//			FarmworkPictureEntity farm = new FarmworkPictureEntity();
-//			farm.setFarmworkId(farmwork.getId());
-//			farm.setPicId(pictureInfo.getId());
-//			farmworkPictureService.save(farm);		
-//		}
 		map.put("state", "0");
 		map.put("message", "添加成功");
 		return map;
