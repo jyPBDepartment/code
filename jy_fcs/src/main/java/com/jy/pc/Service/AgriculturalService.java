@@ -65,7 +65,7 @@ public interface AgriculturalService {
 	Page<AgriculturalEntity> findMyPublication(String status, String type, String userId, Pageable pageable);
 	
 	// 农服修改
-	public AgriculturalEntity updateAgr(AgriculturalEntity agriculturalEntity,String id,String[] addItem,String transactionTypeCode,String transactionCategoryCode);
+	public AgriculturalEntity updateAgr(AgriculturalEntity agriculturalEntity,String id,String[] addItem,String[] deleteItem,String transactionTypeCode,String transactionCategoryCode);
 	// 农服添加
 	public AgriculturalEntity saveAgr(String[] addItem,AgriculturalEntity agriculturalEntity);
 

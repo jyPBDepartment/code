@@ -186,12 +186,20 @@ public class AgriculturalServiceImpl implements AgriculturalService {
 	
 	@Transactional
 	@Override
-	public AgriculturalEntity updateAgr(AgriculturalEntity agriculturalEntity,String id,String[] addItem,String transactionTypeCode,String transactionCategoryCode) {
+	public AgriculturalEntity updateAgr(AgriculturalEntity agriculturalEntity,String id,String[] addItem,String[] deleteItem,String transactionTypeCode,String transactionCategoryCode) {
 		
 		AgriculturalEntity agricultural = agriculturalDao.findBId(id);
 		Date date = new Date();
 		agriculturalEntity.setUpdateDate(date);// 设置修改时间
-		agriculturalEntity.setStatus("0");     //修改后状态为待审核
+		agriculturalEntity.setStatus(agricultural.getStatus());
+		//0923根据产品要求，只有当图片、标题、描述发生变动时才修改审核状态
+		String oldName = agricultural.getName();
+		String oldDes = agricultural.getDescrip();
+		String newName = agriculturalEntity.getName();
+		String newDes = agriculturalEntity.getDescrip();
+		if(!oldName.equals(newName) || !oldDes.equals(newDes) || (addItem!=null&&addItem.length>0) || (deleteItem!=null&&deleteItem.length>0)) {
+			agriculturalEntity.setStatus("0");
+		}
 		agriculturalEntity.setCreateDate(agricultural.getCreateDate());
 		agriculturalEntity.setTransactionCategoryCode(transactionCategoryCode);
 		agriculturalEntity.setTransactionTypeCode(transactionTypeCode);
