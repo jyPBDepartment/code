@@ -205,6 +205,14 @@ public class AgriculturalServiceImpl implements AgriculturalService {
 		agriculturalEntity.setTransactionTypeCode(transactionTypeCode);
 		agriculturalEntity.setDays(String.valueOf(calBetweenDate(agriculturalEntity.getBeginDate(),agriculturalEntity.getEndDate())));
 		agriculturalDao.save(agriculturalEntity);
+		for (int i = 0; i < deleteItem.length; i++) {
+			PictureInfoEntity pictureInfoEntity = pictureInfoDAO.findByAgrUrl(deleteItem[i]);
+			if(pictureInfoEntity != null) {
+				AgriculturalPictureEntity agriculturalPicture = agriculturalPivtureDAO.findByPicId(pictureInfoEntity.getId());
+				agriculturalPivtureDAO.deleteById(agriculturalPicture.getId());
+				pictureInfoDAO.deleteById(pictureInfoEntity.getId());
+			}
+		}
 		for (int i = 0; i < addItem.length; i++) {
 			PictureInfoEntity pictureInfoEntity = new PictureInfoEntity();
 			AgriculturalPictureEntity agriculturalPictureEntity = new AgriculturalPictureEntity();
