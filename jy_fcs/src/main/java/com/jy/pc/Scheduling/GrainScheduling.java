@@ -60,7 +60,7 @@ public class GrainScheduling {
 					today.setCreateDate(now);
 					today.setCreateUser("系统定时器");
 					today.setPrice(newestInfo.getPrice());
-					today.setPriceDate(sdf.format(now));
+					today.setPriceDate(now);
 					today.setPriceDefinedType("1");
 					GrainPricesHistoryEntity history = new GrainPricesHistoryEntity();
 					history.setCreateDate(now);
