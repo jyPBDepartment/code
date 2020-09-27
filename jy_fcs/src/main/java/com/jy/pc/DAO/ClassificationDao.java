@@ -16,7 +16,7 @@ public interface ClassificationDao extends JpaRepository<ClassificationEntity, S
 	public ClassificationEntity findBId(@Param("id") String id);
 
 	// 分页与模糊查询
-	@Query(value = "select * from sas_classification_info t where t.code like ?1 and t.name like ?2 and t.parent_code = ''", countQuery = "select count(*) from sas_classification_info t  where if(?1 !='',t.code like ?1,1=1) and if(?2 !='',t.name like ?2,1=1) order by t.create_date desc", nativeQuery = true)
+	@Query(value = "select * from sas_classification_info t  where if(?1 !='',t.code like ?1,1=1) and if(?2 !='',t.name like ?2,1=1) order by t.create_date desc",countQuery = "select count(*) from sas_classification_info t  where if(?1 !='',t.code like ?1,1=1) and if(?2 !='',t.name like ?2,1=1) order by t.create_date desc", nativeQuery = true)
 	public Page<ClassificationEntity> findListByName(String code, String name, Pageable pageable);
 
 	// 查询子菜单
