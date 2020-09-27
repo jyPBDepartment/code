@@ -52,7 +52,7 @@ public class GrainPricesController {
 		grainPricesService.saveOrUpdate(grainPricesEntity);//保存粮价数据
 		
 		GrainPricesHistoryEntity grainPricesHistoryEntity = new GrainPricesHistoryEntity();
-		if(grainPricesEntity.getId()!=null) {
+		if(!grainPricesEntity.getId().isEmpty()) {
 			grainPricesHistoryEntity.setOperateType("0");//0新增
 			grainPricesHistoryEntity.setOperateContent("操作员："+grainPricesEntity.getCreateUser()+"于"+new Date()+"新增一条粮价数据");
 		}else {

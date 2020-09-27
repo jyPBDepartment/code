@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
@@ -51,17 +52,17 @@ public class GrainPricesHistoryController {
 	
 	// 根据参数查询 分页
 	@RequestMapping(value = "/findPageByParam")
+	@ResponseBody
 	public Map<String, Object> findByName(HttpServletRequest res, HttpServletResponse req,
-			@RequestParam(name = "name") String name, @RequestParam(name = "phone") String phone,
-			@RequestParam(name = "page") Integer page, @RequestParam(name = "auditStatus") String auditStatus,
+			@RequestParam(name = "operateType") String operateType, @RequestParam(name = "page") Integer page,
 			@RequestParam(name = "size") Integer size) {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 		Pageable pageable = new PageRequest(page - 1, size);
-//		Page<AccountInfoEntity> accountInfoList = accountInfoService.findListByName(name, phone, auditStatus, pageable);
+		Page<GrainPricesHistoryEntity> grainPricesHistoryList = grainPricesHistoryService.findPageByParam(operateType, pageable);
 		map.put("status", "0");// 成功
 		map.put("message", "查询成功");
-//		map.put("data", accountInfoList);
+		map.put("data", grainPricesHistoryList);
 		return map;
 	}
 }

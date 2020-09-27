@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -37,13 +38,8 @@ public class GrainPricesHistoryServiceImpl implements GrainPricesHistoryService{
 	}
 	
 	// 根据参数查询 分页
-	public Map<String, Object> findByName(String name, String phone, Pageable pageable) {
+	public Page<GrainPricesHistoryEntity> findPageByParam(String operateType, Pageable pageable){
 
-		Map<String, Object> map = new HashMap<String, Object>();
-//		Page<AccountInfoEntity> accountInfoList = accountInfoService.findListByName(name, phone, auditStatus, pageable);
-		map.put("status", "0");// 成功
-		map.put("message", "查询成功");
-//		map.put("data", accountInfoList);
-		return map;
+		return grainPricesHistoryDAO.findPageByParam(operateType,pageable);
 	}
 }
