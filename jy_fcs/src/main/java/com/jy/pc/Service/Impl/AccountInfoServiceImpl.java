@@ -153,4 +153,10 @@ public class AccountInfoServiceImpl implements AccountInfoService {
 		map.put("message", "修改成功");
 		return map;
 	}
+
+	@Override
+	@Transactional
+	public void resetPass(AccountInfoEntity accountInfo) {
+		accountInfoDao.saveAndFlush(accountInfo);
+	}
 }

@@ -101,4 +101,10 @@ public class PostInfoServiceImpl implements PostInfoService {
 		return page;
 	}
 
+	@Override
+	@Transactional
+	public void delete(String id) {
+		invitationDao.deleteById(id);
+	}
+
 }

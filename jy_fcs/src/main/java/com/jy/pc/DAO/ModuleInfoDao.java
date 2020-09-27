@@ -30,5 +30,8 @@ public interface ModuleInfoDao extends JpaRepository<ModuleInfoEntity, String> {
 	// 查询所有有效的模块信息
 	@Query(value = "select * from sas_module_info t where t.status ='0' order by t.create_date desc", nativeQuery = true)
 	public List<ModuleInfoEntity> findListByMobile();
+	// 查询排序
+	@Query(value = "select * from sas_module_info ", nativeQuery = true)
+	public List<ModuleInfoEntity> findSort();
 
 }

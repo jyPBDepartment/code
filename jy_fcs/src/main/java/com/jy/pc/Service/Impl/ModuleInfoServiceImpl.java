@@ -94,4 +94,10 @@ public class ModuleInfoServiceImpl implements ModuleInfoService {
 		
 	}
 
+	//查询模块全部信息
+	@Override
+	public List<ModuleInfoEntity> findSort() {
+		return moduleInfoDao.findSort();
+	}
+
 }

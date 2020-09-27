@@ -87,4 +87,9 @@ public class PostCommentInfoServiceImpl implements PostCommentInfoService {
 		return page;
 	}
 
+	@Override
+	public List<PostCommentInfoEntity> findPostId(String postId) {
+		return postCommentInfoDao.findPostId(postId);
+	}
+
 }

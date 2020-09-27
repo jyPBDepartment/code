@@ -29,5 +29,7 @@ public interface AccountInfoService {
 	void updatePwd(AccountInfoEntity accountInfo);
 	
 	Map<String, String> updateJur(String accountId,String addItem,String deleteItem);
+	//修改密码
+	public	void resetPass(AccountInfoEntity accountInfo);
 
 }

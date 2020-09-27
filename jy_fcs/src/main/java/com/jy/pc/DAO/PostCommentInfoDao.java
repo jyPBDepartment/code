@@ -31,8 +31,11 @@ public interface PostCommentInfoDao extends JpaRepository<PostCommentInfoEntity,
 					+ "if(?2 !='',t.comment_user_name like ?2,1=1) order by t.comment_date desc", nativeQuery = true)
 	public Page<PostCommentInfoEntity> findListByContent(String content, String user, Pageable pageable);
 
+	//通过帖子id查询
+	@Query(value="select * from sas_post_comment_info p where p.post_id=:postId",nativeQuery = true)
+	public List<PostCommentInfoEntity> findPostId(@Param("postId") String postId);
+	
 	@Query(value="delete from sas_post_comment_info  where id = :id",nativeQuery = true)
 	@Modifying
 	public void deleteByIdNotJoin(@Param("id") String id);
-
 }

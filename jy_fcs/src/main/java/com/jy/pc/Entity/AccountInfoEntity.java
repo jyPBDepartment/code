@@ -53,6 +53,16 @@ public class AccountInfoEntity {
 	//修改人
 	@Column
 	private String updateUser;
+	//昵称
+	@Column
+	private String nickName;
+	
+	public String getNickName() {
+		return nickName;
+	}
+	public void setNickName(String nickName) {
+		this.nickName = nickName;
+	}
 	public String getId() {
 		return id;
 	}

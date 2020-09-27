@@ -37,4 +37,6 @@ public interface ModuleInfoService {
 
 	//修改排序
 	public void changeSort(ModuleInfoEntity moduleInfoEntity);
+	
+	public List<ModuleInfoEntity> findSort();
 }

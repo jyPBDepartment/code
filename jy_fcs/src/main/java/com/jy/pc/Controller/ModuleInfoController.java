@@ -133,12 +133,22 @@ public class ModuleInfoController {
 	public Map<String, String> changeSort(HttpServletRequest res, HttpServletResponse req,
 			@RequestParam(name = "id") String id, @RequestParam(name = "sort") String sort) {
 
+		Date date = new Date();
 		Map<String, String> map = new HashMap<String, String>();
 		ModuleInfoEntity moduleInfoEntity = moduleInfoService.findId(id);
-		Date date = new Date();
+		List<ModuleInfoEntity> moduleList=moduleInfoService.findSort();
+		for(int i=0;i<moduleList.size();i++) {
+			if(moduleList.get(i).getSort().contains(sort) == true) {
+				map.put("state", "1");
+				map.put("message", "排序不能重复");
+				return map;
+			}
+		}
 		moduleInfoEntity.setSort(sort);
 		moduleInfoEntity.setUpdateDate(date);
 		moduleInfoService.changeSort(moduleInfoEntity);
+		map.put("state", "0");
+		map.put("message", "修改成功");
 		return map;
 	}
 

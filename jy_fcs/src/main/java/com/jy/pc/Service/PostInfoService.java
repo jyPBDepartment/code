@@ -24,4 +24,6 @@ public interface PostInfoService {
 	public Page<PostInfoEntity> findListWithSub(String postType,Pageable pageable);
 	void enable(PostInfoEntity invitation, boolean result);
 	void audit(PostInfoEntity invitation, boolean result);
+	// 删除
+	public void delete(String id);
 }

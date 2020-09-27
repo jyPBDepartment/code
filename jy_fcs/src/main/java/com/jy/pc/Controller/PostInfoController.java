@@ -20,9 +20,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
 import com.jy.pc.Entity.ClassificationEntity;
+import com.jy.pc.Entity.PostCommentInfoEntity;
 import com.jy.pc.Entity.PostInfoEntity;
 import com.jy.pc.Enum.ClassificationEnum;
 import com.jy.pc.Service.ClassificationService;
+import com.jy.pc.Service.PostCommentInfoService;
 import com.jy.pc.Service.PostInfoService;
 
 //帖子管理
@@ -34,6 +36,8 @@ public class PostInfoController {
 	private PostInfoService postInfoService;
 	@Autowired
 	private ClassificationService classificationService;
+	@Autowired
+	private PostCommentInfoService postCommentInfoService;
 
 
 	@RequestMapping(value = "/getPostType")
@@ -155,6 +159,26 @@ public class PostInfoController {
 		postInfoService.audit(postInfoEntity, false);
 		map.put("state", "0");
 		map.put("message", "审核驳回");
+		return map;
+	}
+	//删除
+	@RequestMapping(value = "/delete")
+	public Map<String, Object> delete(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "id") String id) {
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		try {
+			PostInfoEntity postInfo = postInfoService.findId(id);
+			List<PostCommentInfoEntity> postCommentList = postCommentInfoService.findPostId(postInfo.getId());
+			for(int i=0;i<postCommentList.size();i++) {
+				postCommentInfoService.delete(postCommentList.get(i).getId());
+			}
+			postInfoService.delete(id);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		map.put("state", "0");// 成功
+		map.put("message", "删除成功");
 		return map;
 	}
 

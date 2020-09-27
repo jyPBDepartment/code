@@ -1,7 +1,10 @@
 package com.jy.pc.Service;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.query.Param;
 
 import com.jy.pc.Entity.PostCommentInfoEntity;
 import com.jy.pc.POJO.PostCommentInfoPO;
@@ -27,4 +30,6 @@ public interface PostCommentInfoService {
 
 	//切换状态
 	void enable(PostCommentInfoEntity postCommentInfoEntity, boolean result);
+	
+	public List<PostCommentInfoEntity> findPostId(String postId);
 }

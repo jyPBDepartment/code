@@ -213,4 +213,20 @@ public class AccountInfoController {
 		map.put("message", "修改成功");
 		return map;
 	}
+	
+	//重置密码
+	@RequestMapping(value = "/resetPass")
+	public Map<String, Object> resetPass(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "id") String id) {
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		AccountInfoEntity account = accountInfoService.findId(id);
+		Date date = new Date();
+		account.setPassWord("123456");
+		account.setUpdateDate(date);
+		accountInfoService.resetPass(account);
+		map.put("status", "0");
+		map.put("message", "修改成功");
+		return map;
+	}
 }
