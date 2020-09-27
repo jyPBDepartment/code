@@ -24,6 +24,6 @@ public interface GrainPricesDAO extends JpaRepository<GrainPricesEntity,String>{
 	@Query(value="SELECT * FROM sas_grain_prices_info ORDER BY price_date DESC limit 1",nativeQuery = true)
 	public GrainPricesEntity findNewestInfo();
 	
-	@Query(value="SELECT * FROM sas_grain_prices_info t where t.price_date <= NOW()  order by t.price_date desc limit ?1",nativeQuery = true)
+	@Query(value="select * from (SELECT * FROM sas_grain_prices_info t where t.price_date <= date_format(now(),'%Y-%m-%d')  limit ?1 ) t1 order by t1.price_date",nativeQuery = true)
 	public List<GrainPricesEntity> findListByType(int type);
 }

@@ -37,7 +37,7 @@ public class GrainPricesEntity {
 	// 价格生成时间
 	@Column
 	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
-	@Temporal(TemporalType.TIMESTAMP)
+	@Temporal(TemporalType.DATE)
 	private Date priceDate;
 	// 价格定义类型
 	@Column

@@ -1,5 +1,6 @@
 package com.jy.pc.Service.Impl;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -54,6 +55,10 @@ public class GrainPricesServiceImpl implements GrainPricesService {
 		}
 
 		return grainPricesDAO.findListByType(queryParam);
+	}
+	
+	public List<GrainPricesEntity> findInfoByDate(Date now){
+		return grainPricesDAO.findInfoByDate(now);
 	}
 
 }

@@ -1,5 +1,7 @@
 package com.jy.pc.Controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -40,8 +42,12 @@ public class GrainPricesController {
 		String s = res.getParameter("grainPricesEntity");
 		JSONObject jsonObject = JSONObject.parseObject(s);
 		GrainPricesEntity grainPricesEntity = jsonObject.toJavaObject(GrainPricesEntity.class);
+		if(!grainPricesEntity.getId().isEmpty()) {
+			grainPricesEntity.setUpdateDate(new Date());
+		}else {
+			grainPricesEntity.setCreateDate(new Date());
+		}
 		
-		grainPricesEntity.setCreateDate(new Date());
 		grainPricesEntity.setPriceDefinedType("0");
 		grainPricesService.saveOrUpdate(grainPricesEntity);//保存粮价数据
 		
@@ -69,9 +75,9 @@ public class GrainPricesController {
 			@RequestParam("currentUser") String currentUser){
 		
 		Map<String,Object> map =new HashMap<String,Object>();
+		GrainPricesEntity grainPricesEntity = grainPricesService.findInfoById(id);//根据id查询数据
 		grainPricesService.delete(id);
 		
-		GrainPricesEntity grainPricesEntity = grainPricesService.findInfoById(id);//根据id查询数据
 		GrainPricesHistoryEntity grainPricesHistoryEntity = new GrainPricesHistoryEntity();
 		grainPricesHistoryEntity.setOperateType("2");// 2删除
 		grainPricesHistoryEntity.setOperateContent("操作员："+currentUser+"于"+new Date()+"删除一条"+grainPricesEntity.getPriceDate()+"的粮价数据");
@@ -114,19 +120,47 @@ public class GrainPricesController {
 
 	/**
 	 * 根据类型查询 分页
+	 * 
 	 * @param type 筛选类型 0表示7日，1表示30日内
 	 * 
-	 * */ 
-		@RequestMapping(value = "/findListByType")
-		@ResponseBody
-		public Map<String, Object> findListByType(HttpServletRequest res, HttpServletResponse req,
-				@RequestParam(name = "type") String type) {
+	 */
+	@RequestMapping(value = "/findListByType")
+	@ResponseBody
+	public Map<String, Object> findListByType(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "type") String type) {
 
-			Map<String, Object> map = new HashMap<String, Object>();
-			List<GrainPricesEntity> grainPricesList = grainPricesService.findListByType(type);
-			map.put("state", "0");// 成功
-			map.put("message", "查询成功");
-			map.put("data", grainPricesList);
-			return map;
+		Map<String, Object> map = new HashMap<String, Object>();
+		List<GrainPricesEntity> grainPricesList = grainPricesService.findListByType(type);
+		map.put("state", "0");// 成功
+		map.put("message", "查询成功");
+		map.put("data", grainPricesList);
+		return map;
+	}
+	
+	/**
+	 * 验证日期是否重复
+	 * 
+	 * @param priceDate 价格日期
+	 * 
+	 */
+	@RequestMapping(value = "/checkPriceDate")
+	@ResponseBody
+	public Map<String, Object> checkPriceDate(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "priceDate") String priceDate) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		Date d = null;
+		try {
+			d = sdf.parse(priceDate);
+		} catch (ParseException e) {
+			e.printStackTrace();
 		}
+
+		List<GrainPricesEntity> grainPricesList = grainPricesService.findInfoByDate(d);
+		if (grainPricesList.size() > 0) {
+			map.put("status", "0");// 成功
+			map.put("message", "日期已经存在，请重新选择");
+		}
+		return map;
+	}
 }

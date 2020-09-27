@@ -1,5 +1,6 @@
 package com.jy.pc.Service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -20,6 +21,6 @@ public interface GrainPricesService {
 	
 	public List<GrainPricesEntity> findListByType(String type);
 	
-	
+	public List<GrainPricesEntity> findInfoByDate(Date now);
 
 }
