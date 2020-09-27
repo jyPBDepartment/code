@@ -2,6 +2,7 @@ package com.jy.pc.Controller;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,7 +20,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSONObject;
 import com.jy.pc.Entity.GrainPricesEntity;
 import com.jy.pc.Entity.GrainPricesHistoryEntity;
-import com.jy.pc.Entity.ModuleInfoEntity;
 import com.jy.pc.Service.GrainPricesHistoryService;
 import com.jy.pc.Service.GrainPricesService;
 
@@ -40,6 +40,7 @@ public class GrainPricesController {
 		String s = res.getParameter("grainPricesEntity");
 		JSONObject jsonObject = JSONObject.parseObject(s);
 		GrainPricesEntity grainPricesEntity = jsonObject.toJavaObject(GrainPricesEntity.class);
+		
 		grainPricesEntity.setCreateDate(new Date());
 		grainPricesEntity.setPriceDefinedType("0");
 		grainPricesService.saveOrUpdate(grainPricesEntity);//保存粮价数据
@@ -111,4 +112,21 @@ public class GrainPricesController {
 		return map;
 	}
 
+	/**
+	 * 根据类型查询 分页
+	 * @param type 筛选类型 0表示7日，1表示30日内
+	 * 
+	 * */ 
+		@RequestMapping(value = "/findListByType")
+		@ResponseBody
+		public Map<String, Object> findListByType(HttpServletRequest res, HttpServletResponse req,
+				@RequestParam(name = "type") String type) {
+
+			Map<String, Object> map = new HashMap<String, Object>();
+			List<GrainPricesEntity> grainPricesList = grainPricesService.findListByType(type);
+			map.put("state", "0");// 成功
+			map.put("message", "查询成功");
+			map.put("data", grainPricesList);
+			return map;
+		}
 }
