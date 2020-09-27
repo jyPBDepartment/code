@@ -123,4 +123,9 @@ public class GrainPricesEntity {
 		this.updateUser = updateUser;
 	}
 
+	@Override
+	public String toString() {
+		return "粮价走势 [粮价=" + price + ", 日期=" + priceDate + ", 操作人=" + createUser + "]";
+	}
+
 }

@@ -1,6 +1,11 @@
 package com.jy.pc.Utils;
 
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
+
+import javax.persistence.Table;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,8 +13,6 @@ import org.springframework.stereotype.Service;
 import com.alibaba.fastjson.JSON;
 import com.jy.pc.DAO.DbLogInfoDao;
 import com.jy.pc.Entity.DbLogInfoEntity;
-
-import javax.persistence.Table;
 /**
  *  再service中涉及修改、删除、新增、状态设置的代码中
  *  调用此类中的对应方法，
@@ -74,17 +77,21 @@ public class DbLogUtil {
 	private void saveLog(String module,String action,String obj) {
 		Aes aes = new Aes();
 		String result = "";
-		System.out.println("obj.length() = "+obj.length());
 		if(obj!=null && obj.length()>65000) {
 			obj = obj.substring(0,65000);
 		}
-		System.out.println("ActObj = " + obj.length());
 		DbLogInfoEntity entity = new DbLogInfoEntity();
 		entity.setAction(action);
 		entity.setActObj(obj);
-		entity.setLogDate(new Date());
+		entity.setLogDate(nowDateTime());
 		entity.setModule(castTableToEntity(module));
 		dbLogInfoDao.save(entity);
+	}
+	
+	public static Date nowDateTime(){
+	      return Timestamp.valueOf(
+	            new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.SIMPLIFIED_CHINESE).format(new Date())
+	      );
 	}
 	
 	/**
