@@ -36,7 +36,9 @@ public class GrainPricesEntity {
 	private String price;
 	// 价格生成时间
 	@Column
-	private String priceDate;
+	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date priceDate;
 	// 价格定义类型
 	@Column
 	private String priceDefinedType;// 0.手动输入1.系统自动生成
@@ -73,11 +75,11 @@ public class GrainPricesEntity {
 		this.price = price;
 	}
 
-	public String getPriceDate() {
+	public Date getPriceDate() {
 		return priceDate;
 	}
 
-	public void setPriceDate(String priceDate) {
+	public void setPriceDate(Date priceDate) {
 		this.priceDate = priceDate;
 	}
 
