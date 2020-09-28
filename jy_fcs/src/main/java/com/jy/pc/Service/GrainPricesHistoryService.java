@@ -14,5 +14,5 @@ public interface GrainPricesHistoryService {
 	public GrainPricesHistoryEntity findInfoById(String id);
 
 	// 根据参数查询 分页
-	public Page<GrainPricesHistoryEntity> findPageByParam(String operateType, Pageable pageable);
+	public Page<GrainPricesHistoryEntity> findPageByParam(String startDate,String endDate,String operateType, Pageable pageable);
 }

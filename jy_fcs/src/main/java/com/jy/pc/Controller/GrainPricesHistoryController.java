@@ -54,12 +54,13 @@ public class GrainPricesHistoryController {
 	@RequestMapping(value = "/findPageByParam")
 	@ResponseBody
 	public Map<String, Object> findByName(HttpServletRequest res, HttpServletResponse req,
-			@RequestParam(name = "operateType") String operateType, @RequestParam(name = "page") Integer page,
+			@RequestParam(name = "operateType") String operateType, @RequestParam(name = "startDate") String startDate,
+			@RequestParam(name = "endDate") String endDate,@RequestParam(name = "page") Integer page,
 			@RequestParam(name = "size") Integer size) {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 		Pageable pageable = new PageRequest(page - 1, size);
-		Page<GrainPricesHistoryEntity> grainPricesHistoryList = grainPricesHistoryService.findPageByParam(operateType, pageable);
+		Page<GrainPricesHistoryEntity> grainPricesHistoryList = grainPricesHistoryService.findPageByParam(startDate,endDate,operateType, pageable);
 		map.put("status", "0");// 成功
 		map.put("message", "查询成功");
 		map.put("data", grainPricesHistoryList);
