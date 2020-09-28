@@ -53,6 +53,7 @@ public class ModuleInfoController {
 		Date date = new Date();
 		moduleInfoEntity.setCreateDate(date);
 		moduleInfoEntity.setStatus("1");
+		moduleInfoEntity.setSort("5");
 		moduleInfoService.save(moduleInfoEntity);
 		map.put("status", "0");
 		map.put("message", "添加成功");
