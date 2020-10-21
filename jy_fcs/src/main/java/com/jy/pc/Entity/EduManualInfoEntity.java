@@ -45,7 +45,7 @@ public class EduManualInfoEntity {
 	private String title;
 	@Column(columnDefinition = "int(1) comment '0文章1视频'")
 	private int manualType;
-	@Column(columnDefinition = "varchar(255) text '手册内容富文本'")
+	@Column(columnDefinition = " text comment '手册内容富文本'")
 	private String content;
 	@Column(columnDefinition = "varchar(255) default '' comment '主图图片路径'")
 	private String url;
