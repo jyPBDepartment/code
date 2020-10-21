@@ -41,7 +41,7 @@ public class GrainScheduling {
 	 * 3.若当天无数据但数据库中有历史记录时，复制最新一条数据存入数据库
 	 */
 	@Transactional
-	@Scheduled(cron = "0 00 18 * * ? ")
+	@Scheduled(cron = "0 14 11 * * ? ")
 	public void grainPrices() {
 		Date now = new Date();
 		logger.initCustomizedLog("粮价走势图", "自动更新", "自动任务开始");

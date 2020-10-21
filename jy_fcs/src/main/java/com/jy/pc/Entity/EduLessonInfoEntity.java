@@ -37,8 +37,10 @@ public class EduLessonInfoEntity {
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date updateDate;
-	@Column(columnDefinition = "int(1) default 1 comment '0启用1禁用'")
+	@Column(columnDefinition = "int(1) default 1 comment '状态0启用1禁用'")
 	private int status;
+	@Column(columnDefinition = "int(1) default 0 comment '报名状态0允许报名1报名结束'")
+	private int enrollStatus;
 	@Column(columnDefinition = "varchar(36) comment '职业类别ID'")
 	private String vocationId;
 	@Column(columnDefinition = "varchar(128) comment '课程标题'")
@@ -61,7 +63,31 @@ public class EduLessonInfoEntity {
 	private String address;
 	@Column(columnDefinition = "varchar(255) default '' comment '参加指南'")
 	private String remark;
-	
+
+	public int getEnrollStatus() {
+		return enrollStatus;
+	}
+
+	public void setEnrollStatus(int enrollStatus) {
+		this.enrollStatus = enrollStatus;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+
 	public String getId() {
 		return id;
 	}
