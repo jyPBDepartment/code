@@ -42,7 +42,7 @@ public class EduVocationInfoEntity {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date updateDate;
 	@Column(columnDefinition = "int(4) default 50 comment '排序'")
-	private int sort;
+	private String sort;
 	@Column(columnDefinition = "varchar(255) default '' comment '描述'")
 	private String description;
 
@@ -102,11 +102,11 @@ public class EduVocationInfoEntity {
 		this.updateDate = updateDate;
 	}
 
-	public int getSort() {
+	public String getSort() {
 		return sort;
 	}
 
-	public void setSort(int sort) {
+	public void setSort(String sort) {
 		this.sort = sort;
 	}
 
