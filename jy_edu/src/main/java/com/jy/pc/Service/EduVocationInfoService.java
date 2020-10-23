@@ -10,7 +10,7 @@ import com.jy.pc.Entity.EduVocationInfoEntity;
 public interface EduVocationInfoService {
 	
 	//分页与模糊查询
-	public Page<EduVocationInfoEntity> findListByName(String name, String status, Pageable pageable);
+	public Page<EduVocationInfoEntity> findListByName(String createBy, String status, Pageable pageable);
 	
 	//添加
 	public EduVocationInfoEntity save(EduVocationInfoEntity eduVocationInfoEntity);

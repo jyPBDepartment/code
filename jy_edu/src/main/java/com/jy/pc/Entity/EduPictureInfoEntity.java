@@ -37,13 +37,23 @@ public class EduPictureInfoEntity {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date updateDate;
 	@Column(columnDefinition = "int(4) default 50 comment '排序'")
-	private int sort;
+	private String sort;
 	@Column(columnDefinition = "int(1) default 1 comment '0启用1禁用'")
 	private int status;
 	@Column(columnDefinition = "varchar(255) default '' comment '图片路径'")
 	private String url;
 	@Column(columnDefinition = "int(1) default 0 comment '0轮播图1学习手册2在线考试'")
 	private int picType;
+	@Column(columnDefinition = "varchar(36) default '' comment '图片名称'")
+	private String name;
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
 
 	public String getId() {
 		return id;
@@ -85,11 +95,11 @@ public class EduPictureInfoEntity {
 		this.updateDate = updateDate;
 	}
 
-	public int getSort() {
+	public String getSort() {
 		return sort;
 	}
 
-	public void setSort(int sort) {
+	public void setSort(String sort) {
 		this.sort = sort;
 	}
 

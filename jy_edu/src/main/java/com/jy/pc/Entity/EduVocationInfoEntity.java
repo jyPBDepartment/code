@@ -45,6 +45,16 @@ public class EduVocationInfoEntity {
 	private String sort;
 	@Column(columnDefinition = "varchar(255) default '' comment '描述'")
 	private String description;
+	@Column(columnDefinition = "varchar(255) default '' comment '职业编码'")
+	private String vocationCode;
+
+	public String getVocationCode() {
+		return vocationCode;
+	}
+
+	public void setVocationCode(String vocationCode) {
+		this.vocationCode = vocationCode;
+	}
 
 	public String getId() {
 		return id;

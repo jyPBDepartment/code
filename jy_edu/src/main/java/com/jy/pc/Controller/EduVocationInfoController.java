@@ -31,12 +31,12 @@ public class EduVocationInfoController {
 	@RequestMapping(value = "/findByName")
 	@ResponseBody
 	public Map<String, Object> findByName(HttpServletRequest res, HttpServletResponse req,
-			@RequestParam(name = "name") String name,@RequestParam(name = "status") String status,
+			@RequestParam(name = "createBy") String createBy,@RequestParam(name = "status") String status,
 			@RequestParam(name = "page") Integer page, @RequestParam(name = "size") Integer size) {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 		Pageable pageable = new PageRequest(page - 1, size);
-		Page<EduVocationInfoEntity> vocationInfoList = eduVocationInfoService.findListByName(name, status, pageable);
+		Page<EduVocationInfoEntity> vocationInfoList = eduVocationInfoService.findListByName(createBy, status, pageable);
 		map.put("state", "0");// 成功
 		map.put("message", "查询成功");
 		map.put("data", vocationInfoList);
@@ -54,7 +54,7 @@ public class EduVocationInfoController {
 		Date date = new Date();
 		eduVocationInfoEntity.setCreateDate(date);
 		eduVocationInfoEntity.setStatus(1);
-		eduVocationInfoEntity.setSort("5");
+		eduVocationInfoEntity.setSort("1");
 		eduVocationInfoService.save(eduVocationInfoEntity);
 		map.put("state", "0");
 		map.put("message", "添加成功");
@@ -85,9 +85,16 @@ public class EduVocationInfoController {
 			@RequestParam(name = "id") String id) {
 
 		Map<String, Object> map = new HashMap<String, Object>();
-		eduVocationInfoService.delete(id);
-		map.put("state", "0");
-		map.put("message", "删除成功");
+		EduVocationInfoEntity eduVocationInfoEntity = eduVocationInfoService.findId(id);
+		//判断状态生效是不可删除
+		if(eduVocationInfoEntity.getStatus() == 1) {
+			eduVocationInfoService.delete(id);
+			map.put("state", "0");
+			map.put("message", "删除成功");
+		}else {
+			map.put("state", "1");
+			map.put("message", "删除失败,数据生效时不能被删除！");
+		}
 		return map;
 	}
 		

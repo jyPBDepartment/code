@@ -20,9 +20,9 @@ public class EduVocationInfoServiceImpl implements EduVocationInfoService{
 
 	//分页 条件查询
 	@Override
-	public Page<EduVocationInfoEntity> findListByName(String name, String status, Pageable pageable) {
-		String eduName="%"+ name +"%";
-		return eduVocationInfoDao.findListByName(eduName, status, pageable);
+	public Page<EduVocationInfoEntity> findListByName(String createBy, String status, Pageable pageable) {
+		String createName="%"+ createBy +"%";
+		return eduVocationInfoDao.findListByName(createName, status, pageable);
 	}
 
 	//添加
