@@ -68,4 +68,10 @@ public class EduVocationInfoServiceImpl implements EduVocationInfoService{
 		return eduVocationInfoDao.findSort();
 	}
 
+	//查询有效职业类别
+	@Override
+	public List<EduVocationInfoEntity> findVocationId() {
+		return eduVocationInfoDao.findVocationId();
+	}
+
 }

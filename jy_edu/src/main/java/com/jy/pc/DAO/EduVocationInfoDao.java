@@ -24,4 +24,8 @@ public interface EduVocationInfoDao extends JpaRepository<EduVocationInfoEntity,
 	// 查询排序
 	@Query(value = "select * from edu_vocation_info ", nativeQuery = true)
 	public List<EduVocationInfoEntity> findSort();
+	
+	//查询有效职业类别
+	@Query(value = "select * from edu_vocation_info t where t.status = '0'", nativeQuery = true)
+	public List<EduVocationInfoEntity> findVocationId();
 }

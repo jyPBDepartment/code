@@ -32,4 +32,7 @@ public interface EduVocationInfoService {
 	
 	//修改排序
 	public void changeSort(EduVocationInfoEntity eduVocationInfoEntity);
+	
+	//查询有效职业类别
+	public List<EduVocationInfoEntity> findVocationId();
 }
