@@ -1,14 +1,18 @@
 package com.jy.pc.Entity;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -41,20 +45,25 @@ public class EduLessonInfoEntity {
 	private int status;
 	@Column(columnDefinition = "int(1) default 0 comment '报名状态0允许报名1报名结束'")
 	private int enrollStatus;
-	@Column(columnDefinition = "varchar(36) comment '职业类别ID'")
-	private String vocationId;
+	@OneToOne
+	@JoinColumn(name = "vocation_id", columnDefinition = "varchar(36) comment '职业类别ID'")
+	private EduVocationInfoEntity vocation;
 	@Column(columnDefinition = "varchar(128) comment '课程标题'")
 	private String title;
 	@Column(columnDefinition = "varchar(255) comment '课程介绍'")
 	private String content;
 	@Column(columnDefinition = "varchar(255) default '' comment '主图路径'")
 	private String url;
+	@Column(columnDefinition = "datetime comment '课程日期'")
+	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date lessonDay;
 	@Column(columnDefinition = "datetime comment '开始时间'")
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm", timezone = "GMT+8")
+	@JsonFormat(pattern = "HH:mm", timezone = "GMT+8")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date beginDate;
 	@Column(columnDefinition = "datetime comment '结束时间'")
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm", timezone = "GMT+8")
+	@JsonFormat(pattern = "HH:mm", timezone = "GMT+8")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date endDate;
 	@Column(columnDefinition = "int(5) default 30 comment '人数限制'")
@@ -63,6 +72,38 @@ public class EduLessonInfoEntity {
 	private String address;
 	@Column(columnDefinition = "varchar(255) default '' comment '参加指南'")
 	private String remark;
+	@Transient
+	private String lessonDate;
+
+	private String castTime() {
+		SimpleDateFormat dayFormat = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
+		return dayFormat.format(lessonDay) + " " + timeFormat.format(beginDate) + "--" + timeFormat.format(endDate);
+	}
+
+	public String getLessonDate() {
+		return this.castTime();
+	}
+
+	public void setLessonDate(String lessonDate) {
+		this.lessonDate = lessonDate;
+	}
+
+	public Date getLessonDay() {
+		return lessonDay;
+	}
+
+	public void setLessonDay(Date lessonDay) {
+		this.lessonDay = lessonDay;
+	}
+
+	public EduVocationInfoEntity getVocation() {
+		return vocation;
+	}
+
+	public void setVocation(EduVocationInfoEntity vocation) {
+		this.vocation = vocation;
+	}
 
 	public int getEnrollStatus() {
 		return enrollStatus;
@@ -134,14 +175,6 @@ public class EduLessonInfoEntity {
 
 	public void setStatus(int status) {
 		this.status = status;
-	}
-
-	public String getVocationId() {
-		return vocationId;
-	}
-
-	public void setVocationId(String vocationId) {
-		this.vocationId = vocationId;
 	}
 
 	public String getTitle() {
