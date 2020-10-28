@@ -21,10 +21,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSONObject;
 import com.jy.pc.Entity.AccountInfoEntity;
 import com.jy.pc.Entity.AccountPowerInfoEntity;
+import com.jy.pc.Entity.AccountRoleInfoEntity;
 import com.jy.pc.Entity.PowerInfoEntity;
 import com.jy.pc.Service.AccountInfoService;
 import com.jy.pc.Service.AccountPowerInfoService;
+import com.jy.pc.Service.AccountRoleInfoService;
 import com.jy.pc.Service.PowerInfoService;
+import com.jy.pc.Service.RoleService;
 import com.jy.pc.Utils.DbLogUtil;
 
 @Controller
@@ -40,10 +43,17 @@ public class AccountInfoController {
 	// 账户权限关联表Service
 	@Autowired
 	private AccountPowerInfoService accountPowerInfoService;
+	// 角色业务Service
+	@Autowired
+	private RoleService roleService;
+
+	@Autowired
+	AccountRoleInfoService accountRoleInfoService;
+
 	// 后台操作日志
 	@Autowired
 	private DbLogUtil logger;
-	
+
 	// 登录
 	@RequestMapping(value = "/login")
 	public Map<String, String> login(HttpServletRequest req, HttpServletResponse res,
@@ -54,8 +64,16 @@ public class AccountInfoController {
 		AccountInfoEntity accountInfoEntity = accountInfoService.findUserInfo(name, password); // 调用查询方法，查询状态
 		if (flag) {
 			if (accountInfoEntity.getAuditStatus().equals("0")) {
+
+				AccountRoleInfoEntity accountRoleInfoEntity = accountRoleInfoService.findRoleIdByAccountId(accountInfoEntity.getId());
+
 				map.put("status", "0");
 				map.put("message", "登陆成功");
+				map.put("accountId",accountInfoEntity.getId());
+				if(accountRoleInfoEntity!=null) {
+					map.put("roleId",accountRoleInfoEntity.getRoleId());
+				}
+				
 				logger.initLoginLog(accountInfoEntity.getName());
 			} else {
 				map.put("message", "该账户已被禁用!");
@@ -168,7 +186,7 @@ public class AccountInfoController {
 			map.put("message", "禁用成功");
 			result = false;
 		}
-		accountInfoService.enable(accountInfoEntity,result);
+		accountInfoService.enable(accountInfoEntity, result);
 		return map;
 	}
 
@@ -206,15 +224,15 @@ public class AccountInfoController {
 	public Map<String, String> updatePower(HttpServletRequest res, HttpServletResponse req,
 			@RequestParam(name = "accountId") String accountId, @RequestParam(name = "addItem") String addItem,
 			@RequestParam(name = "deleteItem") String deleteItem) {
-		
+
 		Map<String, String> map = new HashMap<String, String>();
 		accountInfoService.updateJur(accountId, addItem, deleteItem);
 		map.put("status", "0");
 		map.put("message", "修改成功");
 		return map;
 	}
-	
-	//重置密码
+
+	// 重置密码
 	@RequestMapping(value = "/resetPass")
 	public Map<String, Object> resetPass(HttpServletRequest res, HttpServletResponse req,
 			@RequestParam(name = "id") String id) {
@@ -227,6 +245,24 @@ public class AccountInfoController {
 		accountInfoService.resetPass(account);
 		map.put("status", "0");
 		map.put("message", "修改成功");
+		return map;
+	}
+
+	/**
+	 * 绑定角色
+	 * 
+	 */
+	@RequestMapping(value = "/bindingRole")
+	public Map<String, Object> bindingRole(AccountRoleInfoEntity accountRoleInfoEntity) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		try {
+			accountRoleInfoService.save(accountRoleInfoEntity);
+			map.put("status", "success");
+			map.put("message", "绑定成功");
+		} catch (Exception e) {
+			map.put("status", "error");
+			map.put("message", "绑定失败");
+		}
 		return map;
 	}
 }

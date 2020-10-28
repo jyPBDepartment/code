@@ -23,10 +23,10 @@ public class MenuServiceImpl implements MenuService {
 	DbLogUtil logger;
 
 	@Override
-	public List<NavMenuData> findNavData() {
+	public List<NavMenuData> findNavData(String roleId) {
 		List<NavMenuData> navList = new ArrayList<NavMenuData>();
 		// 获取所有顶层目录
-		List<MenuEntity> indexes = menuDao.findIndex();
+		List<MenuEntity> indexes = menuDao.findIndex(roleId);
 		List<MenuEntity> menus;
 		// 遍历目录，完成子菜单赋值
 		for (MenuEntity index : indexes) {

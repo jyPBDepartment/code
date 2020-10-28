@@ -22,8 +22,8 @@ public interface MenuDao extends JpaRepository<MenuEntity, String> {
 	@Query(value = "select id,name,parent_id,level from sas_menu", nativeQuery = true)
 	public List<Map<String,Object>> findTree();
 
-	@Query(value = "select * from sas_menu t where t.menu_type = 1 and t.status = 0 ORDER BY sort ASC", nativeQuery = true)
-	public List<MenuEntity> findIndex();
+	@Query(value = "select s.* from sas_role_menu_relation t ,sas_menu s where t.role_id=:roleId and t.menu_id=s.id and s.menu_type = 1 and s.status = 0 ORDER BY sort ASC", nativeQuery = true)
+	public List<MenuEntity> findIndex(@Param("roleId")String roleId);
 	
 	@Query(value = "select * from sas_menu t where t.menu_type = 2 and t.status = 0 and t.parent_id =:parentId ORDER BY sort ASC", nativeQuery = true)
 	public List<MenuEntity> findByParent(@Param("parentId") String parentId);

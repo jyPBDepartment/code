@@ -35,10 +35,10 @@ public class MenuController {
 	//为导航栏提供数据
 	@RequestMapping(value = "/getNavData")
 	public Map<String, Object> getNavData(HttpServletRequest res, HttpServletResponse req,
-			String token) {
+			String token,@RequestParam("roleId") String roleId) {
 		//logintoken为预留参数，后续需根据用户角色返回不同菜单
 		Map<String, Object> map = new HashMap<String, Object>();
-		List<NavMenuData> navList = menuService.findNavData();
+		List<NavMenuData> navList = menuService.findNavData(roleId);
 		map.put("status", "0");// 成功
 		map.put("msg", "success");
 		map.put("data", navList);

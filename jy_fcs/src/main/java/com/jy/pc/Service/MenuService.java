@@ -38,5 +38,5 @@ public interface MenuService {
 	void changeSort(MenuEntity menuEntity);
 
 	//获取所有可用目录
-	List<NavMenuData> findNavData();
+	List<NavMenuData> findNavData(String roleId);
 }
