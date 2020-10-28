@@ -13,11 +13,20 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.alibaba.fastjson.JSONObject;
 import com.jy.pc.Entity.EduLessonInfoEntity;
+import com.jy.pc.Entity.EduManualLabelInfoEntity;
+import com.jy.pc.Entity.EduVocationInfoEntity;
 import com.jy.pc.Service.EduLessonInfoService;
 
+/**
+ * 线下课程相关
+ * @author admin
+ *
+ */
 @RequestMapping(value = "lesson")
 @RestController
 public class EduLessonInfoController {
@@ -36,6 +45,34 @@ public class EduLessonInfoController {
 		map.put("state", "0");// 成功
 		map.put("message", "查询成功");
 		map.put("data", lessonList);
+		return map;
+	}
+
+	// 根据id返回详情信息
+	@RequestMapping(value = "/findById")
+	@ResponseBody
+	public Map<String, Object> findById(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "id") String id) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		EduLessonInfoEntity lessonEntity = eduLessonInfoService.findInfobyId(id);
+		if (lessonEntity != null) {
+			map.put("state", "0");
+			map.put("data", lessonEntity);
+		} else {
+			map.put("state", "1");
+		}
+		return map;
+	}
+
+	// 根据id删除课程信息
+	@RequestMapping(value = "/delete")
+	public Map<String, String> delete(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "id") String id) {
+
+		Map<String, String> map = new HashMap<String, String>();
+		eduLessonInfoService.delete(id);
+		map.put("state", "0");
+		map.put("message", "删除成功");
 		return map;
 	}
 
@@ -63,4 +100,43 @@ public class EduLessonInfoController {
 		return map;
 	}
 
+	// 添加
+	@RequestMapping(value = "/add")
+	@ResponseBody
+	public Map<String, String> save(HttpServletRequest res, HttpServletResponse req) {
+		Map<String, String> map = new HashMap<String, String>();
+		String s = res.getParameter("lessonEntity");
+		JSONObject jsonObject = JSONObject.parseObject(s);
+		EduLessonInfoEntity lessonEntity = jsonObject.toJavaObject(EduLessonInfoEntity.class);
+		EduVocationInfoEntity vocation = new EduVocationInfoEntity();
+		vocation.setId(lessonEntity.getVocationId());
+		lessonEntity.setVocation(vocation);
+		lessonEntity.setStatus(1);
+		lessonEntity.setEnrollStatus(1);
+		Date date = new Date();
+		lessonEntity.setCreateDate(date);
+		lessonEntity.setStatus(1);
+		eduLessonInfoService.save(lessonEntity);
+		map.put("state", "0");
+		map.put("message", "添加成功");
+		return map;
+	}
+
+	// 修改
+	@RequestMapping(value = "/update")
+	@ResponseBody
+	public Map<String, String> update(HttpServletRequest res, HttpServletResponse req) {
+
+		Map<String, String> map = new HashMap<String, String>();
+		String s = res.getParameter("lessonEntity");
+		JSONObject jsonObject = JSONObject.parseObject(s);
+		EduLessonInfoEntity lessonEntity = jsonObject.toJavaObject(EduLessonInfoEntity.class);
+		Date date = new Date();
+		lessonEntity.setCreateDate(date);
+		lessonEntity.setStatus(1);
+		eduLessonInfoService.update(lessonEntity);
+		map.put("state", "0");
+		map.put("message", "修改成功");
+		return map;
+	}
 }

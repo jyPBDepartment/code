@@ -27,21 +27,24 @@ public class EduLessonInfoServiceImpl implements EduLessonInfoService {
 	}
 
 	@Override
-	public EduLessonInfoEntity save(EduLessonInfoEntity dbLogInfoEntity) {
-		// TODO Auto-generated method stub
-		return null;
+	public EduLessonInfoEntity save(EduLessonInfoEntity entity) {
+		eduLessonInfoDao.save(entity);
+		logger.initAddLog(entity);
+		return entity;
 	}
 
 	@Override
-	public void update(EduLessonInfoEntity moduleInfo) {
-		// TODO Auto-generated method stub
+	public void update(EduLessonInfoEntity entity) {
+		eduLessonInfoDao.save(entity);
+		logger.initUpdateLog(entity);
 
 	}
 
 	@Override
 	public void delete(String id) {
-		// TODO Auto-generated method stub
-
+		EduLessonInfoEntity entity = eduLessonInfoDao.GetById(id);
+		logger.initDeleteLog(entity);
+		eduLessonInfoDao.deleteById(id);
 	}
 
 	@Override
@@ -60,6 +63,5 @@ public class EduLessonInfoServiceImpl implements EduLessonInfoService {
 		logger.initEnableLog(entity, result);
 		eduLessonInfoDao.saveAndFlush(entity);
 	}
-
 
 }

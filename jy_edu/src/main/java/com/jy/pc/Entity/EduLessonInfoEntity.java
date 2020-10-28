@@ -74,6 +74,16 @@ public class EduLessonInfoEntity {
 	private String remark;
 	@Transient
 	private String lessonDate;
+	@Transient
+	private String vocationId;
+
+	public String getVocationId() {
+		return vocationId;
+	}
+
+	public void setVocationId(String vocationId) {
+		this.vocationId = vocationId;
+	}
 
 	private String castTime() {
 		SimpleDateFormat dayFormat = new SimpleDateFormat("yyyy-MM-dd");
