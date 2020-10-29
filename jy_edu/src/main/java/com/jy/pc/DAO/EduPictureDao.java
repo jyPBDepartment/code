@@ -9,7 +9,9 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.jy.pc.Entity.EduPictureInfoEntity;
-
+/**
+ * 图片设置 Dao
+ * */
 public interface EduPictureDao extends JpaRepository<EduPictureInfoEntity, String>{
 	
 	// 分页与模糊查询

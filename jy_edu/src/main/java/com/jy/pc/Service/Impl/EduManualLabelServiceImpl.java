@@ -13,7 +13,9 @@ import com.jy.pc.DAO.EduManualLabelDao;
 import com.jy.pc.Entity.EduManualLabelInfoEntity;
 import com.jy.pc.Service.EduManualLabelService;
 import com.jy.pc.Utils.DbLogUtil;
-
+/**
+ * 标签ServiceImpl
+ * */
 @Service
 public class EduManualLabelServiceImpl implements EduManualLabelService{
 	@Autowired
@@ -67,5 +69,10 @@ public class EduManualLabelServiceImpl implements EduManualLabelService{
 	@Override
 	public List<EduManualLabelInfoEntity> findManualLabelId() {
 		return eduManualLabelDao.findManualLabelId();
+	}
+
+	@Override
+	public List<EduManualLabelInfoEntity> findManualLink() {
+		return eduManualLabelDao.findManualLink();
 	}
 }

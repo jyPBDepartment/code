@@ -6,7 +6,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.jy.pc.Entity.EduVocationInfoEntity;
-
+/**
+ * 职业类别Service
+ * */
 public interface EduVocationInfoService {
 	
 	//分页与模糊查询
@@ -35,4 +37,8 @@ public interface EduVocationInfoService {
 	
 	//查询有效职业类别
 	public List<EduVocationInfoEntity> findVocationId();
+	
+	// 查询未关联职业类别
+	public List<EduVocationInfoEntity> findVocationLink();
+
 }

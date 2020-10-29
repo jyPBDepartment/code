@@ -20,7 +20,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSONObject;
 import com.jy.pc.Entity.EduPictureInfoEntity;
 import com.jy.pc.Service.EduPictureService;
-
+/**
+ *  图片设置Controller
+ * */
 @Controller
 @RequestMapping(value = "/pictureInfo")
 public class EduPictureController {

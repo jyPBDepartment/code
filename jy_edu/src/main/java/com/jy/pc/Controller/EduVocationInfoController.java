@@ -20,7 +20,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSONObject;
 import com.jy.pc.Entity.EduVocationInfoEntity;
 import com.jy.pc.Service.EduVocationInfoService;
-
+/**
+ * 职业类别 Controller
+ * */
 @Controller
 @RequestMapping(value = "/vocationInfo")
 public class EduVocationInfoController {
@@ -85,9 +87,16 @@ public class EduVocationInfoController {
 			@RequestParam(name = "id") String id) {
 
 		Map<String, Object> map = new HashMap<String, Object>();
-		eduVocationInfoService.delete(id);
-		map.put("state", "0");
-		map.put("message", "删除成功");
+		List<EduVocationInfoEntity> vocationList = eduVocationInfoService.findVocationLink();
+		for(int i=0;i<vocationList.size();i++) {
+			if(vocationList.get(i).getId().equals(id)) {
+				eduVocationInfoService.delete(id);
+				map.put("state", "0");
+				map.put("message", "删除成功");
+			}
+			else {}
+		}
+		if(vocationList.size() <= 0) {}
 		return map;
 	}
 		

@@ -6,7 +6,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.jy.pc.Entity.EduPictureInfoEntity;
-
+/**
+ * 图片设置Controller
+ * */
 public interface EduPictureService {
 	//分页与模糊查询
 	public Page<EduPictureInfoEntity> findListByName(String createBy,String picType, String status, Pageable pageable);

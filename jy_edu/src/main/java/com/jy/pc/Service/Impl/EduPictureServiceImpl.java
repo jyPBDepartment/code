@@ -12,7 +12,9 @@ import org.springframework.stereotype.Service;
 import com.jy.pc.DAO.EduPictureDao;
 import com.jy.pc.Entity.EduPictureInfoEntity;
 import com.jy.pc.Service.EduPictureService;
-
+/**
+ * 图片设置ServiceImpl
+ * */
 @Service
 public class EduPictureServiceImpl implements EduPictureService{
 	@Autowired

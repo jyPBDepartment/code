@@ -12,7 +12,9 @@ import org.springframework.stereotype.Service;
 import com.jy.pc.DAO.EduVocationInfoDao;
 import com.jy.pc.Entity.EduVocationInfoEntity;
 import com.jy.pc.Service.EduVocationInfoService;
-
+/**
+ * 职业类别ServiceImpl
+ * */
 @Service
 public class EduVocationInfoServiceImpl implements EduVocationInfoService{
 	@Autowired
@@ -74,4 +76,9 @@ public class EduVocationInfoServiceImpl implements EduVocationInfoService{
 		return eduVocationInfoDao.findVocationId();
 	}
 
+	//查询未关联职业类别
+	@Override
+	public List<EduVocationInfoEntity> findVocationLink() {
+		return eduVocationInfoDao.findVocationLink();
+	}
 }

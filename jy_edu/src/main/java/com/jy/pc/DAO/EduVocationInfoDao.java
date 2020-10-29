@@ -9,7 +9,9 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.jy.pc.Entity.EduVocationInfoEntity;
-
+/**
+ * 职业类别Dao
+ * */
 public interface EduVocationInfoDao extends JpaRepository<EduVocationInfoEntity, String> {
 
 	// 分页与模糊查询
@@ -28,4 +30,9 @@ public interface EduVocationInfoDao extends JpaRepository<EduVocationInfoEntity,
 	//查询有效职业类别
 	@Query(value = "select * from edu_vocation_info t where t.status = '0'", nativeQuery = true)
 	public List<EduVocationInfoEntity> findVocationId();
+	
+	// 查询未关联职业类别
+	@Query(value = "select distinct t.id,t.name,t.status,t.description,t.vocation_code,t.sort,t.create_by,t.create_date,t.update_by,t.update_date from  edu_vocation_info t where t.id not in (select m.vocation_id from edu_manual_info m)", nativeQuery = true)
+	public List<EduVocationInfoEntity> findVocationLink();
+
 }

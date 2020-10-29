@@ -6,9 +6,12 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -39,8 +42,11 @@ public class EduManualInfoEntity {
 	private Date updateDate;
 	@Column(columnDefinition = "int(1) default 1 comment '0启用1禁用'")
 	private int status;
-	@Column(columnDefinition = "varchar(36) comment '职业类别ID'")
-	private String vocationId;
+//	@Column(columnDefinition = "varchar(36) comment '职业类别ID'")
+//	private String vocationId;
+	@OneToOne
+	@JoinColumn(name = "vocation_id", columnDefinition = "varchar(36) comment '职业类别ID'")
+	private EduVocationInfoEntity vocation;
 	@Column(columnDefinition = "varchar(128) comment '手册标题'")
 	private String title;
 	@Column(columnDefinition = "int(1) comment '0文章1视频'")
@@ -49,9 +55,59 @@ public class EduManualInfoEntity {
 	private String content;
 	@Column(columnDefinition = "varchar(255) default '' comment '主图图片路径'")
 	private String url;
-	@Column(columnDefinition = "varchar(5) default '' comment '标签'")
+//	@Column(columnDefinition = "varchar(36) default '' comment '标签'")
+//	private String labelId;
+	@OneToOne
+	@JoinColumn(name = "label_id", columnDefinition = "varchar(36) comment '标签ID'")
+	private EduManualLabelInfoEntity label;
+	@Column(columnDefinition = "varchar(200) default '' comment '导读'")
+	private String guide;
+	@Transient
+	private String vocationId;
+	@Transient
 	private String labelId;
 	
+	
+	public EduVocationInfoEntity getVocation() {
+		return vocation;
+	}
+
+	public void setVocation(EduVocationInfoEntity vocation) {
+		this.vocation = vocation;
+	}
+
+	public EduManualLabelInfoEntity getLabel() {
+		return label;
+	}
+
+	public void setLabel(EduManualLabelInfoEntity label) {
+		this.label = label;
+	}
+
+//	public String getVocationName() {
+//		return vocationName;
+//	}
+//
+//	public void setVocationName(String vocationName) {
+//		this.vocationName = vocationName;
+//	}
+//
+//	public String getLabelName() {
+//		return labelName;
+//	}
+//
+//	public void setLabelName(String labelName) {
+//		this.labelName = labelName;
+//	}
+
+	public String getGuide() {
+		return guide;
+	}
+
+	public void setGuide(String guide) {
+		this.guide = guide;
+	}
+
 	public String getId() {
 		return id;
 	}

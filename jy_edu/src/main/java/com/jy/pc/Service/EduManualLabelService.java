@@ -6,7 +6,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.jy.pc.Entity.EduManualLabelInfoEntity;
-
+/**
+ * 标签Service
+ * */
 public interface EduManualLabelService {
 
 	//分页与模糊查询
@@ -29,4 +31,7 @@ public interface EduManualLabelService {
 	
 	// 查询启用标签
 	public List<EduManualLabelInfoEntity> findManualLabelId();
+	
+	//查询未关联标签
+	public List<EduManualLabelInfoEntity> findManualLink();
 }
