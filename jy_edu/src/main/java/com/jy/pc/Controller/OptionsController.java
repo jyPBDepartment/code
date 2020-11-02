@@ -22,7 +22,7 @@ import com.jy.pc.Service.EduVocationInfoService;
  */
 @RequestMapping(value = "option")
 @RestController
-public class OptionController {
+public class OptionsController {
 	@Autowired
 	private EduVocationInfoService eduVocationInfoService;
 
