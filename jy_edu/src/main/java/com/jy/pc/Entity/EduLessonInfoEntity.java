@@ -58,14 +58,10 @@ public class EduLessonInfoEntity {
 	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date lessonDay;
-	@Column(columnDefinition = "datetime comment '开始时间'")
-	@JsonFormat(pattern = "HH:mm", timezone = "GMT+8")
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date beginDate;
-	@Column(columnDefinition = "datetime comment '结束时间'")
-	@JsonFormat(pattern = "HH:mm", timezone = "GMT+8")
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date endDate;
+	@Column(columnDefinition = "varchar(255) comment '开始时间'")
+	private String beginDate;
+	@Column(columnDefinition = "varchar(255) comment '结束时间'")
+	private String endDate;
 	@Column(columnDefinition = "int(5) default 30 comment '人数限制'")
 	private int stuLimit;
 	@Column(columnDefinition = "varchar(255) default '' comment '地址'")
@@ -87,8 +83,7 @@ public class EduLessonInfoEntity {
 
 	private String castTime() {
 		SimpleDateFormat dayFormat = new SimpleDateFormat("yyyy-MM-dd");
-		SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
-		return dayFormat.format(lessonDay) + " " + timeFormat.format(beginDate) + "--" + timeFormat.format(endDate);
+		return dayFormat.format(lessonDay) + " " + beginDate + "--" + endDate;
 	}
 
 	public String getLessonDate() {
@@ -211,19 +206,19 @@ public class EduLessonInfoEntity {
 		this.url = url;
 	}
 
-	public Date getBeginDate() {
+	public String getBeginDate() {
 		return beginDate;
 	}
 
-	public void setBeginDate(Date beginDate) {
+	public void setBeginDate(String beginDate) {
 		this.beginDate = beginDate;
 	}
 
-	public Date getEndDate() {
+	public String getEndDate() {
 		return endDate;
 	}
 
-	public void setEndDate(Date endDate) {
+	public void setEndDate(String endDate) {
 		this.endDate = endDate;
 	}
 

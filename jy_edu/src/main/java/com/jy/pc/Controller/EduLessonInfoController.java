@@ -2,6 +2,7 @@ package com.jy.pc.Controller;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,12 +19,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSONObject;
 import com.jy.pc.Entity.EduLessonInfoEntity;
-import com.jy.pc.Entity.EduManualLabelInfoEntity;
+import com.jy.pc.Entity.EduLessonStudentRelationEntity;
 import com.jy.pc.Entity.EduVocationInfoEntity;
 import com.jy.pc.Service.EduLessonInfoService;
 
 /**
  * 线下课程相关
+ * 
  * @author admin
  *
  */
@@ -33,15 +35,28 @@ public class EduLessonInfoController {
 	@Autowired
 	private EduLessonInfoService eduLessonInfoService;
 
+	// 返回报名情况
+	@RequestMapping(value = "findStuListByLesson")
+	public Map<String, Object> findRelaById(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "name") String name, @RequestParam(name = "lessonId")String lessonId) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		List<EduLessonStudentRelationEntity> lessonList = eduLessonInfoService.findRelaById(lessonId,name);
+		map.put("state", "0");// 成功
+		map.put("message", "查询成功");
+		map.put("data", lessonList);
+		return map;
+	}
+
 	// 分页条件查询
 	@RequestMapping(value = "/findPage")
 	public Map<String, Object> findByName(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "createBy") String createBy,
 			@RequestParam(name = "name") String name, @RequestParam(name = "page") Integer page,
 			@RequestParam(name = "status") String status, @RequestParam(name = "size") Integer size) {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 		Pageable pageable = new PageRequest(page - 1, size);
-		Page<EduLessonInfoEntity> lessonList = eduLessonInfoService.findListByParam(name, status, pageable);
+		Page<EduLessonInfoEntity> lessonList = eduLessonInfoService.findListByParam(name, status,createBy, pageable);
 		map.put("state", "0");// 成功
 		map.put("message", "查询成功");
 		map.put("data", lessonList);

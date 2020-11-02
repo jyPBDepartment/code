@@ -14,7 +14,7 @@ public interface EduLessonInfoDao extends JpaRepository<EduLessonInfoEntity, Str
 	public EduLessonInfoEntity GetById(@Param("id") String id);
 
 	// 分页与模糊查询
-	@Query(value = "select * from edu_lesson_info  t  where if(?1 !='',t.title like ?1,1=1) and if(?2 !='',t.status = ?2,1=1) order by t.create_date desc", countQuery = "select count(*) from edu_lesson_info t  where if(?1 !='',t.title like ?1,1=1) and if(?2 !='',t.status = ?2,1=1) order by t.create_date desc", nativeQuery = true)
-	public Page<EduLessonInfoEntity> findListByName(String name, String status, Pageable pageable);
+	@Query(value = "select * from edu_lesson_info  t  where if(?1 !='',t.title like ?1,1=1) and if(?2 !='',t.status = ?2,1=1) and if(?3 !='',t.create_by = ?3,1=1) order by t.create_date desc", countQuery = "select count(*) from edu_lesson_info t  where if(?1 !='',t.title like ?1,1=1) and if(?2 !='',t.status = ?2,1=1) order by t.create_date desc", nativeQuery = true)
+	public Page<EduLessonInfoEntity> findListByName(String name, String status, String createBy,Pageable pageable);
 	
 }

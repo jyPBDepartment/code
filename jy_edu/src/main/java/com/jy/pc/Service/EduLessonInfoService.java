@@ -10,7 +10,7 @@ import com.jy.pc.Entity.EduLessonStudentRelationEntity;
 
 public interface EduLessonInfoService {
 	// 搜索
-	public Page<EduLessonInfoEntity> findListByParam(String name, String status, Pageable pageable);
+	public Page<EduLessonInfoEntity> findListByParam(String name, String status,String createBy, Pageable pageable);
 
 	// 添加
 	public EduLessonInfoEntity save(EduLessonInfoEntity dbLogInfoEntity);
@@ -25,7 +25,7 @@ public interface EduLessonInfoService {
 	public EduLessonInfoEntity findInfobyId(String id);
 	
 	//根据主键查询报名信息
-	public List<EduLessonStudentRelationEntity> findRelaById(String id);
+	public List<EduLessonStudentRelationEntity> findRelaById(String id,String name);
 
 	//切换线下课程生效状态
 	public void enable(EduLessonInfoEntity entity, boolean result);

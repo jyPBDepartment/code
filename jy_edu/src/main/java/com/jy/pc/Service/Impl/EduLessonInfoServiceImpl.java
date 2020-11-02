@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.jy.pc.DAO.EduLessonInfoDao;
+import com.jy.pc.DAO.EduLessonRelaDao;
 import com.jy.pc.Entity.EduLessonInfoEntity;
 import com.jy.pc.Entity.EduLessonStudentRelationEntity;
 import com.jy.pc.Service.EduLessonInfoService;
@@ -19,11 +20,13 @@ public class EduLessonInfoServiceImpl implements EduLessonInfoService {
 	EduLessonInfoDao eduLessonInfoDao;
 	@Autowired
 	private DbLogUtil logger;
+	@Autowired
+	private EduLessonRelaDao eduLessonRelaDao;
 
 	@Override
-	public Page<EduLessonInfoEntity> findListByParam(String name, String status, Pageable pageable) {
+	public Page<EduLessonInfoEntity> findListByParam(String name, String status, String createBy,Pageable pageable) {
 		String nameParam = "%" + name + "%";
-		return eduLessonInfoDao.findListByName(nameParam, status, pageable);
+		return eduLessonInfoDao.findListByName(nameParam, status,createBy, pageable);
 	}
 
 	@Override
@@ -53,9 +56,8 @@ public class EduLessonInfoServiceImpl implements EduLessonInfoService {
 	}
 
 	@Override
-	public List<EduLessonStudentRelationEntity> findRelaById(String id) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<EduLessonStudentRelationEntity> findRelaById(String lessonId,String name) {
+		return eduLessonRelaDao.findRelaById(lessonId,"%"+name+"%");
 	}
 
 	@Override
