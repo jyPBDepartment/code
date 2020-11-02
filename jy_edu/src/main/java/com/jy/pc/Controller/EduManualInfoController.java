@@ -48,12 +48,6 @@ public class EduManualInfoController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		Pageable pageable = new PageRequest(page - 1, size);
 		Page<EduManualInfoEntity> manuaList = eduManualInfoService.findListByName(title, createBy, vocationId, labelId, pageable);
-//		for(EduManualInfoEntity manual : manuaList.getContent()) {
-//			EduVocationInfoEntity vocationInfo =eduVocationInfoService.findId(manual.getVocationId());
-//			manual.setVocationName(vocationInfo.getName());
-//			EduManualLabelInfoEntity manualLabel = eduManualLabelService.findId(manual.getLabelId());
-//			manual.setLabelName(manualLabel.getName());
-//		}
 		map.put("state", "0");// 成功
 		map.put("message", "查询成功");
 		map.put("data", manuaList);
@@ -127,10 +121,6 @@ public class EduManualInfoController {
 			@RequestParam(name = "id") String id) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		EduManualInfoEntity eduManualInfoEntity = eduManualInfoService.findId(id);
-//		EduVocationInfoEntity vocationInfo =eduVocationInfoService.findId(eduManualInfoEntity.getVocationId());
-//		eduManualInfoEntity.setVocationName(vocationInfo.getName());
-//		EduManualLabelInfoEntity manualLabel = eduManualLabelService.findId(eduManualInfoEntity.getLabelId());
-//		eduManualInfoEntity.setLabelName(manualLabel.getName());
 		map.put("state", "0");
 		map.put("data", eduManualInfoEntity);
 		return map;
@@ -165,25 +155,25 @@ public class EduManualInfoController {
 	}
 		
 	// 查询有效标签
-	@RequestMapping(value = "/label")
-	@ResponseBody
-	public Map<String, Object> findLabel(HttpServletRequest res, HttpServletResponse req){
-		Map<String, Object> map = new HashMap<String, Object>();
-		List<EduManualLabelInfoEntity> manualLabelList = eduManualLabelService.findManualLabelId();
-		map.put("state", "0");
-		map.put("data", manualLabelList);
-		return map;
-	}
+//	@RequestMapping(value = "/label")
+//	@ResponseBody
+//	public Map<String, Object> findLabel(HttpServletRequest res, HttpServletResponse req){
+//		Map<String, Object> map = new HashMap<String, Object>();
+//		List<EduManualLabelInfoEntity> manualLabelList = eduManualLabelService.findManualLabelId();
+//		map.put("state", "0");
+//		map.put("data", manualLabelList);
+//		return map;
+//	}
 	
-	// 查询有效职业类别
-	@RequestMapping(value = "/occupation")
-	@ResponseBody
-	public Map<String,Object> findVocabel(HttpServletRequest res,HttpServletResponse req){
-		Map<String, Object> map = new HashMap<String, Object>();
-		List<EduVocationInfoEntity> vocationList = eduVocationInfoService.findVocationId();
-		map.put("state", "0");
-		map.put("data", vocationList);
-		return map;
-	}
+//	// 查询有效职业类别
+//	@RequestMapping(value = "/occupation")
+//	@ResponseBody
+//	public Map<String,Object> findVocabel(HttpServletRequest res,HttpServletResponse req){
+//		Map<String, Object> map = new HashMap<String, Object>();
+//		List<EduVocationInfoEntity> vocationList = eduVocationInfoService.findVocationId();
+//		map.put("state", "0");
+//		map.put("data", vocationList);
+//		return map;
+//	}
 
 }

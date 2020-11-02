@@ -16,67 +16,65 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
-import com.alibaba.fastjson.JSONObject;
-import com.jy.pc.Entity.EduManualLabelInfoEntity;
-import com.jy.pc.Service.EduManualLabelService;
+import com.jy.pc.Entity.EduOptionInfoEntity;
+import com.jy.pc.Entity.EduQuestionInfoEntity;
+import com.jy.pc.Service.EduOptionInfoService;
+import com.jy.pc.Service.EduQuestionInfoService;
+
 /**
- * 标签 Controller
- * 
+ * 试题表Controller
  * */
 @Controller
-@RequestMapping(value = "/manualLabel")
-public class EduManualLabelController {
+@RequestMapping(value = "/questionInfo")
+@RestController
+public class EduQuestionInfoController {
 	@Autowired
-	private EduManualLabelService eduManualLabelService;
+	private EduQuestionInfoService eduQuestionInfoService;
+	@Autowired
+	private EduOptionInfoService eduOptionInfoService;
 	
 	// 查询 分页
 	@RequestMapping(value = "/findByName")
 	@ResponseBody
 	public Map<String, Object> findByName(HttpServletRequest res, HttpServletResponse req,
 			@RequestParam(name = "createBy") String createBy,
-			@RequestParam(name = "name") String name,@RequestParam(name = "status") String status,
+			@RequestParam(name = "quType") String quType,@RequestParam(name = "status") String status,
 			@RequestParam(name = "page") Integer page, @RequestParam(name = "size") Integer size) {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 		Pageable pageable = new PageRequest(page - 1, size);
-		Page<EduManualLabelInfoEntity> manualLabelList = eduManualLabelService.findListByName(createBy,name, status, pageable);
+		Page<EduQuestionInfoEntity> questionList = eduQuestionInfoService.findListByName(createBy, quType, status, pageable);
 		map.put("state", "0");// 成功
 		map.put("message", "查询成功");
-		map.put("data", manualLabelList);
+		map.put("data", questionList);
 		return map;
 	}
 
 	// 添加
 	@RequestMapping(value = "/add")
 	@ResponseBody
-	public Map<String, String> save(HttpServletRequest res, HttpServletResponse req) {
+	public Map<String, String> save(HttpServletRequest res, HttpServletResponse req,
+			EduQuestionInfoEntity eduQuestionInfoEntity,@RequestParam(name = "addOption") String addOption,
+			@RequestParam(name = "addName") String addName) {
+
 		Map<String, String> map = new HashMap<String, String>();
-		String s = res.getParameter("eduManualLabelInfoEntity");
-		JSONObject jsonObject = JSONObject.parseObject(s);
-		EduManualLabelInfoEntity eduManualLabelInfoEntity = jsonObject.toJavaObject(EduManualLabelInfoEntity.class);
-		Date date = new Date();
-		eduManualLabelInfoEntity.setCreateDate(date);
-		eduManualLabelInfoEntity.setStatus(1);
-		eduManualLabelService.save(eduManualLabelInfoEntity);
+		eduQuestionInfoService.saveOption(res,req,eduQuestionInfoEntity, addOption, addName);
 		map.put("state", "0");
 		map.put("message", "添加成功");
 		return map;
 	}
-			
+					
 	// 修改
 	@RequestMapping(value = "/update")
 	@ResponseBody
-	public Map<String, String> update(HttpServletRequest res, HttpServletResponse req) {
+	public Map<String, String> update(HttpServletRequest res, HttpServletResponse req,
+			EduQuestionInfoEntity eduQuestionInfoEntity,@RequestParam(name = "addOption") String addOption,
+			@RequestParam(name = "addName") String addName) {
 
 		Map<String, String> map = new HashMap<String, String>();
-		String s = res.getParameter("eduManualLabelInfoEntity");
-		JSONObject jsonObject = JSONObject.parseObject(s);
-		EduManualLabelInfoEntity eduManualLabelInfoEntity = jsonObject.toJavaObject(EduManualLabelInfoEntity.class);
-		Date date = new Date();
-		eduManualLabelInfoEntity.setUpdateDate(date);
-		eduManualLabelInfoEntity.setStatus(1);
-		eduManualLabelService.update(eduManualLabelInfoEntity);
+		eduQuestionInfoService.updateOption(res, req, eduQuestionInfoEntity, addOption, addName);
 		map.put("state", "0");
 		map.put("message", "修改成功");
 		return map;
@@ -89,35 +87,34 @@ public class EduManualLabelController {
 			@RequestParam(name = "id") String id) {
 
 		Map<String, Object> map = new HashMap<String, Object>();
-		List<EduManualLabelInfoEntity> manualLabelList = eduManualLabelService.findManualLink();
-		for(int i=0;i<manualLabelList.size();i++) {
-			if(manualLabelList.get(i).getId().equals(id)) {
-				eduManualLabelService.delete(id);
-				map.put("state", "0");
-				map.put("message", "删除成功");
+		try {
+			List<EduOptionInfoEntity> optionInfo = eduOptionInfoService.findquestionId(id);
+			for(int i=0;i<optionInfo.size();i++) {
+				eduOptionInfoService.delete(optionInfo.get(i).getId());
 			}
-			else {}
+			eduQuestionInfoService.delete(id);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		if(manualLabelList.size() <= 0) {}
+		map.put("state", "0");
+		map.put("message", "删除成功");			
 		return map;
 	}
-			
+					
 	//通过id查询
 	@RequestMapping(value = "/findById")
 	@ResponseBody
 	public Map<String, Object> findById(HttpServletRequest res, HttpServletResponse req,
 			@RequestParam(name = "id") String id) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		EduManualLabelInfoEntity eduManualLabelInfoEntity = eduManualLabelService.findId(id);
-		if (eduManualLabelInfoEntity != null) {
-			map.put("state", "0");
-			map.put("data", eduManualLabelInfoEntity);
-		} else {
-			map.put("state", "1");
-		}
+		EduQuestionInfoEntity eduQuestionInfoEntity = eduQuestionInfoService.findId(id);
+		List<EduOptionInfoEntity> optionInfo = eduOptionInfoService.findquestionId(id);
+		map.put("state", "0");
+		map.put("data", eduQuestionInfoEntity);
+		map.put("dataOption", optionInfo);
 		return map;
 	}
-			
+					
 	// 启用/禁用
 	@RequestMapping(value = "/enable")
 	@ResponseBody
@@ -126,10 +123,10 @@ public class EduManualLabelController {
 			@RequestParam(name = "updateUser") String updateUser) {
 		Date date = new Date();
 		Map<String, String> map = new HashMap<String, String>();
-		EduManualLabelInfoEntity eduManualLabelInfoEntity = eduManualLabelService.findId(id);
-		eduManualLabelInfoEntity.setStatus(status);
-		eduManualLabelInfoEntity.setUpdateDate(date);
-		eduManualLabelInfoEntity.setUpdateBy(updateUser);
+		EduQuestionInfoEntity eduQuestionInfoEntity = eduQuestionInfoService.findId(id);
+		eduQuestionInfoEntity.setStatus(status);
+		eduQuestionInfoEntity.setUpdateDate(date);
+		eduQuestionInfoEntity.setUpdateBy(updateUser);
 		boolean result = true;
 		//启用
 		if (status.equals(0)) {
@@ -142,19 +139,7 @@ public class EduManualLabelController {
 			map.put("message", "禁用成功");
 			result = false;
 		}
-		eduManualLabelService.enable(eduManualLabelInfoEntity,result);
+		eduQuestionInfoService.enable(eduQuestionInfoEntity,result);
 		return map;
 	}
-	
-	// 查询有效标签
-		@RequestMapping(value = "/label")
-		@ResponseBody
-		public Map<String, Object> findLabel(HttpServletRequest res, HttpServletResponse req){
-			Map<String, Object> map = new HashMap<String, Object>();
-			List<EduManualLabelInfoEntity> manualLabelList = eduManualLabelService.findManualLabelId();
-			map.put("state", "0");
-			map.put("data", manualLabelList);
-			return map;
-		}
-
 }

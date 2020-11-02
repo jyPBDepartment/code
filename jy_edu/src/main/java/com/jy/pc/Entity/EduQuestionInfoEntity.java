@@ -6,9 +6,12 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -47,6 +50,27 @@ public class EduQuestionInfoEntity {
 	private String answer;
 	@Column(columnDefinition = "varchar(255) default '' comment '问题描述'")
 	private String quContent;
+	@OneToOne
+	@JoinColumn(name = "vocation_id", columnDefinition = "varchar(36) comment '职业类别ID'")
+	private EduVocationInfoEntity vocation;
+	@Transient
+	private String vocationId;
+
+	public EduVocationInfoEntity getVocation() {
+		return vocation;
+	}
+
+	public void setVocation(EduVocationInfoEntity vocation) {
+		this.vocation = vocation;
+	}
+
+	public String getVocationId() {
+		return vocationId;
+	}
+
+	public void setVocationId(String vocationId) {
+		this.vocationId = vocationId;
+	}
 
 	public String getId() {
 		return id;

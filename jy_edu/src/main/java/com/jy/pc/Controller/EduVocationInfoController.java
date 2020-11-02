@@ -167,4 +167,15 @@ public class EduVocationInfoController {
 		map.put("message", "修改成功");
 		return map;
 	}
+	
+	// 查询有效职业类别
+	@RequestMapping(value = "/occupation")
+	@ResponseBody
+	public Map<String,Object> findVocabel(HttpServletRequest res,HttpServletResponse req){
+		Map<String, Object> map = new HashMap<String, Object>();
+		List<EduVocationInfoEntity> vocationList = eduVocationInfoService.findVocationId();
+		map.put("state", "0");
+		map.put("data", vocationList);
+		return map;
+	}
 }
