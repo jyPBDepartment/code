@@ -16,11 +16,6 @@ import org.hibernate.annotations.GenericGenerator;
 @Entity
 @Table(name = "edu_certificate_info")
 public class EduCertificateInfoEntity extends BaseEntity {
-	@Id
-	@GeneratedValue(generator = "uuid")
-	@GenericGenerator(strategy = "uuid", name = "uuid")
-	@Column(length = 36)
-	private String id;// 主键id
 	@Column(columnDefinition = "varchar(128) comment '证书名称'")
 	private String name;
 	@Column(columnDefinition = "varchar(255) comment '证书描述'")
@@ -28,14 +23,6 @@ public class EduCertificateInfoEntity extends BaseEntity {
 	@OneToOne
 	@JoinColumn(name = "vocation_id", columnDefinition = "varchar(36) comment '职业类别ID'")
 	private EduVocationInfoEntity vocation;
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
 
 	public String getName() {
 		return name;
