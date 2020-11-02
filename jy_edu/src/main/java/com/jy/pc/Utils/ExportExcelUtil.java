@@ -31,29 +31,20 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 /**
- * 导出Excel
- * 
- * @author liuyazhuang
- *
- * @param <T>
+ * Excel导出工具类
+ * 	Ver 2020-10：需传入excel表头，可利用发射遍历字段导出
+ * 	Ver 2020-11：通过注解或其他参数，动态导出字段（计划）
  */
 public class ExportExcelUtil<T> {
 
-	// 2007 版本以上 最大支持1048576行
+	// 2007 ，不传时默认生成2003版本
 	public final static String EXCEl_FILE_2007 = "2007";
-	// 2003 版本 最大支持65536 行
+	// 2003
 	public final static String EXCEL_FILE_2003 = "2003";
 
 	/**
-	 * <p>
-	 * 导出无头部标题行Excel <br>
-	 * 时间格式默认：yyyy-MM-dd hh:mm:ss <br>
-	 * </p>
+	 * 导出无头部标题行Excel 时间格式默认：yyyy-MM-dd hh:mm:ss
 	 * 
-	 * @param title   表格标题
-	 * @param dataset 数据集合
-	 * @param out     输出流
-	 * @param version 2003 或者 2007，不传时默认生成2003版本
 	 */
 	public void exportExcel(String title, Collection<T> dataset, OutputStream out, String version) {
 		if (StringUtils.isEmpty(version) || EXCEL_FILE_2003.equals(version.trim())) {
@@ -64,16 +55,8 @@ public class ExportExcelUtil<T> {
 	}
 
 	/**
-	 * <p>
-	 * 导出带有头部标题行的Excel <br>
-	 * 时间格式默认：yyyy-MM-dd hh:mm:ss <br>
-	 * </p>
+	 * 导出带有头部标题行的Excel 时间格式默认：yyyy-MM-dd hh:mm:ss
 	 * 
-	 * @param title   表格标题
-	 * @param headers 头部标题集合
-	 * @param dataset 数据集合
-	 * @param out     输出流
-	 * @param version 2003 或者 2007，不传时默认生成2003版本
 	 */
 	public void exportExcel(String title, String[] headers, Collection<T> dataset, OutputStream out, String version) {
 		if (StringUtils.isBlank(version) || EXCEL_FILE_2003.equals(version.trim())) {
@@ -84,17 +67,8 @@ public class ExportExcelUtil<T> {
 	}
 
 	/**
-	 * <p>
-	 * 通用Excel导出方法,利用反射机制遍历对象的所有字段，将数据写入Excel文件中 <br>
-	 * 此版本生成2007以上版本的文件 (文件后缀：xlsx)
-	 * </p>
+	 * 通用Excel导出方法,利用反射机制遍历对象的所有字段，将数据写入Excel文件中 此方法生成2007以上版本的文件 (文件后缀：xlsx)
 	 * 
-	 * @param title   表格标题名
-	 * @param headers 表格头部标题集合
-	 * @param dataset 需要显示的数据集合,集合中一定要放置符合JavaBean风格的类的对象。此方法支持的
-	 *                JavaBean属性的数据类型有基本数据类型及String,Date
-	 * @param out     与输出设备关联的流对象，可以将EXCEL文档导出到本地文件或者网络中
-	 * @param pattern 如果有时间数据，设定输出格式。默认为"yyyy-MM-dd hh:mm:ss"
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void exportExcel2007(String title, String[] headers, Collection<T> dataset, OutputStream out,
@@ -240,17 +214,8 @@ public class ExportExcelUtil<T> {
 	}
 
 	/**
-	 * <p>
-	 * 通用Excel导出方法,利用反射机制遍历对象的所有字段，将数据写入Excel文件中 <br>
-	 * 此方法生成2003版本的excel,文件名后缀：xls <br>
-	 * </p>
+	 * 通用Excel导出方法,利用反射机制遍历对象的所有字段，将数据写入Excel文件中 此方法生成2003版本的excel,文件名后缀：xls
 	 * 
-	 * @param title   表格标题名
-	 * @param headers 表格头部标题集合
-	 * @param dataset 需要显示的数据集合,集合中一定要放置符合JavaBean风格的类的对象。此方法支持的
-	 *                JavaBean属性的数据类型有基本数据类型及String,Date
-	 * @param out     与输出设备关联的流对象，可以将EXCEL文档导出到本地文件或者网络中
-	 * @param pattern 如果有时间数据，设定输出格式。默认为"yyyy-MM-dd hh:mm:ss"
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void exportExcel2003(String title, String[] headers, Collection<T> dataset, OutputStream out,
