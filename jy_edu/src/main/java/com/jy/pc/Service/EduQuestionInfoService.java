@@ -34,4 +34,7 @@ public interface EduQuestionInfoService {
 	
 	//修改试题选项
 	public void updateOption(HttpServletRequest res, HttpServletResponse req,EduQuestionInfoEntity eduQuestionInfoEntity,String addOption,String addName);
+	
+	//查询启用的试卷
+	public Page<EduQuestionInfoEntity> findQuestion(String quType,String voationId, Pageable pageable);
 }

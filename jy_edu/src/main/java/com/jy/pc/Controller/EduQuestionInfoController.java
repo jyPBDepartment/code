@@ -142,4 +142,20 @@ public class EduQuestionInfoController {
 		eduQuestionInfoService.enable(eduQuestionInfoEntity,result);
 		return map;
 	}
+	
+	// 查询 分页(启用试题)
+	@RequestMapping(value = "/findQuestion")
+	@ResponseBody
+	public Map<String, Object> findQuestion(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "quType") String quType,@RequestParam(name = "voationId") String voationId,
+			@RequestParam(name = "page") Integer page, @RequestParam(name = "size") Integer size) {
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		Pageable pageable = new PageRequest(page - 1, size);
+		Page<EduQuestionInfoEntity> question = eduQuestionInfoService.findQuestion(quType, voationId, pageable);
+		map.put("state", "0");// 成功
+		map.put("message", "查询成功");
+		map.put("data", question);
+		return map;
+	}
 }

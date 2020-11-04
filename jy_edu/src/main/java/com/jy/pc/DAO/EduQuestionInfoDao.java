@@ -19,4 +19,10 @@ public interface EduQuestionInfoDao extends JpaRepository<EduQuestionInfoEntity,
 	// 通过id查询
 	@Query(value = "select * from edu_question_info t where t.id =:id", nativeQuery = true)
 	public EduQuestionInfoEntity findId(@Param("id") String id);
+	
+	
+	// 启用分页与模糊查询
+	@Query(value = "select * from edu_question_info t where if(?1 !='',t.qu_type like ?1,1=1) and if(?2 !='',t.vocation_id like ?2,1=1) and t.status='0' order by t.create_date desc",
+			countQuery = "select count(*) from edu_question_info t where if(?1 !='',t.qu_type like ?1,1=1) and if(?2 !='',t.vocation_id like ?2,1=1) and t.status='0' order by t.create_date desc", nativeQuery = true)
+	public Page<EduQuestionInfoEntity> findQuestion(String quType, String voationId, Pageable pageable);
 }
