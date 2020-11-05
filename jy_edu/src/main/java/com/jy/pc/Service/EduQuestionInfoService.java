@@ -1,5 +1,7 @@
 package com.jy.pc.Service;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -37,4 +39,6 @@ public interface EduQuestionInfoService {
 	
 	//查询启用的试卷
 	public Page<EduQuestionInfoEntity> findQuestion(String quType,String voationId, Pageable pageable);
+	
+	public List<EduQuestionInfoEntity> findListByIds(List<String> ids);
 }

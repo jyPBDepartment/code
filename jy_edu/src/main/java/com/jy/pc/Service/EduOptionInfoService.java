@@ -21,5 +21,7 @@ public interface EduOptionInfoService {
 	
 	//通过试题id查询
 	public List<EduOptionInfoEntity> findquestionId(String questionId);
+	
+	public List<EduOptionInfoEntity> findQuestionIds(List<String> questionId);
 		
 }

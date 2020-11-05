@@ -46,5 +46,10 @@ public class EduOptionInfoServiceImpl implements EduOptionInfoService{
 	public List<EduOptionInfoEntity> findquestionId(String questionId) {
 		return optionInfoDao.findquestionId(questionId);
 	}
+	
+	public List<EduOptionInfoEntity> findQuestionIds(List<String> ids){
+		
+		return optionInfoDao.findQuestionIds(ids);
+	}
 
 }

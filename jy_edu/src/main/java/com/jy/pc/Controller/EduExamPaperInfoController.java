@@ -1,6 +1,9 @@
 package com.jy.pc.Controller;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,8 +19,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.jy.pc.Entity.EduExamPaperInfoEntity;
+import com.jy.pc.Entity.EduOptionInfoEntity;
 import com.jy.pc.Entity.EduQuestionInfoEntity;
 import com.jy.pc.Service.EduExamPaperInfoService;
+import com.jy.pc.Service.EduOptionInfoService;
+import com.jy.pc.Service.EduQuestionInfoService;
 
 /**
  * 试卷信息表Controller
@@ -27,7 +33,10 @@ import com.jy.pc.Service.EduExamPaperInfoService;
 public class EduExamPaperInfoController {
 	@Autowired
 	private EduExamPaperInfoService eduExamPaperInfoService;
-
+	@Autowired
+	private EduQuestionInfoService eduQuestionInfoService;
+	@Autowired
+	private EduOptionInfoService eduOptionInfoService;
 	// 查询 分页
 	@RequestMapping(value = "/findByName")
 	@ResponseBody
@@ -63,4 +72,63 @@ public class EduExamPaperInfoController {
 		}
 		return map;
 	}
+	
+	// 查询试卷预览结果
+	@RequestMapping(value = "/preview")
+	@ResponseBody
+	public Map<String, Object> findQuestion(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "idArray") String ids) {
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		List<String> list = new ArrayList<String>();
+		String[] array = ids.split(",");
+		for(int i=0;i<array.length;i++) {
+			list.add(array[i]);
+		}
+		
+		List<EduQuestionInfoEntity> eduQuestionInfo =eduQuestionInfoService.findListByIds(list);
+		Map<String, Object> item = new HashMap<String, Object>();
+		for(int i=0;i<eduQuestionInfo.size();i++) {
+//			Map<String, Object> mapItem = new HashMap<String, Object>();
+			
+//			mapItem.put("queInfo",eduQuestionInfo.get(i));
+			List<EduOptionInfoEntity> optionList = eduOptionInfoService.findquestionId(eduQuestionInfo.get(i).getId());
+//			mapItem.put("optionList",optionList);
+//			item.put("data",mapItem);
+			
+			eduQuestionInfo.get(i).setOptionList(optionList);
+		}
+		
+		map.put("state", "0");// 成功
+		map.put("message", "查询成功");
+		map.put("data", eduQuestionInfo);
+		return map;
+	}
+	// 启用/禁用
+		@RequestMapping(value = "/enable")
+		@ResponseBody
+		public Map<String, String> opensulf(HttpServletRequest res, HttpServletResponse req,
+				@RequestParam(name = "status") Integer status, @RequestParam(name = "id") String id,
+				@RequestParam(name = "updateUser") String updateUser) {
+			Date date = new Date();
+			Map<String, String> map = new HashMap<String, String>();
+			EduExamPaperInfoEntity eduExamPaperInfoEntity = eduExamPaperInfoService.findId(id);
+			eduExamPaperInfoEntity.setStatus(status);
+			eduExamPaperInfoEntity.setUpdateDate(date);
+			eduExamPaperInfoEntity.setUpdateBy(updateUser);
+			boolean result = true;
+			//启用
+			if (status.equals(0)) {
+				map.put("state", "0");
+				map.put("message", "启用成功");	
+			}
+			//禁用
+			if (status.equals(1)) {
+				map.put("state", "1");
+				map.put("message", "禁用成功");
+				result = false;
+			}
+			eduExamPaperInfoService.enable(eduExamPaperInfoEntity,result);
+			return map;
+		}
 }

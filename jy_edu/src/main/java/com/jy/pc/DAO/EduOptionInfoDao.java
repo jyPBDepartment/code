@@ -17,7 +17,10 @@ public interface EduOptionInfoDao extends JpaRepository<EduOptionInfoEntity, Str
 	public EduOptionInfoEntity findId(@Param("id") String id);
 	
 	// 通过试题id查询
-	@Query(value = "select * from edu_option_info t where t.qu_id =:questionId", nativeQuery = true)
+	@Query(value = "select * from edu_option_info t where t.qu_id =:questionId order by t.title", nativeQuery = true)
 	public List<EduOptionInfoEntity> findquestionId(@Param("questionId") String questionId);
+	
+	@Query(value = "select * from edu_option_info t where t.qu_id in ?1", nativeQuery = true)
+	public List<EduOptionInfoEntity> findQuestionIds(List<String> ids);
 
 }

@@ -1,6 +1,7 @@
 package com.jy.pc.Entity;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,7 +19,7 @@ import org.hibernate.annotations.GenericGenerator;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 /**
- * 	试题信息表
+ * 试题信息表
  */
 @Entity
 @Table(name = "edu_question_info")
@@ -55,6 +56,8 @@ public class EduQuestionInfoEntity {
 	private EduVocationInfoEntity vocation;
 	@Transient
 	private String vocationId;
+	@Transient
+	private List<EduOptionInfoEntity> optionList;
 
 	public EduVocationInfoEntity getVocation() {
 		return vocation;
@@ -78,6 +81,14 @@ public class EduQuestionInfoEntity {
 
 	public void setId(String id) {
 		this.id = id;
+	}
+
+	public List<EduOptionInfoEntity> getOptionList() {
+		return optionList;
+	}
+
+	public void setOptionList(List<EduOptionInfoEntity> optionList) {
+		this.optionList = optionList;
 	}
 
 	public String getCreateBy() {

@@ -1,5 +1,7 @@
 package com.jy.pc.DAO;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -25,4 +27,8 @@ public interface EduQuestionInfoDao extends JpaRepository<EduQuestionInfoEntity,
 	@Query(value = "select * from edu_question_info t where if(?1 !='',t.qu_type like ?1,1=1) and if(?2 !='',t.vocation_id like ?2,1=1) and t.status='0' order by t.create_date desc",
 			countQuery = "select count(*) from edu_question_info t where if(?1 !='',t.qu_type like ?1,1=1) and if(?2 !='',t.vocation_id like ?2,1=1) and t.status='0' order by t.create_date desc", nativeQuery = true)
 	public Page<EduQuestionInfoEntity> findQuestion(String quType, String voationId, Pageable pageable);
+	
+	@Query(value = "select * from edu_question_info t where t.id in ?1", nativeQuery = true)
+	public List<EduQuestionInfoEntity> findListByIds(List<String> ids);
+	
 }

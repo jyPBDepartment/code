@@ -104,7 +104,7 @@ public class EduQuestionInfoServiceImpl implements EduQuestionInfoService{
 		EduQuestionInfoEntity question = eduQuestionInfoDao.save(eduQuestionInfoEntity);
 		for(int i=0;i<option.length;i++) {
 			EduOptionInfoEntity eduOptionInfoEntity = new EduOptionInfoEntity();
-			eduOptionInfoEntity.setQuId(question.getId());
+//			eduOptionInfoEntity.setQuId(question.getId());
 			eduOptionInfoEntity.setTitle(optionName[i]);
 			eduOptionInfoEntity.setContent(option[i]);
 			eduOptionInfoDao.save(eduOptionInfoEntity);
@@ -144,7 +144,7 @@ public class EduQuestionInfoServiceImpl implements EduQuestionInfoService{
 			for(int i=0;i<option.length;i++) {
 				if(i>1) {
 					EduOptionInfoEntity OptionInfoEntity = new EduOptionInfoEntity();
-					OptionInfoEntity.setQuId(question.getId());
+//					OptionInfoEntity.setQuId(question.getId());
 					OptionInfoEntity.setTitle(optionName[i]);
 					OptionInfoEntity.setContent(option[i]);
 					eduOptionInfoDao.save(OptionInfoEntity);
@@ -183,5 +183,10 @@ public class EduQuestionInfoServiceImpl implements EduQuestionInfoService{
 	@Override
 	public Page<EduQuestionInfoEntity> findQuestion(String quType, String voationId, Pageable pageable) {
 		return eduQuestionInfoDao.findQuestion(quType, voationId, pageable);
+	}
+	
+	public List<EduQuestionInfoEntity> findListByIds(List<String> ids){
+		
+		return eduQuestionInfoDao.findListByIds(ids);
 	}
 }

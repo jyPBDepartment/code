@@ -153,27 +153,4 @@ public class EduManualInfoController {
 		eduManualInfoService.enable(eduManualInfoEntity,result);
 		return map;
 	}
-		
-	// 查询有效标签
-//	@RequestMapping(value = "/label")
-//	@ResponseBody
-//	public Map<String, Object> findLabel(HttpServletRequest res, HttpServletResponse req){
-//		Map<String, Object> map = new HashMap<String, Object>();
-//		List<EduManualLabelInfoEntity> manualLabelList = eduManualLabelService.findManualLabelId();
-//		map.put("state", "0");
-//		map.put("data", manualLabelList);
-//		return map;
-//	}
-	
-//	// 查询有效职业类别
-//	@RequestMapping(value = "/occupation")
-//	@ResponseBody
-//	public Map<String,Object> findVocabel(HttpServletRequest res,HttpServletResponse req){
-//		Map<String, Object> map = new HashMap<String, Object>();
-//		List<EduVocationInfoEntity> vocationList = eduVocationInfoService.findVocationId();
-//		map.put("state", "0");
-//		map.put("data", vocationList);
-//		return map;
-//	}
-
 }
