@@ -2,6 +2,7 @@ package com.jy.pc.Service;
 
 import java.util.List;
 
+import org.hibernate.service.spi.ServiceException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -42,5 +43,8 @@ public interface EduPictureService {
 	
 	//查询图片类型为考试
 	public List<EduPictureInfoEntity> findTypeThree();
+	
+	//根据图片位置类型获取列表信息
+	public List<EduPictureInfoEntity> findListByPicType(int picType) throws ServiceException;
 
 }

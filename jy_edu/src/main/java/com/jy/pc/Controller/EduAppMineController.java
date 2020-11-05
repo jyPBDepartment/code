@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.jy.pc.Entity.EduManualInfoEntity;
 import com.jy.pc.Service.EduManualInfoService;
+import com.jy.pc.Service.EduUserExamService;
 
 
 /**
@@ -23,7 +24,9 @@ import com.jy.pc.Service.EduManualInfoService;
 public class EduAppMineController {
 	
 	@Autowired
-	private EduManualInfoService eduManualInfoService;
+	private EduManualInfoService eduManualInfoService;//手册信息业务层
+	@Autowired
+	private EduUserExamService eduUserExamService;//用户考试关联业务层
 	
 	/**
 	 * 我的-我的收藏、学习记录
@@ -42,6 +45,7 @@ public class EduAppMineController {
 			map.put("data", eduManualInfoList);
 		} catch (Exception e) {
 			map.put("code", "201");// 查询失败
+			map.put("msg",e.getMessage());
 		}
 		return map;
 	}
@@ -53,16 +57,15 @@ public class EduAppMineController {
 	 */
 	@RequestMapping("/getExamResultByUserId")
 	@ResponseBody
-	public Map<String, Object> getExamResultByUserId(String userId, int isCollection) {
+	public Map<String, Object> getExamResultByUserId(String userId) {
 		Map<String, Object> map = new HashMap<String, Object>();
-
 		try {
-			List<EduManualInfoEntity> eduManualInfoList = eduManualInfoService.getManualListByUserId(userId,
-					isCollection);
+			List<Map<String,Object>> eduUserExamlist= eduUserExamService.getExamResultByUserId(userId);
 			map.put("code", "200");// 查询成功
-			map.put("data", eduManualInfoList);
+			map.put("data", eduUserExamlist);
 		} catch (Exception e) {
 			map.put("code", "201");// 查询失败
+			map.put("msg", e.getMessage());
 		}
 		return map;
 	}

@@ -210,4 +210,21 @@ public class EduPictureController {
 		map.put("message", "修改成功");
 		return map;
 	}
+	
+	@RequestMapping(value = "/getListByType")
+	@ResponseBody
+	public Map<String, Object> getListByType(int picType){
+		Map<String, Object> map = new HashMap<String, Object>();
+		try {
+			List<EduPictureInfoEntity> eduPictureInfoList = eduPictureService.findListByPicType(picType);
+			map.put("code", "200");
+			map.put("data", eduPictureInfoList);
+		}catch(Exception e) {
+			map.put("code", "201");
+			map.put("data", e.getMessage());
+		}
+		
+		return map;
+	}
+	
 }

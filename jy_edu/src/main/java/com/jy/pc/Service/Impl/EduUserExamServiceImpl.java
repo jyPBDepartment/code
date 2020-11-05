@@ -1,7 +1,11 @@
 package com.jy.pc.Service.Impl;
 
+import java.util.List;
+import java.util.Map;
+
 import javax.transaction.Transactional;
 
+import org.hibernate.service.spi.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +20,11 @@ public class EduUserExamServiceImpl implements EduUserExamService {
 	@Autowired
 	private EduUserExamDao eduUserExamDao;
 
-	public void save(EduUserExamEntity eduUserExamEntity) {
+	public void save(EduUserExamEntity eduUserExamEntity) throws ServiceException{
 		eduUserExamDao.saveAndFlush(eduUserExamEntity);
+	}
+	
+	public List<Map<String,Object>> getExamResultByUserId(String userId) throws ServiceException{
+		return eduUserExamDao.getExamResultByUserId(userId);
 	}
 }

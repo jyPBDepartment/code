@@ -38,5 +38,8 @@ public interface EduPictureDao extends JpaRepository<EduPictureInfoEntity, Strin
 	// 查询图片类型为考试
 	@Query(value = "SELECT * FROM edu_picture_info t where t.pic_type='2' and t.status = '0' ", nativeQuery = true)
 	public List<EduPictureInfoEntity> findTypeThree();
+	
+	@Query(value = "SELECT * FROM edu_picture_info t where t.pic_type=?1 and t.status = '0' ", nativeQuery = true)
+	public List<EduPictureInfoEntity> findListByPicType(int picType);
 
 }

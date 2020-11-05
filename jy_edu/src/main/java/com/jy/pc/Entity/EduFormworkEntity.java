@@ -12,6 +12,9 @@ import javax.persistence.Transient;
  */
 @Entity
 @Table(name = "edu_formwork_info")
+
+
+
 public class EduFormworkEntity extends BaseEntity {
 	@Column(columnDefinition = "varchar(128) comment '模板名称'")
 	private String name;

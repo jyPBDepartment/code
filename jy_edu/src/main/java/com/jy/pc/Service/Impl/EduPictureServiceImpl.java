@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import org.hibernate.service.spi.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -87,5 +88,9 @@ public class EduPictureServiceImpl implements EduPictureService{
 	@Override
 	public List<EduPictureInfoEntity> findTypeThree() {
 		return eduPictureDao.findTypeThree();
+	}
+	
+	public List<EduPictureInfoEntity> findListByPicType(int picType) throws ServiceException{
+		return eduPictureDao.findListByPicType(picType);
 	}
 }

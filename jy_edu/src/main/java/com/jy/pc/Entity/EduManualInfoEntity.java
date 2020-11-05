@@ -51,7 +51,7 @@ public class EduManualInfoEntity {
 	private String title;
 	@Column(columnDefinition = "int(1) comment '0文章1视频'")
 	private int manualType;
-	@Column(columnDefinition = "int(8) comment '学习人数'")
+	@Column(columnDefinition = "int(8) default 0 comment '学习人数'")
 	private int studyNum;
 	@Column(columnDefinition = " text comment '手册内容富文本'")
 	private String content;
