@@ -24,9 +24,10 @@ public class EduLessonInfoServiceImpl implements EduLessonInfoService {
 	private EduLessonRelaDao eduLessonRelaDao;
 
 	@Override
-	public Page<EduLessonInfoEntity> findListByParam(String name, String status, String createBy,Pageable pageable) {
+	public Page<EduLessonInfoEntity> findListByParam(String name, String status, String createBy, Pageable pageable) {
 		String nameParam = "%" + name + "%";
-		return eduLessonInfoDao.findListByName(nameParam, status,createBy, pageable);
+		String createParam = "%" + createBy + "%";
+		return eduLessonInfoDao.findListByName(nameParam, status, createParam, pageable);
 	}
 
 	@Override
@@ -56,8 +57,8 @@ public class EduLessonInfoServiceImpl implements EduLessonInfoService {
 	}
 
 	@Override
-	public List<EduLessonStudentRelationEntity> findRelaById(String lessonId,String name) {
-		return eduLessonRelaDao.findRelaById(lessonId,"%"+name+"%");
+	public List<EduLessonStudentRelationEntity> findRelaById(String lessonId, String name) {
+		return eduLessonRelaDao.findRelaById(lessonId, "%" + name + "%");
 	}
 
 	@Override

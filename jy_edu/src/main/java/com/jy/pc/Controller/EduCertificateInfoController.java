@@ -2,7 +2,6 @@ package com.jy.pc.Controller;
 
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,34 +17,21 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSONObject;
-import com.jy.pc.Entity.EduLessonInfoEntity;
-import com.jy.pc.Entity.EduLessonStudentRelationEntity;
+import com.jy.pc.Entity.EduCertificateInfoEntity;
 import com.jy.pc.Entity.EduVocationInfoEntity;
-import com.jy.pc.Service.EduLessonInfoService;
+import com.jy.pc.Service.EduCertificateInfoService;
 
 /**
- * 线下课程相关
+ * 电子证书相关
  * 
  * @author admin
  *
  */
-@RequestMapping(value = "lesson")
+@RequestMapping(value = "certificate")
 @RestController
-public class EduLessonInfoController {
+public class EduCertificateInfoController {
 	@Autowired
-	private EduLessonInfoService eduLessonInfoService;
-
-	// 返回报名情况
-	@RequestMapping(value = "findStuListByLesson")
-	public Map<String, Object> findRelaById(HttpServletRequest res, HttpServletResponse req,
-			@RequestParam(name = "name") String name, @RequestParam(name = "lessonId") String lessonId) {
-		Map<String, Object> map = new HashMap<String, Object>();
-		List<EduLessonStudentRelationEntity> lessonList = eduLessonInfoService.findRelaById(lessonId, name);
-		map.put("state", "0");// 成功
-		map.put("message", "查询成功");
-		map.put("data", lessonList);
-		return map;
-	}
+	private EduCertificateInfoService eduCertificateInfoService;
 
 	// 分页条件查询
 	@RequestMapping(value = "/findPage")
@@ -56,10 +42,11 @@ public class EduLessonInfoController {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 		Pageable pageable = new PageRequest(page - 1, size);
-		Page<EduLessonInfoEntity> lessonList = eduLessonInfoService.findListByParam(name, status, createBy, pageable);
+		Page<EduCertificateInfoEntity> list = eduCertificateInfoService.findListByParam(name, status, createBy,
+				pageable);
 		map.put("state", "0");// 成功
 		map.put("message", "查询成功");
-		map.put("data", lessonList);
+		map.put("data", list);
 		return map;
 	}
 
@@ -69,10 +56,10 @@ public class EduLessonInfoController {
 	public Map<String, Object> findById(HttpServletRequest res, HttpServletResponse req,
 			@RequestParam(name = "id") String id) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		EduLessonInfoEntity lessonEntity = eduLessonInfoService.findInfobyId(id);
-		if (lessonEntity != null) {
+		EduCertificateInfoEntity entity = eduCertificateInfoService.findInfobyId(id);
+		if (entity != null) {
 			map.put("state", "0");
-			map.put("data", lessonEntity);
+			map.put("data", entity);
 		} else {
 			map.put("state", "1");
 		}
@@ -85,19 +72,19 @@ public class EduLessonInfoController {
 			@RequestParam(name = "id") String id) {
 
 		Map<String, String> map = new HashMap<String, String>();
-		eduLessonInfoService.delete(id);
+		eduCertificateInfoService.delete(id);
 		map.put("state", "0");
 		map.put("message", "删除成功");
 		return map;
 	}
 
 	// 切换生效状态
-	@RequestMapping(value = "/enableSwitch")
+	@RequestMapping(value = "/enable")
 	public Map<String, String> enable(HttpServletRequest res, HttpServletResponse req,
 			@RequestParam(name = "status") int status, @RequestParam(name = "id") String id) {
 
 		Map<String, String> map = new HashMap<String, String>();
-		EduLessonInfoEntity entity = eduLessonInfoService.findInfobyId(id);
+		EduCertificateInfoEntity entity = eduCertificateInfoService.findInfobyId(id);
 		Date date = new Date();
 		entity.setUpdateDate(date);
 		entity.setStatus(status);
@@ -111,7 +98,7 @@ public class EduLessonInfoController {
 			map.put("message", "禁用成功");
 			result = false;
 		}
-		eduLessonInfoService.enable(entity, result);
+		eduCertificateInfoService.enable(entity, result);
 		return map;
 	}
 
@@ -120,18 +107,17 @@ public class EduLessonInfoController {
 	@ResponseBody
 	public Map<String, String> save(HttpServletRequest res, HttpServletResponse req) {
 		Map<String, String> map = new HashMap<String, String>();
-		String s = res.getParameter("lessonEntity");
+		String s = res.getParameter("entity");
 		JSONObject jsonObject = JSONObject.parseObject(s);
-		EduLessonInfoEntity lessonEntity = jsonObject.toJavaObject(EduLessonInfoEntity.class);
+		EduCertificateInfoEntity entity = jsonObject.toJavaObject(EduCertificateInfoEntity.class);
 		EduVocationInfoEntity vocation = new EduVocationInfoEntity();
-		vocation.setId(lessonEntity.getVocationId());
-		lessonEntity.setVocation(vocation);
-		lessonEntity.setStatus(1);
-		lessonEntity.setEnrollStatus(1);
+		vocation.setId(entity.getVocationId());
+		entity.setVocation(vocation);
+		entity.setStatus(1);
 		Date date = new Date();
-		lessonEntity.setCreateDate(date);
-		lessonEntity.setStatus(1);
-		eduLessonInfoService.save(lessonEntity);
+		entity.setCreateDate(date);
+		entity.setStatus(1);
+		eduCertificateInfoService.save(entity);
 		map.put("state", "0");
 		map.put("message", "添加成功");
 		return map;
@@ -143,13 +129,13 @@ public class EduLessonInfoController {
 	public Map<String, String> update(HttpServletRequest res, HttpServletResponse req) {
 
 		Map<String, String> map = new HashMap<String, String>();
-		String s = res.getParameter("lessonEntity");
+		String s = res.getParameter("entity");
 		JSONObject jsonObject = JSONObject.parseObject(s);
-		EduLessonInfoEntity lessonEntity = jsonObject.toJavaObject(EduLessonInfoEntity.class);
+		EduCertificateInfoEntity entity = jsonObject.toJavaObject(EduCertificateInfoEntity.class);
 		Date date = new Date();
-		lessonEntity.setCreateDate(date);
-		lessonEntity.setStatus(1);
-		eduLessonInfoService.update(lessonEntity);
+		entity.setUpdateDate(date);
+		//entity.setStatus(1);
+		eduCertificateInfoService.update(entity);
 		map.put("state", "0");
 		map.put("message", "修改成功");
 		return map;
