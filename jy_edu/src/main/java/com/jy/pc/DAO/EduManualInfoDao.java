@@ -1,5 +1,7 @@
 package com.jy.pc.DAO;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -19,5 +21,9 @@ public interface EduManualInfoDao extends JpaRepository<EduManualInfoEntity, Str
 	// 通过id查询
 	@Query(value = "select * from edu_manual_info t where t.id =:id", nativeQuery = true)
 	public EduManualInfoEntity findId(@Param("id") String id);
+	
+	//根据用户Id、是否收藏查询手册列表信息
+	@Query(value = "select t.* from edu_manual_info t,edu_user_manual t1 where t.id =t1.manual_info_id and t1.user_id=?1 and t1.is_collection=?2", nativeQuery = true)
+	public List<EduManualInfoEntity> getManualListByUserId(String userId,int isCollection);
 
 }

@@ -21,9 +21,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.jy.pc.Entity.EduExamPaperInfoEntity;
 import com.jy.pc.Entity.EduOptionInfoEntity;
 import com.jy.pc.Entity.EduQuestionInfoEntity;
+import com.jy.pc.Entity.EduUserExamEntity;
 import com.jy.pc.Service.EduExamPaperInfoService;
 import com.jy.pc.Service.EduOptionInfoService;
 import com.jy.pc.Service.EduQuestionInfoService;
+import com.jy.pc.Service.EduUserExamService;
 
 /**
  * 试卷信息表Controller
@@ -37,6 +39,8 @@ public class EduExamPaperInfoController {
 	private EduQuestionInfoService eduQuestionInfoService;
 	@Autowired
 	private EduOptionInfoService eduOptionInfoService;
+	@Autowired
+	private EduUserExamService eduUserExamService;
 	// 查询 分页
 	@RequestMapping(value = "/findByName")
 	@ResponseBody
@@ -129,6 +133,29 @@ public class EduExamPaperInfoController {
 				result = false;
 			}
 			eduExamPaperInfoService.enable(eduExamPaperInfoEntity,result);
+			return map;
+		}
+		
+		/**
+		 *	新增用户考试结果记录
+		 *  @param userId 用户Id
+		 * 
+		 * */
+		@RequestMapping(value = "/saveUserExam")
+		@ResponseBody
+		public Map<String, String> saveUserExam(HttpServletRequest res, HttpServletResponse req,
+				EduUserExamEntity eduUserExamEntity) {
+			Map<String, String> map = new HashMap<String, String>();
+			Date date = new Date();
+			eduUserExamEntity.setExamDate(date);
+			try {
+				eduUserExamService.save(eduUserExamEntity); 
+				map.put("code", "200");
+				map.put("msg", "收藏成功");
+			}catch(Exception e) {
+				map.put("code", "201");
+				map.put("msg", "收藏失败");
+			}
 			return map;
 		}
 }

@@ -1,7 +1,10 @@
 package com.jy.pc.Service.Impl;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
+import org.hibernate.service.spi.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -63,6 +66,12 @@ public class EduManualInfoServiceImpl implements EduManualInfoService{
 	public void enable(EduManualInfoEntity eduManualInfoEntity, boolean result) {
 		logger.initEnableLog(eduManualInfoEntity, result);
 		eduManualInfoDao.saveAndFlush(eduManualInfoEntity);
+	}
+	
+	//app我的收藏/学习记录
+	public List<EduManualInfoEntity> getManualListByUserId(String userId,int isCollection) throws ServiceException{
+		
+		return eduManualInfoDao.getManualListByUserId(userId,isCollection);
 	}
 
 }

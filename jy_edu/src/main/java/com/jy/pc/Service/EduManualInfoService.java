@@ -1,5 +1,8 @@
 package com.jy.pc.Service;
 
+import java.util.List;
+
+import org.hibernate.service.spi.ServiceException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -25,5 +28,9 @@ public interface EduManualInfoService {
 	
 	//调整状态
 	void enable(EduManualInfoEntity eduManualInfoEntity,boolean result);
+	
+	
+	//app我的收藏/学习记录
+	List<EduManualInfoEntity> getManualListByUserId(String userId,int isCollection) throws ServiceException;
 
 }

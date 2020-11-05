@@ -2,7 +2,6 @@ package com.jy.pc.Controller;
 
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,9 +19,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSONObject;
 import com.jy.pc.Entity.EduManualInfoEntity;
 import com.jy.pc.Entity.EduManualLabelInfoEntity;
+import com.jy.pc.Entity.EduUserManualEntity;
 import com.jy.pc.Entity.EduVocationInfoEntity;
 import com.jy.pc.Service.EduManualInfoService;
 import com.jy.pc.Service.EduManualLabelService;
+import com.jy.pc.Service.EduUserManualService;
 import com.jy.pc.Service.EduVocationInfoService;
 /**
  * 手册Conteoller
@@ -36,6 +37,9 @@ public class EduManualInfoController {
 	private EduManualLabelService eduManualLabelService;
 	@Autowired
 	private EduVocationInfoService eduVocationInfoService;
+	@Autowired
+	private EduUserManualService eduUserManualService;//用户手册关联业务层
+	
 	
 	// 查询 分页
 	@RequestMapping(value = "/findByName")
@@ -151,6 +155,29 @@ public class EduManualInfoController {
 			result = false;
 		}
 		eduManualInfoService.enable(eduManualInfoEntity,result);
+		return map;
+	}
+	
+	/**
+	 *	用户新增手册收藏
+	 *  @param userId 用户Id
+	 * 
+	 * */
+	@RequestMapping(value = "/saveUserManualInfo")
+	@ResponseBody
+	public Map<String, String> saveUserManualInfo(HttpServletRequest res, HttpServletResponse req,
+			EduUserManualEntity eduUserManualEntity) {
+		Map<String, String> map = new HashMap<String, String>();
+		Date date = new Date();
+		eduUserManualEntity.setCollectionDate(date);//设置收藏时间
+		try {
+			eduUserManualService.save(eduUserManualEntity); 
+			map.put("code", "200");
+			map.put("msg", "收藏成功");
+		}catch(Exception e) {
+			map.put("code", "201");
+			map.put("msg", "收藏失败");
+		}
 		return map;
 	}
 }
