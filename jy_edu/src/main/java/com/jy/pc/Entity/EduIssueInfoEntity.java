@@ -22,11 +22,11 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 @Table(name = "edu_issue_info")
 public class EduIssueInfoEntity extends BaseEntity {
 	@OneToOne
-	@JoinColumn(name = "user_id", columnDefinition = "varchar(128) comment '用户ID'",referencedColumnName = "id")
+	@JoinColumn(name = "user_id", columnDefinition = "varchar(128) comment '用户ID'", referencedColumnName = "id")
 	@NotFound(action = NotFoundAction.IGNORE)
 	private SysLocalUserEntity user;
 	@OneToOne
-	@JoinColumn(name = "certificate_id", columnDefinition = "varchar(36) comment '证书ID'",referencedColumnName = "id")
+	@JoinColumn(name = "certificate_id", columnDefinition = "varchar(36) comment '证书ID'", referencedColumnName = "id")
 	@NotFound(action = NotFoundAction.IGNORE)
 	private EduCertificateInfoEntity certificate;
 	@Column(columnDefinition = "datetime comment '颁发时间'")
@@ -37,6 +37,28 @@ public class EduIssueInfoEntity extends BaseEntity {
 	private int issueState;
 	@Column(columnDefinition = "varchar(36) default '' comment '处理人'")
 	private String issueBy;
+	@OneToOne
+	@JoinColumn(name = "formwork_id", columnDefinition = "varchar(36) comment '模板ID'", referencedColumnName = "id")
+	@NotFound(action = NotFoundAction.IGNORE)
+	private EduFormworkEntity eduFormworkEntity;
+	@Column(columnDefinition = "varchar(36) default '' comment '证书图片路径'")
+	private String url;
+
+	public EduFormworkEntity getEduFormworkEntity() {
+		return eduFormworkEntity;
+	}
+
+	public void setEduFormworkEntity(EduFormworkEntity eduFormworkEntity) {
+		this.eduFormworkEntity = eduFormworkEntity;
+	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
 
 	public String getIssueBy() {
 		return issueBy;
