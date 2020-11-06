@@ -28,7 +28,7 @@ public interface EduExamPaperInfoDao extends JpaRepository<EduExamPaperInfoEntit
 	public EduExamPaperInfoEntity findExamId(@Param("id") String id);
 	
 	//试卷列表加载接口
-	@Query(value = "SELECT * FROM edu_exam_paper_info t where t.status = '0' and t.vocation_id =:vocationId", nativeQuery = true)
+	@Query(value = "SELECT * FROM edu_exam_paper_info t where t.status = '0' and t.vocation_id =:vocationId order by t.create_date desc", nativeQuery = true)
 	public List<EduExamPaperInfoEntity> getExamListByVocationId(String vocationId);
 
 }
