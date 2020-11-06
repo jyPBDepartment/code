@@ -15,4 +15,8 @@ public interface EduLessonRelaDao extends JpaRepository<EduLessonStudentRelation
 	//获取报名情况
 	@Query(value = "select * from edu_lesson_student_relation  where lesson_id =?1 and if(?2 !='',user_name like ?2,1=1)", nativeQuery = true)
 	public List<EduLessonStudentRelationEntity> findRelaById(String id,String name);
+	
+	//根据userid获取报名情况
+	@Query(value = "select * from edu_lesson_student_relation  where user_code =?1 ", nativeQuery = true)
+	public List<EduLessonStudentRelationEntity> getLessonsByUserId(String userId);
 }

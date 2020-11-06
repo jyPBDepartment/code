@@ -22,7 +22,9 @@ import com.alibaba.fastjson.JSONObject;
 import com.jy.pc.Entity.EduLessonInfoEntity;
 import com.jy.pc.Entity.EduLessonStudentRelationEntity;
 import com.jy.pc.Entity.EduVocationInfoEntity;
+import com.jy.pc.Enum.InterfaceCode;
 import com.jy.pc.Service.EduLessonInfoService;
+import com.jy.pc.VO.LessonEnrollVO;
 import com.jy.pc.VO.LessonListVO;
 
 /**
@@ -37,14 +39,58 @@ public class EduLessonInfoController {
 	@Autowired
 	private EduLessonInfoService eduLessonInfoService;
 
-	//移动端 - 首页-线下课程加载
+	// 移动端-用户报名课程Enroll
+	@RequestMapping(value = "enrollLesson")
+	public Map<String, Object> enrollLesson(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "userId") String userId, @RequestParam(name = "lessonId") String lessonId) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		try {
+			EduLessonInfoEntity lesson = eduLessonInfoService.findInfobyId(lessonId);
+			List<EduLessonStudentRelationEntity> relaList = eduLessonInfoService.findRelaById(lessonId, "");
+			if (relaList.size() >= lesson.getStuLimit()) {
+				map.put("code", "200");// 成功
+				map.put("message", "查询成功");
+			}
+			map.put("code", InterfaceCode.SUCCESS);// 成功
+			map.put("message", "查询成功");
+		} catch (Exception e) {
+			map.put("code", "201");// 失败
+			map.put("message", e.getMessage());
+		}
+		return map;
+	}
+
+	// 移动端 -我的-报名课程列表加载
+	@RequestMapping(value = "getLessonsByUserId")
+	public Map<String, Object> getLessonsByUserId(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "userId") String userId) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		try {
+			// 根据userId查询出此人课程报名情况
+			List<EduLessonStudentRelationEntity> lessonList = eduLessonInfoService.getLessonsByUserId(userId);
+			List<LessonEnrollVO> result = new ArrayList<LessonEnrollVO>();
+			for (EduLessonStudentRelationEntity entity : lessonList) {
+				LessonEnrollVO vo = new LessonEnrollVO(entity);
+				result.add(vo);
+			}
+			map.put("code", InterfaceCode.SUCCESS.getCode());// 成功
+			map.put("message", InterfaceCode.SUCCESS.getMessage());
+			map.put("data", result);
+		} catch (Exception e) {
+			map.put("code", "201");// 成功
+			map.put("message", e.getMessage());
+		}
+		return map;
+	}
+
+	// 移动端 - 首页-线下课程加载
 	@RequestMapping(value = "getListByLessonDay")
 	public Map<String, Object> getListByReading(HttpServletRequest res, HttpServletResponse req) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
 			List<EduLessonInfoEntity> lessonList = eduLessonInfoService.getListByReading();
 			List<LessonListVO> result = new ArrayList<LessonListVO>();
-			for(EduLessonInfoEntity entity : lessonList) {
+			for (EduLessonInfoEntity entity : lessonList) {
 				LessonListVO vo = new LessonListVO(entity);
 				result.add(vo);
 			}
@@ -57,7 +103,7 @@ public class EduLessonInfoController {
 		}
 		return map;
 	}
-	
+
 	// 返回报名情况
 	@RequestMapping(value = "findStuListByLesson")
 	public Map<String, Object> findRelaById(HttpServletRequest res, HttpServletResponse req,

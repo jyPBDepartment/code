@@ -33,4 +33,6 @@ public interface EduLessonInfoService {
 	// 移动端 - 首页-线下课程加载
 	public List<EduLessonInfoEntity> getListByReading();
 
+	public List<EduLessonStudentRelationEntity> getLessonsByUserId(String userId);
+
 }

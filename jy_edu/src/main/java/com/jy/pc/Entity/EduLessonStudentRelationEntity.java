@@ -6,6 +6,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -25,12 +27,13 @@ public class EduLessonStudentRelationEntity {
 	@GenericGenerator(strategy = "uuid", name = "uuid")
 	@Column(length = 36)
 	private String id;// 主键id
-
-	@Column(columnDefinition = "varchar(36) comment '课程ID'")
-	private String lessonId;
-	@Column(columnDefinition = "varchar(36) comment '客户代码'")
-	private String userCode;
-	@Column(columnDefinition = "varchar(36) comment '客户名称'")
+	@OneToOne
+	@JoinColumn(name = "lesson_id", columnDefinition = "varchar(36) comment '课程ID'")
+	private EduLessonInfoEntity lesson;
+	@OneToOne
+	@JoinColumn(name = "user_code", columnDefinition = "varchar(36) comment '客户ID'")
+	private SysLocalUserEntity user;
+	@Column(columnDefinition = "varchar(36) comment '客户id'")
 	private String userName;
 	@Column(columnDefinition = "varchar(36) comment '客户联系方式'")
 	private String userTel;
@@ -55,20 +58,20 @@ public class EduLessonStudentRelationEntity {
 		this.id = id;
 	}
 
-	public String getLessonId() {
-		return lessonId;
+	public EduLessonInfoEntity getLesson() {
+		return lesson;
 	}
 
-	public void setLessonId(String lessonId) {
-		this.lessonId = lessonId;
+	public void setLesson(EduLessonInfoEntity lesson) {
+		this.lesson = lesson;
 	}
 
-	public String getUserCode() {
-		return userCode;
+	public SysLocalUserEntity getUser() {
+		return user;
 	}
 
-	public void setUserCode(String userCode) {
-		this.userCode = userCode;
+	public void setUser(SysLocalUserEntity user) {
+		this.user = user;
 	}
 
 	public String getUserName() {

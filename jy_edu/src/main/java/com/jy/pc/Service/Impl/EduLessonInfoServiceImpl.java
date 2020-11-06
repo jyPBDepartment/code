@@ -73,4 +73,9 @@ public class EduLessonInfoServiceImpl implements EduLessonInfoService {
 		return eduLessonInfoDao.getListByReading();
 	}
 
+	@Override
+	public List<EduLessonStudentRelationEntity> getLessonsByUserId(String userId) {
+		return eduLessonRelaDao.getLessonsByUserId(userId);
+	}
+
 }
