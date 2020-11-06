@@ -37,10 +37,6 @@ public class EduManualInfoController {
 	@Autowired
 	private EduManualInfoService eduManualInfoService;
 	@Autowired
-	private EduManualLabelService eduManualLabelService;
-	@Autowired
-	private EduVocationInfoService eduVocationInfoService;
-	@Autowired
 	private EduUserManualService eduUserManualService;//用户手册关联业务层
 	
 	//移动端-首页-热门课程加载
