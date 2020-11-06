@@ -1,6 +1,5 @@
 package com.jy.pc.Service.Impl;
 
-import java.beans.Transient;
 import java.util.Date;
 import java.util.List;
 
@@ -104,7 +103,7 @@ public class EduQuestionInfoServiceImpl implements EduQuestionInfoService{
 		EduQuestionInfoEntity question = eduQuestionInfoDao.save(eduQuestionInfoEntity);
 		for(int i=0;i<option.length;i++) {
 			EduOptionInfoEntity eduOptionInfoEntity = new EduOptionInfoEntity();
-//			eduOptionInfoEntity.setQuId(question.getId());
+			eduOptionInfoEntity.setQuId(question.getId());
 			eduOptionInfoEntity.setTitle(optionName[i]);
 			eduOptionInfoEntity.setContent(option[i]);
 			eduOptionInfoDao.save(eduOptionInfoEntity);
@@ -136,7 +135,7 @@ public class EduQuestionInfoServiceImpl implements EduQuestionInfoService{
 		vocation.setId(eduQuestionInfoEntity.getVocationId());
 		eduQuestionInfoEntity.setVocation(vocation);
 		Date date = new Date();
-		eduQuestionInfoEntity.setCreateDate(date);
+		eduQuestionInfoEntity.setUpdateDate(date);
 		eduQuestionInfoEntity.setStatus(1);
 		EduQuestionInfoEntity question = eduQuestionInfoDao.saveAndFlush(eduQuestionInfoEntity);
 		List<EduOptionInfoEntity> optionInfo = eduOptionInfoDao.findquestionId(question.getId());
@@ -144,7 +143,6 @@ public class EduQuestionInfoServiceImpl implements EduQuestionInfoService{
 			for(int i=0;i<option.length;i++) {
 				if(i>1) {
 					EduOptionInfoEntity OptionInfoEntity = new EduOptionInfoEntity();
-//					OptionInfoEntity.setQuId(question.getId());
 					OptionInfoEntity.setTitle(optionName[i]);
 					OptionInfoEntity.setContent(option[i]);
 					eduOptionInfoDao.save(OptionInfoEntity);

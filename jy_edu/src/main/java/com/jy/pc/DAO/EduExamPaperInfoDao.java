@@ -20,5 +20,9 @@ public interface EduExamPaperInfoDao extends JpaRepository<EduExamPaperInfoEntit
 	// 通过id查询
 	@Query(value = "select * from edu_exam_paper_info t where t.id =:id", nativeQuery = true)
 	public EduExamPaperInfoEntity findId(@Param("id") String id);
+	
+	//findById
+	@Query(value = "select * from edu_exam_paper_info t where t.id =:id", nativeQuery = true)
+	public EduExamPaperInfoEntity findExamId(@Param("id") String id);
 
 }

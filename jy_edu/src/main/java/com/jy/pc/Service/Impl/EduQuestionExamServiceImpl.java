@@ -1,5 +1,7 @@
 package com.jy.pc.Service.Impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -37,6 +39,12 @@ public class EduQuestionExamServiceImpl implements EduQuestionExamService{
 	@Override
 	public void delete(String id) {
 		eduQuestionExamDao.deleteById(id);
+	}
+
+	//通过试卷ID查询
+	@Override
+	public List<EduQuestionExamLinkEntity> findExamId(String examId) {
+		return eduQuestionExamDao.findExamId(examId);
 	}
 
 }

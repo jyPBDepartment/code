@@ -1,5 +1,7 @@
 package com.jy.pc.Service;
 
+import java.util.List;
+
 import com.jy.pc.Entity.EduQuestionExamLinkEntity;
 /**
  * 试卷试题关联表Service
@@ -16,4 +18,7 @@ public interface EduQuestionExamService {
 	
 	//删除
 	public void delete(String id);
+	
+	// 通过试卷id查询
+	public List<EduQuestionExamLinkEntity> findExamId(String examId);
 }

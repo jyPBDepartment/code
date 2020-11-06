@@ -1,6 +1,7 @@
 package com.jy.pc.Service.Impl;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,7 +20,6 @@ import com.jy.pc.Entity.EduQuestionExamLinkEntity;
 import com.jy.pc.Entity.EduVocationInfoEntity;
 import com.jy.pc.Service.EduExamPaperInfoService;
 import com.jy.pc.Utils.DbLogUtil;
-import com.sun.xml.fastinfoset.util.StringArray;
 
 /**
  * 试卷信息表ServiceImpl
@@ -95,15 +95,56 @@ public class EduExamPaperInfoServiceImpl implements EduExamPaperInfoService{
 		Date date = new Date();
 		eduExamPaperInfoEntity.setCreateDate(date);
 		eduExamPaperInfoEntity.setStatus(1);
-		EduExamPaperInfoEntity examPaper = eduExamPaperInfoDao.saveAndFlush(eduExamPaperInfoEntity);
+		EduExamPaperInfoEntity examPaper = eduExamPaperInfoDao.save(eduExamPaperInfoEntity);
 		for(int i=0;i<question.length;i++) {
 			EduQuestionExamLinkEntity eduQuestionExamLinkEntity = new EduQuestionExamLinkEntity();
 			eduQuestionExamLinkEntity.setExamId(examPaper.getId());
 			eduQuestionExamLinkEntity.setQuestionId(question[i]);
-			eduQuestionExamDao.saveAndFlush(eduQuestionExamLinkEntity);
+			eduQuestionExamDao.save(eduQuestionExamLinkEntity);
 		}
 		logger.initAddLog(eduExamPaperInfoEntity);
 		return eduExamPaperInfoEntity;
+	}
+
+	//试卷修改
+	@Transactional
+	@Override
+	public EduExamPaperInfoEntity updateQuest(HttpServletRequest res, HttpServletResponse req,
+			EduExamPaperInfoEntity eduExamPaperInfoEntity, String questionId) {
+		String[] question = null;
+		if(questionId.indexOf(",")>-1) {
+			question = questionId.split(",");
+		}else {
+			question = new String[1];
+			question[0]=questionId;
+		}
+		String s = res.getParameter("eduExamPaperInfoEntity");
+		JSONObject jsonObject = JSONObject.parseObject(s);
+		eduExamPaperInfoEntity = jsonObject.toJavaObject(EduExamPaperInfoEntity.class);
+		EduVocationInfoEntity vocation = new EduVocationInfoEntity();
+		vocation.setId(eduExamPaperInfoEntity.getVocationId());
+		eduExamPaperInfoEntity.setVocation(vocation);
+		Date date = new Date();
+		eduExamPaperInfoEntity.setUpdateDate(date);
+		eduExamPaperInfoEntity.setStatus(1);
+		EduExamPaperInfoEntity examPaper = eduExamPaperInfoDao.save(eduExamPaperInfoEntity);
+		List<EduQuestionExamLinkEntity> questExam =eduQuestionExamDao.findExamId(examPaper.getId());
+		for(int i=0;i<questExam.size();i++) {
+			eduQuestionExamDao.deleteById(questExam.get(i).getId());
+		}
+		for(int i=0;i<question.length;i++) {
+			EduQuestionExamLinkEntity eduQuestionExamLinkEntity = new EduQuestionExamLinkEntity();
+			eduQuestionExamLinkEntity.setExamId(examPaper.getId());
+			eduQuestionExamLinkEntity.setQuestionId(question[i]);
+			eduQuestionExamDao.save(eduQuestionExamLinkEntity);
+		}
+		logger.initUpdateLog(eduExamPaperInfoEntity);
+		return eduExamPaperInfoEntity;
+	}
+
+	@Override
+	public EduExamPaperInfoEntity findExamId(String id) {
+		return eduExamPaperInfoDao.findExamId(id);
 	}
 
 }

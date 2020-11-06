@@ -32,5 +32,8 @@ public interface EduExamPaperInfoService {
 	
 	//添加试题
 	public EduExamPaperInfoEntity saveQuest(HttpServletRequest res, HttpServletResponse req,EduExamPaperInfoEntity eduExamPaperInfoEntity,String questionId);
+	//修改试题
+	public EduExamPaperInfoEntity updateQuest(HttpServletRequest res, HttpServletResponse req,EduExamPaperInfoEntity eduExamPaperInfoEntity,String questionId);
 
+	public EduExamPaperInfoEntity findExamId(String id);
 }

@@ -20,10 +20,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.jy.pc.Entity.EduExamPaperInfoEntity;
 import com.jy.pc.Entity.EduOptionInfoEntity;
+import com.jy.pc.Entity.EduQuestionExamLinkEntity;
 import com.jy.pc.Entity.EduQuestionInfoEntity;
 import com.jy.pc.Entity.EduUserExamEntity;
 import com.jy.pc.Service.EduExamPaperInfoService;
 import com.jy.pc.Service.EduOptionInfoService;
+import com.jy.pc.Service.EduQuestionExamService;
 import com.jy.pc.Service.EduQuestionInfoService;
 import com.jy.pc.Service.EduUserExamService;
 
@@ -41,6 +43,8 @@ public class EduExamPaperInfoController {
 	private EduOptionInfoService eduOptionInfoService;
 	@Autowired
 	private EduUserExamService eduUserExamService;
+	@Autowired
+	private EduQuestionExamService eduQuestionExamService;
 	// 查询 分页
 	@RequestMapping(value = "/findByName")
 	@ResponseBody
@@ -135,6 +139,65 @@ public class EduExamPaperInfoController {
 			eduExamPaperInfoService.enable(eduExamPaperInfoEntity,result);
 			return map;
 		}
+		
+		//通过id查询
+		@RequestMapping(value = "/findById")
+		@ResponseBody
+		public Map<String, Object> findById(HttpServletRequest res, HttpServletResponse req,
+				@RequestParam(name = "id") String id) {
+			Map<String, Object> map = new HashMap<String, Object>();
+			EduExamPaperInfoEntity eduExamPaperInfoEntity = eduExamPaperInfoService.findId(id);
+			List<EduQuestionExamLinkEntity> questionExamLink = eduQuestionExamService.findExamId(id);
+			List<EduQuestionInfoEntity> questList = new ArrayList<EduQuestionInfoEntity>();
+			for(int i=0;i<questionExamLink.size();i++) {
+				EduQuestionInfoEntity question = eduQuestionInfoService.findId(questionExamLink.get(i).getQuestionId());
+				questList.add(question);
+			}
+			map.put("state", "0");
+			map.put("data", eduExamPaperInfoEntity);
+			map.put("questData", questList);
+			return map;
+		}
+		
+		//修改
+		@RequestMapping(value = "/update")
+		@ResponseBody
+		public Map<String, String> update(HttpServletRequest res, HttpServletResponse req,
+				EduExamPaperInfoEntity eduExamPaperInfoEntity, @RequestParam(name = "questionId") String questionId) {
+
+			Map<String, String> map = new HashMap<String, String>();
+			try {
+				eduExamPaperInfoService.updateQuest(res, req, eduExamPaperInfoEntity, questionId);
+				map.put("state", "0");
+				map.put("message", "修改成功");
+			} catch (Exception e) {
+				e.printStackTrace();
+				map.put("state", "1");
+				map.put("message", "修改失败");
+			}
+			return map;
+		}
+		
+		//findById
+		@RequestMapping(value = "/findByExamId")
+		@ResponseBody
+		public Map<String, Object> findByExamId(HttpServletRequest res, HttpServletResponse req,
+				@RequestParam(name = "id") String id) {
+			Map<String, Object> map = new HashMap<String, Object>();
+			EduExamPaperInfoEntity eduExamPaperInfoEntity = eduExamPaperInfoService.findId(id);
+//			List<EduQuestionExamLinkEntity> questionExamLink = eduQuestionExamService.findExamId(id);
+//			List<EduQuestionInfoEntity> questList = new ArrayList<EduQuestionInfoEntity>();
+//			for(int i=0;i<questionExamLink.size();i++) {
+//				EduQuestionInfoEntity question = eduQuestionInfoService.findId(questionExamLink.get(i).getQuestionId());
+//				questList.add(question);
+//			}
+			map.put("state", "0");
+			map.put("data", eduExamPaperInfoEntity);
+//			map.put("questData", questList);
+			return map;
+		}
+		
+		
 		
 		/**
 		 *	新增用户考试结果记录
