@@ -36,6 +36,6 @@ public interface EduLessonInfoService {
 	public List<EduLessonStudentRelationEntity> getLessonsByUserId(String userId);
 
 	// 移动端 - 课程报名
-	public void enrollLesson(EduLessonInfoEntity lesson, String userId);
+	public void enrollLesson(EduLessonInfoEntity lesson, String userId, String userName, String useTel);
 
 }

@@ -26,17 +26,20 @@ public class LessonEnrollVO {
 	private int status;
 	// 课程本身状态0启用1禁用
 	private int lessonEnableState;
+	// 用户姓名
+	private String userName;
 
 	public LessonEnrollVO(EduLessonStudentRelationEntity entity) throws ParseException {
 		super();
 		this.id = entity.getId();
-		this.userId = entity.getUser().getId();
+		this.userId = entity.getUserCode();
 		this.lessonTime = entity.getLesson().getLessonDate();
 		this.vocationName = entity.getLesson().getVocation().getName();
 		this.lessonId = entity.getLesson().getId();
 		this.lessonName = entity.getLesson().getTitle();
 		this.address = entity.getLesson().getAddress();
 		this.lessonEnableState = entity.getLesson().getStatus();
+		this.userName = entity.getUserName();
 		// 以课程时间进行判断
 		SimpleDateFormat dayFormat = new SimpleDateFormat("yyyy-MM-dd");
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
@@ -58,6 +61,14 @@ public class LessonEnrollVO {
 			// 当前时间在课程结束之后1
 			this.status = 2;
 		}
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
 	public int getLessonEnableState() {

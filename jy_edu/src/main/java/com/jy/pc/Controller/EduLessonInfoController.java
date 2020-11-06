@@ -42,7 +42,8 @@ public class EduLessonInfoController {
 	// 移动端-用户报名课程Enroll
 	@RequestMapping(value = "enrollLesson")
 	public Map<String, Object> enrollLesson(HttpServletRequest res, HttpServletResponse req,
-			@RequestParam(name = "userId") String userId, @RequestParam(name = "lessonId") String lessonId) {
+			@RequestParam(name = "userId") String userId, @RequestParam(name = "lessonId") String lessonId,
+			@RequestParam(name = "userName") String userName,@RequestParam(name = "useTel") String useTel) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
 			EduLessonInfoEntity lesson = eduLessonInfoService.findInfobyId(lessonId);
@@ -53,7 +54,7 @@ public class EduLessonInfoController {
 				map.put("message", "报名人数已达上限");
 				return map;
 			}
-			eduLessonInfoService.enrollLesson(lesson,userId);
+			eduLessonInfoService.enrollLesson(lesson,userId,userName,useTel);
 			map.put("code", InterfaceCode.SUCCESS.getCode());// 成功
 			map.put("message", "报名成功");
 		} catch (Exception e) {

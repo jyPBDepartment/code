@@ -30,10 +30,9 @@ public class EduLessonStudentRelationEntity {
 	@OneToOne
 	@JoinColumn(name = "lesson_id", columnDefinition = "varchar(36) comment '课程ID'")
 	private EduLessonInfoEntity lesson;
-	@OneToOne
-	@JoinColumn(name = "user_code", columnDefinition = "varchar(36) comment '客户ID'")
-	private SysLocalUserEntity user;
-	@Column(columnDefinition = "varchar(36) comment '客户id'")
+	@Column(columnDefinition = "varchar(36) comment '用户ID'")
+	private String userCode;
+	@Column(columnDefinition = "varchar(36) comment '用户名称'")
 	private String userName;
 	@Column(columnDefinition = "varchar(36) comment '客户联系方式'")
 	private String userTel;
@@ -66,12 +65,12 @@ public class EduLessonStudentRelationEntity {
 		this.lesson = lesson;
 	}
 
-	public SysLocalUserEntity getUser() {
-		return user;
+	public String getUserCode() {
+		return userCode;
 	}
 
-	public void setUser(SysLocalUserEntity user) {
-		this.user = user;
+	public void setUserCode(String userCode) {
+		this.userCode = userCode;
 	}
 
 	public String getUserName() {

@@ -1,5 +1,6 @@
 package com.jy.pc.Service.Impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -83,11 +84,14 @@ public class EduLessonInfoServiceImpl implements EduLessonInfoService {
 	}
 
 	@Override
-	public void enrollLesson(EduLessonInfoEntity lesson, String userId) {
+	public void enrollLesson(EduLessonInfoEntity lesson, String userId, String userName, String useTel) {
 		SysLocalUserEntity user = userDao.findId(userId);
 		EduLessonStudentRelationEntity rela = new EduLessonStudentRelationEntity();
 		rela.setLesson(lesson);
-		rela.setUser(user);
+		rela.setUserCode(userId);
+		rela.setUserName(userName);
+		rela.setUserTel(useTel);
+		rela.setCreateDate(new Date());
 		eduLessonRelaDao.saveAndFlush(rela);
 	}
 
