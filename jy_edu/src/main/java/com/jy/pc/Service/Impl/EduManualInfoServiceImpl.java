@@ -14,11 +14,12 @@ import com.jy.pc.DAO.EduManualInfoDao;
 import com.jy.pc.Entity.EduManualInfoEntity;
 import com.jy.pc.Service.EduManualInfoService;
 import com.jy.pc.Utils.DbLogUtil;
+
 /**
  * 手册ServiceImpl
- * */
+ */
 @Service
-public class EduManualInfoServiceImpl implements EduManualInfoService{
+public class EduManualInfoServiceImpl implements EduManualInfoService {
 	@Autowired
 	EduManualInfoDao eduManualInfoDao;
 	@Autowired
@@ -28,8 +29,8 @@ public class EduManualInfoServiceImpl implements EduManualInfoService{
 	@Override
 	public Page<EduManualInfoEntity> findListByName(String title, String createBy, String vocationId, String labelId,
 			Pageable pageable) {
-		String manualTitle = "%"+ title +"%";
-		String createName = "%"+ createBy +"%";
+		String manualTitle = "%" + title + "%";
+		String createName = "%" + createBy + "%";
 		return eduManualInfoDao.findListByName(manualTitle, createName, vocationId, labelId, pageable);
 	}
 
@@ -67,11 +68,17 @@ public class EduManualInfoServiceImpl implements EduManualInfoService{
 		logger.initEnableLog(eduManualInfoEntity, result);
 		eduManualInfoDao.saveAndFlush(eduManualInfoEntity);
 	}
-	
-	//app我的收藏/学习记录
-	public List<EduManualInfoEntity> getManualListByUserId(String userId,int isCollection) throws ServiceException{
-		
-		return eduManualInfoDao.getManualListByUserId(userId,isCollection);
+
+	// app我的收藏/学习记录
+	public List<EduManualInfoEntity> getManualListByUserId(String userId, int isCollection) throws ServiceException {
+
+		return eduManualInfoDao.getManualListByUserId(userId, isCollection);
+	}
+
+	// 移动端-首页-热门课程加载
+	@Override
+	public List<EduManualInfoEntity> getListByReading() {
+		return eduManualInfoDao.getListByReading();
 	}
 
 }

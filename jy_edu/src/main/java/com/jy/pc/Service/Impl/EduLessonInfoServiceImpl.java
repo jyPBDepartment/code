@@ -67,4 +67,10 @@ public class EduLessonInfoServiceImpl implements EduLessonInfoService {
 		eduLessonInfoDao.saveAndFlush(entity);
 	}
 
+	// 移动端 - 首页 - 热门课程加载（根据阅读量倒序排列）
+	@Override
+	public List<EduLessonInfoEntity> getListByReading() {
+		return eduLessonInfoDao.getListByReading();
+	}
+
 }

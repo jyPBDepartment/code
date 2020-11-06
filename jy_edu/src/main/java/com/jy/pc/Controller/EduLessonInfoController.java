@@ -1,5 +1,6 @@
 package com.jy.pc.Controller;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -22,6 +23,7 @@ import com.jy.pc.Entity.EduLessonInfoEntity;
 import com.jy.pc.Entity.EduLessonStudentRelationEntity;
 import com.jy.pc.Entity.EduVocationInfoEntity;
 import com.jy.pc.Service.EduLessonInfoService;
+import com.jy.pc.VO.LessonListVO;
 
 /**
  * 线下课程相关
@@ -35,6 +37,27 @@ public class EduLessonInfoController {
 	@Autowired
 	private EduLessonInfoService eduLessonInfoService;
 
+	//移动端 - 首页-线下课程加载
+	@RequestMapping(value = "getListByLessonDay")
+	public Map<String, Object> getListByReading(HttpServletRequest res, HttpServletResponse req) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		try {
+			List<EduLessonInfoEntity> lessonList = eduLessonInfoService.getListByReading();
+			List<LessonListVO> result = new ArrayList<LessonListVO>();
+			for(EduLessonInfoEntity entity : lessonList) {
+				LessonListVO vo = new LessonListVO(entity);
+				result.add(vo);
+			}
+			map.put("code", "200");// 成功
+			map.put("message", "查询成功");
+			map.put("data", result);
+		} catch (Exception e) {
+			map.put("code", "201");// 成功
+			map.put("message", e.getMessage());
+		}
+		return map;
+	}
+	
 	// 返回报名情况
 	@RequestMapping(value = "findStuListByLesson")
 	public Map<String, Object> findRelaById(HttpServletRequest res, HttpServletResponse req,

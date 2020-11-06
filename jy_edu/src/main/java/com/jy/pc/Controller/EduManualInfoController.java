@@ -1,7 +1,9 @@
 package com.jy.pc.Controller;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,6 +27,7 @@ import com.jy.pc.Service.EduManualInfoService;
 import com.jy.pc.Service.EduManualLabelService;
 import com.jy.pc.Service.EduUserManualService;
 import com.jy.pc.Service.EduVocationInfoService;
+import com.jy.pc.VO.ManualListVO;
 /**
  * 手册Conteoller
  * */
@@ -40,6 +43,27 @@ public class EduManualInfoController {
 	@Autowired
 	private EduUserManualService eduUserManualService;//用户手册关联业务层
 	
+	//移动端-首页-热门课程加载
+	@RequestMapping(value = "/getListByReading")
+	@ResponseBody
+	public Map<String, Object> getListByReading(HttpServletRequest res, HttpServletResponse req) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		try {
+			List<ManualListVO> result = new ArrayList<ManualListVO>();
+			List<EduManualInfoEntity> manuaList = eduManualInfoService.getListByReading();
+			for(EduManualInfoEntity entity : manuaList) {
+				ManualListVO vo = new ManualListVO(entity);
+				result.add(vo);
+			}
+			map.put("code", "200");// 成功
+			map.put("message", "查询成功");
+			map.put("data", result);
+		} catch (Exception e) {
+			map.put("code", "201");// 成功
+			map.put("message", e.getMessage());
+		}
+		return map;
+	}
 	
 	// 查询 分页
 	@RequestMapping(value = "/findByName")
