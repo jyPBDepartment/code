@@ -1,10 +1,13 @@
 package com.jy.pc.Service;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Query;
 
 import com.jy.pc.Entity.EduExamPaperInfoEntity;
 
@@ -36,4 +39,7 @@ public interface EduExamPaperInfoService {
 	public EduExamPaperInfoEntity updateQuest(HttpServletRequest res, HttpServletResponse req,EduExamPaperInfoEntity eduExamPaperInfoEntity,String questionId);
 
 	public EduExamPaperInfoEntity findExamId(String id);
+	
+	//试卷列表加载接口
+	public List<EduExamPaperInfoEntity> getExamListByVocationId(String vocationId);
 }

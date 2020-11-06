@@ -97,13 +97,7 @@ public class EduExamPaperInfoController {
 		List<EduQuestionInfoEntity> eduQuestionInfo =eduQuestionInfoService.findListByIds(list);
 		Map<String, Object> item = new HashMap<String, Object>();
 		for(int i=0;i<eduQuestionInfo.size();i++) {
-//			Map<String, Object> mapItem = new HashMap<String, Object>();
-			
-//			mapItem.put("queInfo",eduQuestionInfo.get(i));
 			List<EduOptionInfoEntity> optionList = eduOptionInfoService.findquestionId(eduQuestionInfo.get(i).getId());
-//			mapItem.put("optionList",optionList);
-//			item.put("data",mapItem);
-			
 			eduQuestionInfo.get(i).setOptionList(optionList);
 		}
 		
@@ -183,17 +177,20 @@ public class EduExamPaperInfoController {
 		@ResponseBody
 		public Map<String, Object> findByExamId(HttpServletRequest res, HttpServletResponse req,
 				@RequestParam(name = "id") String id) {
+			
 			Map<String, Object> map = new HashMap<String, Object>();
 			EduExamPaperInfoEntity eduExamPaperInfoEntity = eduExamPaperInfoService.findId(id);
-//			List<EduQuestionExamLinkEntity> questionExamLink = eduQuestionExamService.findExamId(id);
-//			List<EduQuestionInfoEntity> questList = new ArrayList<EduQuestionInfoEntity>();
-//			for(int i=0;i<questionExamLink.size();i++) {
-//				EduQuestionInfoEntity question = eduQuestionInfoService.findId(questionExamLink.get(i).getQuestionId());
-//				questList.add(question);
-//			}
+			List<EduQuestionExamLinkEntity> questionExamList = eduQuestionExamService.findExamId(id);
+			List<EduQuestionInfoEntity> questList = new ArrayList<EduQuestionInfoEntity>();
+			for(int i=0;i<questionExamList.size();i++) {
+				EduQuestionInfoEntity question = eduQuestionInfoService.findId(questionExamList.get(i).getQuestionId());
+				List<EduOptionInfoEntity> option = eduOptionInfoService.findquestionId(question.getId());
+				questList.add(question);
+				questList.get(i).setOptionList(option);;
+			}
 			map.put("state", "0");
 			map.put("data", eduExamPaperInfoEntity);
-//			map.put("questData", questList);
+			map.put("dataQuest", questList);
 			return map;
 		}
 		
@@ -219,6 +216,21 @@ public class EduExamPaperInfoController {
 				map.put("code", "201");
 				map.put("msg", "收藏失败");
 			}
+			return map;
+		}
+		
+		/**
+		 * 试卷列表加载
+		 * 
+		 * */
+		@RequestMapping(value = "/getExamListByVocationId")
+		@ResponseBody
+		public Map<String, Object> getExamListByVocationId(HttpServletRequest res, HttpServletResponse req,
+				@RequestParam(name = "vocationId") String vocationId) {
+			Map<String, Object> map = new HashMap<String, Object>();
+			List<EduExamPaperInfoEntity> examPaperList = eduExamPaperInfoService.getExamListByVocationId(vocationId);
+			map.put("code", "200");
+			map.put("data", examPaperList);
 			return map;
 		}
 }

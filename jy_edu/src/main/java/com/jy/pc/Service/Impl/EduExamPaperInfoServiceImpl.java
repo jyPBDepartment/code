@@ -147,4 +147,10 @@ public class EduExamPaperInfoServiceImpl implements EduExamPaperInfoService{
 		return eduExamPaperInfoDao.findExamId(id);
 	}
 
+	//试卷列表接口板
+	@Override
+	public List<EduExamPaperInfoEntity> getExamListByVocationId(String vocationId) {
+		return eduExamPaperInfoDao.getExamListByVocationId(vocationId);
+	}
+
 }

@@ -1,5 +1,7 @@
 package com.jy.pc.DAO;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -24,5 +26,9 @@ public interface EduExamPaperInfoDao extends JpaRepository<EduExamPaperInfoEntit
 	//findById
 	@Query(value = "select * from edu_exam_paper_info t where t.id =:id", nativeQuery = true)
 	public EduExamPaperInfoEntity findExamId(@Param("id") String id);
+	
+	//试卷列表加载接口
+	@Query(value = "SELECT * FROM edu_exam_paper_info t where t.status = '0' and t.vocation_id =:vocationId", nativeQuery = true)
+	public List<EduExamPaperInfoEntity> getExamListByVocationId(String vocationId);
 
 }

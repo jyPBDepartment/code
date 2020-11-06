@@ -186,18 +186,42 @@ public class EduManualInfoController {
 	@RequestMapping(value = "/saveUserManualInfo")
 	@ResponseBody
 	public Map<String, String> saveUserManualInfo(HttpServletRequest res, HttpServletResponse req,
-			EduUserManualEntity eduUserManualEntity) {
+			EduUserManualEntity eduUserManualEntity,@RequestParam(name = "isCancel") Integer isCancel) {
 		Map<String, String> map = new HashMap<String, String>();
-		Date date = new Date();
-		eduUserManualEntity.setCollectionDate(date);//设置收藏时间
-		try {
+		if(isCancel == 0) {
+			Date date = new Date();
+			eduUserManualEntity.setCollectionDate(date);//设置收藏时间
 			eduUserManualService.save(eduUserManualEntity); 
-			map.put("code", "200");
-			map.put("msg", "收藏成功");
-		}catch(Exception e) {
-			map.put("code", "201");
-			map.put("msg", "收藏失败");
+			try {
+				map.put("code", "200");
+				map.put("msg", "收藏成功");
+			}catch(Exception e) {
+				map.put("code", "201");
+				map.put("msg", "收藏失败");
+			}
+		}else {
+			EduUserManualEntity eduUserManual = eduUserManualService.findManualInfoId(eduUserManualEntity.getManualInfoId());
+			eduUserManualService.delete(eduUserManual.getId());
 		}
+		return map;
+	}
+	
+	/**
+	 * 手册详情接口
+	 * */
+	//通过id查询
+	@RequestMapping(value = "/findManualInfoId")
+	@ResponseBody
+	public Map<String, Object> findManualInfoId(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "id") String id) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		EduManualInfoEntity eduManualInfoEntity = eduManualInfoService.findId(id);
+		EduUserManualEntity eduUserManualEntity = eduUserManualService.findManualInfoId(id);
+		eduManualInfoEntity.setStudyNum(eduManualInfoEntity.getStudyNum() + 1);
+		eduManualInfoService.update(eduManualInfoEntity);
+		map.put("code", "200");
+		map.put("data", eduManualInfoEntity);
+		map.put("dataUserManual", eduUserManualEntity);
 		return map;
 	}
 }

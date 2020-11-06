@@ -1,5 +1,6 @@
 package com.jy.pc.Controller;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -19,8 +20,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.jy.pc.Entity.EduOptionInfoEntity;
+import com.jy.pc.Entity.EduQuestionExamLinkEntity;
 import com.jy.pc.Entity.EduQuestionInfoEntity;
 import com.jy.pc.Service.EduOptionInfoService;
+import com.jy.pc.Service.EduQuestionExamService;
 import com.jy.pc.Service.EduQuestionInfoService;
 
 /**
@@ -34,6 +37,8 @@ public class EduQuestionInfoController {
 	private EduQuestionInfoService eduQuestionInfoService;
 	@Autowired
 	private EduOptionInfoService eduOptionInfoService;
+	@Autowired
+	private EduQuestionExamService eduQuestionExamService;
 	
 	// 查询 分页
 	@RequestMapping(value = "/findByName")
@@ -159,6 +164,24 @@ public class EduQuestionInfoController {
 		return map;
 	}
 	
-	
-	
+	/**
+	 * 加载试题列表接口
+	 * */
+	@RequestMapping(value = "/getQuestionListByExamId")
+	@ResponseBody
+	public Map<String, Object> getQuestionListByExamId(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "examId") String examId) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		List<EduQuestionExamLinkEntity> questionExamList = eduQuestionExamService.findExamId(examId);
+		List<EduQuestionInfoEntity> questList = new ArrayList<EduQuestionInfoEntity>();
+		for(int i=0;i<questionExamList.size();i++) {
+			EduQuestionInfoEntity question = eduQuestionInfoService.findId(questionExamList.get(i).getQuestionId());
+			List<EduOptionInfoEntity> option = eduOptionInfoService.findquestionId(question.getId());
+			questList.add(question);
+			questList.get(i).setOptionList(option);;
+		}
+		map.put("code", "200");
+		map.put("data", questList);
+		return map;
+	}
 }
