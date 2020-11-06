@@ -9,8 +9,10 @@ import org.springframework.stereotype.Service;
 
 import com.jy.pc.DAO.EduLessonInfoDao;
 import com.jy.pc.DAO.EduLessonRelaDao;
+import com.jy.pc.DAO.SysLocalUserDao;
 import com.jy.pc.Entity.EduLessonInfoEntity;
 import com.jy.pc.Entity.EduLessonStudentRelationEntity;
+import com.jy.pc.Entity.SysLocalUserEntity;
 import com.jy.pc.Service.EduLessonInfoService;
 import com.jy.pc.Utils.DbLogUtil;
 
@@ -22,6 +24,8 @@ public class EduLessonInfoServiceImpl implements EduLessonInfoService {
 	private DbLogUtil logger;
 	@Autowired
 	private EduLessonRelaDao eduLessonRelaDao;
+	@Autowired
+	private SysLocalUserDao userDao;
 
 	@Override
 	public Page<EduLessonInfoEntity> findListByParam(String name, String status, String createBy, Pageable pageable) {
@@ -76,6 +80,15 @@ public class EduLessonInfoServiceImpl implements EduLessonInfoService {
 	@Override
 	public List<EduLessonStudentRelationEntity> getLessonsByUserId(String userId) {
 		return eduLessonRelaDao.getLessonsByUserId(userId);
+	}
+
+	@Override
+	public void enrollLesson(EduLessonInfoEntity lesson, String userId) {
+		SysLocalUserEntity user = userDao.findId(userId);
+		EduLessonStudentRelationEntity rela = new EduLessonStudentRelationEntity();
+		rela.setLesson(lesson);
+		rela.setUser(user);
+		eduLessonRelaDao.saveAndFlush(rela);
 	}
 
 }

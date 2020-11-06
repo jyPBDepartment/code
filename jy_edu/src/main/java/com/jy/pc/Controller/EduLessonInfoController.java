@@ -48,13 +48,16 @@ public class EduLessonInfoController {
 			EduLessonInfoEntity lesson = eduLessonInfoService.findInfobyId(lessonId);
 			List<EduLessonStudentRelationEntity> relaList = eduLessonInfoService.findRelaById(lessonId, "");
 			if (relaList.size() >= lesson.getStuLimit()) {
-				map.put("code", "200");// 成功
-				map.put("message", "查询成功");
+				//当前报名人数已到上限
+				map.put("code", InterfaceCode.LESSON_NUM_LIMIT.getCode());// 成功
+				map.put("message", "报名人数已达上限");
+				return map;
 			}
-			map.put("code", InterfaceCode.SUCCESS);// 成功
-			map.put("message", "查询成功");
+			eduLessonInfoService.enrollLesson(lesson,userId);
+			map.put("code", InterfaceCode.SUCCESS.getCode());// 成功
+			map.put("message", "报名成功");
 		} catch (Exception e) {
-			map.put("code", "201");// 失败
+			map.put("code", InterfaceCode.FAIL_UNKNOWN_ERROR.getCode());// 失败
 			map.put("message", e.getMessage());
 		}
 		return map;
@@ -77,7 +80,7 @@ public class EduLessonInfoController {
 			map.put("message", InterfaceCode.SUCCESS.getMessage());
 			map.put("data", result);
 		} catch (Exception e) {
-			map.put("code", "201");// 成功
+			map.put("code", InterfaceCode.FAIL_UNKNOWN_ERROR.getCode());// 失败
 			map.put("message", e.getMessage());
 		}
 		return map;
@@ -94,11 +97,11 @@ public class EduLessonInfoController {
 				LessonListVO vo = new LessonListVO(entity);
 				result.add(vo);
 			}
-			map.put("code", "200");// 成功
-			map.put("message", "查询成功");
+			map.put("code", InterfaceCode.SUCCESS.getCode());// 成功
+			map.put("message", InterfaceCode.SUCCESS.getMessage());
 			map.put("data", result);
 		} catch (Exception e) {
-			map.put("code", "201");// 成功
+			map.put("code", InterfaceCode.FAIL_UNKNOWN_ERROR.getCode());// 失败
 			map.put("message", e.getMessage());
 		}
 		return map;
