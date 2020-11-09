@@ -24,9 +24,7 @@ import com.jy.pc.Entity.EduManualLabelInfoEntity;
 import com.jy.pc.Entity.EduUserManualEntity;
 import com.jy.pc.Entity.EduVocationInfoEntity;
 import com.jy.pc.Service.EduManualInfoService;
-import com.jy.pc.Service.EduManualLabelService;
 import com.jy.pc.Service.EduUserManualService;
-import com.jy.pc.Service.EduVocationInfoService;
 import com.jy.pc.VO.ManualListVO;
 /**
  * 手册Conteoller

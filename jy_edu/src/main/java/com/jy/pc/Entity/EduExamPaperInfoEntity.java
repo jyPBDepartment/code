@@ -44,11 +44,11 @@ public class EduExamPaperInfoEntity {
 	private Date updateDate;
 	@Column(columnDefinition = "int(1) default 1 comment '0启用1禁用'")
 	private int status;
-	@Column(columnDefinition = "DECIMAL(10,1) default 0.5 comment '总分值'")
+	@Column(columnDefinition = "DECIMAL(10,1) default '' comment '总分值'")
 	private Double totalScore;
-	@Column(columnDefinition = "DECIMAL(10,1) default 0.5 comment '及格分数'")
+	@Column(columnDefinition = "DECIMAL(10,1) default '' comment '及格分数'")
 	private Double passScore;
-	@Column(columnDefinition = "int(4) default 1 comment '答题时间'")
+	@Column(columnDefinition = "int(4) default '' comment '答题时间'")
 	private int answerTime;
 	@Column(columnDefinition = "int(10) comment '试题数量'")
 	private int questionNum;

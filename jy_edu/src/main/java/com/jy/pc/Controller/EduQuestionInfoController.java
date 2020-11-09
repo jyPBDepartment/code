@@ -178,7 +178,7 @@ public class EduQuestionInfoController {
 			EduQuestionInfoEntity question = eduQuestionInfoService.findId(questionExamList.get(i).getQuestionId());
 			List<EduOptionInfoEntity> option = eduOptionInfoService.findquestionId(question.getId());
 			questList.add(question);
-			questList.get(i).setOptionList(option);;
+			questList.get(i).setOptionList(option);
 		}
 		map.put("code", "200");
 		map.put("data", questList);
