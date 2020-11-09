@@ -39,6 +39,8 @@ public class EduLessonInfoController {
 	@Autowired
 	private EduLessonInfoService eduLessonInfoService;
 
+	//移动端-判断此课程是否已被当前客户报名
+	
 	// 移动端-用户报名课程Enroll
 	@RequestMapping(value = "enrollLesson")
 	public Map<String, Object> enrollLesson(HttpServletRequest res, HttpServletResponse req,
