@@ -81,4 +81,13 @@ public class EduManualInfoServiceImpl implements EduManualInfoService {
 		return eduManualInfoDao.getListByReading();
 	}
 
+	//手册里列表接口
+	@Override
+	public Page<EduManualInfoEntity> findManualByName(String title, String createBy, String vocationId, String labelId,
+			Pageable pageable) {
+		String manualTitle = "%" + title + "%";
+		String createName = "%" + createBy + "%";
+		return eduManualInfoDao.findManualByName(manualTitle, createName, vocationId, labelId, pageable);
+	}
+
 }

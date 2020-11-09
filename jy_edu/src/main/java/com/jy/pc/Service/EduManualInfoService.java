@@ -38,4 +38,7 @@ public interface EduManualInfoService {
 	// 移动端-首页-热门课程加载
 	public List<EduManualInfoEntity> getListByReading();
 
+	//手册列表接口
+	public Page<EduManualInfoEntity> findManualByName(String title, String createBy, String vocationId, String labelId,
+			Pageable pageable);
 }

@@ -224,4 +224,24 @@ public class EduManualInfoController {
 		map.put("dataUserManual", eduUserManualEntity);
 		return map;
 	}
+	
+	/**
+	 * 手册列表接口
+	 * */
+	@RequestMapping(value = "/findManualByName")
+	@ResponseBody
+	public Map<String, Object> findManualByName(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "title") String title,@RequestParam(name = "createBy") String createBy,
+			@RequestParam(name = "vocationId") String vocationId,@RequestParam(name = "labelId") String labelId,
+			@RequestParam(name = "page") Integer page, @RequestParam(name = "size") Integer size) {
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		Pageable pageable = new PageRequest(page - 1, size);
+		Page<EduManualInfoEntity> manuaList = eduManualInfoService.findManualByName(title, createBy, vocationId, labelId, pageable);
+		map.put("code", "200");// 成功
+		map.put("message", "查询成功");
+		map.put("data", manuaList);
+		return map;
+	}
+
 }

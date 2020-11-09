@@ -30,5 +30,10 @@ public interface EduManualInfoDao extends JpaRepository<EduManualInfoEntity, Str
 	// 移动端-首页-热门课程加载
 	@Query(value = "select * from edu_manual_info t where status = 0 order by study_num desc limit 2", nativeQuery = true)
 	public List<EduManualInfoEntity> getListByReading();
+	
+	// 手册列表接口
+	@Query(value = "select * from edu_manual_info  t  where if(?1 !='',t.title like ?1,1=1) and if(?2 !='',t.create_by like ?2,1=1) and if(?3 !='',t.vocation_id like ?3,1=1) and if(?4 !='',t.label_id = ?4,1=1) and t.status='0' order by t.create_date desc", countQuery = "select count(*) from edu_manual_info t  where if(?1 !='',t.title like ?1,1=1) and if(?2 !='',t.create_by like ?2,1=1) and if(?3 !='',t.vocation_id like ?3,1=1) and if(?4 !='',t.label_id = ?4,1=1) order by t.create_date desc", nativeQuery = true)
+	public Page<EduManualInfoEntity> findManualByName(String title, String createBy, String vocationId, String labelId,
+			Pageable pageable);
 
 }
