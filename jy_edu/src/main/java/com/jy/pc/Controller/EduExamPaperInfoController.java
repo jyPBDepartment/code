@@ -45,6 +45,20 @@ public class EduExamPaperInfoController {
 	private EduUserExamService eduUserExamService;
 	@Autowired
 	private EduQuestionExamService eduQuestionExamService;
+	
+	//批卷并返回考试结果
+	@RequestMapping(value = "/submitExam")
+	@ResponseBody
+	public Map<String, Object> submitExam(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "userId") String userId,@RequestParam(name = "studyExamationId") String studyExamationId,
+			@RequestParam(name = "examId") String examId) {
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("state", "0");// 成功
+		map.put("message", "查询成功");
+		return map;
+	}
+	
 	// 查询 分页
 	@RequestMapping(value = "/findByName")
 	@ResponseBody
