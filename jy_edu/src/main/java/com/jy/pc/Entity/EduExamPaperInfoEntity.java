@@ -50,11 +50,20 @@ public class EduExamPaperInfoEntity {
 	private Double passScore;
 	@Column(columnDefinition = "int(4) default 1 comment '答题时间'")
 	private int answerTime;
+	@Column(columnDefinition = "int(10) comment '试题数量'")
+	private int questionNum;
 	@OneToOne
 	@JoinColumn(name = "vocation_id", columnDefinition = "varchar(36) comment '职业类别ID'")
 	private EduVocationInfoEntity vocation;
 	@Transient
 	private String vocationId;
+	
+	public int getQuestionNum() {
+		return questionNum;
+	}
+	public void setQuestionNum(int questionNum) {
+		this.questionNum = questionNum;
+	}
 	public String getId() {
 		return id;
 	}

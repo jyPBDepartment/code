@@ -95,6 +95,7 @@ public class EduExamPaperInfoServiceImpl implements EduExamPaperInfoService{
 		Date date = new Date();
 		eduExamPaperInfoEntity.setCreateDate(date);
 		eduExamPaperInfoEntity.setStatus(1);
+		eduExamPaperInfoEntity.setQuestionNum(question.length);
 		EduExamPaperInfoEntity examPaper = eduExamPaperInfoDao.save(eduExamPaperInfoEntity);
 		for(int i=0;i<question.length;i++) {
 			EduQuestionExamLinkEntity eduQuestionExamLinkEntity = new EduQuestionExamLinkEntity();
@@ -127,6 +128,7 @@ public class EduExamPaperInfoServiceImpl implements EduExamPaperInfoService{
 		Date date = new Date();
 		eduExamPaperInfoEntity.setUpdateDate(date);
 		eduExamPaperInfoEntity.setStatus(1);
+		eduExamPaperInfoEntity.setQuestionNum(question.length);
 		EduExamPaperInfoEntity examPaper = eduExamPaperInfoDao.save(eduExamPaperInfoEntity);
 		List<EduQuestionExamLinkEntity> questExam =eduQuestionExamDao.findExamId(examPaper.getId());
 		for(int i=0;i<questExam.size();i++) {
