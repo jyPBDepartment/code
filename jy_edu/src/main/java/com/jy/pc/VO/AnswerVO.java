@@ -5,9 +5,19 @@ public class AnswerVO {
 	private String answerCode;
 	// 试题ID
 	private String answerId;
+	// 序号
+	private int serialNumber;
 
 	public String getAnswerCode() {
 		return answerCode;
+	}
+
+	public int getSerialNumber() {
+		return serialNumber;
+	}
+
+	public void setSerialNumber(int serialNumber) {
+		this.serialNumber = serialNumber;
 	}
 
 	public void setAnswerCode(String answerCode) {

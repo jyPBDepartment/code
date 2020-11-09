@@ -43,8 +43,8 @@ public class EduQuestionInfoEntity {
 	private Date updateDate;
 	@Column(columnDefinition = "int(1) default 1 comment '0启用1禁用'")
 	private int status;
-	@Column(columnDefinition = "DECIMAL(2,1) default 0.5 comment '分数'")
-	private Double score;
+	@Column(columnDefinition = "int(5) default 0 comment '分数'")
+	private int score;
 	@Column(columnDefinition = "int(1) default 0 comment '0单选题1判断题'")
 	private int quType;
 	@Column(columnDefinition = "varchar(5) default '' comment '选择题答案简写（即ABCD）判断题1正确0错误'")
@@ -131,11 +131,11 @@ public class EduQuestionInfoEntity {
 		this.status = status;
 	}
 
-	public Double getScore() {
+	public int getScore() {
 		return score;
 	}
 
-	public void setScore(Double score) {
+	public void setScore(int score) {
 		this.score = score;
 	}
 
