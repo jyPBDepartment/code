@@ -57,6 +57,8 @@ public class EduExamPaperInfoEntity {
 	private EduVocationInfoEntity vocation;
 	@Transient
 	private String vocationId;
+	@Transient
+	private String isPass;
 	
 	public int getQuestionNum() {
 		return questionNum;
@@ -135,6 +137,12 @@ public class EduExamPaperInfoEntity {
 	}
 	public void setVocationId(String vocationId) {
 		this.vocationId = vocationId;
+	}
+	public String getIsPass() {
+		return isPass;
+	}
+	public void setIsPass(String isPass) {
+		this.isPass = isPass;
 	}
 	
 }

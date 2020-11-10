@@ -33,4 +33,8 @@ public class EduUserExamServiceImpl implements EduUserExamService {
 	public List<Map<String, Object>> getExamResultByUserId(String userId) throws ServiceException {
 		return eduUserExamDao.getExamResultByUserId(userId);
 	}
+	
+	public EduUserExamEntity isPass(String userId,String examId) {
+		return eduUserExamDao.findByExam(userId,examId);
+	}
 }

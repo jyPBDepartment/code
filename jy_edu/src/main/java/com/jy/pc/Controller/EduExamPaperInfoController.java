@@ -314,15 +314,27 @@ public class EduExamPaperInfoController {
 	}
 
 	/**
-	 * 试卷列表加载
+	 * 	根据用户Id查询试卷列表
 	 * 
 	 */
 	@RequestMapping(value = "/getExamListByVocationId")
 	@ResponseBody
 	public Map<String, Object> getExamListByVocationId(HttpServletRequest res, HttpServletResponse req,
-			@RequestParam(name = "vocationId") String vocationId) {
+			@RequestParam(name = "vocationId") String vocationId,@RequestParam(name = "userId") String userId) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		List<EduExamPaperInfoEntity> examPaperList = eduExamPaperInfoService.getExamListByVocationId(vocationId);
+		for(int i=0;i<examPaperList.size();i++) {
+			EduUserExamEntity eduUserExamEntity = eduUserExamService.isPass(userId,examPaperList.get(i).getId());
+			if(eduUserExamEntity!=null) {
+				if(eduUserExamEntity.getIsPass()==1) {//考试记录通过
+					examPaperList.get(i).setIsPass("1");//已通过考试
+				}else {
+					examPaperList.get(i).setIsPass("2");//考过试未通过
+				}
+			}else {
+				examPaperList.get(i).setIsPass("0");//0未考试
+			}
+		}
 		map.put("code", "200");
 		map.put("data", examPaperList);
 		return map;
