@@ -90,9 +90,11 @@ public class EduExamPaperInfoController {
 			} else {
 				// 这道题打错了
 				if (que.getQuType() == 0) {
+					table1.addQueNum(1);
 					table1.addWrongNum(1);
 				}
 				if (que.getQuType() == 1) {
+					table2.addQueNum(1);
 					table2.addWrongNum(1);
 				}
 				ExamReturnQueVO item = new ExamReturnQueVO(que.getQuType(), answer.getSerialNumber(), que.getScore(),
