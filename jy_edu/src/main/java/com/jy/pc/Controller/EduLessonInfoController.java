@@ -39,24 +39,46 @@ public class EduLessonInfoController {
 	@Autowired
 	private EduLessonInfoService eduLessonInfoService;
 
-	//移动端-判断此课程是否已被当前客户报名
-	
+	// 移动端-判断此课程是否已被当前客户报名
+	@RequestMapping(value = "isEnrolled")
+	public Map<String, Object> isEnrolled(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "userId") String userId, @RequestParam(name = "lessonId") String lessonId) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		try {
+			List<EduLessonStudentRelationEntity> relaList = eduLessonInfoService.findRelaById(lessonId, "");
+			boolean result = false;
+			for (EduLessonStudentRelationEntity rela : relaList) {
+				if (userId.equals(rela.getUserCode())) {
+					result = true;
+					break;
+				}
+			}
+			map.put("code", InterfaceCode.SUCCESS.getCode());// 成功
+			map.put("message", "查询成功");
+			map.put("data", result);
+		} catch (Exception e) {
+			map.put("code", InterfaceCode.FAIL_UNKNOWN_ERROR.getCode());// 失败
+			map.put("message", e.getMessage());
+		}
+		return map;
+	}
+
 	// 移动端-用户报名课程Enroll
 	@RequestMapping(value = "enrollLesson")
 	public Map<String, Object> enrollLesson(HttpServletRequest res, HttpServletResponse req,
 			@RequestParam(name = "userId") String userId, @RequestParam(name = "lessonId") String lessonId,
-			@RequestParam(name = "userName") String userName,@RequestParam(name = "useTel") String useTel) {
+			@RequestParam(name = "userName") String userName, @RequestParam(name = "useTel") String useTel) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
 			EduLessonInfoEntity lesson = eduLessonInfoService.findInfobyId(lessonId);
 			List<EduLessonStudentRelationEntity> relaList = eduLessonInfoService.findRelaById(lessonId, "");
 			if (relaList.size() >= lesson.getStuLimit()) {
-				//当前报名人数已到上限
+				// 当前报名人数已到上限
 				map.put("code", InterfaceCode.LESSON_NUM_LIMIT.getCode());// 成功
 				map.put("message", "报名人数已达上限");
 				return map;
 			}
-			eduLessonInfoService.enrollLesson(lesson,userId,userName,useTel);
+			eduLessonInfoService.enrollLesson(lesson, userId, userName, useTel);
 			map.put("code", InterfaceCode.SUCCESS.getCode());// 成功
 			map.put("message", "报名成功");
 		} catch (Exception e) {
