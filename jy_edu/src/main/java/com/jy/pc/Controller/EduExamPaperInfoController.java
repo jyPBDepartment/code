@@ -122,7 +122,7 @@ public class EduExamPaperInfoController {
 			vo.setQueIndex(option.getTitle());
 			vo.setQueSelectAnswer(option.getContent());
 			for(AnswerVO anVO : answerList) {
-				if(anVO.getAnswerId() == option.getId()) {
+				if(anVO.getAnswerId() == option.getQuId()) {
 					vo.setQueChoose(anVO.getAnswerCode());
 				}
 			}
