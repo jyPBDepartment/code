@@ -61,6 +61,7 @@ public class EduExamPaperInfoController {
 		String s = res.getParameter("entity");
 		JSONObject jsonObject = JSONObject.parseObject(s);
 		ExamResultVO entity = jsonObject.toJavaObject(ExamResultVO.class);
+		EduExamPaperInfoEntity exam = eduExamPaperInfoService.findId(entity.getExamId());
 		List<AnswerVO> answerList = entity.getAnswerList();
 		// 考试结果包装类
 		ExamReturnTotal total = new ExamReturnTotal();
@@ -111,6 +112,13 @@ public class EduExamPaperInfoController {
 		examTableInfo.add(table2);
 		total.setExamTableList(examTableList);
 		total.setExamTableInfo(examTableInfo);
+		EduUserExamEntity eduUserExamEntity = new EduUserExamEntity();
+		eduUserExamEntity.setExamId(entity.getExamId());
+		eduUserExamEntity.setExamDate(new Date());
+		eduUserExamEntity.setIsPass(table1.getGetGrade()+table2.getGetGrade()>=exam.getPassScore()?1:0);
+		eduUserExamEntity.setScore(table1.getGetGrade()+table2.getGetGrade());
+		eduUserExamEntity.setUserId(entity.getUserId());
+		eduUserExamService.save(eduUserExamEntity);
 		map.put("state", "0");// 成功
 		map.put("message", "查询成功");
 		map.put("data", total);
