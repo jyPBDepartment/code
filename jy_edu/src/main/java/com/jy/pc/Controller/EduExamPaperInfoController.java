@@ -87,6 +87,7 @@ public class EduExamPaperInfoController {
 				ExamReturnQueVO item = new ExamReturnQueVO(que.getQuType(), answer.getSerialNumber(), que.getScore(),
 						que.getAnswer(), que.getQuContent(), 1);
 				examTableList.add(item);
+				item.setQueChoose(answer.getAnswerCode());
 			} else {
 				// 这道题打错了
 				if (que.getQuType() == 0) {
@@ -101,7 +102,8 @@ public class EduExamPaperInfoController {
 						que.getAnswer(), que.getQuContent(), 2);
 				// 查询出该题目所有答案
 				options = eduOptionInfoService.findquestionId(que.getId());
-				item.setQueAnalysis(castP2V(options,answerList));
+				item.setQueAnalysis(castP2V(options));
+				item.setQueChoose(answer.getAnswerCode());
 				examTableList.add(item);
 			}
 		}
@@ -115,17 +117,12 @@ public class EduExamPaperInfoController {
 		return map;
 	}
 
-	private List<ExamReturnAnsVO> castP2V(List<EduOptionInfoEntity> options,List<AnswerVO> answerList) {
+	private List<ExamReturnAnsVO> castP2V(List<EduOptionInfoEntity> options) {
 		List<ExamReturnAnsVO> list = new ArrayList<ExamReturnAnsVO>();
 		for (EduOptionInfoEntity option : options) {
 			ExamReturnAnsVO vo = new ExamReturnAnsVO();
 			vo.setQueIndex(option.getTitle());
 			vo.setQueSelectAnswer(option.getContent());
-			for(AnswerVO anVO : answerList) {
-				if(anVO.getAnswerId() == option.getQuId()) {
-					vo.setQueChoose(anVO.getAnswerCode());
-				}
-			}
 			list.add(vo);
 		}
 		return list;

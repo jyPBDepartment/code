@@ -18,6 +18,16 @@ public class ExamReturnQueVO {
 	private int queIsCorrect;
 	//
 	private List<ExamReturnAnsVO> queAnalysis;
+	// 用户选择
+	private String queChoose;
+
+	public String getQueChoose() {
+		return queChoose;
+	}
+
+	public void setQueChoose(String queChoose) {
+		this.queChoose = queChoose;
+	}
 
 	public ExamReturnQueVO() {
 		super();

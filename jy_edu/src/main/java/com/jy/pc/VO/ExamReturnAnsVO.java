@@ -6,16 +6,6 @@ public class ExamReturnAnsVO {
 	private String queIndex;
 	// 答案描述
 	private String queSelectAnswer;
-	// 用户选择
-	private String queChoose;
-
-	public String getQueChoose() {
-		return queChoose;
-	}
-
-	public void setQueChoose(String queChoose) {
-		this.queChoose = queChoose;
-	}
 
 	public String getQueIndex() {
 		return queIndex;
