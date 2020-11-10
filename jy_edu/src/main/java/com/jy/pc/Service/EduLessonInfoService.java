@@ -37,5 +37,8 @@ public interface EduLessonInfoService {
 
 	// 移动端 - 课程报名
 	public void enrollLesson(EduLessonInfoEntity lesson, String userId, String userName, String useTel);
+	
+	//app线下课程列表加载
+	public Page<EduLessonInfoEntity> findLessonList(String name, String createBy, Pageable pageable);
 
 }

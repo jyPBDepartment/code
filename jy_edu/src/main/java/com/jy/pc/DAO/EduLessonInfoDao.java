@@ -22,5 +22,10 @@ public interface EduLessonInfoDao extends JpaRepository<EduLessonInfoEntity, Str
 	// 移动端 - 首页-线下课程加载
 	@Query(value = "select * from edu_lesson_info where lesson_day > now() and status = 0 order by lesson_day asc limit 2", nativeQuery = true)
 	public List<EduLessonInfoEntity> getListByReading();
+	
+	// app课程列表加载
+	@Query(value = "select * from edu_lesson_info  t  where if(?1 !='',t.title like ?1,1=1) and if(?2 !='',t.create_by like ?2,1=1) and t.status='0' order by t.create_date desc",
+			countQuery = "select count(*) from edu_lesson_info t  where if(?1 !='',t.title like ?1,1=1) and if(?2 !='',t.create_by like ?2,1=1) and t.status='0' order by t.create_date desc", nativeQuery = true)
+	public Page<EduLessonInfoEntity> findLessonList(String name, String createBy, Pageable pageable);
 
 }

@@ -40,6 +40,23 @@ public class EduLessonInfoController {
 	private EduLessonInfoService eduLessonInfoService;
 
 	// 移动端-判断此课程是否已被当前客户报名
+	
+	//移动端 - 线下课程列表
+	// 分页条件查询
+	@RequestMapping(value = "/findLessonPage")
+	public Map<String, Object> findLessonPage(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "createBy") String createBy, @RequestParam(name = "name") String name,
+			@RequestParam(name = "page") Integer page, @RequestParam(name = "size") Integer size) {
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		Pageable pageable = new PageRequest(page - 1, size);
+		Page<EduLessonInfoEntity> lessonList = eduLessonInfoService.findLessonList(name, createBy, pageable);
+		map.put("code", "200");// 成功
+		map.put("message", "查询成功");
+		map.put("data", lessonList);
+		return map;
+	}
+	
 	@RequestMapping(value = "isEnrolled")
 	public Map<String, Object> isEnrolled(HttpServletRequest res, HttpServletResponse req,
 			@RequestParam(name = "userId") String userId, @RequestParam(name = "lessonId") String lessonId) {

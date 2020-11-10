@@ -95,4 +95,11 @@ public class EduLessonInfoServiceImpl implements EduLessonInfoService {
 		eduLessonRelaDao.saveAndFlush(rela);
 	}
 
+	@Override
+	public Page<EduLessonInfoEntity> findLessonList(String name, String createBy, Pageable pageable) {
+		String nameParam = "%" + name + "%";
+		String createParam = "%" + createBy + "%";
+		return eduLessonInfoDao.findLessonList(nameParam, createParam, pageable);
+	}
+
 }
