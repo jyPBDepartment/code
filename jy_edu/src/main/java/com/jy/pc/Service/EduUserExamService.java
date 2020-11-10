@@ -13,4 +13,5 @@ public interface EduUserExamService {
 	
 	public List<Map<String,Object>> getExamResultByUserId(String userId) throws ServiceException;
 
+	public void deleteByExam(String userId,String examId)
 }

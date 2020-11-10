@@ -20,11 +20,17 @@ public class EduUserExamServiceImpl implements EduUserExamService {
 	@Autowired
 	private EduUserExamDao eduUserExamDao;
 
-	public void save(EduUserExamEntity eduUserExamEntity) throws ServiceException{
+	public void deleteByExam(String userId, String examId) {
+		if (eduUserExamDao.findByExam(userId, examId) != null) {
+			eduUserExamDao.deleteByExam(userId, examId);
+		}
+	}
+
+	public void save(EduUserExamEntity eduUserExamEntity) throws ServiceException {
 		eduUserExamDao.saveAndFlush(eduUserExamEntity);
 	}
-	
-	public List<Map<String,Object>> getExamResultByUserId(String userId) throws ServiceException{
+
+	public List<Map<String, Object>> getExamResultByUserId(String userId) throws ServiceException {
 		return eduUserExamDao.getExamResultByUserId(userId);
 	}
 }
