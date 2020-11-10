@@ -66,12 +66,22 @@ public class EduLessonInfoEntity {
 	private int stuLimit;
 	@Column(columnDefinition = "varchar(255) default '' comment '地址'")
 	private String address;
+	@Column(columnDefinition = "varchar(255) default '' comment '主讲人姓名'")
+	private String teacherName;
 	@Column(columnDefinition = "varchar(255) default '' comment '参加指南'")
 	private String remark;
 	@Transient
 	private String lessonDate;
 	@Transient
 	private String vocationId;
+
+	public String getTeacherName() {
+		return teacherName;
+	}
+
+	public void setTeacherName(String teacherName) {
+		this.teacherName = teacherName;
+	}
 
 	public String getVocationId() {
 		return vocationId;
