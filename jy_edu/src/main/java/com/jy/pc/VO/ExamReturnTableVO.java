@@ -2,9 +2,13 @@ package com.jy.pc.VO;
 
 //考试结果类（题型统计部分）
 public class ExamReturnTableVO {
+	// 类型0单选1判断
 	private int type;
+	// 正确数
 	private int queNum;
+	// 错误数
 	private int wrongNum;
+	// 分数
 	private int getGrade;
 
 	public ExamReturnTableVO() {

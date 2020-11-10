@@ -4,7 +4,9 @@ import java.util.List;
 
 //考试结果类
 public class ExamReturnTotal {
+	// 统计部分
 	private List<ExamReturnTableVO> examTableInfo;
+	// 试题及答案部分
 	private List<ExamReturnQueVO> examTableList;
 
 	public List<ExamReturnTableVO> getExamTableInfo() {

@@ -4,12 +4,19 @@ import java.util.List;
 
 //考试结果类(问题部分)
 public class ExamReturnQueVO {
+	// 类型 0：单选 1：判断
 	private int queType;
+	// 序号（来自前端）
 	private int queNum;
+	// 分数
 	private int queScore;
+	// 正确答案
 	private String correctAnswers;
+	// 问题描述
 	private String queName;
+	// 该题是否正确 1：正确 2：错误
 	private int queIsCorrect;
+	//
 	private List<ExamReturnAnsVO> queAnalysis;
 
 	public ExamReturnQueVO() {
