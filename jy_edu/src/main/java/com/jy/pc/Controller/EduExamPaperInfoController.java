@@ -56,10 +56,7 @@ public class EduExamPaperInfoController {
 	// 批卷并返回考试结果
 	@RequestMapping(value = "/submitExam")
 	@ResponseBody
-	public Map<String, Object> submitExam(HttpServletRequest res, HttpServletResponse req,
-			@RequestParam(name = "userId") String userId,
-			@RequestParam(name = "studyExamationId") String studyExamationId,
-			@RequestParam(name = "examId") String examId) {
+	public Map<String, Object> submitExam(HttpServletRequest res, HttpServletResponse req) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		String s = res.getParameter("entity");
 		JSONObject jsonObject = JSONObject.parseObject(s);
@@ -112,6 +109,7 @@ public class EduExamPaperInfoController {
 		total.setExamTableInfo(examTableInfo);
 		map.put("state", "0");// 成功
 		map.put("message", "查询成功");
+		map.put("data", total);
 		return map;
 	}
 
