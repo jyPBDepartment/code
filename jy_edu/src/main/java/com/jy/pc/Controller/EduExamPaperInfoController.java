@@ -101,7 +101,7 @@ public class EduExamPaperInfoController {
 						que.getAnswer(), que.getQuContent(), 2);
 				// 查询出该题目所有答案
 				options = eduOptionInfoService.findquestionId(que.getId());
-				item.setQueAnalysis(castP2V(options));
+				item.setQueAnalysis(castP2V(options,answerList));
 				examTableList.add(item);
 			}
 		}
@@ -115,12 +115,17 @@ public class EduExamPaperInfoController {
 		return map;
 	}
 
-	private List<ExamReturnAnsVO> castP2V(List<EduOptionInfoEntity> options) {
+	private List<ExamReturnAnsVO> castP2V(List<EduOptionInfoEntity> options,List<AnswerVO> answerList) {
 		List<ExamReturnAnsVO> list = new ArrayList<ExamReturnAnsVO>();
 		for (EduOptionInfoEntity option : options) {
 			ExamReturnAnsVO vo = new ExamReturnAnsVO();
 			vo.setQueIndex(option.getTitle());
 			vo.setQueSelectAnswer(option.getContent());
+			for(AnswerVO anVO : answerList) {
+				if(anVO.getAnswerId() == option.getId()) {
+					vo.setQueChoose(anVO.getAnswerCode());
+				}
+			}
 			list.add(vo);
 		}
 		return list;
