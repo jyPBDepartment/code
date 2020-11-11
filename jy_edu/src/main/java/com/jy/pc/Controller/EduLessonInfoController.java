@@ -281,8 +281,9 @@ public class EduLessonInfoController {
 			map.put("message", "启用成功");
 		}
 		if (status == 1) {
+			entity.setEnrollStatus(status);
 			map.put("status", "1");
-			map.put("message", "禁用成功");
+			map.put("message", "禁用成功,同时关闭报名");
 			result = false;
 		}
 		eduLessonInfoService.enable(entity, result);

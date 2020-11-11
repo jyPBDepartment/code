@@ -16,8 +16,8 @@ public class EduIssueServiceImpl implements EduIssueService {
 
 	@Override
 	public Page<EduIssueInfoEntity> findListByParam(String name, String status, String createBy, Pageable pageable) {
-		String createParam = "%" + createBy + "%";
-		return eduIssueDao.findListByName(name, status, createParam, pageable);
+		String nameParam = "%" + name + "%";
+		return eduIssueDao.findListByName(nameParam, status, createBy, pageable);
 	}
 
 	@Override
@@ -27,7 +27,8 @@ public class EduIssueServiceImpl implements EduIssueService {
 
 	@Override
 	public Page<EduIssueInfoEntity> findMgtByParam(String userName, String card, String vocationId, Pageable pageable) {
-		return eduIssueDao.findMgtByParam(userName, card, vocationId, pageable);
+		String nameParam = "%" + userName + "%";
+		return eduIssueDao.findMgtByParam(nameParam, card, vocationId, pageable);
 	}
 
 	@Override
