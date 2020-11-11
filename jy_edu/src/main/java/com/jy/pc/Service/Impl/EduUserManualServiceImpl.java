@@ -23,15 +23,15 @@ public class EduUserManualServiceImpl implements EduUserManualService{
 		eduUserManualDao.saveAndFlush(eduUserManualEntity);
 	}
 
-	//通过手册id查询
-	@Override
-	public EduUserManualEntity findManualInfoId(String manualInfoId) {
-		return eduUserManualDao.findManualInfoId(manualInfoId);
-	}
-
 	@Override
 	public void delete(String id) {
 		eduUserManualDao.deleteById(id);
+	}
+
+	//通过userId查询
+	@Override
+	public EduUserManualEntity findUserId(String userId,String manualInfoId) {
+		return eduUserManualDao.findUserId(userId,manualInfoId);
 	}
 
 }

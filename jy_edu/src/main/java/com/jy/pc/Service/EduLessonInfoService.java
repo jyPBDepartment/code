@@ -40,5 +40,14 @@ public interface EduLessonInfoService {
 	
 	//app线下课程列表加载
 	public Page<EduLessonInfoEntity> findLessonList(String name, String createBy, Pageable pageable);
+	
+	//通过lessonId，userId查询报名情况
+	public EduLessonStudentRelationEntity findByLessonId(String lessonId,String userId);
+	
+	//根据lessonId获取报名情况
+	public List<EduLessonStudentRelationEntity> findByLesson(String lessonId);
+	
+	// 删除报名表
+	public void deleteLesson(String id);
 
 }

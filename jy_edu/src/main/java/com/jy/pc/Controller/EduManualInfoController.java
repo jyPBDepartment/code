@@ -166,7 +166,7 @@ public class EduManualInfoController {
 			map.put("state", "0");
 			map.put("message", "启用成功");	
 		}
-		//禁用
+		//禁用       
 		if (status.equals(1)) {
 			map.put("state", "1");
 			map.put("message", "禁用成功");
@@ -198,7 +198,7 @@ public class EduManualInfoController {
 				map.put("msg", "收藏失败");
 			}
 		}else {
-			EduUserManualEntity eduUserManual = eduUserManualService.findManualInfoId(eduUserManualEntity.getManualInfoId());
+			EduUserManualEntity eduUserManual = eduUserManualService.findUserId(eduUserManualEntity.getUserId(), eduUserManualEntity.getManualInfoId());
 			eduUserManualService.delete(eduUserManual.getId());
 		}
 		return map;
@@ -211,15 +211,15 @@ public class EduManualInfoController {
 	@RequestMapping(value = "/findManualInfoId")
 	@ResponseBody
 	public Map<String, Object> findManualInfoId(HttpServletRequest res, HttpServletResponse req,
-			@RequestParam(name = "id") String id) {
+			@RequestParam(name = "id") String id,@RequestParam(name = "userId") String userId) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		EduManualInfoEntity eduManualInfoEntity = eduManualInfoService.findId(id);
-		EduUserManualEntity eduUserManualEntity = eduUserManualService.findManualInfoId(id);
+		EduUserManualEntity eduUserManual = eduUserManualService.findUserId(userId,id);
 		eduManualInfoEntity.setStudyNum(eduManualInfoEntity.getStudyNum() + 1);
 		eduManualInfoService.update(eduManualInfoEntity);
 		map.put("code", "200");
 		map.put("data", eduManualInfoEntity);
-		map.put("dataUserManual", eduUserManualEntity);
+		map.put("dataUserManual", eduUserManual);
 		return map;
 	}
 	
