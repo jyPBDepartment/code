@@ -24,8 +24,8 @@ public interface EduLessonInfoDao extends JpaRepository<EduLessonInfoEntity, Str
 	public List<EduLessonInfoEntity> getListByReading();
 	
 	// app课程列表加载
-	@Query(value = "select * from edu_lesson_info  t  where if(?1 !='',t.title like ?1,1=1) and if(?2 !='',t.create_by like ?2,1=1) and t.status='0' order by t.create_date desc",
-			countQuery = "select count(*) from edu_lesson_info t  where if(?1 !='',t.title like ?1,1=1) and if(?2 !='',t.create_by like ?2,1=1) and t.status='0' order by t.create_date desc", nativeQuery = true)
+	@Query(value = "select * from edu_lesson_info  t  where if(?1 !='',t.title like ?1,1=1) and if(?2 !='',t.create_by like ?2,1=1) and t.status='0' order by t.lesson_day asc",
+			countQuery = "select count(*) from edu_lesson_info t  where if(?1 !='',t.title like ?1,1=1) and if(?2 !='',t.create_by like ?2,1=1) and t.status='0' order by t.lesson_day asc", nativeQuery = true)
 	public Page<EduLessonInfoEntity> findLessonList(String name, String createBy, Pageable pageable);
 
 }

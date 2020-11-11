@@ -57,6 +57,42 @@ public class EduLessonInfoController {
 		return map;
 	}
 	
+	//线下课程查看详情
+	@RequestMapping(value = "/findByLessonId")
+	@ResponseBody
+	public Map<String, Object> findByLessonId(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "lessonId") String lessonId,@RequestParam(name = "userId") String userId) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		EduLessonInfoEntity lessonEntity = eduLessonInfoService.findInfobyId(lessonId);
+		EduLessonStudentRelationEntity eduLessonStudentRelation = eduLessonInfoService.findByLessonId(lessonId, userId);
+		List<EduLessonStudentRelationEntity> lessonList = eduLessonInfoService.findByLesson(lessonId);
+		if (lessonEntity != null) {
+			map.put("code", InterfaceCode.SUCCESS.getCode());
+			map.put("data", lessonEntity);
+			map.put("dataLesson", eduLessonStudentRelation);
+			map.put("lesson", lessonList);
+		} else {
+			map.put("code", InterfaceCode.FAIL_UNKNOWN_ERROR.getCode());
+		}
+		return map;
+	}
+	
+	//取消报名
+	@RequestMapping(value = "/cancellationRegistr")
+	@ResponseBody
+	public Map<String, Object> cancellationRegistr(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "lessonId") String lessonId,@RequestParam(name = "userId") String userId) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		EduLessonStudentRelationEntity eduLessonStudentRelation = eduLessonInfoService.findByLessonId(lessonId, userId);
+		if (eduLessonStudentRelation != null) {
+			eduLessonInfoService.deleteLesson(eduLessonStudentRelation.getId());
+			map.put("code", InterfaceCode.SUCCESS.getCode());
+		} else {
+			map.put("code", InterfaceCode.FAIL_UNKNOWN_ERROR.getCode());
+		}
+		return map;
+	}
+	
 	@RequestMapping(value = "isEnrolled")
 	public Map<String, Object> isEnrolled(HttpServletRequest res, HttpServletResponse req,
 			@RequestParam(name = "userId") String userId, @RequestParam(name = "lessonId") String lessonId) {

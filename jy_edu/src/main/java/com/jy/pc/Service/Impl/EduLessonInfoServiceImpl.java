@@ -102,4 +102,22 @@ public class EduLessonInfoServiceImpl implements EduLessonInfoService {
 		return eduLessonInfoDao.findLessonList(nameParam, createParam, pageable);
 	}
 
+	//通过lessonId，userId查询报名情况
+	@Override
+	public EduLessonStudentRelationEntity findByLessonId(String lessonId, String userId) {
+		return eduLessonRelaDao.findByLessonId(lessonId, userId);
+	}
+
+	@Override
+	public List<EduLessonStudentRelationEntity> findByLesson(String lessonId) {
+		return eduLessonRelaDao.findByLesson(lessonId);
+	}
+
+	//删除报名信息
+	@Override
+	public void deleteLesson(String id) {
+		eduLessonRelaDao.deleteById(id);
+		
+	}
+
 }
