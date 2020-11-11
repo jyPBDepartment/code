@@ -77,6 +77,17 @@ public class EduLessonInfoEntity {
 	private String lessonDate;
 	@Transient
 	private String vocationId;
+	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
+	@Transient
+	private Date now;
+
+	public Date getNow() {
+		return new Date();
+	}
+
+	public void setNow(Date now) {
+		this.now = now;
+	}
 
 	public Date getClosingDate() {
 		return closingDate;
