@@ -70,6 +70,7 @@ public class EduLessonInfoEntity {
 	private String teacherName;
 	@Column(columnDefinition = "varchar(255) default '' comment '参加指南'")
 	private String remark;
+	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
 	@Column(columnDefinition = "DATE comment '报名截止日期'")
 	private Date closingDate;
 	@Transient
