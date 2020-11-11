@@ -28,6 +28,8 @@ public class EduIssueInfoEntity extends BaseEntity {
 	private String userTel;
 	@Column(columnDefinition = "varchar(36) default '' comment '用户身份证号'")
 	private String userCard;
+	@Column(columnDefinition = "varchar(36) default '' comment '用户姓名'")
+	private String userName;
 	@OneToOne
 	@JoinColumn(name = "certificate_id", columnDefinition = "varchar(36) comment '证书ID'", referencedColumnName = "id")
 	@NotFound(action = NotFoundAction.IGNORE)
@@ -48,6 +50,14 @@ public class EduIssueInfoEntity extends BaseEntity {
 	private String url;
 	@Transient
 	private String certificateId;
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
 
 	public String getCertificateId() {
 		return certificateId;

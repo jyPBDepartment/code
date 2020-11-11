@@ -37,14 +37,15 @@ public class EduIssueController {
 	// 移动端 -- 证书申请
 	@RequestMapping(value = "/applyCertificate")
 	@ResponseBody
-	public Map<String, String> applyCertificate(HttpServletRequest res, HttpServletResponse req) {
+	public Map<String, String> applyCertificate(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "userId") String userId, @RequestParam(name = "userName") String userName,
+			@RequestParam(name = "certificateId") String certificateId) {
 		Map<String, String> map = new HashMap<String, String>();
-		String s = res.getParameter("entity");
-		JSONObject jsonObject = JSONObject.parseObject(s);
-		EduIssueInfoEntity entity = jsonObject.toJavaObject(EduIssueInfoEntity.class);
-		String cid = entity.getCertificateId();
+		EduIssueInfoEntity entity = new EduIssueInfoEntity();
 		EduCertificateInfoEntity cfa = new EduCertificateInfoEntity();
-		cfa.setId(cid);
+		entity.setUserId(userId);
+		entity.setUserName(userName);
+		cfa.setId(certificateId);
 		Date date = new Date();
 		entity.setCreateDate(date);
 		entity.setCertificate(cfa);
