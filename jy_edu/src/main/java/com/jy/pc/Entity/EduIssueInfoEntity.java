@@ -9,6 +9,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
@@ -21,10 +22,12 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 @Entity
 @Table(name = "edu_issue_info")
 public class EduIssueInfoEntity extends BaseEntity {
-	@OneToOne
-	@JoinColumn(name = "user_id", columnDefinition = "varchar(128) comment '用户ID'", referencedColumnName = "id")
-	@NotFound(action = NotFoundAction.IGNORE)
-	private SysLocalUserEntity user;
+	@Column(columnDefinition = "varchar(36) default '' comment '用户ID'")
+	private String userId;
+	@Column(columnDefinition = "varchar(36) default '' comment '用户联系方式'")
+	private String userTel;
+	@Column(columnDefinition = "varchar(36) default '' comment '用户身份证号'")
+	private String userCard;
 	@OneToOne
 	@JoinColumn(name = "certificate_id", columnDefinition = "varchar(36) comment '证书ID'", referencedColumnName = "id")
 	@NotFound(action = NotFoundAction.IGNORE)
@@ -43,6 +46,16 @@ public class EduIssueInfoEntity extends BaseEntity {
 	private EduFormworkEntity eduFormworkEntity;
 	@Column(columnDefinition = "varchar(36) default '' comment '证书图片路径'")
 	private String url;
+	@Transient
+	private String certificateId;
+
+	public String getCertificateId() {
+		return certificateId;
+	}
+
+	public void setCertificateId(String certificateId) {
+		this.certificateId = certificateId;
+	}
 
 	public EduFormworkEntity getEduFormworkEntity() {
 		return eduFormworkEntity;
@@ -84,12 +97,28 @@ public class EduIssueInfoEntity extends BaseEntity {
 		this.issueState = issueState;
 	}
 
-	public SysLocalUserEntity getUser() {
-		return user;
+	public String getUserId() {
+		return userId;
 	}
 
-	public void setUser(SysLocalUserEntity user) {
-		this.user = user;
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
+	public String getUserTel() {
+		return userTel;
+	}
+
+	public void setUserTel(String userTel) {
+		this.userTel = userTel;
+	}
+
+	public String getUserCard() {
+		return userCard;
+	}
+
+	public void setUserCard(String userCard) {
+		this.userCard = userCard;
 	}
 
 	public EduCertificateInfoEntity getCertificate() {

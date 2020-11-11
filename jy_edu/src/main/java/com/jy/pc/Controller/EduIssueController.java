@@ -1,5 +1,6 @@
 package com.jy.pc.Controller;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,7 +16,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.alibaba.fastjson.JSONObject;
+import com.jy.pc.Entity.EduCertificateInfoEntity;
 import com.jy.pc.Entity.EduIssueInfoEntity;
+import com.jy.pc.Entity.EduVocationInfoEntity;
 import com.jy.pc.Service.EduIssueService;
 
 /**
@@ -29,6 +33,26 @@ import com.jy.pc.Service.EduIssueService;
 public class EduIssueController {
 	@Autowired
 	private EduIssueService eduIssueService;
+
+	// 移动端 -- 证书申请
+	@RequestMapping(value = "/applyCertificate")
+	@ResponseBody
+	public Map<String, String> applyCertificate(HttpServletRequest res, HttpServletResponse req) {
+		Map<String, String> map = new HashMap<String, String>();
+		String s = res.getParameter("entity");
+		JSONObject jsonObject = JSONObject.parseObject(s);
+		EduIssueInfoEntity entity = jsonObject.toJavaObject(EduIssueInfoEntity.class);
+		String cid = entity.getCertificateId();
+		EduCertificateInfoEntity cfa = new EduCertificateInfoEntity();
+		cfa.setId(cid);
+		Date date = new Date();
+		entity.setCreateDate(date);
+		entity.setCertificate(cfa);
+		eduIssueService.save(entity);
+		map.put("state", "0");
+		map.put("message", "申请成功");
+		return map;
+	}
 
 	// 分页条件查询
 	@RequestMapping(value = "/findPage")
@@ -61,7 +85,7 @@ public class EduIssueController {
 		}
 		return map;
 	}
-	
+
 	@RequestMapping(value = "/findMgtPage")
 	public Map<String, Object> findMgtPage(HttpServletRequest res, HttpServletResponse req,
 			@RequestParam(name = "userName") String userName, @RequestParam(name = "card") String card,

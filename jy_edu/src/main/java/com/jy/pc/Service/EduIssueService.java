@@ -13,4 +13,7 @@ public interface EduIssueService {
 	public EduIssueInfoEntity findInfobyId(String id);
 
 	public Page<EduIssueInfoEntity> findMgtByParam(String userName, String card, String vocationId, Pageable pageable);
+	
+	//保存
+	public void save(EduIssueInfoEntity entity);
 }

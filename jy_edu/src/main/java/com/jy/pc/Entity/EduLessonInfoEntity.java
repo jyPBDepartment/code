@@ -70,10 +70,20 @@ public class EduLessonInfoEntity {
 	private String teacherName;
 	@Column(columnDefinition = "varchar(255) default '' comment '参加指南'")
 	private String remark;
+	@Column(columnDefinition = "DATE comment '报名截止日期'")
+	private Date closingDate;
 	@Transient
 	private String lessonDate;
 	@Transient
 	private String vocationId;
+
+	public Date getClosingDate() {
+		return closingDate;
+	}
+
+	public void setClosingDate(Date closingDate) {
+		this.closingDate = closingDate;
+	}
 
 	public String getTeacherName() {
 		return teacherName;

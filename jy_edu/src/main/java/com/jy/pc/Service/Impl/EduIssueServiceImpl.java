@@ -30,4 +30,10 @@ public class EduIssueServiceImpl implements EduIssueService {
 		return eduIssueDao.findMgtByParam(userName, card, vocationId, pageable);
 	}
 
+	@Override
+	public void save(EduIssueInfoEntity entity) {
+		eduIssueDao.saveAndFlush(entity);
+
+	}
+
 }

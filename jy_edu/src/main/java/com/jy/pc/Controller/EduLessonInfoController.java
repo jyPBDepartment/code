@@ -40,8 +40,8 @@ public class EduLessonInfoController {
 	private EduLessonInfoService eduLessonInfoService;
 
 	// 移动端-判断此课程是否已被当前客户报名
-	
-	//移动端 - 线下课程列表
+
+	// 移动端 - 线下课程列表
 	// 分页条件查询
 	@RequestMapping(value = "/findLessonPage")
 	public Map<String, Object> findLessonPage(HttpServletRequest res, HttpServletResponse req,
@@ -56,7 +56,7 @@ public class EduLessonInfoController {
 		map.put("data", lessonList);
 		return map;
 	}
-	
+
 	@RequestMapping(value = "isEnrolled")
 	public Map<String, Object> isEnrolled(HttpServletRequest res, HttpServletResponse req,
 			@RequestParam(name = "userId") String userId, @RequestParam(name = "lessonId") String lessonId) {
@@ -205,6 +205,30 @@ public class EduLessonInfoController {
 		return map;
 	}
 
+	// 切换报名状态
+	@RequestMapping(value = "/enrollSwitch")
+	public Map<String, String> enrollSwitch(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "status") int status, @RequestParam(name = "id") String id) {
+
+		Map<String, String> map = new HashMap<String, String>();
+		EduLessonInfoEntity entity = eduLessonInfoService.findInfobyId(id);
+		Date date = new Date();
+		//entity.setUpdateDate(date);
+		entity.setEnrollStatus(status);
+		boolean result = true;
+		if (status == 0) {
+			map.put("status", "0");
+			map.put("message", "启用成功");
+		}
+		if (status == 1) {
+			map.put("status", "1");
+			map.put("message", "禁用成功");
+			result = false;
+		}
+		eduLessonInfoService.enable(entity, result);
+		return map;
+	}
+
 	// 切换生效状态
 	@RequestMapping(value = "/enableSwitch")
 	public Map<String, String> enable(HttpServletRequest res, HttpServletResponse req,
@@ -213,7 +237,7 @@ public class EduLessonInfoController {
 		Map<String, String> map = new HashMap<String, String>();
 		EduLessonInfoEntity entity = eduLessonInfoService.findInfobyId(id);
 		Date date = new Date();
-		entity.setUpdateDate(date);
+		//entity.setUpdateDate(date);
 		entity.setStatus(status);
 		boolean result = true;
 		if (status == 0) {
