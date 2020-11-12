@@ -16,4 +16,7 @@ public interface EduUserExamService {
 	public void deleteByExam(String userId,String examId);
 	
 	public EduUserExamEntity isPass(String userId,String examId);
+	
+	//根据职业类别和通过状态查询数据
+	public List<EduUserExamEntity> findByVocation(String vocationId,String isPass);
 }

@@ -1,7 +1,9 @@
 package com.jy.pc.Controller;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,11 +18,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.alibaba.fastjson.JSONObject;
 import com.jy.pc.Entity.EduCertificateInfoEntity;
 import com.jy.pc.Entity.EduIssueInfoEntity;
 import com.jy.pc.Entity.EduVocationInfoEntity;
 import com.jy.pc.Service.EduIssueService;
+import com.jy.pc.Service.EduUserExamService;
+import com.jy.pc.Service.EduVocationInfoService;
 
 /**
  * 证书管理相关
@@ -33,6 +36,62 @@ import com.jy.pc.Service.EduIssueService;
 public class EduIssueController {
 	@Autowired
 	private EduIssueService eduIssueService;
+	@Autowired
+	private EduVocationInfoService eduVocationInfoService;
+	@Autowired
+	private EduUserExamService eduUserExamService;
+
+	// 后台管理系统柱状图-考试分布人数
+	@RequestMapping(value = "/ExamNumEchart")
+	@ResponseBody
+	public Map<String, Object> ExamNumEchart(HttpServletRequest res, HttpServletResponse req) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		// 获取所有职业类别
+		List<EduVocationInfoEntity> vocations = eduVocationInfoService.findVocationId();
+		String[] xAxis = new String[vocations.size()];
+		int[] yAxis = new int[vocations.size()];
+		int totalNum;
+		for (int i = 0; i < vocations.size(); i++) {
+			xAxis[i] = vocations.get(i).getName();
+			// 查询该职业类别下的证书通过率
+			totalNum = eduUserExamService.findByVocation(vocations.get(i).getId(), "").size();
+			yAxis[i] = totalNum;
+		}
+		map.put("state", "0");
+		map.put("message", "申请成功");
+		map.put("xAxis", xAxis);
+		map.put("yAxis", yAxis);
+		return map;
+	}
+
+	// 后台管理系统柱状图-考试通过率
+	@RequestMapping(value = "/passEchart")
+	@ResponseBody
+	public Map<String, Object> passEchart(HttpServletRequest res, HttpServletResponse req) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		// 获取所有职业类别
+		List<EduVocationInfoEntity> vocations = eduVocationInfoService.findVocationId();
+		String[] xAxis = new String[vocations.size()];
+		String[] yAxis = new String[vocations.size()];
+		int totalNum;
+		int passNum;
+		for (int i = 0; i < vocations.size(); i++) {
+			xAxis[i] = vocations.get(i).getName();
+			// 查询该职业类别下的证书通过率
+			totalNum = eduUserExamService.findByVocation(vocations.get(i).getId(), "").size();
+			passNum = eduUserExamService.findByVocation(vocations.get(i).getId(), "1").size();
+			BigDecimal denominator = new BigDecimal(totalNum);
+			BigDecimal numerator = new BigDecimal(passNum);
+			if (denominator.compareTo(BigDecimal.ZERO) != 0) {
+				yAxis[i] = numerator.divide(denominator).toString();
+			}
+		}
+		map.put("state", "0");
+		map.put("message", "申请成功");
+		map.put("xAxis", xAxis);
+		map.put("yAxis", yAxis);
+		return map;
+	}
 
 	// 移动端 -- 证书申请
 	@RequestMapping(value = "/applyCertificate")

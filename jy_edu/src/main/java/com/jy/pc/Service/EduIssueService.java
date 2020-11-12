@@ -1,5 +1,7 @@
 package com.jy.pc.Service;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -16,4 +18,7 @@ public interface EduIssueService {
 	
 	//保存
 	public void save(EduIssueInfoEntity entity);
+	
+	//根据职业类别和通过状态获取信息
+	public List<EduIssueInfoEntity> findInfoByVocation(String vocationId,String status);
 }

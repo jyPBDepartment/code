@@ -1,5 +1,7 @@
 package com.jy.pc.DAO;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -20,4 +22,7 @@ public interface EduIssueDao extends JpaRepository<EduIssueInfoEntity, String> {
 	@Query(value = "select * from edu_issue_info  t  where issue_state = 1 and if(?1 !='',user_name like ?1,1=1) and if(?2 ='',1=1,t.user_card like concat('%',?2,'%')) and if(?3 ='',1=1,t.certificate_id in (select id from edu_certificate_info where vocation_id = ?3 )) order by t.create_date desc", 
 			countQuery = "select count(*) from edu_formwork_info t  where issue_state = 1 and if(?1 !='',user_name like ?1,1=1) and if(?2 ='',1=1,t.user_card like concat('%',?2,'%')) and if(?3 ='',1=1,t.certificate_id in (select id from edu_certificate_info where vocation_id = ?3 )) order by t.create_date desc", nativeQuery = true)
 	public Page<EduIssueInfoEntity> findMgtByParam(String userName, String card, String vocationId, Pageable pageable);
+
+	@Query(value = "select * from edu_issue_info t,edu_certificate_info h  where t.certificate_id = h.id and h.vocation_id = ?1 and if(?2 !='',issue_state = ?2,1=1)", nativeQuery = true)
+	public List<EduIssueInfoEntity> findInfoByVocation(String vocationId, String status);
 }

@@ -1,5 +1,7 @@
 package com.jy.pc.Service.Impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -35,6 +37,11 @@ public class EduIssueServiceImpl implements EduIssueService {
 	public void save(EduIssueInfoEntity entity) {
 		eduIssueDao.saveAndFlush(entity);
 
+	}
+
+	@Override
+	public List<EduIssueInfoEntity> findInfoByVocation(String vocationId, String status) {
+		return eduIssueDao.findInfoByVocation(vocationId, status);
 	}
 
 }

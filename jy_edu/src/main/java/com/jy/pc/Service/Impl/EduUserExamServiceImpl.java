@@ -37,4 +37,9 @@ public class EduUserExamServiceImpl implements EduUserExamService {
 	public EduUserExamEntity isPass(String userId,String examId) {
 		return eduUserExamDao.findByExam(userId,examId);
 	}
+
+	@Override
+	public List<EduUserExamEntity> findByVocation(String vocationId, String isPass) {
+		return eduUserExamDao.findByVocation(vocationId,isPass);
+	}
 }
