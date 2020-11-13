@@ -43,5 +43,9 @@ public class EduIssueServiceImpl implements EduIssueService {
 	public List<EduIssueInfoEntity> findInfoByVocation(String vocationId, String status) {
 		return eduIssueDao.findInfoByVocation(vocationId, status);
 	}
+	
+	public List<EduIssueInfoEntity> findInfoByUserId(String userId){
+		return eduIssueDao.findInfoByUserId(userId);
+	}
 
 }

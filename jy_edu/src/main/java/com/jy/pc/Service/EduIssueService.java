@@ -21,4 +21,6 @@ public interface EduIssueService {
 	
 	//根据职业类别和通过状态获取信息
 	public List<EduIssueInfoEntity> findInfoByVocation(String vocationId,String status);
+	
+	public List<EduIssueInfoEntity> findInfoByUserId(String userId);
 }

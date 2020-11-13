@@ -1,6 +1,5 @@
 package com.jy.pc.Controller;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -13,7 +12,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.jy.pc.Entity.EduIssueInfoEntity;
 import com.jy.pc.Entity.EduManualInfoEntity;
+import com.jy.pc.Service.EduIssueService;
 import com.jy.pc.Service.EduManualInfoService;
 import com.jy.pc.Service.EduUserExamService;
 import com.jy.pc.VO.UserExamVO;
@@ -32,6 +33,9 @@ public class EduAppMineController {
 	private EduManualInfoService eduManualInfoService;//手册信息业务层
 	@Autowired
 	private EduUserExamService eduUserExamService;//用户考试关联业务层
+	
+	@Autowired
+	private EduIssueService eduIssueService;
 	
 	/**
 	 * 我的-我的收藏、学习记录
@@ -109,14 +113,13 @@ public class EduAppMineController {
 	 */
 	@RequestMapping("/getCertificateByUserId")
 	@ResponseBody
-	public Map<String, Object> getCertificateByUserId(String userId, int isCollection) {
+	public Map<String, Object> getCertificateByUserId(String userId) {
 		Map<String, Object> map = new HashMap<String, Object>();
 
 		try {
-			List<EduManualInfoEntity> eduManualInfoList = eduManualInfoService.getManualListByUserId(userId,
-					isCollection);
+			List<EduIssueInfoEntity> eduIssueInfoList = eduIssueService.findInfoByUserId(userId);
 			map.put("code", "200");// 查询成功
-			map.put("data", eduManualInfoList);
+			map.put("data", eduIssueInfoList);
 		} catch (Exception e) {
 			map.put("code", "201");// 查询失败
 		}
