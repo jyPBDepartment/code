@@ -9,6 +9,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -75,7 +76,7 @@ public class EduExamPaperInfoController {
 		EduQuestionInfoEntity que = null;
 		for (AnswerVO answer : answerList) {
 			que = eduQuestionInfoService.findId(answer.getAnswerId());
-			if (answer.getAnswerCode().equals(que.getAnswer())) {
+			if (que.getAnswer().equals(answer.getAnswerCode())) {
 				// 这道题答对了
 				if (que.getQuType() == 0) {
 					table1.addQueNum(1);
