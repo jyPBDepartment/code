@@ -18,8 +18,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.jy.pc.Entity.EduCertificateInfoEntity;
 import com.jy.pc.Entity.EduIssueInfoEntity;
 import com.jy.pc.Entity.EduVocationInfoEntity;
+import com.jy.pc.Service.EduCertificateInfoService;
 import com.jy.pc.Service.EduIssueService;
 import com.jy.pc.Service.EduUserExamService;
 import com.jy.pc.Service.EduVocationInfoService;
@@ -39,6 +41,8 @@ public class EduIssueController {
 	private EduVocationInfoService eduVocationInfoService;
 	@Autowired
 	private EduUserExamService eduUserExamService;
+	@Autowired
+	private EduCertificateInfoService eduCertificateInfoService;
 
 	// 后台管理系统柱状图-考试分布人数
 	@RequestMapping(value = "/ExamNumEchart")
@@ -100,10 +104,12 @@ public class EduIssueController {
 			@RequestParam(name = "userTel") String userTel, @RequestParam(name = "userCard") String userCard,
 			@RequestParam(name = "vocationId") String vocationId) {
 		Map<String, String> map = new HashMap<String, String>();
+		EduCertificateInfoEntity cfa = new EduCertificateInfoEntity();
+		cfa.setId(eduCertificateInfoService.findInfobyVocation(vocationId).getId());
 		EduIssueInfoEntity entity = new EduIssueInfoEntity();
 		entity.setUserId(userId);
 		entity.setUserName(userName);
-		entity.setUserName(userName);
+		entity.setUserCard(userCard);
 		entity.setUserTel(userTel);
 		entity.setVocationId(vocationId);
 		Date date = new Date();

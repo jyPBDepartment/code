@@ -24,4 +24,6 @@ public interface EduCertificateInfoService {
 
 	// 切换生效状态
 	public void enable(EduCertificateInfoEntity entity, boolean result);
+
+	public EduCertificateInfoEntity findInfobyVocation(String vocationId);
 }

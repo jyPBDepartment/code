@@ -63,4 +63,10 @@ public class EduCertificateInfoServiceImpl implements EduCertificateInfoService 
 
 	}
 
+	@Override
+	public EduCertificateInfoEntity findInfobyVocation(String vocationId) {
+		return eduCertificateInfoDao.findInfobyVocation(vocationId);
+		
+	}
+
 }

@@ -17,4 +17,8 @@ public interface EduCertificateInfoDao extends JpaRepository<EduCertificateInfoE
 	@Query(value = "select * from edu_certificate_info  t  where if(?1 !='',t.name like ?1,1=1) and if(?2 !='',t.status = ?2,1=1) and if(?3 !='',t.create_by like ?3,1=1) order by t.create_date desc", countQuery = "select count(*) from edu_certificate_info t  where if(?1 !='',t.name like ?1,1=1) and if(?2 !='',t.status = ?2,1=1) and if(?3 !='',t.create_by like ?3,1=1) order by t.create_date desc", nativeQuery = true)
 	public Page<EduCertificateInfoEntity> findListByName(String name, String status, String createBy,
 			Pageable pageable);
+
+	// 通过职业类别查询
+	@Query(value = "select * from edu_certificate_info  where vocation_id = ?1", nativeQuery = true)
+	public EduCertificateInfoEntity findInfobyVocation(String vocationId);
 }
