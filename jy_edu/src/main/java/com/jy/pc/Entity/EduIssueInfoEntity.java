@@ -30,6 +30,8 @@ public class EduIssueInfoEntity extends BaseEntity {
 	private String userCard;
 	@Column(columnDefinition = "varchar(36) default '' comment '用户姓名'")
 	private String userName;
+	@Column(columnDefinition = "varchar(36) default '' comment '职业类别ID'")
+	private String vocationId;
 	@OneToOne
 	@JoinColumn(name = "certificate_id", columnDefinition = "varchar(36) comment '证书ID'", referencedColumnName = "id")
 	@NotFound(action = NotFoundAction.IGNORE)
@@ -50,6 +52,14 @@ public class EduIssueInfoEntity extends BaseEntity {
 	private String url;
 	@Transient
 	private String certificateId;
+
+	public String getVocationId() {
+		return vocationId;
+	}
+
+	public void setVocationId(String vocationId) {
+		this.vocationId = vocationId;
+	}
 
 	public String getUserName() {
 		return userName;

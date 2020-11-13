@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.jy.pc.Entity.EduCertificateInfoEntity;
 import com.jy.pc.Entity.EduIssueInfoEntity;
 import com.jy.pc.Entity.EduVocationInfoEntity;
 import com.jy.pc.Service.EduIssueService;
@@ -98,16 +97,17 @@ public class EduIssueController {
 	@ResponseBody
 	public Map<String, String> applyCertificate(HttpServletRequest res, HttpServletResponse req,
 			@RequestParam(name = "userId") String userId, @RequestParam(name = "userName") String userName,
-			@RequestParam(name = "certificateId") String certificateId) {
+			@RequestParam(name = "userTel") String userTel, @RequestParam(name = "userCard") String userCard,
+			@RequestParam(name = "vocationId") String vocationId) {
 		Map<String, String> map = new HashMap<String, String>();
 		EduIssueInfoEntity entity = new EduIssueInfoEntity();
-		EduCertificateInfoEntity cfa = new EduCertificateInfoEntity();
 		entity.setUserId(userId);
 		entity.setUserName(userName);
-		cfa.setId(certificateId);
+		entity.setUserName(userName);
+		entity.setUserTel(userTel);
+		entity.setVocationId(vocationId);
 		Date date = new Date();
 		entity.setCreateDate(date);
-		entity.setCertificate(cfa);
 		eduIssueService.save(entity);
 		map.put("state", "0");
 		map.put("message", "申请成功");
