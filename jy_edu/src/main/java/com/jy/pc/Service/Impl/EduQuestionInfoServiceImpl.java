@@ -136,7 +136,6 @@ public class EduQuestionInfoServiceImpl implements EduQuestionInfoService{
 		eduQuestionInfoEntity.setVocation(vocation);
 		Date date = new Date();
 		eduQuestionInfoEntity.setUpdateDate(date);
-		eduQuestionInfoEntity.setStatus(1);
 		EduQuestionInfoEntity question = eduQuestionInfoDao.saveAndFlush(eduQuestionInfoEntity);
 		List<EduOptionInfoEntity> optionInfo = eduOptionInfoDao.findquestionId(question.getId());
 		if(option.length > optionInfo.size()) {
