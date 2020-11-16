@@ -18,5 +18,8 @@ public interface EduQuestionExamDao extends JpaRepository<EduQuestionExamLinkEnt
 	// 通过试卷id查询
 	@Query(value = "select * from edu_question_exam t where t.exam_id =:examId", nativeQuery = true)
 	public List<EduQuestionExamLinkEntity> findExamId(String examId);
+	// 通过试题id查询
+	@Query(value = "select * from edu_question_exam t where t.question_id =:questionId", nativeQuery = true)
+	public List<EduQuestionExamLinkEntity> findQuestionId(String questionId);
 
 }

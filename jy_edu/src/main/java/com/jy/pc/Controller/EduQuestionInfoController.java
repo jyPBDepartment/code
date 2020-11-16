@@ -129,22 +129,29 @@ public class EduQuestionInfoController {
 		Date date = new Date();
 		Map<String, String> map = new HashMap<String, String>();
 		EduQuestionInfoEntity eduQuestionInfoEntity = eduQuestionInfoService.findId(id);
+		List<EduQuestionExamLinkEntity> questionExamList = eduQuestionExamService.findQuestionId(id);
 		eduQuestionInfoEntity.setStatus(status);
 		eduQuestionInfoEntity.setUpdateDate(date);
 		eduQuestionInfoEntity.setUpdateBy(updateUser);
 		boolean result = true;
-		//启用
-		if (status.equals(0)) {
-			map.put("state", "0");
-			map.put("message", "启用成功");	
+		System.out.println(questionExamList.size());
+		if(questionExamList.size()>0) {
+			map.put("state", "2");
+			map.put("message", "操作失败，试卷中有关联此试题");
+		}else {			
+			//启用
+			if (status.equals(0)) {
+				map.put("state", "0");
+				map.put("message", "启用成功");	
+			}
+			//禁用
+			if (status.equals(1)) {
+				map.put("state", "1");
+				map.put("message", "禁用成功");
+				result = false;
+			}
+			eduQuestionInfoService.enable(eduQuestionInfoEntity,result);
 		}
-		//禁用
-		if (status.equals(1)) {
-			map.put("state", "1");
-			map.put("message", "禁用成功");
-			result = false;
-		}
-		eduQuestionInfoService.enable(eduQuestionInfoEntity,result);
 		return map;
 	}
 	

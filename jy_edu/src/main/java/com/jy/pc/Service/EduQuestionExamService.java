@@ -21,4 +21,7 @@ public interface EduQuestionExamService {
 	
 	// 通过试卷id查询
 	public List<EduQuestionExamLinkEntity> findExamId(String examId);
+	
+	//通过试题id查询
+	public List<EduQuestionExamLinkEntity> findQuestionId(String questionId);
 }

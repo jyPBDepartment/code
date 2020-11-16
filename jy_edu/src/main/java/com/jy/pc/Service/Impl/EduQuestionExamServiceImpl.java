@@ -47,4 +47,10 @@ public class EduQuestionExamServiceImpl implements EduQuestionExamService{
 		return eduQuestionExamDao.findExamId(examId);
 	}
 
+	//通过试题id查询
+	@Override
+	public List<EduQuestionExamLinkEntity> findQuestionId(String questionId) {
+		return eduQuestionExamDao.findQuestionId(questionId);
+	}
+
 }
