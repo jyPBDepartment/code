@@ -5,18 +5,26 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.jy.pc.Entity.EduIssueInfoEntity;
+import com.jy.pc.Entity.EduLessonStudentRelationEntity;
 import com.jy.pc.Entity.EduManualInfoEntity;
+import com.jy.pc.Enum.InterfaceCode;
 import com.jy.pc.Service.EduIssueService;
+import com.jy.pc.Service.EduLessonInfoService;
 import com.jy.pc.Service.EduManualInfoService;
 import com.jy.pc.Service.EduUserExamService;
+import com.jy.pc.VO.LessonEnrollVO;
 import com.jy.pc.VO.UserExamVO;
 
 
@@ -33,6 +41,8 @@ public class EduAppMineController {
 	private EduManualInfoService eduManualInfoService;//手册信息业务层
 	@Autowired
 	private EduUserExamService eduUserExamService;//用户考试关联业务层
+	@Autowired
+	private EduLessonInfoService eduLessonInfoService;
 	
 	@Autowired
 	private EduIssueService eduIssueService;
@@ -90,21 +100,31 @@ public class EduAppMineController {
 	 * 
 	 * @Param userId 用户Id
 	 */
-	@RequestMapping("/getLessonByUserId")
-	@ResponseBody
-	public Map<String, Object> getLessonByUserId(String userId, int isCollection) {
-		Map<String, Object> map = new HashMap<String, Object>();
-
-		try {
-			List<EduManualInfoEntity> eduManualInfoList = eduManualInfoService.getManualListByUserId(userId,
-					isCollection);
-			map.put("code", "200");// 查询成功
-			map.put("data", eduManualInfoList);
-		} catch (Exception e) {
-			map.put("code", "201");// 查询失败
+		@RequestMapping(value = "getLessonsByUserId")
+		@ResponseBody
+		public Map<String, Object> getLessonsByUserId(HttpServletRequest res, HttpServletResponse req,
+				@RequestParam(name = "userId") String userId) {
+			Map<String, Object> map = new HashMap<String, Object>();
+			try {
+				// 根据userId查询出此人课程报名情况
+				List<EduLessonStudentRelationEntity> lessonList = eduLessonInfoService.getLessonsByUserId(userId);
+				List<LessonEnrollVO> result = new ArrayList<LessonEnrollVO>();
+				for (EduLessonStudentRelationEntity entity : lessonList) {
+					LessonEnrollVO vo = new LessonEnrollVO(entity);
+					result.add(vo);
+				}
+				map.put("code", InterfaceCode.SUCCESS.getCode());// 成功
+				map.put("message", InterfaceCode.SUCCESS.getMessage());
+				map.put("data", result);
+			} catch (Exception e) {
+				e.printStackTrace();
+				map.put("code", InterfaceCode.FAIL_UNKNOWN_ERROR.getCode());// 失败
+				map.put("message", e.getMessage());
+			}
+			return map;
 		}
-		return map;
-	}
+
+	
 	
 	/**
 	 * 我的-报名课程
