@@ -15,9 +15,9 @@ import com.jy.pc.Entity.EduExamPaperInfoEntity;
  * */
 public interface EduExamPaperInfoDao extends JpaRepository<EduExamPaperInfoEntity, String>{
 	// 分页与模糊查询
-	@Query(value = "select * from edu_exam_paper_info t where if(?1 !='',t.create_by like ?1,1=1) and if(?2 !='',t.status like ?2,1=1) order by t.create_date desc",
-			countQuery = "select count(*) from edu_exam_paper_info t  where if(?1 !='',t.create_by like ?1,1=1) and if(?2 !='',t.status like ?2,1=1) order by t.create_date desc", nativeQuery = true)
-	public Page<EduExamPaperInfoEntity> findListByName(String createBy, String status, Pageable pageable);
+	@Query(value = "select * from edu_exam_paper_info t where if(?1 !='',t.create_by like ?1,1=1) and if(?2 !='',t.status like ?2,1=1) and if(?3 !='',t.vocation_id like ?3,1=1) order by t.create_date desc",
+			countQuery = "select count(*) from edu_exam_paper_info t  where if(?1 !='',t.create_by like ?1,1=1) and if(?2 !='',t.status like ?2,1=1) and if(?3 !='',t.vocation_id like ?3,1=1) order by t.create_date desc", nativeQuery = true)
+	public Page<EduExamPaperInfoEntity> findListByName(String createBy, String status,String vocationId, Pageable pageable);
 
 	// 通过id查询
 	@Query(value = "select * from edu_exam_paper_info t where t.id =:id", nativeQuery = true)

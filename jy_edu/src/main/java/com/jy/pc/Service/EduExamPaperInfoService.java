@@ -15,7 +15,7 @@ import com.jy.pc.Entity.EduExamPaperInfoEntity;
  * */
 public interface EduExamPaperInfoService {
 	// 分页与模糊查询
-	public Page<EduExamPaperInfoEntity> findListByName(String createBy, String status, Pageable pageable);
+	public Page<EduExamPaperInfoEntity> findListByName(String createBy, String status,String vocationId, Pageable pageable);
 
 	// 通过id查询
 	public EduExamPaperInfoEntity findId(String id);

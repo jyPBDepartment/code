@@ -35,9 +35,9 @@ public class EduExamPaperInfoServiceImpl implements EduExamPaperInfoService{
 
 	//分页 查询
 	@Override
-	public Page<EduExamPaperInfoEntity> findListByName(String createBy, String status, Pageable pageable) {
+	public Page<EduExamPaperInfoEntity> findListByName(String createBy, String status,String vocationId, Pageable pageable) {
 		String createName = "%"+ createBy +"%";
-		return eduExamPaperInfoDao.findListByName(createName, status, pageable);
+		return eduExamPaperInfoDao.findListByName(createName, status,vocationId, pageable);
 	}
 
 	//通过id查询

@@ -9,7 +9,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -144,11 +143,12 @@ public class EduExamPaperInfoController {
 	@ResponseBody
 	public Map<String, Object> findByName(HttpServletRequest res, HttpServletResponse req,
 			@RequestParam(name = "createBy") String createBy, @RequestParam(name = "status") String status,
+			@RequestParam(name = "vocationId") String vocationId,
 			@RequestParam(name = "page") Integer page, @RequestParam(name = "size") Integer size) {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 		Pageable pageable = new PageRequest(page - 1, size);
-		Page<EduExamPaperInfoEntity> questionList = eduExamPaperInfoService.findListByName(createBy, status, pageable);
+		Page<EduExamPaperInfoEntity> questionList = eduExamPaperInfoService.findListByName(createBy, status,vocationId, pageable);
 		map.put("state", "0");// 成功
 		map.put("message", "查询成功");
 		map.put("data", questionList);
@@ -264,6 +264,27 @@ public class EduExamPaperInfoController {
 			map.put("state", "1");
 			map.put("message", "修改失败");
 		}
+		return map;
+	}
+	
+	// 删除
+	@RequestMapping(value = "/delete")
+	@ResponseBody
+	public Map<String, Object> delete(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "id") String examId) {
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		try {
+			List<EduQuestionExamLinkEntity> questionExamLink = eduQuestionExamService.findExamId(examId);
+			for(int i=0;i<questionExamLink.size();i++) {
+				eduQuestionExamService.delete(questionExamLink.get(i).getId());
+			}
+			eduExamPaperInfoService.delete(examId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		map.put("state", "0");
+		map.put("message", "删除成功");			
 		return map;
 	}
 
