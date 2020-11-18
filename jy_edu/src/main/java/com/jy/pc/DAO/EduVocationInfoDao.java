@@ -34,5 +34,9 @@ public interface EduVocationInfoDao extends JpaRepository<EduVocationInfoEntity,
 	// 查询未关联职业类别
 	@Query(value = "select distinct t.id,t.name,t.status,t.description,t.vocation_code,t.sort,t.create_by,t.create_date,t.update_by,t.update_date from  edu_vocation_info t where t.id not in (select m.vocation_id from edu_manual_info m)", nativeQuery = true)
 	public List<EduVocationInfoEntity> findVocationLink();
+	
+	//查询有效并考试职业类别
+	@Query(value = "select * from edu_vocation_info t where t.status = '0' and t.is_exam = '1'", nativeQuery = true)
+	public List<EduVocationInfoEntity> findVocationIsExamId();
 
 }
