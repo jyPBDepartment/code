@@ -118,6 +118,7 @@ public class EduExamPaperInfoController {
 		eduUserExamEntity.setIsPass(table1.getGetGrade()+table2.getGetGrade()>=exam.getPassScore()?1:0);
 		eduUserExamEntity.setScore(table1.getGetGrade()+table2.getGetGrade());
 		eduUserExamEntity.setUserId(entity.getUserId());
+		eduUserExamEntity.setVocationId(entity.getVocationId());
 		//清空旧记录
 		eduUserExamService.deleteByExam(entity.getUserId(), entity.getExamId());
 		eduUserExamService.save(eduUserExamEntity);

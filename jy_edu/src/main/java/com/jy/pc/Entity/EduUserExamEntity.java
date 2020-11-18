@@ -16,9 +16,10 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 /**
  * 用户考试成绩关联表
+ * 
  * @author Stephen
  * 
- * */
+ */
 @Entity
 @Table(name = "edu_user_exam")
 public class EduUserExamEntity {
@@ -38,42 +39,64 @@ public class EduUserExamEntity {
 	@Column(columnDefinition = "datetime comment '考试时间'")
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date examDate;//考试时间
+	private Date examDate;// 考试时间
+	@Column(columnDefinition = "varchar(36) default '' comment '职业类别Id'")
+	private String vocationId;
+
+	public String getVocationId() {
+		return vocationId;
+	}
+
+	public void setVocationId(String vocationId) {
+		this.vocationId = vocationId;
+	}
+
 	public String getId() {
 		return id;
 	}
+
 	public void setId(String id) {
 		this.id = id;
 	}
+
 	public String getExamId() {
 		return examId;
 	}
+
 	public void setExamId(String examId) {
 		this.examId = examId;
 	}
+
 	public String getUserId() {
 		return userId;
 	}
+
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
+
 	public int getScore() {
 		return score;
 	}
+
 	public void setScore(int score) {
 		this.score = score;
 	}
+
 	public int getIsPass() {
 		return isPass;
 	}
+
 	public void setIsPass(int isPass) {
 		this.isPass = isPass;
 	}
+
 	public Date getExamDate() {
 		return examDate;
 	}
+
 	public void setExamDate(Date examDate) {
 		this.examDate = examDate;
 	}
-	
+
 }

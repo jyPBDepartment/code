@@ -8,6 +8,8 @@ public class ExamResultVO {
 	private String userId;
 	// 试卷ID
 	private String examId;
+	// 职业类别ID
+	private String vocationId;
 	// 职业类别（考试）ID
 	private String studyExamationId;
 	// 答案集合
@@ -15,6 +17,14 @@ public class ExamResultVO {
 
 	public String getUserId() {
 		return userId;
+	}
+
+	public String getVocationId() {
+		return vocationId;
+	}
+
+	public void setVocationId(String vocationId) {
+		this.vocationId = vocationId;
 	}
 
 	public void setUserId(String userId) {
