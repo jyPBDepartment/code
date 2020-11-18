@@ -20,25 +20,49 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSONObject;
 import com.jy.pc.Entity.EduVocationInfoEntity;
 import com.jy.pc.Service.EduVocationInfoService;
+
 /**
  * 职业类别 Controller
- * */
+ */
 @Controller
 @RequestMapping(value = "/vocationInfo")
 public class EduVocationInfoController {
 	@Autowired
 	private EduVocationInfoService eduVocationInfoService;
-	
+
+	// 切换是否需要考试
+	@RequestMapping(value = "/examEnable")
+	@ResponseBody
+	public Map<String, String> examEnable(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "isExam") Integer isExam, @RequestParam(name = "id") String id,
+			@RequestParam(name = "updateUser") String updateUser) {
+
+		Map<String, String> map = new HashMap<String, String>();
+		EduVocationInfoEntity eduVocationInfoEntity = eduVocationInfoService.findId(id);
+		eduVocationInfoEntity.setIsExam(isExam);
+		if (isExam.equals(0)) {
+			map.put("state", "0");
+			map.put("message", "关闭考试成功");
+		}
+		if (isExam.equals(1)) {
+			map.put("state", "1");
+			map.put("message", "开启考试成功");
+		}
+		eduVocationInfoService.update(eduVocationInfoEntity);
+		return map;
+	}
+
 	// 查询 分页
 	@RequestMapping(value = "/findByName")
 	@ResponseBody
 	public Map<String, Object> findByName(HttpServletRequest res, HttpServletResponse req,
-			@RequestParam(name = "createBy") String createBy,@RequestParam(name = "status") String status,
+			@RequestParam(name = "createBy") String createBy, @RequestParam(name = "status") String status,
 			@RequestParam(name = "page") Integer page, @RequestParam(name = "size") Integer size) {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 		Pageable pageable = new PageRequest(page - 1, size);
-		Page<EduVocationInfoEntity> vocationInfoList = eduVocationInfoService.findListByName(createBy, status, pageable);
+		Page<EduVocationInfoEntity> vocationInfoList = eduVocationInfoService.findListByName(createBy, status,
+				pageable);
 		map.put("state", "0");// 成功
 		map.put("message", "查询成功");
 		map.put("data", vocationInfoList);
@@ -62,7 +86,7 @@ public class EduVocationInfoController {
 		map.put("message", "添加成功");
 		return map;
 	}
-		
+
 	// 职业类别修改
 	@RequestMapping(value = "/update")
 	@ResponseBody
@@ -88,19 +112,20 @@ public class EduVocationInfoController {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 		List<EduVocationInfoEntity> vocationList = eduVocationInfoService.findVocationLink();
-		for(int i=0;i<vocationList.size();i++) {
-			if(vocationList.get(i).getId().equals(id)) {
+		for (int i = 0; i < vocationList.size(); i++) {
+			if (vocationList.get(i).getId().equals(id)) {
 				eduVocationInfoService.delete(id);
 				map.put("state", "0");
 				map.put("message", "删除成功");
+			} else {
 			}
-			else {}
 		}
-		if(vocationList.size() <= 0) {}
+		if (vocationList.size() <= 0) {
+		}
 		return map;
 	}
-		
-	//通过id查询
+
+	// 通过id查询
 	@RequestMapping(value = "/findById")
 	@ResponseBody
 	public Map<String, Object> findById(HttpServletRequest res, HttpServletResponse req,
@@ -115,7 +140,7 @@ public class EduVocationInfoController {
 		}
 		return map;
 	}
-		
+
 	// 启用/禁用
 	@RequestMapping(value = "/enable")
 	@ResponseBody
@@ -139,10 +164,10 @@ public class EduVocationInfoController {
 			map.put("message", "禁用成功");
 			result = false;
 		}
-		eduVocationInfoService.enable(eduVocationInfoEntity,result);
+		eduVocationInfoService.enable(eduVocationInfoEntity, result);
 		return map;
 	}
-		
+
 	// 修改排序
 	@RequestMapping(value = "/changeSort")
 	@ResponseBody
@@ -152,9 +177,9 @@ public class EduVocationInfoController {
 		Date date = new Date();
 		Map<String, String> map = new HashMap<String, String>();
 		EduVocationInfoEntity eduVocationInfoEntity = eduVocationInfoService.findId(id);
-		List<EduVocationInfoEntity> vocationInfoList=eduVocationInfoService.findSort();
-		for(int i=0;i<vocationInfoList.size();i++) {
-			if(vocationInfoList.get(i).getSort().contains(sort) == true) {
+		List<EduVocationInfoEntity> vocationInfoList = eduVocationInfoService.findSort();
+		for (int i = 0; i < vocationInfoList.size(); i++) {
+			if (vocationInfoList.get(i).getSort().contains(sort) == true) {
 				map.put("state", "1");
 				map.put("message", "排序不能重复");
 				return map;
@@ -167,11 +192,11 @@ public class EduVocationInfoController {
 		map.put("message", "修改成功");
 		return map;
 	}
-	
+
 	// 查询有效职业类别
 	@RequestMapping(value = "/occupation")
 	@ResponseBody
-	public Map<String,Object> findVocabel(HttpServletRequest res,HttpServletResponse req){
+	public Map<String, Object> findVocabel(HttpServletRequest res, HttpServletResponse req) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		List<EduVocationInfoEntity> vocationList = eduVocationInfoService.findVocationId();
 		map.put("state", "0");

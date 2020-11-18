@@ -29,6 +29,8 @@ public class EduVocationInfoEntity {
 	private String name;
 	@Column(columnDefinition = "int(1) default 1 comment '0启用1禁用'")
 	private int status;
+	@Column(columnDefinition = "int(1) default 1 comment '0否1是'")
+	private int isExam;
 	@Column(columnDefinition = "varchar(36) default '' comment '创建人'")
 	private String createBy;
 	@Column
@@ -47,6 +49,14 @@ public class EduVocationInfoEntity {
 	private String description;
 	@Column(columnDefinition = "varchar(255) default '' comment '职业编码'")
 	private String vocationCode;
+
+	public int getIsExam() {
+		return isExam;
+	}
+
+	public void setIsExam(int isExam) {
+		this.isExam = isExam;
+	}
 
 	public String getVocationCode() {
 		return vocationCode;
