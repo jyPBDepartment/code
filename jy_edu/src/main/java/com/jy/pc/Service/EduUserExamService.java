@@ -19,4 +19,7 @@ public interface EduUserExamService {
 	
 	//根据职业类别和通过状态查询数据
 	public List<EduUserExamEntity> findByVocation(String vocationId,String isPass);
+	
+	public List<Map<String,Object>> getExamIsPassByUserId(String userId) throws ServiceException;
+	
 }

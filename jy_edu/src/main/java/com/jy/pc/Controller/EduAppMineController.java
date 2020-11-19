@@ -26,6 +26,7 @@ import com.jy.pc.Service.EduManualInfoService;
 import com.jy.pc.Service.EduUserExamService;
 import com.jy.pc.VO.LessonEnrollVO;
 import com.jy.pc.VO.UserExamVO;
+import com.jy.pc.VO.UserIsApplyVO;
 
 
 /**
@@ -88,6 +89,33 @@ public class EduAppMineController {
 			}
 			map.put("code", "200");// 查询成功
 			map.put("data", userExamVOList);
+		} catch (Exception e) {
+			map.put("code", "201");// 查询失败
+			map.put("msg", e.getMessage());
+		}
+		return map;
+	}
+	
+	
+	/**
+	 * 我的-考试是否都通过，并且是否申请证书
+	 * 
+	 * @Param userId 用户Id
+	 */
+	@RequestMapping("/getExamIsPassByUserId")
+	@ResponseBody
+	public Map<String, Object> getExamIsPassByUserId(String userId) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		List<UserIsApplyVO> userIsApplyVOList = new ArrayList<UserIsApplyVO>();
+		try {
+			List<Map<String,Object>> examIsPasslist= eduUserExamService.getExamIsPassByUserId(userId);
+			for(int i=0;i<examIsPasslist.size();i++) {
+				String jsonStr = JSONObject.toJSONString(examIsPasslist.get(i));
+				UserIsApplyVO vo = JSON.parseObject(jsonStr, UserIsApplyVO.class);
+				userIsApplyVOList.add(vo);
+			}
+			map.put("code", "200");// 查询成功
+			map.put("data", userIsApplyVOList);
 		} catch (Exception e) {
 			map.put("code", "201");// 查询失败
 			map.put("msg", e.getMessage());

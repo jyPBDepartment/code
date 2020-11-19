@@ -24,5 +24,12 @@ public interface EduUserExamDao extends JpaRepository<EduUserExamEntity, String>
 
 	@Query(value = "select * from edu_user_exam a,edu_exam_paper_info b where a.exam_id = b.id and b.vocation_id = ?1 and if(?2!='',is_pass = ?2,1=1)", nativeQuery = true)
 	public List<EduUserExamEntity> findByVocation(String vocationId, String isPass);
+	
+	//根据用户Id获取用户考试列表信息
+	@Query(value = "select * from edu_user_exam where user_id = ?1", nativeQuery = true)
+	public List<EduUserExamEntity> findUserExamByUserId(String userId);
+	
+	@Query(value = "select * from edu_user_exam where user_id = ?1 and vocation_id=?2", nativeQuery = true)
+	public List<EduUserExamEntity> findUserExam(String userId,String vocationId);
 
 }

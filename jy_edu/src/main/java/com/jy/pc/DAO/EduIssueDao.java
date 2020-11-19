@@ -29,4 +29,7 @@ public interface EduIssueDao extends JpaRepository<EduIssueInfoEntity, String> {
 	
 	@Query(value = "select * from edu_issue_info t,edu_certificate_info h  where t.user_id=?1", nativeQuery = true)
 	public List<EduIssueInfoEntity> findInfoByUserId(String userId);
+	
+	@Query(value = "select * from edu_issue_info  where user_id =?1 and vocation_id=?2", nativeQuery = true)
+	public EduIssueInfoEntity findInfo(String userId,String vocationId);
 }
