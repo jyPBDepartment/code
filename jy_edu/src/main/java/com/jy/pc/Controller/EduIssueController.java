@@ -104,8 +104,8 @@ public class EduIssueController {
 			@RequestParam(name = "userTel") String userTel, @RequestParam(name = "userCard") String userCard,
 			@RequestParam(name = "vocationId") String vocationId) {
 		Map<String, String> map = new HashMap<String, String>();
-		EduCertificateInfoEntity cfa = new EduCertificateInfoEntity();
-		cfa.setId(eduCertificateInfoService.findInfobyVocation(vocationId).getId());
+		//EduCertificateInfoEntity cfa = new EduCertificateInfoEntity();
+		//cfa.setId(eduCertificateInfoService.findInfobyVocation(vocationId).getId());
 		EduIssueInfoEntity entity = new EduIssueInfoEntity();
 		entity.setUserId(userId);
 		entity.setUserName(userName);

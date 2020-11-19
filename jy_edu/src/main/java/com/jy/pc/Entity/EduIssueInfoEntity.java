@@ -52,6 +52,16 @@ public class EduIssueInfoEntity extends BaseEntity {
 	private String url;
 	@Transient
 	private String certificateId;
+	@Transient
+	private String vocationName;
+
+	public String getVocationName() {
+		return vocationName;
+	}
+
+	public void setVocationName(String vocationName) {
+		this.vocationName = vocationName;
+	}
 
 	public String getVocationId() {
 		return vocationId;
