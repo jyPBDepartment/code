@@ -9,11 +9,8 @@ public class BaseResult {
 	}
 
 	public void setCode(int code) {
-		this.code = code;
-	}
-
-	public String getMsg() {
-		switch (this.code) {
+		String msg = "初始化提示信息";
+		switch (code) {
 		case 200:
 			msg = "操作成功";
 			break;
@@ -135,6 +132,11 @@ public class BaseResult {
 			msg = "未知状态码";
 			break;
 		}
+		this.msg = msg;
+		this.code = code;
+	}
+
+	public String getMsg() {
 		return msg;
 	}
 
