@@ -40,5 +40,8 @@ public interface EduVocationInfoService {
 	
 	// 查询未关联职业类别
 	public List<EduVocationInfoEntity> findVocationLink();
+	
+	//查询有效并考试职业类别
+	public List<EduVocationInfoEntity> findVocationIsExamId();
 
 }

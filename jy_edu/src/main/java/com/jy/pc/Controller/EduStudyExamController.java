@@ -37,7 +37,7 @@ public class EduStudyExamController {
 	@ResponseBody
 	public Map<String, Object> findStudyExamInfo(String userId) {
 		Map<String, Object> returnMap = new HashMap<String, Object>();
-		List<EduVocationInfoEntity> eduVocationList = eduVocationInfoService.findVocationId();
+		List<EduVocationInfoEntity> eduVocationList = eduVocationInfoService.findVocationIsExamId();
 		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
 		for (int i = 0; i < eduVocationList.size(); i++) {
 			Map<String, Object> map = new HashMap<String, Object>();
@@ -72,7 +72,6 @@ public class EduStudyExamController {
 		}
 		returnMap.put("state", 0);
 		returnMap.put("data", list);
-		
 		return returnMap;
 	}
 }

@@ -81,4 +81,9 @@ public class EduVocationInfoServiceImpl implements EduVocationInfoService{
 	public List<EduVocationInfoEntity> findVocationLink() {
 		return eduVocationInfoDao.findVocationLink();
 	}
+
+	@Override
+	public List<EduVocationInfoEntity> findVocationIsExamId() {
+		return eduVocationInfoDao.findVocationIsExamId();
+	}
 }
