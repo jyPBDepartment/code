@@ -186,4 +186,10 @@ public class EduQuestionInfoServiceImpl implements EduQuestionInfoService{
 		
 		return eduQuestionInfoDao.findListByIds(ids);
 	}
+
+	//通过职业类别id查询试题
+	@Override
+	public List<EduQuestionInfoEntity> findQuestVocationId(String vocationId) {
+		return eduQuestionInfoDao.findQuestVocationId(vocationId);
+	}
 }

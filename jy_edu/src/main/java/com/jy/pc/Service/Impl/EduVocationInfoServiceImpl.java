@@ -10,6 +10,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.jy.pc.DAO.EduVocationInfoDao;
+import com.jy.pc.Entity.EduExamPaperInfoEntity;
+import com.jy.pc.Entity.EduManualInfoEntity;
 import com.jy.pc.Entity.EduVocationInfoEntity;
 import com.jy.pc.Service.EduVocationInfoService;
 /**
@@ -74,12 +76,6 @@ public class EduVocationInfoServiceImpl implements EduVocationInfoService{
 	@Override
 	public List<EduVocationInfoEntity> findVocationId() {
 		return eduVocationInfoDao.findVocationId();
-	}
-
-	//查询未关联职业类别
-	@Override
-	public List<EduVocationInfoEntity> findVocationLink() {
-		return eduVocationInfoDao.findVocationLink();
 	}
 
 	@Override

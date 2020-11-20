@@ -5,43 +5,44 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import com.jy.pc.Entity.EduExamPaperInfoEntity;
+import com.jy.pc.Entity.EduManualInfoEntity;
 import com.jy.pc.Entity.EduVocationInfoEntity;
+
 /**
  * 职业类别Service
- * */
+ */
 public interface EduVocationInfoService {
-	
-	//分页与模糊查询
+
+	// 分页与模糊查询
 	public Page<EduVocationInfoEntity> findListByName(String createBy, String status, Pageable pageable);
-	
-	//添加
+
+	// 添加
 	public EduVocationInfoEntity save(EduVocationInfoEntity eduVocationInfoEntity);
-	
-	//修改
+
+	// 修改
 	public void update(EduVocationInfoEntity eduVocationInfoEntity);
-	
-	//删除
+
+	// 删除
 	public void delete(String id);
-	
-	//通过id查询
+
+	// 通过id查询
 	public EduVocationInfoEntity findId(String id);
-	
-	//调整状态
-	void enable(EduVocationInfoEntity eduVocationInfoEntity,boolean result);
-	
-	//查询排序
+
+	// 调整状态
+	void enable(EduVocationInfoEntity eduVocationInfoEntity, boolean result);
+
+	// 查询排序
 	public List<EduVocationInfoEntity> findSort();
-	
-	//修改排序
+
+	// 修改排序
 	public void changeSort(EduVocationInfoEntity eduVocationInfoEntity);
-	
-	//查询有效职业类别
+
+	// 查询有效职业类别
 	public List<EduVocationInfoEntity> findVocationId();
-	
-	// 查询未关联职业类别
-	public List<EduVocationInfoEntity> findVocationLink();
-	
-	//查询有效并考试职业类别
+
+	// 查询有效并考试职业类别
 	public List<EduVocationInfoEntity> findVocationIsExamId();
+
 
 }

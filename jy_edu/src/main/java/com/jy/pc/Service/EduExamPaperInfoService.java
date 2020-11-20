@@ -41,4 +41,7 @@ public interface EduExamPaperInfoService {
 	
 	//试卷列表加载接口
 	public List<EduExamPaperInfoEntity> getExamListByVocationId(String vocationId);
+	
+	//通过职业类别查询试卷
+	public List<EduExamPaperInfoEntity> findExamVocationId(String vocationId);
 }

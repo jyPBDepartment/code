@@ -171,6 +171,18 @@ public class EduQuestionInfoController {
 		return map;
 	}
 	
+	//通过职业id查询试题
+	@RequestMapping(value = "/findQuestVocationId")
+	@ResponseBody
+	public Map<String, Object> findByVocationId(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "vocationId") String vocationId) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		List<EduQuestionInfoEntity> questionList = eduQuestionInfoService.findQuestVocationId(vocationId);
+		map.put("state", "0");
+		map.put("data", questionList);
+		return map;
+	}
+	
 	/**
 	 * 加载试题列表接口
 	 * */

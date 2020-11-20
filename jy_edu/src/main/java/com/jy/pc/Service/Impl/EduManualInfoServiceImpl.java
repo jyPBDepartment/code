@@ -90,4 +90,10 @@ public class EduManualInfoServiceImpl implements EduManualInfoService {
 		return eduManualInfoDao.findManualByName(manualTitle, createName, vocationId, labelId, pageable);
 	}
 
+	//通过职业类别查询手册
+	@Override
+	public List<EduManualInfoEntity> findManualVocationId(String vocationId) {
+		return eduManualInfoDao.findManualVocationId(vocationId);
+	}
+
 }

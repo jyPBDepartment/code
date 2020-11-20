@@ -155,4 +155,9 @@ public class EduExamPaperInfoServiceImpl implements EduExamPaperInfoService{
 		return eduExamPaperInfoDao.getExamListByVocationId(vocationId);
 	}
 
+	@Override
+	public List<EduExamPaperInfoEntity> findExamVocationId(String vocationId) {
+		return eduExamPaperInfoDao.findExamVocationId(vocationId);
+	}
+
 }

@@ -18,7 +18,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
+import com.jy.pc.Entity.EduExamPaperInfoEntity;
+import com.jy.pc.Entity.EduManualInfoEntity;
+import com.jy.pc.Entity.EduQuestionInfoEntity;
 import com.jy.pc.Entity.EduVocationInfoEntity;
+import com.jy.pc.Service.EduExamPaperInfoService;
+import com.jy.pc.Service.EduManualInfoService;
+import com.jy.pc.Service.EduQuestionInfoService;
 import com.jy.pc.Service.EduVocationInfoService;
 
 /**
@@ -29,6 +35,12 @@ import com.jy.pc.Service.EduVocationInfoService;
 public class EduVocationInfoController {
 	@Autowired
 	private EduVocationInfoService eduVocationInfoService;
+	@Autowired
+	private EduQuestionInfoService eduQuestionInfoService;
+	@Autowired
+	private EduManualInfoService eduManualInfoService;
+	@Autowired
+	private EduExamPaperInfoService eduExamPaperInfoService;
 
 	// 切换是否需要考试
 	@RequestMapping(value = "/examEnable")
@@ -111,16 +123,20 @@ public class EduVocationInfoController {
 			@RequestParam(name = "id") String id) {
 
 		Map<String, Object> map = new HashMap<String, Object>();
-		List<EduVocationInfoEntity> vocationList = eduVocationInfoService.findVocationLink();
-		for (int i = 0; i < vocationList.size(); i++) {
-			if (vocationList.get(i).getId().equals(id)) {
+		try {
+			List<EduQuestionInfoEntity> questionList = eduQuestionInfoService.findQuestVocationId(id);
+			List<EduExamPaperInfoEntity> examList = eduExamPaperInfoService.findExamVocationId(id);
+			List<EduManualInfoEntity> manualList = eduManualInfoService.findManualVocationId(id);
+			if(questionList.size() == 0 && examList.size() == 0 && manualList.size() == 0) {
 				eduVocationInfoService.delete(id);
 				map.put("state", "0");
 				map.put("message", "删除成功");
-			} else {
+			}else {
+				map.put("state", "1");
+				map.put("message", "删除失败，请先解除职业类别的关联关系！");
 			}
-		}
-		if (vocationList.size() <= 0) {
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		return map;
 	}
@@ -201,6 +217,16 @@ public class EduVocationInfoController {
 		List<EduVocationInfoEntity> vocationList = eduVocationInfoService.findVocationId();
 		map.put("state", "0");
 		map.put("data", vocationList);
+		return map;
+	}
+	// 查询有效并考试职业类别
+	@RequestMapping(value = "/findVocationIsExam")
+	@ResponseBody
+	public Map<String, Object> findVocabelExamId(HttpServletRequest res, HttpServletResponse req) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		List<EduVocationInfoEntity> vocationExamList = eduVocationInfoService.findVocationIsExamId();
+		map.put("state", "0");
+		map.put("data", vocationExamList);
 		return map;
 	}
 }

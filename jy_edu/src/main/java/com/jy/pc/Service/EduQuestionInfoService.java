@@ -41,4 +41,7 @@ public interface EduQuestionInfoService {
 	public Page<EduQuestionInfoEntity> findQuestion(String quType,String voationId, Pageable pageable);
 	
 	public List<EduQuestionInfoEntity> findListByIds(List<String> ids);
+	
+	//通过职业类别id查询试题
+	public List<EduQuestionInfoEntity> findQuestVocationId(String vocationId);
 }

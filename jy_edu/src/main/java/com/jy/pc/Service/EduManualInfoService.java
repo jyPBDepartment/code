@@ -41,4 +41,7 @@ public interface EduManualInfoService {
 	//手册列表接口
 	public Page<EduManualInfoEntity> findManualByName(String title, String createBy, String vocationId, String labelId,
 			Pageable pageable);
+	
+	//通过职业类别查询手册
+	public List<EduManualInfoEntity> findManualVocationId(String vocationId);
 }

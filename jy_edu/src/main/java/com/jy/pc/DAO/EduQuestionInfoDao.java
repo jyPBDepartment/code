@@ -31,4 +31,8 @@ public interface EduQuestionInfoDao extends JpaRepository<EduQuestionInfoEntity,
 	@Query(value = "select * from edu_question_info t where t.id in ?1", nativeQuery = true)
 	public List<EduQuestionInfoEntity> findListByIds(List<String> ids);
 	
+	// 通过职业类别id查询试题
+	@Query(value = "select * from edu_question_info t where t.vocation_id =:vocationId", nativeQuery = true)
+	public List<EduQuestionInfoEntity> findQuestVocationId(String vocationId);
+	
 }
