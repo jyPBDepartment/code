@@ -32,7 +32,6 @@ public class SectionManageServiceImpl implements SectionManageService {
 	// 通过id查询（版块信息）
 	@Override
 	public SectionManageEntity findBId(String id) {
-
 		return eduSectionManageDao.findBId(id);
 	}
 

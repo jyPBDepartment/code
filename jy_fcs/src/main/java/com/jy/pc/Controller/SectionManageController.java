@@ -27,7 +27,6 @@ import com.jy.pc.Service.SectionManageService;
 @Controller
 @RequestMapping(value = "/sectionManage")
 public class SectionManageController {
-
 	@Autowired
 	private SectionManageService eduSectionManageService;
 

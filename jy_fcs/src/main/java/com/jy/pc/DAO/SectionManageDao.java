@@ -11,7 +11,7 @@ import org.springframework.data.repository.query.Param;
 import com.jy.pc.Entity.SectionManageEntity;
 
 /**
- * 版块管理Dao
+ * 版块管理DAO
  */
 public interface SectionManageDao extends JpaRepository<SectionManageEntity, String>{
 

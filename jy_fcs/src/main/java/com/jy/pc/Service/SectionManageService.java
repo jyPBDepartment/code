@@ -15,7 +15,7 @@ public interface SectionManageService {
 	// 分页与模糊查询（版块信息）
 	public Page<SectionManageEntity> findListByName(String name, Pageable pageable);
 
-	// 通过id查询（版块信息）
+	// 通过id查询版块信息
 	public SectionManageEntity findBId(String id);
 
 	// 添加版块信息

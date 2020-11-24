@@ -15,7 +15,7 @@ import org.hibernate.annotations.GenericGenerator;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 /**
- * 版块管理表
+ * 版块管理表 
  */
 @Entity
 @Table(name = "sas_section_manage")
