@@ -22,10 +22,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.alibaba.fastjson.JSONObject;
+import com.jy.pc.Entity.GrainAreaInfoEntity;
 import com.jy.pc.Entity.GrainPricesEntity;
 import com.jy.pc.Entity.GrainPricesHistoryEntity;
 import com.jy.pc.Service.GrainPricesHistoryService;
 import com.jy.pc.Service.GrainPricesService;
+
+import net.bytebuddy.implementation.bytecode.constant.DefaultValue;
 
 @Controller
 @RequestMapping(value = "/grainPrices")
@@ -36,6 +39,20 @@ public class GrainPricesController {
 
 	@Autowired
 	private GrainPricesHistoryService grainPricesHistoryService;
+
+	@RequestMapping(value = "/getArea")
+	@ResponseBody
+	public Map<String, Object> getArea(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(value = "parentId", defaultValue = "") String parentId,
+			@RequestParam(value = "level", defaultValue = "1") int level) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		List<GrainAreaInfoEntity> list = grainPricesService.getAreaByLevel(parentId, level);
+		map.put("code", "200");
+		map.put("msg", "查询成功");
+		map.put("data", list);
+		return map;
+
+	}
 
 	@RequestMapping(value = "/import")
 	@ResponseBody
@@ -127,14 +144,16 @@ public class GrainPricesController {
 	@RequestMapping(value = "/findPageByParam")
 	@ResponseBody
 	public Map<String, Object> findPageByParam(HttpServletRequest res, HttpServletResponse req,
-			@RequestParam(name = "priceDefinedType") String priceDefinedType,
-			@RequestParam(name = "areaId") String areaId, @RequestParam(name = "page") Integer page,
-			@RequestParam(name = "size") Integer size) {
+			@RequestParam(name = "priceDefinedType", defaultValue = "") String priceDefinedType,
+			@RequestParam(name = "province", defaultValue = "") String province,
+			@RequestParam(name = "city", defaultValue = "") String city,
+			@RequestParam(name = "district", defaultValue = "") String district,
+			@RequestParam(name = "page") Integer page, @RequestParam(name = "size") Integer size) {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 		Pageable pageable = new PageRequest(page - 1, size);
-		Page<GrainPricesEntity> grainPricesList = grainPricesService.findPageByParam(priceDefinedType, areaId,
-				pageable);
+		Page<GrainPricesEntity> grainPricesList = grainPricesService.findPageByParam(priceDefinedType, province, city,
+				district, pageable);
 		map.put("state", "0");// 成功
 		map.put("message", "查询成功");
 		map.put("data", grainPricesList);
@@ -150,10 +169,13 @@ public class GrainPricesController {
 	@RequestMapping(value = "/findListByType")
 	@ResponseBody
 	public Map<String, Object> findListByType(HttpServletRequest res, HttpServletResponse req,
-			@RequestParam(name = "type") String type) {
+			@RequestParam(name = "type") String type,
+			@RequestParam(name = "province", defaultValue = "") String province,
+			@RequestParam(name = "city", defaultValue = "") String city,
+			@RequestParam(name = "district", defaultValue = "") String district) {
 
 		Map<String, Object> map = new HashMap<String, Object>();
-		List<GrainPricesEntity> grainPricesList = grainPricesService.findListByType(type);
+		List<GrainPricesEntity> grainPricesList = grainPricesService.findListByType(type, province, city, district);
 		map.put("state", "0");// 成功
 		map.put("message", "查询成功");
 		map.put("data", grainPricesList);

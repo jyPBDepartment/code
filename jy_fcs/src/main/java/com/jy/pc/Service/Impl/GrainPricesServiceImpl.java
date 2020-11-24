@@ -49,12 +49,13 @@ public class GrainPricesServiceImpl implements GrainPricesService {
 	}
 
 	// 根据参数查询 分页
-	public Page<GrainPricesEntity> findPageByParam(String priceDefinedType, String areaId, Pageable pageable) {
-		return grainPricesDAO.findPageByParam(priceDefinedType, areaId, pageable);
+	public Page<GrainPricesEntity> findPageByParam(String priceDefinedType, String province, String city,
+			String district, Pageable pageable) {
+		return grainPricesDAO.findPageByParam(priceDefinedType, province, city, district, pageable);
 	}
 
 	// 根据参数查询 分页
-	public List<GrainPricesEntity> findListByType(String type) {
+	public List<GrainPricesEntity> findListByType(String type,String province,String city,String district) {
 
 		int queryParam = 0;
 		switch (type) {
@@ -67,8 +68,8 @@ public class GrainPricesServiceImpl implements GrainPricesService {
 		default:
 			break;
 		}
-
-		return grainPricesDAO.findListByType(queryParam);
+		return grainPricesDAO.findListByArea(province, city, district,queryParam);
+		//return grainPricesDAO.findListByType(queryParam);
 	}
 
 	public List<GrainPricesEntity> findInfoByDate(Date now) {
@@ -87,8 +88,6 @@ public class GrainPricesServiceImpl implements GrainPricesService {
 		ImportExeclUtil util = new ImportExeclUtil();
 		List<List<String>> dataList = util.read(uploadFile, isExcel2003);
 		GrainPricesEntity priceEntity;
-		GrainAreaInfoEntity areaEntity = null;
-		GrainAreaInfoEntity parentEntity = null;
 		GrainAreaInfoEntity provinceEntity = null;
 		GrainAreaInfoEntity cityEntity = null;
 		GrainAreaInfoEntity districtEntity = null;
@@ -235,6 +234,17 @@ public class GrainPricesServiceImpl implements GrainPricesService {
 			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
 			result.put("code", "500");
 			result.put("msg", e.getMessage());
+		}
+		return result;
+	}
+
+	@Override
+	public List<GrainAreaInfoEntity> getAreaByLevel(String parentId, int level) {
+		List<GrainAreaInfoEntity> result = new ArrayList<GrainAreaInfoEntity>();
+		if (StringUtils.isEmpty(parentId)) {
+			result = grainAreaDao.getProvince();
+		} else {
+			result = grainAreaDao.findInfoByParentId(parentId);
 		}
 		return result;
 	}
