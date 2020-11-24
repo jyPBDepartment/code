@@ -59,6 +59,72 @@ public class GrainPricesEntity {
 	@Column
 	private String updateUser;
 
+	@Column(columnDefinition = "varchar(36) comment '最低价格'")
+	private String minPrice;
+
+	@Column(columnDefinition = "varchar(36) comment '最高价格'")
+	private String maxPrice;
+
+	@Column(columnDefinition = "varchar(36) comment '所属区域ID'")
+	private String areaId;
+
+	@Column(columnDefinition = "varchar(36) comment '省'")
+	private String province;
+
+	@Column(columnDefinition = "varchar(36) comment '市'")
+	private String city;
+
+	@Column(columnDefinition = "varchar(36) comment '县'")
+	private String district;
+
+	public String getProvince() {
+		return province;
+	}
+
+	public void setProvince(String province) {
+		this.province = province;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public String getDistrict() {
+		return district;
+	}
+
+	public void setDistrict(String district) {
+		this.district = district;
+	}
+
+	public String getMinPrice() {
+		return minPrice;
+	}
+
+	public void setMinPrice(String minPrice) {
+		this.minPrice = minPrice;
+	}
+
+	public String getMaxPrice() {
+		return maxPrice;
+	}
+
+	public void setMaxPrice(String maxPrice) {
+		this.maxPrice = maxPrice;
+	}
+
+	public String getAreaId() {
+		return areaId;
+	}
+
+	public void setAreaId(String areaId) {
+		this.areaId = areaId;
+	}
+
 	public String getId() {
 		return id;
 	}
