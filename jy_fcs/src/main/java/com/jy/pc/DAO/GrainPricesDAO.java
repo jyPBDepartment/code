@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import com.jy.pc.Entity.GrainPricesEntity;
@@ -34,4 +35,9 @@ public interface GrainPricesDAO extends JpaRepository<GrainPricesEntity, String>
 
 	@Query(value = "select * from (SELECT * FROM sas_grain_prices_info t where t.price_date <= date_format(now(),'%Y-%m-%d') and province = ?1 and city = ?2 and district = ?3  order by t.price_date desc limit ?4) t1 order by t1.price_date", nativeQuery = true)
 	public List<GrainPricesEntity> findListByArea(String province, String city, String district, int queryParam);
+
+	// 复制昨天数据
+	@Modifying
+	@Query(value = "INSERT INTO sas_grain_prices_info SELECT UUID() AS id,create_date,create_user,price,'1',update_date,update_user,DATE_FORMAT(NOW(),'%Y-%m-%d') AS price_date,area_id,city,district,max_price,min_price,province,area FROM sas_grain_prices_info WHERE date(price_date) = date(?1)", nativeQuery = true)
+	public void copyToToday(Date now);
 }

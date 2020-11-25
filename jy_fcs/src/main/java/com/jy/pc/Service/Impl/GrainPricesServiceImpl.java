@@ -55,7 +55,7 @@ public class GrainPricesServiceImpl implements GrainPricesService {
 	}
 
 	// 根据参数查询 分页
-	public List<GrainPricesEntity> findListByType(String type,String province,String city,String district) {
+	public List<GrainPricesEntity> findListByType(String type, String province, String city, String district) {
 
 		int queryParam = 0;
 		switch (type) {
@@ -68,8 +68,8 @@ public class GrainPricesServiceImpl implements GrainPricesService {
 		default:
 			break;
 		}
-		return grainPricesDAO.findListByArea(province, city, district,queryParam);
-		//return grainPricesDAO.findListByType(queryParam);
+		return grainPricesDAO.findListByArea(province, city, district, queryParam);
+		// return grainPricesDAO.findListByType(queryParam);
 	}
 
 	public List<GrainPricesEntity> findInfoByDate(Date now) {
@@ -99,6 +99,7 @@ public class GrainPricesServiceImpl implements GrainPricesService {
 		String district = "";// 区
 		String min = "";// 最低价
 		String max = "";// 最高价
+		String areaName = "";// 所属区域
 		// 默认此条记录为县粮价信息
 		int level = 3;
 		String areaId;
@@ -136,7 +137,10 @@ public class GrainPricesServiceImpl implements GrainPricesService {
 						return result;
 					}
 				}
-				/*判断该数据层级,是省市县哪一层级*/
+				areaName = StringUtils.isNotBlank(city) ? province + "/" : province;
+				areaName += StringUtils.isNotBlank(district) ? city + "/" : city;
+				areaName += district;
+				/* 判断该数据层级,是省市县哪一层级 */
 				if (StringUtils.isNotBlank(province) && StringUtils.isNotBlank(city)
 						&& StringUtils.isNotBlank(district)) {
 					level = 3;
@@ -149,7 +153,7 @@ public class GrainPricesServiceImpl implements GrainPricesService {
 				}
 				provinceEntity = grainAreaDao.findInfoByName(province, "");
 				if (provinceEntity == null) {
-					//若该条记录中"省份"未存入数据库
+					// 若该条记录中"省份"未存入数据库
 					GrainAreaInfoEntity grand = new GrainAreaInfoEntity();
 					grand.setName(province);
 					grand.setImportDate(now);
@@ -163,7 +167,7 @@ public class GrainPricesServiceImpl implements GrainPricesService {
 				cityEntity = grainAreaDao.findInfoByName(city, provinceId);
 				if (cityEntity == null) {
 					if (StringUtils.isNotBlank(city)) {
-						//若该条记录"市"未存入数据库,且"市"不为空
+						// 若该条记录"市"未存入数据库,且"市"不为空
 						GrainAreaInfoEntity parent = new GrainAreaInfoEntity();
 						parent.setName(city);
 						parent.setImportDate(now);
@@ -179,7 +183,7 @@ public class GrainPricesServiceImpl implements GrainPricesService {
 				districtEntity = grainAreaDao.findInfoByName(district, cityId);
 				if (districtEntity == null) {
 					if (StringUtils.isNotBlank(city) && StringUtils.isNotBlank(district)) {
-						//若该条记录"县"未存入数据库,且"县"不为空
+						// 若该条记录"县"未存入数据库,且"县"不为空
 						GrainAreaInfoEntity area = new GrainAreaInfoEntity();
 						area.setName(district);
 						area.setImportDate(now);
@@ -218,6 +222,7 @@ public class GrainPricesServiceImpl implements GrainPricesService {
 					newPrice.setPriceDefinedType("0");
 					newPrice.setAreaId(areaId);
 					newPrice.setCreateUser(createBy);
+					newPrice.setArea(areaName);
 					grainPricesDAO.save(newPrice);
 					priceAddCount++;
 				} else {

@@ -65,8 +65,11 @@ public class GrainPricesEntity {
 	@Column(columnDefinition = "varchar(36) comment '最高价格'")
 	private String maxPrice;
 
-	@Column(columnDefinition = "varchar(36) comment '所属区域ID'")
+	@Column(columnDefinition = "varchar(36) comment '所属区域最下级ID'")
 	private String areaId;
+
+	@Column(columnDefinition = "varchar(36) comment '所属区域'")
+	private String area;
 
 	@Column(columnDefinition = "varchar(36) comment '省'")
 	private String province;
@@ -76,6 +79,14 @@ public class GrainPricesEntity {
 
 	@Column(columnDefinition = "varchar(36) comment '县'")
 	private String district;
+
+	public String getArea() {
+		return area;
+	}
+
+	public void setArea(String area) {
+		this.area = area;
+	}
 
 	public String getProvince() {
 		return province;
