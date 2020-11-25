@@ -1,0 +1,160 @@
+package com.jy.pc.Controller;
+
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.alibaba.fastjson.JSONObject;
+import com.jy.pc.Entity.ArticleManageEntity;
+import com.jy.pc.Entity.SectionManageEntity;
+import com.jy.pc.Service.ArticleManageService;
+
+/**
+ * 文章管理controller
+ */
+@Controller
+@RequestMapping(value = "/articleManage")
+public class ArticleManageController {
+
+	@Autowired
+	private ArticleManageService eduArticleManageService;
+
+	// 查询文章管理信息
+	@RequestMapping(value = "/findByName")
+	@ResponseBody
+	public Map<String, Object> findByName(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "title") String title, @RequestParam(name = "sectionId") String sectionId,
+			@RequestParam(name = "page") Integer page, @RequestParam(name = "size") Integer size) {
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		Pageable pageable = new PageRequest(page - 1, size);
+		Page<ArticleManageEntity> articleManageList = eduArticleManageService.findListByName(title, sectionId,
+				pageable);
+		map.put("state", "0");// 成功
+		map.put("message", "查询成功");
+		map.put("data", articleManageList);
+		return map;
+	}
+
+	// 添加文章管理信息
+	@RequestMapping(value = "/add")
+	@ResponseBody
+	public Map<String, String> save(HttpServletRequest res, HttpServletResponse req) {
+		Map<String, String> map = new HashMap<String, String>();
+		String s = res.getParameter("eduArticleManageEntity");
+		JSONObject jsonObject = JSONObject.parseObject(s);
+		ArticleManageEntity eduArticleManageEntity = jsonObject.toJavaObject(ArticleManageEntity.class);
+
+		SectionManageEntity sectionManage = new SectionManageEntity();
+		sectionManage.setId(eduArticleManageEntity.getSectionId());
+		eduArticleManageEntity.setSection(sectionManage);
+
+		Date date = new Date();
+		eduArticleManageEntity.setCreateDate(date);
+		eduArticleManageEntity.setStatus(1);
+		eduArticleManageService.save(eduArticleManageEntity);
+		map.put("state", "0");
+		map.put("message", "添加成功");
+		return map;
+	}
+
+	// 通过id查询文章管理信息
+	@RequestMapping(value = "/findById")
+	@ResponseBody
+	public Map<String, Object> findById(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "id") String id) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		ArticleManageEntity eduArticleManageEntity = eduArticleManageService.findBId(id);
+		map.put("state", "0");
+		map.put("data", eduArticleManageEntity);
+		return map;
+	}
+
+	// 修改文章管理信息
+	@RequestMapping(value = "/update")
+	@ResponseBody
+	public Map<String, String> update(HttpServletRequest res, HttpServletResponse req) {
+
+		Map<String, String> map = new HashMap<String, String>();
+		String s = res.getParameter("eduArticleManageEntity");
+		JSONObject jsonObject = JSONObject.parseObject(s);
+		ArticleManageEntity eduArticleManageEntity = jsonObject.toJavaObject(ArticleManageEntity.class);
+
+		SectionManageEntity sectionManage = new SectionManageEntity();
+		sectionManage.setId(eduArticleManageEntity.getSectionId());
+		eduArticleManageEntity.setSection(sectionManage);
+		eduArticleManageEntity.setStatus(1);
+		eduArticleManageService.update(eduArticleManageEntity);
+		map.put("state", "0");
+		map.put("message", "修改成功");
+		
+		return map;
+	}
+
+	// 删除文章管理信息
+	@RequestMapping(value = "/delete")
+	@ResponseBody
+	public Map<String, Object> delete(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "id") String id) {
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		eduArticleManageService.delete(id);
+		map.put("state", "0");
+		map.put("message", "删除成功");
+		return map;
+	}
+
+	// 启用/禁用文章管理信息
+	@RequestMapping(value = "/enable")
+	@ResponseBody
+	public Map<String, String> opensulf(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "status") Integer status, @RequestParam(name = "id") String id,
+			@RequestParam(name = "updateBy") String updateBy) {
+		Date date = new Date();
+		Map<String, String> map = new HashMap<String, String>();
+		ArticleManageEntity eduArticleManageEntity = eduArticleManageService.findBId(id);
+		eduArticleManageEntity.setStatus(status);
+		eduArticleManageEntity.setUpdateDate(date);
+		eduArticleManageEntity.setUpdateBy(updateBy);
+		boolean result = true;
+		// 启用
+		if (status.equals(0)) {
+			map.put("state", "0");
+			map.put("message", "启用成功");
+		}
+		// 禁用
+		if (status.equals(1)) {
+			map.put("state", "1");
+			map.put("message", "禁用成功");
+			result = false;
+		}
+		eduArticleManageService.enable(eduArticleManageEntity, result);
+		return map;
+	}
+
+	// 移动端-查询文章管理信息的最新3条有效记录
+	@RequestMapping(value = "/findArticleInfo")
+	@ResponseBody
+	public Map<String, Object> findArticleInfo(HttpServletRequest res, HttpServletResponse req) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		List<ArticleManageEntity> eduArticleManageEntity = eduArticleManageService.findArticleInfo();
+		map.put("code", "200");
+		map.put("data", eduArticleManageEntity);
+		map.put("message", "查询成功");
+		return map;
+	}
+
+}
