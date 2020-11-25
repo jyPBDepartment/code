@@ -100,7 +100,7 @@ public class ArticleManageController {
 		eduArticleManageService.update(eduArticleManageEntity);
 		map.put("state", "0");
 		map.put("message", "修改成功");
-		
+
 		return map;
 	}
 
@@ -145,16 +145,44 @@ public class ArticleManageController {
 		return map;
 	}
 
-	// 移动端-查询文章管理信息的最新3条有效记录
+	// 移动端-查询文章管理信息的最新3条有效记录（接口）
 	@RequestMapping(value = "/findArticleInfo")
 	@ResponseBody
 	public Map<String, Object> findArticleInfo(HttpServletRequest res, HttpServletResponse req) {
 		Map<String, Object> map = new HashMap<String, Object>();
+
 		List<ArticleManageEntity> eduArticleManageEntity = eduArticleManageService.findArticleInfo();
-		map.put("code", "200");
-		map.put("data", eduArticleManageEntity);
-		map.put("message", "查询成功");
+		try {
+			map.put("code", "200");// 查询成功
+			map.put("message", "查询成功");
+			map.put("data", eduArticleManageEntity);
+		} catch (Exception e) {
+			map.put("code", "201");// 查询失败
+			map.put("message", "查询失败");
+			
+		}
+
 		return map;
 	}
 
+	// 移动端-条件查询文章管理信息列表（接口）
+	@RequestMapping(value = "/findListByChoose")
+	@ResponseBody
+	public Map<String, Object> findListByChoose(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "sectionId") String sectionId, @RequestParam(name = "page") Integer page,
+			@RequestParam(name = "size") Integer size) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		Pageable pageable = new PageRequest(page - 1, size);
+		Page<ArticleManageEntity> articleList = eduArticleManageService.findListByChoose(sectionId, pageable);
+		try {
+			map.put("code", "200");// 查询成功
+			map.put("message", "查询成功");
+			map.put("data", articleList);
+		} catch (Exception e) {
+			map.put("code", "201");// 查询失败
+			map.put("message", "查询失败");
+			
+		}
+		return map;
+	}
 }

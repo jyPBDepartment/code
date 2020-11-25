@@ -29,12 +29,12 @@ public interface ArticleManageService {
 	// 调整文章信息状态
 	void enable(ArticleManageEntity eduArticleManageEntity, boolean result);
 	
-	// 查询文章管理信息的最新3条有效记录
+	// 移动端-查询文章管理信息的最新3条有效记录
 	public List<ArticleManageEntity> findArticleInfo();
 	
 	// 通过版块id查询文章管理信息
 	public List<ArticleManageEntity> findBySectionId(String id);
 	
-	// 条件查询文章管理信息列表（接口）
+	// 移动端-条件查询文章管理信息列表（接口）
 	public Page<ArticleManageEntity> findListByChoose(String sectionId, Pageable pageable);
 }
