@@ -17,8 +17,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.jy.pc.Entity.ArticleManageEntity;
 import com.jy.pc.Entity.SectionManageEntity;
+import com.jy.pc.Service.ArticleManageService;
 import com.jy.pc.Service.SectionManageService;
 
 /**
@@ -29,6 +32,8 @@ import com.jy.pc.Service.SectionManageService;
 public class SectionManageController {
 	@Autowired
 	private SectionManageService eduSectionManageService;
+	@Autowired
+	private ArticleManageService articleManageService;
 
 	// 查询版块管理分页
 	@RequestMapping(value = "/findByName")
@@ -97,8 +102,12 @@ public class SectionManageController {
 	@ResponseBody
 	public Map<String, Object> delete(HttpServletRequest res, HttpServletResponse req,
 			@RequestParam(name = "id") String id) {
-
 		Map<String, Object> map = new HashMap<String, Object>();
+
+		List<ArticleManageEntity> article = articleManageService.findBySectionId(id);
+		for (int i = 0; i < article.size(); i++) {
+			articleManageService.delete(article.get(i).getId());
+		}
 		eduSectionManageService.delete(id);
 		try {
 			map.put("state", "0");
@@ -139,14 +148,23 @@ public class SectionManageController {
 		if (status.equals(0)) {
 			map.put("state", "0");
 			map.put("message", "启用成功");
+			eduSectionManageService.enable(eduSectionManageEntity, result);
 		}
 		// 禁用
 		if (status.equals(1)) {
-			map.put("state", "1");
-			map.put("message", "禁用成功");
-			result = false;
+			List<ArticleManageEntity> article = articleManageService.findBySectionId(id);
+			if (article.size() != 0) {
+				map.put("state", "2");
+				map.put("message", "当前状态有关联，不可禁用！");
+			} else {
+				map.put("state", "1");
+				map.put("message", "禁用成功");
+				result = false;
+				eduSectionManageService.enable(eduSectionManageEntity, result);
+			}
+
 		}
-		eduSectionManageService.enable(eduSectionManageEntity, result);
+
 		return map;
 	}
 
