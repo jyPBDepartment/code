@@ -14,7 +14,6 @@ import org.springframework.stereotype.Component;
 import com.jy.pc.DAO.GrainPricesDAO;
 import com.jy.pc.Entity.GrainPricesEntity;
 import com.jy.pc.Utils.DbLogUtil;
-import com.mysql.cj.util.StringUtils;
 
 /**
  * 执行粮食买卖相关定时任务
