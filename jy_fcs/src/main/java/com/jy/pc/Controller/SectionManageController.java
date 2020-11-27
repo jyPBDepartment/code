@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.jy.pc.Entity.ArticleManageEntity;
 import com.jy.pc.Entity.SectionManageEntity;
@@ -136,18 +135,18 @@ public class SectionManageController {
 		boolean result = true;
 		// 启用
 		if (status.equals(0)) {
-			map.put("state", "0");//启用成功
+			map.put("state", "0");// 启用成功
 			map.put("message", "启用成功");
 			eduSectionManageService.enable(eduSectionManageEntity, result);
 		}
 		// 禁用
 		if (status.equals(1)) {
-			List<ArticleManageEntity> article = articleManageService.findBySectionId(id);//查询文章关联的版块ID
+			List<ArticleManageEntity> article = articleManageService.findBySectionId(id);// 查询文章关联的版块ID
 			if (article.size() != 0) {
-				map.put("state", "2");//该版块ID有关联的文章，不可禁用。
+				map.put("state", "2");// 该版块ID有关联的文章，不可禁用。
 				map.put("message", "当前状态有关联，不可禁用！");
 			} else {
-				map.put("state", "1");//禁用成功
+				map.put("state", "1");// 禁用成功
 				map.put("message", "禁用成功");
 				result = false;
 				eduSectionManageService.enable(eduSectionManageEntity, result);
@@ -161,36 +160,52 @@ public class SectionManageController {
 	@ResponseBody
 	public Map<String, Object> findListName(HttpServletRequest res, HttpServletResponse req) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		List<SectionManageEntity> SectionMan = eduSectionManageService.findListName();
+		List<SectionManageEntity> sectionMan = eduSectionManageService.findListName();
 		try {
 			map.put("state", "0");
 			map.put("message", "查询成功");
-			map.put("data", "sectionMan");
+			map.put("data", sectionMan);
 		} catch (Exception e) {
 			map.put("state", "1");
 			map.put("message", "查询失败");
 		}
 		return map;
 	}
-	// 删除版块信息
-		@RequestMapping(value = "/delete")
-		@ResponseBody
-		public Map<String, Object> delete(HttpServletRequest res, HttpServletResponse req,
-				@RequestParam(name = "id") String id) {
-			Map<String, Object> map = new HashMap<String, Object>();
 
-			List<ArticleManageEntity> article = articleManageService.findBySectionId(id);//查询文章关联的版块id
-			for (int i = 0; i < article.size(); i++) {
-				articleManageService.delete(article.get(i).getId());//一并删除其所属文章
-			}
-			eduSectionManageService.delete(id);
-			try {
-				map.put("state", "0");
-				map.put("message", "删除成功");
-			} catch (Exception e) {
-				map.put("state", "1");
-				map.put("message", "删除失败");
-			}
-			return map;
+	// 删除版块信息
+	@RequestMapping(value = "/delete")
+	@ResponseBody
+	public Map<String, Object> delete(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "id") String id) {
+		Map<String, Object> map = new HashMap<String, Object>();
+
+		List<ArticleManageEntity> article = articleManageService.findBySectionId(id);// 查询文章关联的版块id
+		for (int i = 0; i < article.size(); i++) {
+			articleManageService.delete(article.get(i).getId());// 一并删除其所属文章
 		}
+		eduSectionManageService.delete(id);
+		try {
+			map.put("state", "0");
+			map.put("message", "删除成功");
+		} catch (Exception e) {
+			map.put("state", "1");
+			map.put("message", "删除失败");
+		}
+		return map;
+	}
+
+	// 查询所有启用版块
+	@RequestMapping(value = "/findListSectionId")
+	@ResponseBody
+	public Map<String, Object> findListSectionId(HttpServletRequest res, HttpServletResponse req) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		try {
+			List<SectionManageEntity> SectionIdList = eduSectionManageService.findListSectionId();
+			map.put("code", "200");
+			map.put("data", SectionIdList);
+		} catch (Exception e) {
+			map.put("code", "201");
+		}
+		return map;
+	}
 }

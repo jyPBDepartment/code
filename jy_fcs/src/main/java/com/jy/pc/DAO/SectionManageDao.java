@@ -27,4 +27,7 @@ public interface SectionManageDao extends JpaRepository<SectionManageEntity, Str
 	@Query(value = "select * from sas_section_manage", nativeQuery = true)
 	public List<SectionManageEntity> findListName();
 
+	//查询所有启用版块
+	@Query(value = "select * from sas_section_manage t where t.status='0'", nativeQuery = true)
+	public List<SectionManageEntity> findListSectionId();
 }
