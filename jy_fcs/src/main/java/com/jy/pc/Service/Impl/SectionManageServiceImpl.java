@@ -73,4 +73,10 @@ public class SectionManageServiceImpl implements SectionManageService {
 		return eduSectionManageDao.findListName();
 	}
 
+	//查询所有启用版块
+	@Override
+	public List<SectionManageEntity> findListSectionId() {
+		return eduSectionManageDao.findListSectionId();
+	}
+
 }

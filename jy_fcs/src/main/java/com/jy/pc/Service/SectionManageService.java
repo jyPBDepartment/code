@@ -32,4 +32,7 @@ public interface SectionManageService {
 	
 	//动态获取版块管理下拉列表内容
 	public List<SectionManageEntity> findListName();
+	
+	//查询所有启用版块
+	public List<SectionManageEntity> findListSectionId();
 }
