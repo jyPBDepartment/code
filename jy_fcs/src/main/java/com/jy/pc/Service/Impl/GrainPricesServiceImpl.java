@@ -91,9 +91,9 @@ public class GrainPricesServiceImpl implements GrainPricesService {
 		GrainAreaInfoEntity provinceEntity = null;
 		GrainAreaInfoEntity cityEntity = null;
 		GrainAreaInfoEntity districtEntity = null;
-		String provinceId = "";
-		String cityId = "";
-		String districtId = "";
+		String provinceId ;
+		String cityId ;
+		String districtId;
 		String province = "";// 省
 		String city = "";// 市
 		String district = "";// 区
@@ -110,32 +110,31 @@ public class GrainPricesServiceImpl implements GrainPricesService {
 				List<String> rowList = new ArrayList<String>();
 				rowList = dataList.get(i);
 				// 遍历获取每列数据
-				for (int j = 0; j < rowList.size(); j++) {
-					province = rowList.get(0);// 省
-					city = rowList.get(1);// 市
-					district = rowList.get(2);// 区
-					min = new BigDecimal(rowList.get(3)).divide(new BigDecimal(2000), 2, RoundingMode.HALF_UP)
-							.toString();// 最低价
-					max = new BigDecimal(rowList.get(4)).divide(new BigDecimal(2000), 2, RoundingMode.HALF_UP)
-							.toString();// 最高价
-					if (StringUtils.isEmpty(city) && StringUtils.isEmpty(district) && StringUtils.isEmpty(province)) {
-						result.put("code", 500);
-						result.put("msg", "第" + i + "行数据省市县均为空");
-						TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-						return result;
-					}
-					if (StringUtils.isEmpty(min) || StringUtils.isEmpty(max)) {
-						result.put("code", 500);
-						result.put("msg", "第" + i + "行数据最低粮价或最高粮价为空");
-						TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-						return result;
-					}
-					if (!min.matches("-?[0-9]+.?[0-9]*") || !max.matches("-?[0-9]+.?[0-9]*")) {
-						result.put("code", 500);
-						result.put("msg", "第" + i + "行粮价数据格式异常[" + min + "/" + max + "]");
-						TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-						return result;
-					}
+				province = rowList.get(0);// 省
+				city = rowList.get(1);// 市
+				district = rowList.get(2);// 区
+				provinceId = "";
+				cityId = "";
+				districtId = "";
+				min = new BigDecimal(rowList.get(3)).divide(new BigDecimal(2000), 2, RoundingMode.HALF_UP).toString();// 最低价
+				max = new BigDecimal(rowList.get(4)).divide(new BigDecimal(2000), 2, RoundingMode.HALF_UP).toString();// 最高价
+				if (StringUtils.isEmpty(city) && StringUtils.isEmpty(district) && StringUtils.isEmpty(province)) {
+					result.put("code", 500);
+					result.put("msg", "第" + i + "行数据省市县均为空");
+					TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+					return result;
+				}
+				if (StringUtils.isEmpty(min) || StringUtils.isEmpty(max)) {
+					result.put("code", 500);
+					result.put("msg", "第" + i + "行数据最低粮价或最高粮价为空");
+					TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+					return result;
+				}
+				if (!min.matches("-?[0-9]+.?[0-9]*") || !max.matches("-?[0-9]+.?[0-9]*")) {
+					result.put("code", 500);
+					result.put("msg", "第" + i + "行粮价数据格式异常[" + min + "/" + max + "]");
+					TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+					return result;
 				}
 				areaName = StringUtils.isNotBlank(city) ? province + "/" : province;
 				areaName += StringUtils.isNotBlank(district) ? city + "/" : city;
@@ -193,6 +192,8 @@ public class GrainPricesServiceImpl implements GrainPricesService {
 						districtId = area.getId();
 						areaCount++;
 					}
+				}else {
+					districtId = districtEntity.getId();
 				}
 				switch (level) {
 				case 1:
