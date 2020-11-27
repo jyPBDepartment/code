@@ -45,9 +45,15 @@ public class SectionManageController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		Pageable pageable = new PageRequest(page - 1, size);
 		Page<SectionManageEntity> sectionManage = eduSectionManageService.findListByName(name, pageable);
-		map.put("state", "0");// 成功
-		map.put("message", "查询成功");
-		map.put("data", sectionManage);
+		try {
+			map.put("state", "0");
+			map.put("message", "查询成功");
+			map.put("data", sectionManage);
+		} catch (Exception e) {
+			map.put("state", "1");
+			map.put("message", "查询失败");
+		}
+
 		return map;
 	}
 
@@ -97,28 +103,6 @@ public class SectionManageController {
 		return map;
 	}
 
-	// 删除版块信息
-	@RequestMapping(value = "/delete")
-	@ResponseBody
-	public Map<String, Object> delete(HttpServletRequest res, HttpServletResponse req,
-			@RequestParam(name = "id") String id) {
-		Map<String, Object> map = new HashMap<String, Object>();
-
-		List<ArticleManageEntity> article = articleManageService.findBySectionId(id);
-		for (int i = 0; i < article.size(); i++) {
-			articleManageService.delete(article.get(i).getId());
-		}
-		eduSectionManageService.delete(id);
-		try {
-			map.put("state", "0");
-			map.put("message", "删除成功");
-		} catch (Exception e) {
-			map.put("state", "1");
-			map.put("message", "删除失败");
-		}
-		return map;
-	}
-
 	// 通过id查询版块信息
 	@RequestMapping(value = "/findById")
 	@ResponseBody
@@ -126,8 +110,14 @@ public class SectionManageController {
 			@RequestParam(name = "id") String id) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		SectionManageEntity eduSectionManageEntity = eduSectionManageService.findBId(id);
-		map.put("state", "0");
-		map.put("data", eduSectionManageEntity);
+		try {
+			map.put("state", "0");
+			map.put("message", "查询成功");
+			map.put("data", eduSectionManageEntity);
+		} catch (Exception e) {
+			map.put("state", "1");
+			map.put("message", "查询失败");
+		}
 		return map;
 	}
 
@@ -146,25 +136,23 @@ public class SectionManageController {
 		boolean result = true;
 		// 启用
 		if (status.equals(0)) {
-			map.put("state", "0");
+			map.put("state", "0");//启用成功
 			map.put("message", "启用成功");
 			eduSectionManageService.enable(eduSectionManageEntity, result);
 		}
 		// 禁用
 		if (status.equals(1)) {
-			List<ArticleManageEntity> article = articleManageService.findBySectionId(id);
+			List<ArticleManageEntity> article = articleManageService.findBySectionId(id);//查询文章关联的版块ID
 			if (article.size() != 0) {
-				map.put("state", "2");
+				map.put("state", "2");//该版块ID有关联的文章，不可禁用。
 				map.put("message", "当前状态有关联，不可禁用！");
 			} else {
-				map.put("state", "1");
+				map.put("state", "1");//禁用成功
 				map.put("message", "禁用成功");
 				result = false;
 				eduSectionManageService.enable(eduSectionManageEntity, result);
 			}
-
 		}
-
 		return map;
 	}
 
@@ -174,8 +162,35 @@ public class SectionManageController {
 	public Map<String, Object> findListName(HttpServletRequest res, HttpServletResponse req) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		List<SectionManageEntity> SectionMan = eduSectionManageService.findListName();
-		map.put("state", "0");
-		map.put("data", SectionMan);
+		try {
+			map.put("state", "0");
+			map.put("message", "查询成功");
+			map.put("data", "sectionMan");
+		} catch (Exception e) {
+			map.put("state", "1");
+			map.put("message", "查询失败");
+		}
 		return map;
 	}
+	// 删除版块信息
+		@RequestMapping(value = "/delete")
+		@ResponseBody
+		public Map<String, Object> delete(HttpServletRequest res, HttpServletResponse req,
+				@RequestParam(name = "id") String id) {
+			Map<String, Object> map = new HashMap<String, Object>();
+
+			List<ArticleManageEntity> article = articleManageService.findBySectionId(id);//查询文章关联的版块id
+			for (int i = 0; i < article.size(); i++) {
+				articleManageService.delete(article.get(i).getId());//一并删除其所属文章
+			}
+			eduSectionManageService.delete(id);
+			try {
+				map.put("state", "0");
+				map.put("message", "删除成功");
+			} catch (Exception e) {
+				map.put("state", "1");
+				map.put("message", "删除失败");
+			}
+			return map;
+		}
 }

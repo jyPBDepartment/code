@@ -43,9 +43,15 @@ public class ArticleManageController {
 		Pageable pageable = new PageRequest(page - 1, size);
 		Page<ArticleManageEntity> articleManageList = eduArticleManageService.findListByName(title, sectionId,
 				pageable);
-		map.put("state", "0");// 成功
-		map.put("message", "查询成功");
-		map.put("data", articleManageList);
+		try {
+			map.put("state", "0");// 成功
+			map.put("message", "查询成功");
+			map.put("data", articleManageList);
+		} catch (Exception e) {
+			map.put("state", "1");
+			map.put("message", "查询失败,请重新查询");
+		}
+		
 		return map;
 	}
 
@@ -59,15 +65,22 @@ public class ArticleManageController {
 		ArticleManageEntity eduArticleManageEntity = jsonObject.toJavaObject(ArticleManageEntity.class);
 
 		SectionManageEntity sectionManage = new SectionManageEntity();
-		sectionManage.setId(eduArticleManageEntity.getSectionId());
+		
+		sectionManage.setId(eduArticleManageEntity.getSectionId());//关联版块id
 		eduArticleManageEntity.setSection(sectionManage);
 
 		Date date = new Date();
 		eduArticleManageEntity.setCreateDate(date);
 		eduArticleManageEntity.setStatus(1);
-		eduArticleManageService.save(eduArticleManageEntity);
-		map.put("state", "0");
-		map.put("message", "添加成功");
+		try {
+			eduArticleManageService.save(eduArticleManageEntity);
+			map.put("state", "0");
+			map.put("message", "添加成功");
+		} catch (Exception e) {
+			map.put("state", "1");
+			map.put("message", "添加失败，请重新添加");
+		}
+		
 		return map;
 	}
 
@@ -78,8 +91,15 @@ public class ArticleManageController {
 			@RequestParam(name = "id") String id) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		ArticleManageEntity eduArticleManageEntity = eduArticleManageService.findBId(id);
-		map.put("state", "0");
-		map.put("data", eduArticleManageEntity);
+		try {
+			map.put("state", "0");
+			map.put("message", "查询成功");
+			map.put("data", eduArticleManageEntity);
+		} catch (Exception e) {
+			map.put("state", "1");
+			map.put("message", "查询失败，请刷新或联系管理员");
+		}
+		
 		return map;
 	}
 
@@ -94,13 +114,18 @@ public class ArticleManageController {
 		ArticleManageEntity eduArticleManageEntity = jsonObject.toJavaObject(ArticleManageEntity.class);
 
 		SectionManageEntity sectionManage = new SectionManageEntity();
-		sectionManage.setId(eduArticleManageEntity.getSectionId());
+		
+		sectionManage.setId(eduArticleManageEntity.getSectionId());//关联版块id
 		eduArticleManageEntity.setSection(sectionManage);
 		eduArticleManageEntity.setStatus(1);
 		eduArticleManageService.update(eduArticleManageEntity);
-		map.put("state", "0");
-		map.put("message", "修改成功");
-
+		try {
+			map.put("state", "0");
+			map.put("message", "修改成功");
+		} catch (Exception e) {
+			map.put("state", "1");
+			map.put("message", "修改失败，请检查修改内容是否有误");
+		}
 		return map;
 	}
 
@@ -111,9 +136,15 @@ public class ArticleManageController {
 			@RequestParam(name = "id") String id) {
 
 		Map<String, Object> map = new HashMap<String, Object>();
-		eduArticleManageService.delete(id);
-		map.put("state", "0");
-		map.put("message", "删除成功");
+		try {
+			eduArticleManageService.delete(id);
+			map.put("state", "0");
+			map.put("message", "删除成功");
+		} catch (Exception e) {
+			map.put("state", "1");
+			map.put("message", "删除失败");
+		}
+		
 		return map;
 	}
 
@@ -159,9 +190,7 @@ public class ArticleManageController {
 		} catch (Exception e) {
 			map.put("code", "201");// 查询失败
 			map.put("message", "查询失败");
-			
 		}
-
 		return map;
 	}
 
@@ -181,8 +210,25 @@ public class ArticleManageController {
 		} catch (Exception e) {
 			map.put("code", "201");// 查询失败
 			map.put("message", "查询失败");
-			
 		}
 		return map;
+	}
+	
+	// 移动端-根据Id查询文章管理列表详情（接口）
+	@RequestMapping(value="/findArticleId")
+	@ResponseBody
+	public Map<String,Object> findArticleId(HttpServletRequest res,HttpServletResponse req,@RequestParam(name = "id") String id){
+		Map<String,Object> map = new HashMap<String, Object>();
+		ArticleManageEntity articleManageEntity = eduArticleManageService.findBId(id);
+		try {
+			map.put("code", "200");//查询成功
+			map.put("message", "查询成功");
+			map.put("data", articleManageEntity);
+		} catch (Exception e) {
+			map.put("code", "201");//查询失败
+			map.put("message", "查询失败");
+		}
+		return map;
+		
 	}
 }
