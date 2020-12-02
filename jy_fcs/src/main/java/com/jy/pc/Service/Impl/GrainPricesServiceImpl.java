@@ -124,6 +124,12 @@ public class GrainPricesServiceImpl implements GrainPricesService {
 					TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
 					return result;
 				}
+				if (StringUtils.isEmpty(city) && StringUtils.isNotBlank(district) && StringUtils.isNotBlank(province)) {
+					result.put("code", 500);
+					result.put("msg", "第" + i + "行数据缺失,请补全'市'信息");
+					TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+					return result;
+				}
 				if (StringUtils.isEmpty(min) || StringUtils.isEmpty(max)) {
 					result.put("code", 500);
 					result.put("msg", "第" + i + "行数据最低粮价或最高粮价为空");
