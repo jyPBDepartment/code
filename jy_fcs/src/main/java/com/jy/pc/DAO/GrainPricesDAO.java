@@ -30,7 +30,7 @@ public interface GrainPricesDAO extends JpaRepository<GrainPricesEntity, String>
 	public List<GrainPricesEntity> findListByType(int type);
 
 	// 查询当天记录（符合地区条件）
-	@Query(value = "SELECT * FROM sas_grain_prices_info WHERE province = ?1 and city = ?2 and district = ?3 and date(price_date) = date(now()) limit 1", nativeQuery = true)
+	@Query(value = "SELECT * FROM sas_grain_prices_info WHERE province = ?1 and city = ?2 and district = ?3 and price_date = date_format(now(),'%Y-%m-%d') limit 1", nativeQuery = true)
 	public GrainPricesEntity findInfoByArea(String province, String city, String district);
 
 	@Query(value = "select * from (SELECT * FROM sas_grain_prices_info t where t.price_date <= date_format(now(),'%Y-%m-%d') and province = ?1 and city = ?2 and district = ?3  order by t.price_date desc limit ?4) t1 order by t1.price_date", nativeQuery = true)

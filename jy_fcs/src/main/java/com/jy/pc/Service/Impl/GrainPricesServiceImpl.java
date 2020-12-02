@@ -210,7 +210,7 @@ public class GrainPricesServiceImpl implements GrainPricesService {
 					break;
 				}
 				// 存在地区数据,需要新增粮价信息,先查询当日地区粮价
-				priceEntity = grainPricesDAO.findInfoByArea(province, city, district);
+				priceEntity = grainPricesDAO.findInfoByArea(provinceId, cityId, districtId);
 				if (priceEntity == null) {
 					GrainPricesEntity newPrice = new GrainPricesEntity();
 					newPrice.setCreateDate(now);
