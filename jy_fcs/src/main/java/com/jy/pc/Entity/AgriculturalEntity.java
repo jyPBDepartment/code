@@ -93,7 +93,15 @@ public class AgriculturalEntity {
 	private String identityCode;  //身份标识码 1.农户 2.粮贩 3.粮库
 	@Column(length=255)
 	private String reason; //取消发布理由
+	@Column(length=36)
+	private String accId;  //云信accId
 	
+	public String getAccId() {
+		return accId;
+	}
+	public void setAccId(String accId) {
+		this.accId = accId;
+	}
 	public String getReason() {
 		return reason;
 	}

@@ -200,9 +200,9 @@ public class SectionManageController {
 	public Map<String, Object> findListSectionId(HttpServletRequest res, HttpServletResponse req) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
-			List<SectionManageEntity> SectionIdList = eduSectionManageService.findListSectionId();
+			List<SectionManageEntity> sectionIdList = eduSectionManageService.findListSectionId();
 			map.put("code", "200");
-			map.put("data", SectionIdList);
+			map.put("data", sectionIdList);
 		} catch (Exception e) {
 			map.put("code", "201");
 		}

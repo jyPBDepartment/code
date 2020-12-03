@@ -190,6 +190,7 @@ public class AgriculturalServiceImpl implements AgriculturalService {
 		AgriculturalEntity agricultural = agriculturalDao.findBId(id);
 		Date date = new Date();
 		agriculturalEntity.setUpdateDate(date);// 设置修改时间
+		agriculturalEntity.setUpdateUser(agricultural.getUpdateUser());
 		agriculturalEntity.setStatus(agricultural.getStatus());
 		//0923根据产品要求，只有当图片、标题、描述发生变动时才修改审核状态
 		String oldName = agricultural.getName();
@@ -198,6 +199,11 @@ public class AgriculturalServiceImpl implements AgriculturalService {
 		String newDes = agriculturalEntity.getDescrip();
 		if(!oldName.equals(newName) || !oldDes.equals(newDes) || (addItem!=null&&addItem.length>0) || (deleteItem!=null&&deleteItem.length>0)) {
 			agriculturalEntity.setStatus("0");
+		}
+		if((addItem!=null&&addItem.length>0) || (deleteItem!=null&&deleteItem.length>0)) {
+			agriculturalEntity.setUrl(addItem[0]);
+		}else {
+			agriculturalEntity.setUrl(agricultural.getUrl());
 		}
 		agriculturalEntity.setCreateDate(agricultural.getCreateDate());
 		agriculturalEntity.setTransactionCategoryCode(transactionCategoryCode);
