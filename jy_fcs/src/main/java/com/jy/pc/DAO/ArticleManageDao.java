@@ -16,7 +16,7 @@ import com.jy.pc.Entity.ArticleManageEntity;
 public interface ArticleManageDao extends JpaRepository<ArticleManageEntity, String> {
 
 	// 分页与模糊查询文章管理信息
-	@Query(value = "select * from sas_article_manage  t  where if(?1 !='',t.title like ?1,1=1)  and if(?2 !='',t.section_id like ?2,1=1)  order by t.create_date desc", countQuery = "select count(*) from sas_article_manage t  where if(?1 !='',t.title like ?1,1=1) and if(?2 !='',t.section_id like ?2,1=1) order by t.create_date desc", nativeQuery = true)
+	@Query(value = "select * from sas_article_manage  t  where if(?1 !='',t.title like ?1,1=1)  and if(?2 !='',t.section_id like ?2,1=1)  order by t.create_date and t.update_date desc", countQuery = "select count(*) from sas_article_manage t  where if(?1 !='',t.title like ?1,1=1) and if(?2 !='',t.section_id like ?2,1=1) order by t.create_date and t.update_date desc", nativeQuery = true)
 	public Page<ArticleManageEntity> findListByName(String title, String sectionId, Pageable pageable);
 
 	// 通过id查询文章管理信息
@@ -24,7 +24,7 @@ public interface ArticleManageDao extends JpaRepository<ArticleManageEntity, Str
 	public ArticleManageEntity findBId(@Param("id") String id);
 
 	// 移动端-查询文章管理信息的最新3条有效记录(接口)
-	@Query(value = "select * from sas_article_manage  t  where status='0' order by t.create_date desc limit 3", nativeQuery = true)
+	@Query(value = "select * from sas_article_manage  t  where status='0' order by t.update_date desc limit 3", nativeQuery = true)
 	public List<ArticleManageEntity> findArticleInfo();
 
 	// 通过版块id查询文章管理信息
