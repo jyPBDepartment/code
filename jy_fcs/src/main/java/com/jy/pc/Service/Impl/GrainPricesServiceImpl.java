@@ -236,6 +236,7 @@ public class GrainPricesServiceImpl implements GrainPricesService {
 					if (!min.equals(priceEntity.getMinPrice()) || !max.equals(priceEntity.getMaxPrice())) {
 						priceEntity.setMinPrice(min);
 						priceEntity.setMaxPrice(max);
+						priceEntity.setCreateDate(now);
 						grainPricesDAO.save(priceEntity);
 						priceUpdateCount++;
 					}
