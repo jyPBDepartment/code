@@ -38,6 +38,7 @@ public interface GrainPricesDAO extends JpaRepository<GrainPricesEntity, String>
 
 	// 复制昨天数据
 	@Modifying
-	@Query(value = "INSERT INTO sas_grain_prices_info SELECT UUID() AS id,create_date,create_user,price,'1',update_date,update_user,DATE_FORMAT(NOW(),'%Y-%m-%d') AS price_date,area_id,city,district,max_price,min_price,province,area FROM sas_grain_prices_info WHERE date(price_date) = date(?1)", nativeQuery = true)
+	@Query(value = "INSERT INTO sas_grain_prices_info (id,create_date,create_user,price,price_defined_type,update_date,update_user,price_date,area_id,city,district,max_price,min_price,province,area)"
+			+ "SELECT UUID() AS id,create_date,create_user,price,'1',update_date,update_user,DATE_FORMAT(NOW(),'%Y-%m-%d') AS price_date,area_id,city,district,max_price,min_price,province,area FROM sas_grain_prices_info WHERE date(price_date) = date(?1)", nativeQuery = true)
 	public void copyToToday(Date now);
 }
