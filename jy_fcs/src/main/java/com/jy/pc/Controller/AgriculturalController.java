@@ -373,10 +373,10 @@ public class AgriculturalController {
 			AgriculturalEntity agriculturalEntity,@RequestParam(name = "id") String id,
 			@RequestParam(name = "transactionTypeCode") String transactionTypeCode,
 			@RequestParam(name = "transactionCategoryCode") String transactionCategoryCode,
-			@RequestParam(name = "addItem") String[] addItem,
+			@RequestParam(name = "addItem") String[] addItem,@RequestParam(name = "deleteSurplus") String[] deleteSurplus,
 			@RequestParam(name = "deleteItem",required=false) String[] deleteItem) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		agriculturalService.updateAgr(agriculturalEntity,id,addItem,deleteItem,transactionTypeCode,transactionCategoryCode);
+		agriculturalService.updateAgr(agriculturalEntity,id,addItem,deleteItem,transactionTypeCode,transactionCategoryCode,deleteSurplus);
 		map.put("state", "0");
 		map.put("data", agriculturalEntity);
 		map.put("message", "修改成功");

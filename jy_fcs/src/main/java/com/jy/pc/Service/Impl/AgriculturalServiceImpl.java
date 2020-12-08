@@ -185,7 +185,7 @@ public class AgriculturalServiceImpl implements AgriculturalService {
 	
 	@Transactional
 	@Override
-	public AgriculturalEntity updateAgr(AgriculturalEntity agriculturalEntity,String id,String[] addItem,String[] deleteItem,String transactionTypeCode,String transactionCategoryCode) {
+	public AgriculturalEntity updateAgr(AgriculturalEntity agriculturalEntity,String id,String[] addItem,String[] deleteItem,String transactionTypeCode,String transactionCategoryCode,String[] deleteSurplus) {
 		
 		AgriculturalEntity agricultural = agriculturalDao.findBId(id);
 		Date date = new Date();
@@ -200,9 +200,12 @@ public class AgriculturalServiceImpl implements AgriculturalService {
 		if(!oldName.equals(newName) || !oldDes.equals(newDes) || (addItem!=null&&addItem.length>0) || (deleteItem!=null&&deleteItem.length>0)) {
 			agriculturalEntity.setStatus("0");
 		}
-		if((addItem!=null&&addItem.length>0) || (deleteItem!=null&&deleteItem.length>0)) {
+		if((addItem!=null&&addItem.length>0)) {
 			agriculturalEntity.setUrl(addItem[0]);
-		}else {
+		}else if(deleteItem!=null&&deleteItem.length>0) {
+			agriculturalEntity.setUrl(deleteSurplus[0]);
+		}
+		else {
 			agriculturalEntity.setUrl(agricultural.getUrl());
 		}
 		agriculturalEntity.setCreateDate(agricultural.getCreateDate());
