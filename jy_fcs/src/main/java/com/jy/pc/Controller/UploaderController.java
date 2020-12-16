@@ -54,7 +54,7 @@ public class UploaderController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
 			byte[] imgBytes = uploadFile.getBytes();
-			byte[] resultBytes = compressPicForScale(imgBytes, 1024 * 5);
+			byte[] resultBytes = compressPicForScale(imgBytes, 1024);
 //			System.out.println("压缩前：" + uploadFile.getSize());
 			InputStream inputStream = new ByteArrayInputStream(resultBytes);
 			MultipartFile file = new MockMultipartFile(ContentType.APPLICATION_OCTET_STREAM.toString(), inputStream);
