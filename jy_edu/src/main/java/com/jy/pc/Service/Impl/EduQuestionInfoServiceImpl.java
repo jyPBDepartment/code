@@ -178,8 +178,8 @@ public class EduQuestionInfoServiceImpl implements EduQuestionInfoService{
 
 	//查询分页(启用)
 	@Override
-	public Page<EduQuestionInfoEntity> findQuestion(String quType, String voationId, Pageable pageable) {
-		return eduQuestionInfoDao.findQuestion(quType, voationId, pageable);
+	public Page<EduQuestionInfoEntity> findQuestion(String quType, String voationId,String score, Pageable pageable) {
+		return eduQuestionInfoDao.findQuestion(quType, voationId,score, pageable);
 	}
 	
 	public List<EduQuestionInfoEntity> findListByIds(List<String> ids){

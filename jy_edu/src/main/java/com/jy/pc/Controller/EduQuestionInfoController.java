@@ -114,9 +114,23 @@ public class EduQuestionInfoController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		EduQuestionInfoEntity eduQuestionInfoEntity = eduQuestionInfoService.findId(id);
 		List<EduOptionInfoEntity> optionInfo = eduOptionInfoService.findquestionId(id);
+		 for(int i=0;i<optionInfo.size();i++){
+             if("A".equals(optionInfo.get(i).getTitle())) {
+            	 eduQuestionInfoEntity.setOptionA(optionInfo.get(i).getContent());
+             }
+             if("B".equals(optionInfo.get(i).getTitle())) {
+            	 eduQuestionInfoEntity.setOptionB(optionInfo.get(i).getContent());
+             }
+             if("C".equals(optionInfo.get(i).getTitle())) {
+            	 eduQuestionInfoEntity.setOptionC(optionInfo.get(i).getContent());
+             }
+             if("D".equals(optionInfo.get(i).getTitle())) {
+            	 eduQuestionInfoEntity.setOptionD(optionInfo.get(i).getContent());
+             }
+         }
 		map.put("state", "0");
 		map.put("data", eduQuestionInfoEntity);
-		map.put("dataOption", optionInfo);
+//		map.put("dataOption", optionInfo);
 		return map;
 	}
 					
@@ -160,11 +174,12 @@ public class EduQuestionInfoController {
 	@ResponseBody
 	public Map<String, Object> findQuestion(HttpServletRequest res, HttpServletResponse req,
 			@RequestParam(name = "quType") String quType,@RequestParam(name = "voationId") String voationId,
+			@RequestParam(name = "score") String score,
 			@RequestParam(name = "page") Integer page, @RequestParam(name = "size") Integer size) {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 		Pageable pageable = new PageRequest(page - 1, size);
-		Page<EduQuestionInfoEntity> question = eduQuestionInfoService.findQuestion(quType, voationId, pageable);
+		Page<EduQuestionInfoEntity> question = eduQuestionInfoService.findQuestion(quType, voationId,score,pageable);
 		map.put("state", "0");// 成功
 		map.put("message", "查询成功");
 		map.put("data", question);
