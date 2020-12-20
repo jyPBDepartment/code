@@ -40,10 +40,16 @@ public class EduManualLabelController {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 		Pageable pageable = new PageRequest(page - 1, size);
-		Page<EduManualLabelInfoEntity> manualLabelList = eduManualLabelService.findListByName(createBy,name, status, pageable);
-		map.put("state", "0");// 成功
-		map.put("message", "查询成功");
-		map.put("data", manualLabelList);
+		try {
+			Page<EduManualLabelInfoEntity> manualLabelList = eduManualLabelService.findListByName(createBy,name, status, pageable);
+			map.put("state", "0");// 成功
+			map.put("message", "查询成功");
+			map.put("data", manualLabelList);
+		} catch (Exception e) {
+			map.put("state", "1");// 失败
+			map.put("message", "查询失败");
+		}
+		
 		return map;
 	}
 
@@ -58,9 +64,15 @@ public class EduManualLabelController {
 		Date date = new Date();
 		eduManualLabelInfoEntity.setCreateDate(date);
 		eduManualLabelInfoEntity.setStatus(1);
-		eduManualLabelService.save(eduManualLabelInfoEntity);
-		map.put("state", "0");
-		map.put("message", "添加成功");
+		try {
+			eduManualLabelService.save(eduManualLabelInfoEntity);
+			map.put("state", "0");//成功
+			map.put("message", "添加成功");
+		} catch (Exception e) {
+			map.put("state", "1");//失败
+			map.put("message", "添加失败");
+		}
+		
 		return map;
 	}
 			
@@ -76,9 +88,15 @@ public class EduManualLabelController {
 		Date date = new Date();
 		eduManualLabelInfoEntity.setUpdateDate(date);
 		eduManualLabelInfoEntity.setStatus(1);
-		eduManualLabelService.update(eduManualLabelInfoEntity);
-		map.put("state", "0");
-		map.put("message", "修改成功");
+		try {
+			eduManualLabelService.update(eduManualLabelInfoEntity);
+			map.put("state", "0");//成功
+			map.put("message", "修改成功");
+		} catch (Exception e) {
+			map.put("state", "0");//失败
+			map.put("message", "修改失败");
+		}
+	
 		return map;
 	}
 
@@ -151,9 +169,14 @@ public class EduManualLabelController {
 		@ResponseBody
 		public Map<String, Object> findLabel(HttpServletRequest res, HttpServletResponse req){
 			Map<String, Object> map = new HashMap<String, Object>();
-			List<EduManualLabelInfoEntity> manualLabelList = eduManualLabelService.findManualLabelId();
-			map.put("state", "0");
-			map.put("data", manualLabelList);
+			try {
+				List<EduManualLabelInfoEntity> manualLabelList = eduManualLabelService.findManualLabelId();
+				map.put("state", "0");//成功
+				map.put("data", manualLabelList);
+			} catch (Exception e) {
+				map.put("state", "1");//失败
+			}
+			
 			return map;
 		}
 

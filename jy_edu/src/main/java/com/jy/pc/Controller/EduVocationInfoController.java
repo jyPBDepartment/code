@@ -73,11 +73,17 @@ public class EduVocationInfoController {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 		Pageable pageable = new PageRequest(page - 1, size);
-		Page<EduVocationInfoEntity> vocationInfoList = eduVocationInfoService.findListByName(createBy, status,
-				pageable);
-		map.put("state", "0");// 成功
-		map.put("message", "查询成功");
-		map.put("data", vocationInfoList);
+		try {
+			Page<EduVocationInfoEntity> vocationInfoList = eduVocationInfoService.findListByName(createBy, status,
+					pageable);
+			map.put("state", "0");// 成功
+			map.put("message", "查询成功");
+			map.put("data", vocationInfoList);
+		} catch (Exception e) {
+			map.put("state", "1");// 失败
+			map.put("message", "查询失败");
+		}
+		
 		return map;
 	}
 
@@ -93,9 +99,15 @@ public class EduVocationInfoController {
 		eduVocationInfoEntity.setCreateDate(date);
 		eduVocationInfoEntity.setStatus(1);
 		eduVocationInfoEntity.setSort("1");
-		eduVocationInfoService.save(eduVocationInfoEntity);
-		map.put("state", "0");
-		map.put("message", "添加成功");
+		try {
+			eduVocationInfoService.save(eduVocationInfoEntity);
+			map.put("state", "0");//成功
+			map.put("message", "添加成功");
+		} catch (Exception e) {
+			map.put("state", "1");//失败
+			map.put("message", "添加失败");
+		}
+		
 		return map;
 	}
 
@@ -110,9 +122,15 @@ public class EduVocationInfoController {
 		EduVocationInfoEntity eduVocationInfoEntity = jsonObject.toJavaObject(EduVocationInfoEntity.class);
 		Date date = new Date();
 		eduVocationInfoEntity.setUpdateDate(date);
-		eduVocationInfoService.update(eduVocationInfoEntity);
-		map.put("state", "0");
-		map.put("message", "修改成功");
+		try {
+			eduVocationInfoService.update(eduVocationInfoEntity);
+			map.put("state", "0");//成功
+			map.put("message", "修改成功");
+		} catch (Exception e) {
+			map.put("state", "1");//失败
+			map.put("message", "修改失败");
+		}
+		
 		return map;
 	}
 
@@ -203,9 +221,15 @@ public class EduVocationInfoController {
 		}
 		eduVocationInfoEntity.setSort(sort);
 		eduVocationInfoEntity.setUpdateDate(date);
-		eduVocationInfoService.changeSort(eduVocationInfoEntity);
-		map.put("state", "0");
-		map.put("message", "修改成功");
+		try {
+			eduVocationInfoService.changeSort(eduVocationInfoEntity);
+			map.put("state", "0");//成功
+			map.put("message", "修改成功");
+		} catch (Exception e) {
+			map.put("state", "1");//失败
+			map.put("message", "修改失败");
+		}
+		
 		return map;
 	}
 
@@ -214,9 +238,16 @@ public class EduVocationInfoController {
 	@ResponseBody
 	public Map<String, Object> findVocabel(HttpServletRequest res, HttpServletResponse req) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		List<EduVocationInfoEntity> vocationList = eduVocationInfoService.findVocationId();
-		map.put("state", "0");
-		map.put("data", vocationList);
+		try {
+			List<EduVocationInfoEntity> vocationList = eduVocationInfoService.findVocationId();
+			map.put("state", "0");//成功
+			map.put("message", "查询成功");
+			map.put("data", vocationList);
+		} catch (Exception e) {
+			map.put("state", "1");//失败
+			map.put("message", "查询失败");
+		}
+		
 		return map;
 	}
 	// 查询有效并考试职业类别
@@ -224,9 +255,16 @@ public class EduVocationInfoController {
 	@ResponseBody
 	public Map<String, Object> findVocabelExamId(HttpServletRequest res, HttpServletResponse req) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		List<EduVocationInfoEntity> vocationExamList = eduVocationInfoService.findVocationIsExamId();
-		map.put("state", "0");
-		map.put("data", vocationExamList);
+		try {
+			List<EduVocationInfoEntity> vocationExamList = eduVocationInfoService.findVocationIsExamId();
+			map.put("state", "0");//成功
+			map.put("message", "查询成功");
+			map.put("data", vocationExamList);
+		} catch (Exception e) {
+			map.put("state", "1");//失败
+			map.put("message", "查询失败");
+		}
+		
 		return map;
 	}
 }

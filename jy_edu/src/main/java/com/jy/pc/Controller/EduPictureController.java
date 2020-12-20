@@ -39,10 +39,16 @@ public class EduPictureController {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 		Pageable pageable = new PageRequest(page - 1, size);
-		Page<EduPictureInfoEntity> pictureInfoList = eduPictureService.findListByName(createBy,picType, status, pageable);
-		map.put("state", "0");// 成功
-		map.put("message", "查询成功");
-		map.put("data", pictureInfoList);
+		try {
+			Page<EduPictureInfoEntity> pictureInfoList = eduPictureService.findListByName(createBy,picType, status, pageable);
+			map.put("state", "0");// 成功
+			map.put("message", "查询成功");
+			map.put("data", pictureInfoList);
+		} catch (Exception e) {
+			map.put("state", "1");// 失败
+			map.put("message", "查询失败");
+		}
+		
 		return map;
 	}
 
@@ -58,9 +64,15 @@ public class EduPictureController {
 		eduPictureInfoEntity.setCreateDate(date);
 		eduPictureInfoEntity.setStatus(1);
 		eduPictureInfoEntity.setSort("1");
-		eduPictureService.save(eduPictureInfoEntity);
-		map.put("state", "0");
-		map.put("message", "添加成功");
+		try {
+			eduPictureService.save(eduPictureInfoEntity);
+			map.put("state", "0");
+			map.put("message", "添加成功");
+		} catch (Exception e) {
+			map.put("state", "1");
+			map.put("message", "添加失败");
+		}
+		
 		return map;
 	}
 		
@@ -76,9 +88,15 @@ public class EduPictureController {
 		Date date = new Date();
 		eduPictureInfoEntity.setUpdateDate(date);
 		eduPictureInfoEntity.setStatus(1);
-		eduPictureService.update(eduPictureInfoEntity);
-		map.put("state", "0");
-		map.put("message", "修改成功");
+		try {
+			eduPictureService.update(eduPictureInfoEntity);
+			map.put("state", "0");//成功
+			map.put("message", "修改成功");
+		} catch (Exception e) {
+			map.put("state", "1");//失败
+			map.put("message", "修改失败");
+		}
+		
 		return map;
 	}
 
@@ -110,10 +128,12 @@ public class EduPictureController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		EduPictureInfoEntity eduPictureInfoEntity = eduPictureService.findId(id);
 		if (eduPictureInfoEntity != null) {
-			map.put("state", "0");
+			map.put("state", "0");//成功
+			map.put("message", "查询成功");
 			map.put("data", eduPictureInfoEntity);
 		} else {
-			map.put("state", "1");
+			map.put("state", "1");//失败
+			map.put("message", "查询失败");
 		}
 		return map;
 	}
@@ -205,9 +225,15 @@ public class EduPictureController {
 		}
 		eduPictureInfoEntity.setSort(sort);
 		eduPictureInfoEntity.setUpdateDate(date);
-		eduPictureService.changeSort(eduPictureInfoEntity);
-		map.put("state", "0");
-		map.put("message", "修改成功");
+		try {
+			eduPictureService.changeSort(eduPictureInfoEntity);
+			map.put("state", "0");//成功
+			map.put("message", "修改成功");
+		} catch (Exception e) {
+			map.put("state", "1");//失败
+			map.put("message", "修改失败");
+		}
+		
 		return map;
 	}
 	
