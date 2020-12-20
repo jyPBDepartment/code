@@ -10,8 +10,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.jy.pc.DAO.EduVocationInfoDao;
-import com.jy.pc.Entity.EduExamPaperInfoEntity;
-import com.jy.pc.Entity.EduManualInfoEntity;
 import com.jy.pc.Entity.EduVocationInfoEntity;
 import com.jy.pc.Service.EduVocationInfoService;
 /**

@@ -150,9 +150,14 @@ public class EduExamPaperInfoController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		Pageable pageable = new PageRequest(page - 1, size);
 		Page<EduExamPaperInfoEntity> questionList = eduExamPaperInfoService.findListByName(createBy, status,vocationId, pageable);
-		map.put("state", "0");// 成功
-		map.put("message", "查询成功");
-		map.put("data", questionList);
+		try {
+			map.put("state", "0");// 成功
+			map.put("message", "查询成功");
+			map.put("data", questionList);
+		} catch (Exception e) {
+			map.put("state", "1");
+			map.put("message", "查询失败");
+		}
 		return map;
 	}
 
@@ -171,7 +176,6 @@ public class EduExamPaperInfoController {
 		} catch (Exception e) {
 			map.put("state", "1");
 			map.put("message", "添加失败");
-
 		}
 		return map;
 	}
@@ -281,11 +285,14 @@ public class EduExamPaperInfoController {
 				eduQuestionExamService.delete(questionExamLink.get(i).getId());
 			}
 			eduExamPaperInfoService.delete(examId);
+			map.put("state", "0");
+			map.put("message", "删除成功");
 		} catch (Exception e) {
+			map.put("state", "1");
+			map.put("message", "删除失败");
 			e.printStackTrace();
 		}
-		map.put("state", "0");
-		map.put("message", "删除成功");			
+					
 		return map;
 	}
 

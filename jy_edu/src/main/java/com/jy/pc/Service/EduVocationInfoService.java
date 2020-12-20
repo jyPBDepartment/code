@@ -5,8 +5,6 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import com.jy.pc.Entity.EduExamPaperInfoEntity;
-import com.jy.pc.Entity.EduManualInfoEntity;
 import com.jy.pc.Entity.EduVocationInfoEntity;
 
 /**

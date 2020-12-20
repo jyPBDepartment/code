@@ -70,9 +70,14 @@ public class EduManualInfoController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		Pageable pageable = new PageRequest(page - 1, size);
 		Page<EduManualInfoEntity> manuaList = eduManualInfoService.findListByName(title, createBy, vocationId, labelId, pageable);
-		map.put("state", "0");// 成功
-		map.put("message", "查询成功");
-		map.put("data", manuaList);
+		try {
+			map.put("state", "0");// 成功
+			map.put("message", "查询成功");
+			map.put("data", manuaList);
+		} catch (Exception e) {
+			map.put("state", "1");
+			map.put("message", "查询失败");
+		}
 		return map;
 	}
 
@@ -81,22 +86,28 @@ public class EduManualInfoController {
 	@ResponseBody
 	public Map<String, String> save(HttpServletRequest res, HttpServletResponse req) {
 		Map<String, String> map = new HashMap<String, String>();
-		String s = res.getParameter("eduManualInfoEntity");
-		JSONObject jsonObject = JSONObject.parseObject(s);
-		EduManualInfoEntity eduManualInfoEntity = jsonObject.toJavaObject(EduManualInfoEntity.class);
-		EduManualLabelInfoEntity label = new EduManualLabelInfoEntity();
-		label.setId(eduManualInfoEntity.getLabelId());
-		EduVocationInfoEntity vocation = new EduVocationInfoEntity();
-		vocation.setId(eduManualInfoEntity.getVocationId());
-		eduManualInfoEntity.setVocation(vocation);
-		eduManualInfoEntity.setLabel(label);
-		Date date = new Date();
-		eduManualInfoEntity.setCreateDate(date);
-		eduManualInfoEntity.setStatus(1);
-		eduManualInfoEntity.setManualType(0);
-		eduManualInfoService.save(eduManualInfoEntity);
-		map.put("state", "0");
-		map.put("message", "添加成功");
+		try {
+			String s = res.getParameter("eduManualInfoEntity");
+			JSONObject jsonObject = JSONObject.parseObject(s);
+			EduManualInfoEntity eduManualInfoEntity = jsonObject.toJavaObject(EduManualInfoEntity.class);
+			EduManualLabelInfoEntity label = new EduManualLabelInfoEntity();
+			label.setId(eduManualInfoEntity.getLabelId());
+			EduVocationInfoEntity vocation = new EduVocationInfoEntity();
+			vocation.setId(eduManualInfoEntity.getVocationId());
+			eduManualInfoEntity.setVocation(vocation);
+			eduManualInfoEntity.setLabel(label);
+			Date date = new Date();
+			eduManualInfoEntity.setCreateDate(date);
+			eduManualInfoEntity.setStatus(1);
+			eduManualInfoEntity.setManualType(0);
+			eduManualInfoService.save(eduManualInfoEntity);
+			map.put("state", "0");
+			map.put("message", "添加成功");
+		} catch (Exception e) {
+			map.put("state", "1");
+			map.put("message", "添加失败");
+		}
+		
 		return map;
 	}
 				
@@ -106,20 +117,26 @@ public class EduManualInfoController {
 	public Map<String, String> update(HttpServletRequest res, HttpServletResponse req) {
 
 		Map<String, String> map = new HashMap<String, String>();
-		String s = res.getParameter("eduManualInfoEntity");
-		JSONObject jsonObject = JSONObject.parseObject(s);
-		EduManualInfoEntity eduManualInfoEntity = jsonObject.toJavaObject(EduManualInfoEntity.class);
-		Date date = new Date();
-		EduVocationInfoEntity vocation = new EduVocationInfoEntity();
-		vocation.setId(eduManualInfoEntity.getVocationId());
-		EduManualLabelInfoEntity label = new EduManualLabelInfoEntity();
-		label.setId(eduManualInfoEntity.getLabelId());
-		eduManualInfoEntity.setVocation(vocation);
-		eduManualInfoEntity.setLabel(label);
-		eduManualInfoEntity.setUpdateDate(date);
-		eduManualInfoService.update(eduManualInfoEntity);
-		map.put("state", "0");
-		map.put("message", "修改成功");
+		try {
+			String s = res.getParameter("eduManualInfoEntity");
+			JSONObject jsonObject = JSONObject.parseObject(s);
+			EduManualInfoEntity eduManualInfoEntity = jsonObject.toJavaObject(EduManualInfoEntity.class);
+			Date date = new Date();
+			EduVocationInfoEntity vocation = new EduVocationInfoEntity();
+			vocation.setId(eduManualInfoEntity.getVocationId());
+			EduManualLabelInfoEntity label = new EduManualLabelInfoEntity();
+			label.setId(eduManualInfoEntity.getLabelId());
+			eduManualInfoEntity.setVocation(vocation);
+			eduManualInfoEntity.setLabel(label);
+			eduManualInfoEntity.setUpdateDate(date);
+			eduManualInfoService.update(eduManualInfoEntity);
+			map.put("state", "0");
+			map.put("message", "修改成功");
+		} catch (Exception e) {
+			map.put("state", "1");
+			map.put("message", "修改失败");
+		}
+		
 		return map;
 	}
 
@@ -130,9 +147,15 @@ public class EduManualInfoController {
 			@RequestParam(name = "id") String id) {
 
 		Map<String, Object> map = new HashMap<String, Object>();
-		eduManualInfoService.delete(id);
-		map.put("state", "0");
-		map.put("message", "删除成功");			
+		try {
+			eduManualInfoService.delete(id);
+			map.put("state", "0");
+			map.put("message", "删除成功");
+		} catch (Exception e) {
+			map.put("state", "1");
+			map.put("message", "删除失败");
+		}
+					
 		return map;
 	}
 				
