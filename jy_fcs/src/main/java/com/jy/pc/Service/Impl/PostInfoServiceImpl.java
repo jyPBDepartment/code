@@ -20,7 +20,7 @@ import com.jy.pc.Utils.DbLogUtil;
 import com.jy.pc.Utils.FCSDateUtil;
 
 @Service
-
+@Transactional
 public class PostInfoServiceImpl implements PostInfoService {
 
 	@Autowired

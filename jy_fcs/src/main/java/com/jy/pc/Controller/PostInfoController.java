@@ -130,15 +130,14 @@ public class PostInfoController {
 
 	// 审核通过
 	@RequestMapping(value = "/passPostInfo")
-	public Map<String, String> passPostInfo(HttpServletRequest res, HttpServletResponse req) {
+	public Map<String, String> passPostInfo(HttpServletRequest res, HttpServletResponse req,String id,String auditUser) {
 
 		Map<String, String> map = new HashMap<String, String>();
-		String s = res.getParameter("postInfoEntity");
-		JSONObject jsonObject = JSONObject.parseObject(s);
+		PostInfoEntity postInfoEntity = postInfoService.findId(id);
 		Date date = new Date();
-		PostInfoEntity postInfoEntity = jsonObject.toJavaObject(PostInfoEntity.class);
 		postInfoEntity.setAuditStatus("1");
 		postInfoEntity.setUpdateDate(date);
+		postInfoEntity.setAuditUser(auditUser);
 		postInfoService.audit(postInfoEntity, true);
 		map.put("state", "0");
 		map.put("message", "审核通过");
@@ -147,15 +146,16 @@ public class PostInfoController {
 
 	// 审核拒绝
 	@RequestMapping(value = "/refusePostInfo")
-	public Map<String, String> refusePostInfo(HttpServletRequest res, HttpServletResponse req) {
+	public Map<String, String> refusePostInfo(HttpServletRequest res, HttpServletResponse req,String id,String auditUser,String reason) {
 
-		Date date = new Date();
+		
 		Map<String, String> map = new HashMap<String, String>();
-		String s = res.getParameter("postInfoEntity");
-		JSONObject jsonObject = JSONObject.parseObject(s);
-		PostInfoEntity postInfoEntity = jsonObject.toJavaObject(PostInfoEntity.class);
+		PostInfoEntity postInfoEntity = postInfoService.findId(id);
+		Date date = new Date();
 		postInfoEntity.setAuditStatus("2");
 		postInfoEntity.setUpdateDate(date);
+		postInfoEntity.setAuditUser(auditUser);
+		postInfoEntity.setReason(reason);
 		postInfoService.audit(postInfoEntity, false);
 		map.put("state", "0");
 		map.put("message", "审核驳回");
