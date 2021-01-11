@@ -53,6 +53,16 @@ public class ArticleManageEntity {
 	private SectionManageEntity section;
 	@Transient
 	private String sectionId;
+	@Column(columnDefinition = "int(11) default 0 comment '收藏数，根据用户收藏表自动更新，默认0'")
+	private int collectionNum;
+	@Column(columnDefinition = "int(11) default 0 comment '评论数，根据用户评论表自动更新，默认0'")
+	private int commentNum;
+	@Column(columnDefinition = "int(11) default 0 comment '点赞数，根据用户点赞表自动更新，默认0'")
+	private int praiseNum;
+	@Column(columnDefinition = "int(1) default 0 comment '是否精选1是0否，默认0'")
+	private int isSelected;
+	@Column(columnDefinition = "int(11) default 0 comment '浏览数，根据用户点赞表自动更新，默认0'")
+	private int viewNum;
 
 	public SectionManageEntity getSection() {
 		return section;
@@ -139,6 +149,46 @@ public class ArticleManageEntity {
 
 	public void setContent(String content) {
 		this.content = content;
+	}
+
+	public int getCollectionNum() {
+		return collectionNum;
+	}
+
+	public void setCollectionNum(int collectionNum) {
+		this.collectionNum = collectionNum;
+	}
+
+	public int getCommentNum() {
+		return commentNum;
+	}
+
+	public void setCommentNum(int commentNum) {
+		this.commentNum = commentNum;
+	}
+
+	public int getPraiseNum() {
+		return praiseNum;
+	}
+
+	public void setPraiseNum(int praiseNum) {
+		this.praiseNum = praiseNum;
+	}
+
+	public int getIsSelected() {
+		return isSelected;
+	}
+
+	public void setIsSelected(int isSelected) {
+		this.isSelected = isSelected;
+	}
+
+	public int getViewNum() {
+		return viewNum;
+	}
+
+	public void setViewNum(int viewNum) {
+		this.viewNum = viewNum;
 	}
 
 }

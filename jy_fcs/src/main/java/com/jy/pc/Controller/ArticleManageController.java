@@ -231,4 +231,37 @@ public class ArticleManageController {
 		return map;
 		
 	}
+	
+	/**
+	 * PC-设置精选状态
+	 * 
+	 * @param isSelected 精选状态 0否1是
+	 * @param id         粮食买卖ID
+	 * @return
+	 */
+	@RequestMapping(value = "/setSelected")
+	@ResponseBody
+	public Map<String, String> setSelected(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "isSelected") int isSelected, @RequestParam(name = "id") String id) {
+
+		Map<String, String> map = new HashMap<String, String>();
+		ArticleManageEntity articleManageEntity = eduArticleManageService.findBId(id);
+		
+		articleManageEntity.setIsSelected(isSelected);
+		eduArticleManageService.save(articleManageEntity);
+		if (isSelected == 0) {
+			map.put("code", "200");
+			map.put("message", "取消精选成功");
+		}
+		if (isSelected == 1) {
+			map.put("code", "200");
+			map.put("message", "设置精选成功");
+		}
+		if (isSelected != 0 && isSelected != 1) {
+			map.put("code", "500");
+			map.put("message", "操作参数错误");
+			return map;
+		}
+		return map;
+	}
 }
