@@ -56,6 +56,17 @@ public class PostCommentInfoEntity {
 	@JoinColumn(name = "postId", referencedColumnName = "id")
 	@NotFound(action = NotFoundAction.IGNORE)
 	private PostInfoEntity postInfoEntity;
+	
+	@Column(columnDefinition = "int(2) default 1 comment '是否匿名'")
+	private int is_anonymous; // 是否匿名，0是1否，默认1
+
+	public int getIs_anonymous() {
+		return is_anonymous;
+	}
+
+	public void setIs_anonymous(int is_anonymous) {
+		this.is_anonymous = is_anonymous;
+	}
 
 	public String getId() {
 		return id;

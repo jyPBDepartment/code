@@ -25,7 +25,31 @@ public interface PostInfoDao extends JpaRepository<PostInfoEntity, String> {
 	public PostInfoEntity findId(@Param("id") String id);
 
 	// 查询
-	@Query(value = "select * from sas_post_info t where t.audit_status = 1 and t.status = 0 and if(?1 !='',t.parent_code = ?1,1=1) order by t.create_date desc", 
-			countQuery = "select count(*) from sas_post_info t where t.audit_status = 2 and t.status = 0 and if(?1 !='',t.parent_code = ?1,1=1) order by t.create_date desc", nativeQuery = true)
+	@Query(value = "select * from sas_post_info t where t.audit_status = 1 and t.status = 0 and if(?1 !='',t.parent_code = ?1,1=1) order by t.create_date desc", countQuery = "select count(*) from sas_post_info t where t.audit_status = 2 and t.status = 0 and if(?1 !='',t.parent_code = ?1,1=1) order by t.create_date desc", nativeQuery = true)
 	public Page<PostInfoEntity> findListWithSub(String postType, Pageable pageable);
+
+	// 查询最火
+	@Query(value = "select * from sas_post_info t where t.status=0 order by t.Pageview desc", countQuery = "select count(*) from sas_post_info t where t.status=0 order by t.Pageview desc", nativeQuery = true)
+	public Page<PostInfoEntity> findListByHotLabel(Pageable pageable);
+
+	// 查询最新
+	@Query(value = "select * from sas_post_info t where t.status=0 order by t.create_date desc", countQuery = "select count(*) from sas_post_info t where t.status=0  order by t.create_date desc", nativeQuery = true)
+	public Page<PostInfoEntity> findListByNewLabel(Pageable pageable);
+
+	// 查询精品
+	@Query(value = "select * from sas_post_info t where t.is_selected=0 and t.status = 0 order by t.create_date desc", countQuery = "select count(*) from sas_post_info t where t.is_selected=0 and t.status = 0 order by t.create_date desc", nativeQuery = true)
+	public Page<PostInfoEntity> findListByBoutiqueLabel(Pageable pageable);
+
+	// 查询好评
+	@Query(value = "select * from sas_post_info t where t.status=0 order by t.praise_num desc", countQuery = "select count(*) from sas_post_info t where t.status=0 order by t.praise_num desc", nativeQuery = true)
+	public Page<PostInfoEntity> findListByThumbsLabel(Pageable pageable);
+
+	// 查询热议
+	@Query(value = "select * from sas_post_info t where t.status=0 order by t.comment_num desc", countQuery = "select count(*) from sas_post_info t where t.status=0 order by t.comment_num desc", nativeQuery = true)
+	public Page<PostInfoEntity> findListByCommentLabel(Pageable pageable);
+
+	// 我的收藏列表查詢findByUserId
+	@Query(value = "select t.* from sas_post_info t,sas_post_collection t1 where t.id =t1.circle_id", nativeQuery = true)
+	public List<PostInfoEntity> findByUserId();
+
 }

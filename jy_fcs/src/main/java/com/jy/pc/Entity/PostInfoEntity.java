@@ -7,12 +7,16 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.jy.pc.POJO.PostCommentInfoPO;
@@ -55,7 +59,7 @@ public class PostInfoEntity {
 	@Column(length = 36)
 	private String auditUser;// 审核人
 	@Column
-	private String status; // 显示状态
+	private String status; // 显示状态（0启用1禁用）
 	// 拒绝原因
 	@Column
 	private String reason;
@@ -66,6 +70,84 @@ public class PostInfoEntity {
 	private int commentSize;
 	@Transient
 	private String time;
+	// 外键id - 评论人Id
+	@ManyToOne(optional = false)
+	@JoinColumn(name = "commentId", referencedColumnName = "id" , nullable = true)
+	@NotFound(action = NotFoundAction.IGNORE)
+	private PostCommentInfoEntity postCommentInfoEntity;
+	@Column(columnDefinition = "int(10) default 0 comment '收藏数'")
+	private int collectionNum;// 收藏数，根据用户收藏表自动更新，默认0
+
+	@Column(columnDefinition = "int(10) default 0 comment '评论数'")
+	private int commentNum;// 评论数，根据用户评论表自动更新，默认0热议
+
+	@Column(columnDefinition = "int(10) default 0 comment '点赞数'")
+	private int praiseNum; // 点赞数，根据用户点赞表自动更新，默认0好评
+
+	@Column(columnDefinition = "int(10) default 0 comment '浏览量'")
+	private int pageview;// 浏览量 最火
+
+	@Column(columnDefinition = "int(2) default 1 comment '是否精品'")
+	private int isSelected; // 是否精品，0是1否，默认1精品
+
+	@Column(columnDefinition = "int(2) default 1 comment '是否匿名'")
+	private int is_anonymous; // 是否匿名，0是1否，默认1
+
+	public PostCommentInfoEntity getPostCommentInfoEntity() {
+		return postCommentInfoEntity;
+	}
+
+	public void setPostCommentInfoEntity(PostCommentInfoEntity postCommentInfoEntity) {
+		this.postCommentInfoEntity = postCommentInfoEntity;
+	}
+
+	public int getPageview() {
+		return pageview;
+	}
+
+	public void setPageview(int pageview) {
+		this.pageview = pageview;
+	}
+
+	public int getIs_anonymous() {
+		return is_anonymous;
+	}
+
+	public void setIs_anonymous(int is_anonymous) {
+		this.is_anonymous = is_anonymous;
+	}
+
+	public int getCollectionNum() {
+		return collectionNum;
+	}
+
+	public void setCollectionNum(int collectionNum) {
+		this.collectionNum = collectionNum;
+	}
+
+	public int getCommentNum() {
+		return commentNum;
+	}
+
+	public void setCommentNum(int commentNum) {
+		this.commentNum = commentNum;
+	}
+
+	public int getPraiseNum() {
+		return praiseNum;
+	}
+
+	public void setPraiseNum(int praiseNum) {
+		this.praiseNum = praiseNum;
+	}
+
+	public int getIsSelected() {
+		return isSelected;
+	}
+
+	public void setIsSelected(int isSelected) {
+		this.isSelected = isSelected;
+	}
 
 	public int getCommentSize() {
 		return commentSize;

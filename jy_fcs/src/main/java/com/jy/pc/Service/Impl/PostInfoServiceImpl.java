@@ -1,18 +1,24 @@
 package com.jy.pc.Service.Impl;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.transaction.Transactional;
 
+import org.hibernate.service.spi.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.jy.pc.DAO.CommentReplyInfoDao;
+import com.jy.pc.DAO.PictureInfoDAO;
 import com.jy.pc.DAO.PostCommentInfoDao;
 import com.jy.pc.DAO.PostInfoDao;
+import com.jy.pc.DAO.PostPictureDao;
+import com.jy.pc.Entity.PictureInfoEntity;
 import com.jy.pc.Entity.PostInfoEntity;
+import com.jy.pc.Entity.PostPictureEntity;
 import com.jy.pc.POJO.CommentReplyInfoPO;
 import com.jy.pc.POJO.PostCommentInfoPO;
 import com.jy.pc.Service.PostInfoService;
@@ -31,6 +37,10 @@ public class PostInfoServiceImpl implements PostInfoService {
 	private CommentReplyInfoDao commentReplyInfoDao;
 	@Autowired
 	private DbLogUtil logger;
+	@Autowired
+	private PictureInfoDAO pictureInfoDAO;
+	@Autowired
+	private PostPictureDao postPictureDao;
 
 	// 农活预约总数
 	@Override
@@ -89,14 +99,14 @@ public class PostInfoServiceImpl implements PostInfoService {
 		List<CommentReplyInfoPO> replyList = null;
 		for (PostInfoEntity post : page.getContent()) {
 			commentList = postCommentInfoDao.findByPostPO(post.getId());
-			/*for (PostCommentInfoPO comment : commentList) {
-				replyList = commentReplyInfoDao.findByCommentPO(comment.getId());
-				comment.setReplyList(replyList);
-				comment.setReplySize(replyList.size());
-			}*/
+			/*
+			 * for (PostCommentInfoPO comment : commentList) { replyList =
+			 * commentReplyInfoDao.findByCommentPO(comment.getId());
+			 * comment.setReplyList(replyList); comment.setReplySize(replyList.size()); }
+			 */
 			post.setCommentSize(commentList.size());
 			post.setTime(FCSDateUtil.CalculateTime(post.getCreateDate()));
-			//post.setCommentList(commentList);
+			// post.setCommentList(commentList);
 		}
 		return page;
 	}
@@ -105,6 +115,66 @@ public class PostInfoServiceImpl implements PostInfoService {
 	@Transactional
 	public void delete(String id) {
 		invitationDao.deleteById(id);
+	}
+
+	@Override
+	public PostInfoEntity Boutique(PostInfoEntity invitation, boolean result) {
+
+		return invitationDao.saveAndFlush(invitation);
+	}
+
+	// 帖子添加接口
+	@Override
+	public PostInfoEntity saveAgr(String[] addItem, PostInfoEntity postInfoEntity) {
+		Date date = new Date();
+		postInfoEntity.setCreateDate(date);
+		postInfoEntity.setStatus("1");// 默认禁用
+		postInfoEntity.setAuditStatus("0");// 默认审核状态 未审核
+		invitationDao.saveAndFlush(postInfoEntity);
+		for (int i = 0; i < addItem.length; i++) {
+			PictureInfoEntity pictureInfoEntity = new PictureInfoEntity();
+			PostPictureEntity postPictureEntity = new PostPictureEntity();
+			pictureInfoEntity.setPicName(postInfoEntity.getName());
+			pictureInfoEntity.setPicUrl(addItem[i]);
+			pictureInfoDAO.saveAndFlush(pictureInfoEntity);
+			postPictureEntity.setPhotoId(postInfoEntity.getId());
+			postPictureEntity.setPostId(pictureInfoEntity.getId());
+			postPictureDao.saveAndFlush(postPictureEntity);
+		}
+		return postInfoEntity;
+	}
+
+	// 查询最新最火热议好评精品
+	@Override
+	public Page<PostInfoEntity> findByType(String type, Pageable pageable) {
+
+		Page<PostInfoEntity> result = null;
+		switch (type) {
+		case "0":
+			result = invitationDao.findListByHotLabel(pageable);// 最火
+			break;
+		case "1":
+			result = invitationDao.findListByNewLabel(pageable);// 最新
+			break;
+		case "2":
+			result = invitationDao.findListByBoutiqueLabel(pageable);// 精品
+			break;
+		case "3":
+			result = invitationDao.findListByThumbsLabel(pageable);// 好评
+			break;
+		case "4":
+			result = invitationDao.findListByCommentLabel(pageable);// 热议
+			break;
+		}
+
+		return result;
+	}
+
+	// 我的收藏查詢列表信息
+	@Override
+	public List<PostInfoEntity> findByUserId() throws ServiceException {
+
+		return invitationDao.findByUserId();
 	}
 
 }

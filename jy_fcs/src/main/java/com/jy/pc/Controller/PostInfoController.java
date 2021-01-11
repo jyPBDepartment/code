@@ -18,12 +18,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.alibaba.fastjson.JSONObject;
+import com.jy.pc.Entity.CircleThumbsEntity;
 import com.jy.pc.Entity.ClassificationEntity;
+import com.jy.pc.Entity.PostCollectionEntity;
 import com.jy.pc.Entity.PostCommentInfoEntity;
 import com.jy.pc.Entity.PostInfoEntity;
 import com.jy.pc.Enum.ClassificationEnum;
+import com.jy.pc.Service.CircleThumbsService;
 import com.jy.pc.Service.ClassificationService;
+import com.jy.pc.Service.PostCollectionService;
 import com.jy.pc.Service.PostCommentInfoService;
 import com.jy.pc.Service.PostInfoService;
 
@@ -38,7 +41,10 @@ public class PostInfoController {
 	private ClassificationService classificationService;
 	@Autowired
 	private PostCommentInfoService postCommentInfoService;
-
+	@Autowired
+	private CircleThumbsService circleThumbsService;
+	@Autowired
+	private PostCollectionService postCollectionService;
 
 	@RequestMapping(value = "/getPostType")
 	public Map<String, Object> getPostType(HttpServletRequest res, HttpServletResponse req) {
@@ -88,9 +94,9 @@ public class PostInfoController {
 		return map;
 	}
 
-	// 条件查询
-	@RequestMapping(value = "/findById")
-	public Map<String, Object> findById(HttpServletRequest res, HttpServletResponse req,
+	// 条件查询pc
+	@RequestMapping(value = "/findByPcId")
+	public Map<String, Object> findByPcId(HttpServletRequest res, HttpServletResponse req,
 			@RequestParam(name = "id") String id) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		PostInfoEntity invitationEntity = postInfoService.findId(id);
@@ -98,6 +104,23 @@ public class PostInfoController {
 			map.put("status", "0");
 			map.put("data", invitationEntity);
 		} else {
+			map.put("status", "1");
+		}
+		return map;
+	}
+
+	// 条件查询h5
+	@RequestMapping(value = "/findById")
+	public Map<String, Object> findById(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "id") String id) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		try {
+			PostInfoEntity invitationEntity = postInfoService.findId(id);
+			invitationEntity.setPageview(invitationEntity.getPageview() + 1);
+			postInfoService.update(invitationEntity);
+			map.put("status", "0");
+			map.put("data", invitationEntity);
+		} catch (Exception e) {
 			map.put("status", "1");
 		}
 		return map;
@@ -118,7 +141,7 @@ public class PostInfoController {
 		if (status.equals("0")) {
 			map.put("status", "0");
 			map.put("message", "启用成功");
-		} 
+		}
 		if (status.equals("1")) {
 			map.put("status", "1");
 			map.put("message", "禁用成功");
@@ -130,7 +153,8 @@ public class PostInfoController {
 
 	// 审核通过
 	@RequestMapping(value = "/passPostInfo")
-	public Map<String, String> passPostInfo(HttpServletRequest res, HttpServletResponse req,String id,String auditUser) {
+	public Map<String, String> passPostInfo(HttpServletRequest res, HttpServletResponse req, String id,
+			String auditUser) {
 
 		Map<String, String> map = new HashMap<String, String>();
 		PostInfoEntity postInfoEntity = postInfoService.findId(id);
@@ -146,9 +170,9 @@ public class PostInfoController {
 
 	// 审核拒绝
 	@RequestMapping(value = "/refusePostInfo")
-	public Map<String, String> refusePostInfo(HttpServletRequest res, HttpServletResponse req,String id,String auditUser,String reason) {
+	public Map<String, String> refusePostInfo(HttpServletRequest res, HttpServletResponse req, String id,
+			String auditUser, String reason) {
 
-		
 		Map<String, String> map = new HashMap<String, String>();
 		PostInfoEntity postInfoEntity = postInfoService.findId(id);
 		Date date = new Date();
@@ -161,16 +185,17 @@ public class PostInfoController {
 		map.put("message", "审核驳回");
 		return map;
 	}
-	//删除
+
+	// 删除
 	@RequestMapping(value = "/delete")
 	public Map<String, Object> delete(HttpServletRequest res, HttpServletResponse req,
 			@RequestParam(name = "id") String id) {
-		
+
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
 			PostInfoEntity postInfo = postInfoService.findId(id);
 			List<PostCommentInfoEntity> postCommentList = postCommentInfoService.findPostId(postInfo.getId());
-			for(int i=0;i<postCommentList.size();i++) {
+			for (int i = 0; i < postCommentList.size(); i++) {
 				postCommentInfoService.delete(postCommentList.get(i).getId());
 			}
 			postInfoService.delete(id);
@@ -188,16 +213,133 @@ public class PostInfoController {
 	// 添加帖子
 	@RequestMapping(value = "/addPostInfo")
 	public Map<String, String> addPostInfo(HttpServletRequest res, HttpSession session, HttpServletResponse req,
-			PostInfoEntity postInfo) {
+			PostInfoEntity postInfoEntity, @RequestParam(name = "addItem") String[] addItem) {
 		Map<String, String> map = new HashMap<String, String>();
-		Date date = new Date();
-		postInfo.setCreateDate(date);
-		postInfo.setStatus("1");//默认禁用
-		postInfo.setAuditStatus("0");//默认审核状态 未审核
-		postInfoService.save(postInfo);
-		map.put("state", "0");
-		map.put("message", "添加成功");
+		try {
+			postInfoService.saveAgr(addItem, postInfoEntity);
+			map.put("state", "0");
+			map.put("message", "添加成功");
+		} catch (Exception e) {
+			map.put("state", "1");// 失败
+			map.put("message", "添加失败");
+		}
 		return map;
 	}
 
+	// 是否精品
+	@RequestMapping(value = "/Boutique")
+	public Map<String, String> opensulfBoutique(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "isSelected") Integer isSelected, @RequestParam(name = "id") String id) {
+
+		Map<String, String> map = new HashMap<String, String>();
+		PostInfoEntity invitationEntity = postInfoService.findId(id);
+		invitationEntity.setIsSelected(isSelected);
+		Date date = new Date();
+		invitationEntity.setUpdateDate(date);
+		boolean result = true;
+		invitationEntity.setIsSelected(isSelected);
+		if (isSelected.equals(0)) {
+			map.put("status", "0");
+			map.put("message", "启用精品成功");
+		} else {
+			map.put("status", "1");
+			map.put("message", "禁用精品成功");
+			result = false;
+		}
+		postInfoService.Boutique(invitationEntity, result);
+		return map;
+	}
+
+	/**
+	 * 帖子点赞
+	 * 
+	 */
+	@RequestMapping(value = "/postThumbs")
+	@ResponseBody
+	public Map<String, String> saveUserManualInfo(HttpServletRequest res, HttpServletResponse req,
+			CircleThumbsEntity circleThumbsEntity, @RequestParam(name = "isCancelThumbs") Integer isCancelThumbs,
+			@RequestParam(name = "thumbsUserId") String thumbsUserId,
+			@RequestParam(name = "circleId") String circleId) {
+
+		Map<String, String> map = new HashMap<String, String>();
+		PostInfoEntity PostInfoEntity = postInfoService.findId(circleId);
+		if (isCancelThumbs == 0) {
+			Date date = new Date();
+
+			circleThumbsEntity.setPostInfoEntity(PostInfoEntity);
+			circleThumbsService.save(circleThumbsEntity);
+			PostInfoEntity.setPraiseNum(PostInfoEntity.getPraiseNum() + 1);
+			try {
+				map.put("code", "200");
+				map.put("msg", "点赞成功");
+			} catch (Exception e) {
+				map.put("code", "201");
+				map.put("msg", "点赞失败");
+			}
+		} else {
+			CircleThumbsEntity circleThumbs = circleThumbsService.findUserId(thumbsUserId, circleId);
+			circleThumbsService.delete(circleThumbs.getId());
+			PostInfoEntity.setPraiseNum(PostInfoEntity.getPraiseNum() - 1);
+			map.put("msg", "取消点赞成功");
+		}
+		postInfoService.update(PostInfoEntity);
+		return map;
+	}
+
+	/**
+	 * 查询最新最火热议好评精品
+	 * 
+	 */
+	@RequestMapping(value = "/findByFive")
+	public Map<String, Object> findByFive(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "type", defaultValue = "0") String type, @RequestParam(name = "page") Integer page,
+			@RequestParam(name = "size") Integer size) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		Pageable pageable = new PageRequest(page - 1, size);
+		Page<PostInfoEntity> invitationList = postInfoService.findByType(type, pageable);
+		try {
+			map.put("status", "200");
+			map.put("data", invitationList);
+		} catch (Exception e) {
+			map.put("status", "201");
+			e.printStackTrace();
+		}
+		return map;
+	}
+
+	/**
+	 * 帖子收藏
+	 * 
+	 */
+	@RequestMapping(value = "/postCollection")
+	@ResponseBody
+	public Map<String, String> postCollection(HttpServletRequest res, HttpServletResponse req,
+			PostCollectionEntity postCollectionEntity,
+			@RequestParam(name = "isCancelCollection") Integer isCancelCollection,
+			@RequestParam(name = "userId") String userId, @RequestParam(name = "circleId") String circleId) {
+
+		Map<String, String> map = new HashMap<String, String>();
+		PostInfoEntity postInfoEntity = postInfoService.findId(circleId);
+		if (isCancelCollection == 0) {
+			Date date = new Date();
+			postCollectionEntity.setPostInfoEntity(postInfoEntity);
+			postCollectionService.save(postCollectionEntity);
+			postInfoEntity.setCollectionNum(postInfoEntity.getCollectionNum() + 1);
+			try {
+				map.put("code", "200");
+				map.put("msg", "收藏成功");
+			} catch (Exception e) {
+				map.put("code", "201");
+				map.put("msg", "收藏失败");
+			}
+		} else {
+			PostCollectionEntity postCollection = postCollectionService.findUserId(userId, circleId);
+			postCollectionService.delete(postCollection.getId());
+			postInfoEntity.setCollectionNum(postInfoEntity.getCollectionNum() - 1);
+
+			map.put("msg", "取消收藏成功");
+		}
+		postInfoService.update(postInfoEntity);
+		return map;
+	}
 }
