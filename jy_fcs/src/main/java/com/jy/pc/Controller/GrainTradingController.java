@@ -13,8 +13,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -53,7 +51,7 @@ public class GrainTradingController {
 	 * @param id 粮食买卖id
 	 * @return consumer: note:
 	 */
-	@GetMapping(value = "/mobileView")
+	@RequestMapping(value = "/mobileView")
 	public Map<String, Object> mobileWebView(HttpServletRequest res, HttpServletResponse req,
 			@RequestParam(name = "id") String id) {
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -77,7 +75,7 @@ public class GrainTradingController {
 	 * @param size    每页记录条数
 	 * @return
 	 */
-	@GetMapping(value = "/findReplyPageByParam")
+	@RequestMapping(value = "/findReplyPageByParam")
 	public Map<String, Object> findReplyPageByParam(HttpServletRequest res, HttpServletResponse req,
 			@RequestParam(name = "title", defaultValue = "") String title,
 			@RequestParam(name = "name", defaultValue = "") String name,
@@ -99,7 +97,7 @@ public class GrainTradingController {
 	 * @param size 页尺寸
 	 * @return consumer: note:
 	 */
-	@GetMapping(value = "/findReplyPage")
+	@RequestMapping(value = "/findReplyPage")
 	public Map<String, Object> findReplyPage(HttpServletRequest res, HttpServletResponse req,
 			@RequestParam(name = "cid") String cid, @RequestParam(name = "page") Integer page,
 			@RequestParam(name = "size") Integer size) {
@@ -119,7 +117,7 @@ public class GrainTradingController {
 	 * @param size 页尺寸
 	 * @return consumer: note:
 	 */
-	@GetMapping(value = "/findCommentPage")
+	@RequestMapping(value = "/findCommentPage")
 	public Map<String, Object> findCommentPage(HttpServletRequest res, HttpServletResponse req,
 			@RequestParam(name = "aid") String aid, @RequestParam(name = "page") Integer page,
 			@RequestParam(name = "size") Integer size) {
@@ -141,7 +139,7 @@ public class GrainTradingController {
 	 * @param size    每页记录条数
 	 * @return
 	 */
-	@GetMapping(value = "/findCommentPageByParam")
+	@RequestMapping(value = "/findCommentPageByParam")
 	public Map<String, Object> findPageByParam(HttpServletRequest res, HttpServletResponse req,
 			@RequestParam(name = "title", defaultValue = "") String title,
 			@RequestParam(name = "name", defaultValue = "") String name,
@@ -162,7 +160,7 @@ public class GrainTradingController {
 	 * @param id     评论id
 	 * @return consumer: note:
 	 */
-	@PostMapping(value = "/enableReply")
+	@RequestMapping(value = "/enableReply")
 	public Map<String, String> enableReply(HttpServletRequest res, HttpServletResponse req,
 			@RequestParam(name = "status") int status, @RequestParam(name = "id") String id) {
 
@@ -193,7 +191,7 @@ public class GrainTradingController {
 	 * @param id     评论id
 	 * @return consumer: note:
 	 */
-	@PostMapping(value = "/enableComment")
+	@RequestMapping(value = "/enableComment")
 	public Map<String, String> enableComment(HttpServletRequest res, HttpServletResponse req,
 			@RequestParam(name = "status") int status, @RequestParam(name = "id") String id) {
 
@@ -223,7 +221,7 @@ public class GrainTradingController {
 	 * @param replyId 回复id
 	 * @return
 	 */
-	@PostMapping(value = "/delCommentPC")
+	@RequestMapping(value = "/delCommentPC")
 	public Map<String, String> delCommentPC(HttpServletRequest res, HttpServletResponse req, String commentId) {
 		Map<String, String> map = new HashMap<String, String>();
 		commentService.delete(commentId);
@@ -238,7 +236,7 @@ public class GrainTradingController {
 	 * @param replyId 回复id
 	 * @return
 	 */
-	@PostMapping(value = "/deleteComment")
+	@RequestMapping(value = "/deleteComment")
 	public Map<String, String> deleteComment(HttpServletRequest res, HttpServletResponse req, String commentId) {
 		Map<String, String> map = new HashMap<String, String>();
 		commentService.delete(commentId);
@@ -253,7 +251,7 @@ public class GrainTradingController {
 	 * @param replyId 回复id
 	 * @return
 	 */
-	@PostMapping(value = "/delReplyPC")
+	@RequestMapping(value = "/delReplyPC")
 	public Map<String, String> deleteReply(HttpServletRequest res, HttpServletResponse req, String replyId) {
 		Map<String, String> map = new HashMap<String, String>();
 		replyService.delete(replyId);
@@ -268,7 +266,7 @@ public class GrainTradingController {
 	 * @param replyId 回复id
 	 * @return
 	 */
-	@PostMapping(value = "/deleteReply")
+	@RequestMapping(value = "/deleteReply")
 	public Map<String, String> replyService(HttpServletRequest res, HttpServletResponse req, String replyId) {
 		Map<String, String> map = new HashMap<String, String>();
 		replyService.delete(replyId);
@@ -283,7 +281,7 @@ public class GrainTradingController {
 	 * @param comment 评论内容
 	 * @return
 	 */
-	@PostMapping(value = "/addReply")
+	@RequestMapping(value = "/addReply")
 	public Map<String, String> addReply(HttpServletRequest res, HttpServletResponse req,
 			GrainTradingReplyEntity reply) {
 		Map<String, String> map = new HashMap<String, String>();
@@ -301,7 +299,7 @@ public class GrainTradingController {
 	 * @param comment 评论内容
 	 * @return
 	 */
-	@PostMapping(value = "/addComment")
+	@RequestMapping(value = "/addComment")
 	public Map<String, String> addComment(HttpServletRequest res, HttpServletResponse req,
 			GrainTradingCommentEntity comment) {
 		Map<String, String> map = new HashMap<String, String>();
@@ -320,7 +318,7 @@ public class GrainTradingController {
 	 * @param id         粮食买卖ID
 	 * @return
 	 */
-	@PostMapping(value = "/setSelected")
+	@RequestMapping(value = "/setSelected")
 	public Map<String, String> setSelected(HttpServletRequest res, HttpServletResponse req,
 			@RequestParam(name = "isSelected") int isSelected, @RequestParam(name = "id") String id) {
 
@@ -353,7 +351,7 @@ public class GrainTradingController {
 	 * @return
 	 * @throws Exception
 	 */
-	@PostMapping(value = "/setCollection")
+	@RequestMapping(value = "/setCollection")
 	public Map<String, String> setCollection(HttpServletRequest res, HttpServletResponse req,
 			@RequestParam(name = "action") int action, @RequestParam(name = "agrId") String agrId,
 			@RequestParam(name = "userId") String userId) throws Exception {
@@ -382,7 +380,7 @@ public class GrainTradingController {
 	 * @return
 	 * @throws Exception
 	 */
-	@PostMapping(value = "/setPraise")
+	@RequestMapping(value = "/setPraise")
 	public Map<String, String> setPraise(HttpServletRequest res, HttpServletResponse req,
 			@RequestParam(name = "action") int action, @RequestParam(name = "agrId") String agrId,
 			@RequestParam(name = "userId") String userId) throws Exception {
@@ -408,7 +406,7 @@ public class GrainTradingController {
 	 * @param id 粮食买卖信息id
 	 * @return
 	 */
-	@PostMapping(value = "/addPV")
+	@RequestMapping(value = "/addPV")
 	public Map<String, Object> addPV(HttpServletRequest res, HttpServletResponse req,
 			@RequestParam(name = "id") String id) throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
