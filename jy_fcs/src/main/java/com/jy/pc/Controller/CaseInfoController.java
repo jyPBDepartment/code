@@ -1,5 +1,6 @@
 package com.jy.pc.Controller;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,10 +18,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.jy.pc.Entity.CaseInfoCollectionEntity;
 import com.jy.pc.Entity.CaseInfoEntity;
+import com.jy.pc.Entity.CasePraiseEntity;
 import com.jy.pc.Entity.KeyWordEntity;
 import com.jy.pc.Enum.ClassificationEnum;
+import com.jy.pc.Service.CaseInfoCollectionService;
 import com.jy.pc.Service.CaseInfoService;
+import com.jy.pc.Service.CasePraiseService;
 import com.jy.pc.Service.KeyWordService;
 
 @Controller
@@ -33,6 +38,12 @@ public class CaseInfoController {
 	
 	@Autowired
 	private KeyWordService keyWordService;
+	
+	@Autowired
+	private CasePraiseService casePraiseService;
+	
+	@Autowired
+	private CaseInfoCollectionService caseInfoCollectionService;
 
 	// 接口 -- 根据id获取信息
 	@RequestMapping(value = "findLatestCaseInfoById")
@@ -170,6 +181,30 @@ public class CaseInfoController {
 		caseInfoService.update(caseInfoEntity);
 		return map;
 	}
+	
+	// 是否设为精选
+	@RequestMapping(value = "/setSelect")
+	public Map<String, String> setSelect(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "isSelected") Integer isSelected, @RequestParam(name = "id") String id) {
+		Map<String, String> map = new HashMap<String, String>();
+		CaseInfoEntity caseInfoEntity = caseInfoService.findBId(id);
+		caseInfoEntity.setIsSelected(isSelected);
+		Date date = new Date();
+		caseInfoEntity.setUpdateDate(date);
+		boolean result = true;
+		if (isSelected.equals(1)) {
+			caseInfoEntity.setIsSelected(1);
+			map.put("code", "0");
+			map.put("message", "取消精选成功");
+		} else if (isSelected.equals(0)) {
+			caseInfoEntity.setIsSelected(0);
+			map.put("code", "0");
+			map.put("message", "设置为精选成功");
+			result = false;
+		}
+		caseInfoService.setSelect(caseInfoEntity, result);
+		return map;
+	}
 
 	/**
 	 * 接口
@@ -215,6 +250,157 @@ public class CaseInfoController {
 		}
 		map.put("state", "0");
 		map.put("message", "查询成功");
+		return map;
+	}
+	
+	/**
+	 * 看图识病点赞
+	 * 
+	 * */
+	@RequestMapping(value = "/saveCasePraise")
+	public Map<String, String> saveCasePraise(HttpServletRequest res, HttpServletResponse req,
+			CasePraiseEntity casePraiseEntity,@RequestParam(name = "isFabulous") Integer isFabulous,
+			@RequestParam(name = "praiseUserId") String praiseUserId,@RequestParam(name = "caseId") String caseId) {
+		Map<String, String> map = new HashMap<String, String>();
+		CaseInfoEntity caseInfo = caseInfoService.findBId(caseId);
+		if(isFabulous == 0) {
+			try {
+				Date date = new Date();
+				casePraiseEntity.setFabulousDate(date);//设置点赞时间
+				casePraiseEntity.setCaseInfoEntity(caseInfo);
+				casePraiseService.save(casePraiseEntity);
+				caseInfo.setPraiseNum(caseInfo.getPraiseNum() + 1);
+				map.put("code", "200");
+				map.put("message", "点赞成功");
+			}catch(Exception e) {
+				map.put("code", "201");
+				map.put("message", "点赞失败");
+			}
+		}else {
+			CasePraiseEntity casePraise = casePraiseService.findUserId(caseId, praiseUserId);
+			casePraiseService.delete(casePraise.getId());
+			caseInfo.setPraiseNum(caseInfo.getPraiseNum() - 1);
+		}
+		caseInfoService.update(caseInfo);
+		return map;
+	}
+	
+	/**
+	 * 看图识病浏览量
+	 * */
+	@RequestMapping(value = "findNumById")
+	public Map<String, Object> findNumById(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "id") String id) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		try {
+			CaseInfoEntity caseInfo = caseInfoService.findBId(id);
+			caseInfo.setBrowseNum(caseInfo.getBrowseNum() + 1);
+			caseInfoService.update(caseInfo);
+			map.put("code", "200");// 查询数据成功
+			map.put("data", caseInfo);
+		} catch (Exception e) {
+			map.put("code", "201");// 查询数据失败
+		}
+		return map;
+	}
+	
+	/**
+	 * 设置与我无关
+	 * */
+	@RequestMapping(value = "/isIrrelevant")
+	public Map<String, String> opensulf(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "isIrrelevant") Integer isIrrelevant, @RequestParam(name = "id") String id) {
+		Map<String, String> map = new HashMap<String, String>();
+		CaseInfoEntity caseInfoEntity = caseInfoService.findBId(id);
+		caseInfoEntity.setIsIrrelevant(isIrrelevant);
+		if (isIrrelevant.equals(1)) {
+			caseInfoEntity.setIsSelected(1);
+			caseInfoEntity.setIrrelevantNum(caseInfoEntity.getIrrelevantNum()-1);
+			map.put("code", "0");
+			map.put("message", "取消与我无关成功");
+		} else if (isIrrelevant.equals(0)) {
+			caseInfoEntity.setIsIrrelevant(0);
+			caseInfoEntity.setIrrelevantNum(caseInfoEntity.getIrrelevantNum()+1);
+			map.put("code", "1");
+			map.put("message", "设置与我无关成功成功");
+		}
+		caseInfoService.update(caseInfoEntity);
+		return map;
+	}
+	
+	/**
+	 * 看图识病根据类型查询列表
+	 *  0：最火 1：最新 2：精选 3：热议 4：好评
+	 * */
+	@RequestMapping(value = "/findByNum")
+	public Map<String, Object> findByNum(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "type", defaultValue = "") Integer type, @RequestParam(name = "page") Integer page,
+			@RequestParam(name = "size") Integer size) {
+		Map<String, Object> map = new HashMap<String, Object>();
+
+		Pageable pageable = new PageRequest(page - 1, size);
+		try {
+			Page<CaseInfoEntity> caseInfoList = caseInfoService.findByNum(type, pageable);
+			map.put("code", "200");// 成功
+			map.put("message", "查询成功");
+			map.put("data", caseInfoList);
+		} catch (Exception e) {
+			map.put("code", "201");
+			map.put("message", "查询失败");
+		}
+		return map;
+	}
+	
+	/**
+	 * 看图识病收藏
+	 * */
+	@RequestMapping(value = "/saveCollection")
+	public Map<String, String> saveCollection(HttpServletRequest res, HttpServletResponse req,
+			CaseInfoCollectionEntity caseInfoCollectionEntity,@RequestParam(name = "isCollection") Integer isCollection,
+			@RequestParam(name = "collectionUserId") String collectionUserId,@RequestParam(name = "caseId") String caseId) {
+		Map<String, String> map = new HashMap<String, String>();
+		CaseInfoEntity caseInfo = caseInfoService.findBId(caseId);
+		if(isCollection == 0) {
+			try {
+				Date date = new Date();
+				caseInfoCollectionEntity.setCollectionDate(date);
+				caseInfoCollectionEntity.setCaseInfoEntity(caseInfo);
+				caseInfoCollectionService.save(caseInfoCollectionEntity);
+				caseInfo.setCollectionNum(caseInfo.getCollectionNum() + 1);
+				map.put("code", "200");
+				map.put("message", "收藏成功");
+			}catch(Exception e) {
+				map.put("code", "201");
+				map.put("message", "收藏失败");
+			}
+		}else {
+			CaseInfoCollectionEntity caseInfoCollection = caseInfoCollectionService.findCaseUserId(caseId, collectionUserId);
+			caseInfoCollectionService.delete(caseInfoCollection.getId());
+			caseInfo.setCollectionNum(caseInfo.getCollectionNum() - 1);
+			map.put("code", "1");
+			map.put("message", "取消收藏成功");
+		}
+		caseInfoService.update(caseInfo);
+		return map;
+	}
+	/**
+	 * 查看我的看图识病收藏
+	 * */
+	@RequestMapping(value = "/findByMyCollection")
+	public Map<String, Object> findByMyCollection(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "collectionUserId") String collectionUserId,
+			@RequestParam(name = "page") Integer page, @RequestParam(name = "size") Integer size) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		Pageable pageable = new PageRequest(page - 1, size);
+		try {
+			Page<CaseInfoCollectionEntity> caseInfoCollectionList = caseInfoCollectionService.findUserId(collectionUserId, pageable);
+			map.put("code", "200");// 成功
+			map.put("message", "查询成功");
+			map.put("data", caseInfoCollectionList);
+		} catch (Exception e) {
+			map.put("code", "201");// 失败
+			map.put("message", "查询失败");
+		}
 		return map;
 	}
 }

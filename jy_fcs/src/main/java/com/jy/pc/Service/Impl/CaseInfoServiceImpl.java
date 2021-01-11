@@ -1,9 +1,7 @@
 package com.jy.pc.Service.Impl;
 
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.alibaba.fastjson.JSONObject;
 import com.jy.pc.DAO.CaseInfoDao;
@@ -28,7 +25,7 @@ import com.jy.pc.Service.CaseInfoService;
 import com.jy.pc.Utils.Aes;
 import com.jy.pc.Utils.DbLogUtil;
 import com.mysql.cj.util.StringUtils;
-
+//看图识病表 ServiceImpl
 @Service
 public class CaseInfoServiceImpl implements CaseInfoService {
 
@@ -194,6 +191,7 @@ public class CaseInfoServiceImpl implements CaseInfoService {
 		caseInfoEntity = jsonObject.toJavaObject(CaseInfoEntity.class);
 		caseInfoEntity.setCreateDate(date);
 		caseInfoEntity.setAuditStatus("0");
+		caseInfoEntity.setIsSelected(1);
 
 		ClassificationEntity classificationEntity = classificationDao.findBId(caseInfoEntity.getClassiCode());
 		caseInfoEntity.setCropsTypeCode(classificationEntity.getName());
@@ -216,5 +214,41 @@ public class CaseInfoServiceImpl implements CaseInfoService {
 			}
 			return caseInfoEntity;
 		
+	}
+
+	//是否设为精选
+	@Override
+	public CaseInfoEntity setSelect(CaseInfoEntity caseInfoEntity, boolean result) {
+		return caseInfoDao.saveAndFlush(caseInfoEntity);
+	}
+
+	//设为与我无关
+	@Override
+	public CaseInfoEntity setIsIrrelevant(CaseInfoEntity caseInfoEntity, boolean result) {
+		return caseInfoDao.saveAndFlush(caseInfoEntity);
+	}
+
+	//看图识病按类型查询
+	@Override
+	public Page<CaseInfoEntity> findByNum(Integer type,Pageable pageable) {
+		Page<CaseInfoEntity> caseInfoEntity = null;
+		switch (type) {
+		case 0:
+			caseInfoEntity = caseInfoDao.findByBowNum(pageable); // 最火
+			break;
+		case 1:
+			caseInfoEntity = caseInfoDao.findByNewNum(pageable); // 最新
+			break;
+		case 2:
+			caseInfoEntity = caseInfoDao.findBySelected(pageable); // 精选
+			break;
+		case 3:
+			caseInfoEntity = caseInfoDao.findByCommNum(pageable); // 热议
+			break;
+		case 4:
+			caseInfoEntity = caseInfoDao.findByPraNum(pageable); // 好评
+			break;
+		}
+		return caseInfoEntity;
 	}
 }

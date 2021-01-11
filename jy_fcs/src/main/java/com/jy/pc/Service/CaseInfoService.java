@@ -9,7 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.jy.pc.Entity.CaseInfoEntity;
-
+// 看图识病 Service
 public interface CaseInfoService {
 
 	// 添加
@@ -47,4 +47,12 @@ public interface CaseInfoService {
 	//切换状态 启用禁用
 	CaseInfoEntity enable(CaseInfoEntity caseInfoEntity, boolean result);
 	
+	//设为精选 0是1否
+	CaseInfoEntity setSelect(CaseInfoEntity caseInfoEntity, boolean result);
+	
+	//设为与我无关
+	CaseInfoEntity setIsIrrelevant(CaseInfoEntity caseInfoEntity, boolean result);
+	
+	// 看图识病查询
+	public Page<CaseInfoEntity> findByNum(Integer type,Pageable pageable);
 }

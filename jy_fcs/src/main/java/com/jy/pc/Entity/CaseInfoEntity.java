@@ -52,10 +52,106 @@ public class CaseInfoEntity {
 	private Date updateDate;//修改时间
 	@Column(length=255)
 	private String createUser;//创建人
+	@Column(length=255)
+	private String updateUser;//修改人
 	@Transient
 	@ElementCollection(targetClass=KeyWordEntity.class)
 	private List<KeyWordEntity> keyCodes;//关键字关联
-	
+	@Column(columnDefinition = "int(10) default 0 comment '收藏数'")
+	private int collectionNum; //收藏数量
+	@Column(columnDefinition = "int(10) default 0 comment '评论数'")
+	private int commentNum;  //评论数量
+	@Column(columnDefinition = "int(10) default 0 comment '点赞数'")
+	private int praiseNum;   //点赞数量
+	@Column(columnDefinition = "int(5) default 1 comment '是否精选0是1否'")
+	private int isSelected;  //是否精选
+	@Column(columnDefinition = "int(10) default 0 comment '差评数量'")
+	private int negativeNum;  //差评数量
+	@Column(columnDefinition = "int(20) default 0 comment '浏览数'")
+	private int browseNum;  //浏览数量
+	@Column(columnDefinition = " text comment '危害富文本'")
+	private String harm; //危害
+	@Column(columnDefinition = " text comment '传播途径/发病条件富文本'")
+	private String channel; //传播途径/发病条件
+	@Column(columnDefinition = " text comment '防治技术富文本'")
+	private String controlTechnology; //防治技术
+	@Column(columnDefinition = "int(5) default 1 comment '是否与我无关0是1否'")
+	private int isIrrelevant;  //与我无关
+	@Column(columnDefinition = "int(20) default 0 comment '与我无关数量'")
+	private int irrelevantNum;  //与我无关数量
+		
+	public int getIsIrrelevant() {
+		return isIrrelevant;
+	}
+	public void setIsIrrelevant(int isIrrelevant) {
+		this.isIrrelevant = isIrrelevant;
+	}
+	public int getIrrelevantNum() {
+		return irrelevantNum;
+	}
+	public void setIrrelevantNum(int irrelevantNum) {
+		this.irrelevantNum = irrelevantNum;
+	}
+	public String getUpdateUser() {
+		return updateUser;
+	}
+	public void setUpdateUser(String updateUser) {
+		this.updateUser = updateUser;
+	}
+	public int getNegativeNum() {
+		return negativeNum;
+	}
+	public void setNegativeNum(int negativeNum) {
+		this.negativeNum = negativeNum;
+	}
+	public int getBrowseNum() {
+		return browseNum;
+	}
+	public void setBrowseNum(int browseNum) {
+		this.browseNum = browseNum;
+	}
+	public String getHarm() {
+		return harm;
+	}
+	public void setHarm(String harm) {
+		this.harm = harm;
+	}
+	public String getChannel() {
+		return channel;
+	}
+	public void setChannel(String channel) {
+		this.channel = channel;
+	}
+	public String getControlTechnology() {
+		return controlTechnology;
+	}
+	public void setControlTechnology(String controlTechnology) {
+		this.controlTechnology = controlTechnology;
+	}
+	public int getCollectionNum() {
+		return collectionNum;
+	}
+	public void setCollectionNum(int collectionNum) {
+		this.collectionNum = collectionNum;
+	}
+	public int getCommentNum() {
+		return commentNum;
+	}
+	public void setCommentNum(int commentNum) {
+		this.commentNum = commentNum;
+	}
+	public int getPraiseNum() {
+		return praiseNum;
+	}
+	public void setPraiseNum(int praiseNum) {
+		this.praiseNum = praiseNum;
+	}
+	public int getIsSelected() {
+		return isSelected;
+	}
+	public void setIsSelected(int isSelected) {
+		this.isSelected = isSelected;
+	}
 	public List<KeyWordEntity> getKeyCodes() {
 		return keyCodes;
 	}
