@@ -1,6 +1,7 @@
 package com.jy.pc.Service.Impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -62,6 +63,20 @@ public class GrainTradingReplyServiceImpl implements GrainTradingReplyService {
 	public List<GrainTradingReplyEntity> findPostId(String postId) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public Page<List<Map<String, Object>>> findPageByParam(String title, String name, String content,
+			Pageable pageable) {
+		title = "%" + title + "%";
+		name = "%" + name + "%";
+		content = "%" + content + "%";
+		return replyDao.findPageByParam(title, name, content, pageable);
+	}
+
+	@Override
+	public Page<GrainTradingReplyEntity> findCommentPage(String cid, Pageable pageable) {
+		return replyDao.findCommentPage(cid,pageable);
 	}
 
 }

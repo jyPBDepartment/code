@@ -54,7 +54,7 @@ public interface AgriculturalService {
 
 	// 搜索发布信息中农服信息(标题名称)
 	Page<AgriculturalEntity> findAgriInfo(String name, String type, String transactionTypeCode,
-			String transactionCategoryCode, String identityCode,String address, Pageable pageable);
+			String transactionCategoryCode, String identityCode,String address, String sort,Pageable pageable);
 
 	// 搜索发布信息中农服信息（类型、类别）
 	Page<AgriculturalEntity> findAgriType(String transactionTypeCode, String transactionCategoryCode,

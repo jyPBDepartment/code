@@ -1,6 +1,7 @@
 package com.jy.pc.Service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -30,4 +31,9 @@ public interface GrainTradingReplyService {
 	void enable(GrainTradingReplyEntity grainTradingReplyEntity, boolean result);
 
 	public List<GrainTradingReplyEntity> findPostId(String postId);
+
+	public Page<List<Map<String, Object>>> findPageByParam(String title, String name, String content,
+			Pageable pageable);
+
+	public Page<GrainTradingReplyEntity> findCommentPage(String cid, Pageable pageable);
 }

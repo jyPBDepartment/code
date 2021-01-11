@@ -22,11 +22,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.jy.pc.Entity.AgriculturalEntity;
 import com.jy.pc.Entity.GrainTradingCommentEntity;
 import com.jy.pc.Entity.GrainTradingReplyEntity;
+import com.jy.pc.Entity.PictureInfoEntity;
 import com.jy.pc.Service.AgriculturalService;
 import com.jy.pc.Service.GrainTradingCollectionService;
 import com.jy.pc.Service.GrainTradingCommentService;
 import com.jy.pc.Service.GrainTradingPraiseService;
 import com.jy.pc.Service.GrainTradingReplyService;
+import com.jy.pc.Service.PictureInfoService;
 
 @Controller
 @ResponseBody
@@ -42,14 +44,101 @@ public class GrainTradingController {
 	private GrainTradingCommentService commentService;
 	@Autowired
 	private GrainTradingReplyService replyService;
+	@Autowired
+	private PictureInfoService pictureInfoService;
+
+	/**
+	 * H5-根据主键id返回详情信息
+	 * 
+	 * @param id 粮食买卖id
+	 * @return consumer: note:
+	 */
+	@GetMapping(value = "/mobileView")
+	public Map<String, Object> mobileWebView(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "id") String id) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		AgriculturalEntity agr = agriculturalService.findId(id);
+		List<PictureInfoEntity> agrPic = pictureInfoService.findByAgrId(id);
+		GrainTradingCommentEntity comment = commentService.findNewestById(id);
+		map.put("agr", agr);
+		map.put("agrPic", agrPic);
+		map.put("comment", comment);
+		map.put("code", 200);
+		return map;
+	}
 
 	/**
 	 * PC-分页查询粮食买卖信息
-	 * @param title 标题
-	 * @param name 评论人
-	 * @param content 评论内容
+	 * 
+	 * @param title   标题
+	 * @param name    回复人
+	 * @param content 回复内容
+	 * @param page    页码
+	 * @param size    每页记录条数
+	 * @return
+	 */
+	@GetMapping(value = "/findReplyPageByParam")
+	public Map<String, Object> findReplyPageByParam(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "title", defaultValue = "") String title,
+			@RequestParam(name = "name", defaultValue = "") String name,
+			@RequestParam(name = "content", defaultValue = "") String content,
+			@RequestParam(name = "page") Integer page, @RequestParam(name = "size") Integer size) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		Pageable pageable = new PageRequest(page - 1, size);
+		Page<List<Map<String, Object>>> data = replyService.findPageByParam(title, name, content, pageable);
+		map.put("code", "200");
+		map.put("data", data);
+		return map;
+	}
+
+	/**
+	 * H5-获取评论下所有回复
+	 * 
+	 * @param aid  粮食买卖主键
 	 * @param page 页码
-	 * @param size 每页记录条数
+	 * @param size 页尺寸
+	 * @return consumer: note:
+	 */
+	@GetMapping(value = "/findReplyPage")
+	public Map<String, Object> findReplyPage(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "cid") String cid, @RequestParam(name = "page") Integer page,
+			@RequestParam(name = "size") Integer size) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		Pageable pageable = new PageRequest(page - 1, size);
+		Page<GrainTradingReplyEntity> data = replyService.findCommentPage(cid, pageable);
+		map.put("code", "200");
+		map.put("data", data);
+		return map;
+	}
+	
+	/**
+	 * H5-获取粮食买卖下所有评论
+	 * 
+	 * @param aid  粮食买卖主键
+	 * @param page 页码
+	 * @param size 页尺寸
+	 * @return consumer: note:
+	 */
+	@GetMapping(value = "/findCommentPage")
+	public Map<String, Object> findCommentPage(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "aid") String aid, @RequestParam(name = "page") Integer page,
+			@RequestParam(name = "size") Integer size) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		Pageable pageable = new PageRequest(page - 1, size);
+		Page<List<Map<String, Object>>> data = commentService.findCommentPage(aid, pageable);
+		map.put("code", "200");
+		map.put("data", data);
+		return map;
+	}
+
+	/**
+	 * PC-分页查询粮食买卖信息
+	 * 
+	 * @param title   标题
+	 * @param name    评论人
+	 * @param content 评论内容
+	 * @param page    页码
+	 * @param size    每页记录条数
 	 * @return
 	 */
 	@GetMapping(value = "/findCommentPageByParam")

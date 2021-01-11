@@ -51,7 +51,10 @@ public class GrainTradingCommentServiceImpl implements GrainTradingCommentServic
 	@Transactional
 	public void delete(String id) {
 		GrainTradingCommentEntity comment = commentDao.findInfoById(id);
+		AgriculturalEntity grain = agriculturalDao.findId(comment.getAid());
+		grain.setCommentNum(grain.getCommentNum() - 1);
 		comment.setStatus(-1);
+		agriculturalDao.save(grain);
 		commentDao.save(comment);
 		replyDao.logicalDelete(id);
 	}
@@ -80,6 +83,16 @@ public class GrainTradingCommentServiceImpl implements GrainTradingCommentServic
 		name = "%" + name + "%";
 		content = "%" + content + "%";
 		return commentDao.findPageByParam(title, name, content, pageable);
+	}
+
+	@Override
+	public GrainTradingCommentEntity findNewestById(String aid) {
+		return commentDao.findNewestById(aid);
+	}
+
+	@Override
+	public Page<List<Map<String, Object>>> findCommentPage(String aid,Pageable pageable) {
+		return commentDao.findCommentPage(aid,pageable);
 	}
 
 }

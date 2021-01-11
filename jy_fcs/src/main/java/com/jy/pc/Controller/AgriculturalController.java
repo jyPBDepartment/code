@@ -80,7 +80,7 @@ public class AgriculturalController {
 	public Map<String, Object> save(HttpServletRequest res, HttpServletResponse req,
 			AgriculturalEntity agriculturalEntity, @RequestParam(name = "addItem") String[] addItem) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		agriculturalService.saveAgr(addItem,agriculturalEntity);
+		agriculturalService.saveAgr(addItem, agriculturalEntity);
 		map.put("state", "0");
 		map.put("data", agriculturalEntity);
 		map.put("message", "添加成功");
@@ -106,15 +106,21 @@ public class AgriculturalController {
 	}
 
 	/**
-	 * 搜索发布信息中农服信息（接口,标题名称）
+	 * H5- 搜索发布信息中农服信息（接口,标题名称）
 	 * 
-	 * @param type 包括：农服类0，粮食买卖1，农机类2
+	 * @param name
+	 * @param sort 排序方式1最火2最新3精品4热议5好评 
+	 * @param type 农服类0，粮食买卖1，农机类2
+	 * @param page 页码
+	 * @param size 页尺寸
+	 * @return consumer: note:
 	 */
 	@RequestMapping(value = "/findAgriInfo")
 	public Map<String, Object> findAgriInfo(HttpServletRequest res, HttpServletResponse req,
 			@RequestParam(name = "transactionTypeCode", defaultValue = "") String transactionTypeCode,
 			@RequestParam(name = "transactionCategoryCode", defaultValue = "") String transactionCategoryCode,
 			@RequestParam(name = "name", defaultValue = "") String name,
+			@RequestParam(name = "sort", defaultValue = "1") String sort,
 			@RequestParam(name = "type", defaultValue = "0") String type, @RequestParam(name = "page") Integer page,
 			@RequestParam(name = "size") Integer size) {
 
@@ -129,7 +135,7 @@ public class AgriculturalController {
 		}
 
 		Page<AgriculturalEntity> agriculturalList = agriculturalService.findAgriInfo(name, type, transactionTypeCode,
-				transactionCategoryCode, identityCode,address, pageable);
+				transactionCategoryCode, identityCode, address,sort, pageable);
 		map.put("state", "0");// 成功
 		map.put("message", "查询成功");
 		map.put("data", agriculturalList);
@@ -352,11 +358,11 @@ public class AgriculturalController {
 		map.put("data", agricul);
 		return map;
 	}
-	
-	//取消发布(接口)
+
+	// 取消发布(接口)
 	@RequestMapping(value = "/unpublish")
 	public Map<String, String> unpublish(HttpServletRequest res, HttpServletResponse req,
-			@RequestParam(name = "id") String id,@RequestParam(name = "reason") String reason,
+			@RequestParam(name = "id") String id, @RequestParam(name = "reason") String reason,
 			AgriculturalEntity agriculturalEntity) {
 		Map<String, String> map = new HashMap<String, String>();
 		agriculturalEntity = agriculturalService.findBId(id);
@@ -367,32 +373,38 @@ public class AgriculturalController {
 		map.put("message", "取消成功");
 		return map;
 	}
-	//修改(接口)
+
+	// 修改(接口)
 	@RequestMapping(value = "/update")
 	public Map<String, Object> update(HttpServletRequest res, HttpServletResponse req,
-			AgriculturalEntity agriculturalEntity,@RequestParam(name = "id") String id,
+			AgriculturalEntity agriculturalEntity, @RequestParam(name = "id") String id,
 			@RequestParam(name = "transactionTypeCode") String transactionTypeCode,
 			@RequestParam(name = "transactionCategoryCode") String transactionCategoryCode,
-			@RequestParam(name = "addItem") String[] addItem,@RequestParam(name = "deleteSurplus") String[] deleteSurplus,
-			@RequestParam(name = "deleteItem",required=false) String[] deleteItem) {
+			@RequestParam(name = "addItem") String[] addItem,
+			@RequestParam(name = "deleteSurplus") String[] deleteSurplus,
+			@RequestParam(name = "deleteItem", required = false) String[] deleteItem) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		agriculturalService.updateAgr(agriculturalEntity,id,addItem,deleteItem,transactionTypeCode,transactionCategoryCode,deleteSurplus);
+		agriculturalService.updateAgr(agriculturalEntity, id, addItem, deleteItem, transactionTypeCode,
+				transactionCategoryCode, deleteSurplus);
 		map.put("state", "0");
 		map.put("data", agriculturalEntity);
 		map.put("message", "修改成功");
 		return map;
 	}
-	//图片删除
+
+	// 图片删除
 	@RequestMapping(value = "/deletePic")
-	public void delete(HttpServletRequest res, HttpServletResponse req,
-			AgriculturalEntity agriculturalEntity,@RequestParam(name = "url") String url) {
-			PictureInfoEntity pictureInfoEntity = pictureInfoService.findByAgrUrl(url);
-			if(pictureInfoEntity != null) {
-				AgriculturalPictureEntity agriculturalPicture = agriculturalPictureService.findByPicId(pictureInfoEntity.getId());
-				agriculturalPictureService.delete(agriculturalPicture.getId());
-				pictureInfoService.delete(pictureInfoEntity.getId());
-			}
+	public void delete(HttpServletRequest res, HttpServletResponse req, AgriculturalEntity agriculturalEntity,
+			@RequestParam(name = "url") String url) {
+		PictureInfoEntity pictureInfoEntity = pictureInfoService.findByAgrUrl(url);
+		if (pictureInfoEntity != null) {
+			AgriculturalPictureEntity agriculturalPicture = agriculturalPictureService
+					.findByPicId(pictureInfoEntity.getId());
+			agriculturalPictureService.delete(agriculturalPicture.getId());
+			pictureInfoService.delete(pictureInfoEntity.getId());
+		}
 	}
+
 	// 删除
 	@RequestMapping(value = "/delete")
 	public Map<String, Object> delete(HttpServletRequest res, HttpServletResponse req,
@@ -402,5 +414,5 @@ public class AgriculturalController {
 		map.put("state", "0");
 		map.put("message", "删除成功");
 		return map;
-}
+	}
 }

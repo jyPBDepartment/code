@@ -144,11 +144,11 @@ public class AgriculturalServiceImpl implements AgriculturalService {
 
 	@Override
 	public Page<AgriculturalEntity> findAgriInfo(String name, String type, String transactionTypeCode,
-			String transactionCategoryCode, String identityCode,String address, Pageable pageable) {
+			String transactionCategoryCode, String identityCode, String address, String sort, Pageable pageable) {
 		String argiName = "".equals(name) ? "" : "%" + name + "%";
 		String addr = "".equals(address) ? "" : "%" + address + "%";
-		return agriculturalDao.findAgriInfo(argiName, transactionTypeCode, transactionCategoryCode, identityCode,addr,
-				PublicationEnum.getValueByType(type), pageable);
+		return agriculturalDao.findAgriInfo(argiName, transactionTypeCode, transactionCategoryCode, identityCode, addr,
+				sort, PublicationEnum.getValueByType(type), pageable);
 	}
 
 	@Override
@@ -168,55 +168,58 @@ public class AgriculturalServiceImpl implements AgriculturalService {
 	public Page<AgriculturalEntity> findMyPublication(String status, String type, String userId, Pageable pageable) {
 		return agriculturalDao.findMyPublication(status, userId, PublicationEnum.getValueByType(type), pageable);
 	}
-	
+
 	// 根据id查询我的农服，农机，粮食买卖信息详情（h5）
 	@Override
 	public AgriculturalEntity findMineId(String id) {
 		return agriculturalDao.findMineId(id);
 	}
 
-	private static int calBetweenDate(Date begin,Date end) {
+	private static int calBetweenDate(Date begin, Date end) {
 		int days = 0;
-		if(begin!=null && end!=null) {
-			days = (int)((end.getTime() - begin.getTime()) / (24*3600*1000));
+		if (begin != null && end != null) {
+			days = (int) ((end.getTime() - begin.getTime()) / (24 * 3600 * 1000));
 		}
 		return days;
 	}
-	
+
 	@Transactional
 	@Override
-	public AgriculturalEntity updateAgr(AgriculturalEntity agriculturalEntity,String id,String[] addItem,String[] deleteItem,String transactionTypeCode,String transactionCategoryCode,String[] deleteSurplus) {
-		
+	public AgriculturalEntity updateAgr(AgriculturalEntity agriculturalEntity, String id, String[] addItem,
+			String[] deleteItem, String transactionTypeCode, String transactionCategoryCode, String[] deleteSurplus) {
+
 		AgriculturalEntity agricultural = agriculturalDao.findBId(id);
 		Date date = new Date();
 		agriculturalEntity.setUpdateDate(date);// 设置修改时间
 		agriculturalEntity.setUpdateUser(agricultural.getUpdateUser());
 		agriculturalEntity.setStatus(agricultural.getStatus());
-		//0923根据产品要求，只有当图片、标题、描述发生变动时才修改审核状态
+		// 0923根据产品要求，只有当图片、标题、描述发生变动时才修改审核状态
 		String oldName = agricultural.getName();
 		String oldDes = agricultural.getDescrip();
 		String newName = agriculturalEntity.getName();
 		String newDes = agriculturalEntity.getDescrip();
-		if(!oldName.equals(newName) || !oldDes.equals(newDes) || (addItem!=null&&addItem.length>0) || (deleteItem!=null&&deleteItem.length>0)) {
+		if (!oldName.equals(newName) || !oldDes.equals(newDes) || (addItem != null && addItem.length > 0)
+				|| (deleteItem != null && deleteItem.length > 0)) {
 			agriculturalEntity.setStatus("0");
 		}
-		if((addItem!=null&&addItem.length>0)) {
+		if ((addItem != null && addItem.length > 0)) {
 			agriculturalEntity.setUrl(addItem[0]);
-		}else if(deleteItem!=null&&deleteItem.length>0) {
+		} else if (deleteItem != null && deleteItem.length > 0) {
 			agriculturalEntity.setUrl(deleteSurplus[0]);
-		}
-		else {
+		} else {
 			agriculturalEntity.setUrl(agricultural.getUrl());
 		}
 		agriculturalEntity.setCreateDate(agricultural.getCreateDate());
 		agriculturalEntity.setTransactionCategoryCode(transactionCategoryCode);
 		agriculturalEntity.setTransactionTypeCode(transactionTypeCode);
-		agriculturalEntity.setDays(String.valueOf(calBetweenDate(agriculturalEntity.getBeginDate(),agriculturalEntity.getEndDate())));
+		agriculturalEntity.setDays(
+				String.valueOf(calBetweenDate(agriculturalEntity.getBeginDate(), agriculturalEntity.getEndDate())));
 		agriculturalDao.save(agriculturalEntity);
 		for (int i = 0; i < deleteItem.length; i++) {
 			PictureInfoEntity pictureInfoEntity = pictureInfoDAO.findByAgrUrl(deleteItem[i]);
-			if(pictureInfoEntity != null) {
-				AgriculturalPictureEntity agriculturalPicture = agriculturalPivtureDAO.findByPicId(pictureInfoEntity.getId());
+			if (pictureInfoEntity != null) {
+				AgriculturalPictureEntity agriculturalPicture = agriculturalPivtureDAO
+						.findByPicId(pictureInfoEntity.getId());
 				agriculturalPivtureDAO.deleteById(agriculturalPicture.getId());
 				pictureInfoDAO.deleteById(pictureInfoEntity.getId());
 			}
@@ -233,13 +236,14 @@ public class AgriculturalServiceImpl implements AgriculturalService {
 		}
 		return agriculturalEntity;
 	}
-	
+
 	@Override
 	public AgriculturalEntity saveAgr(String[] addItem, AgriculturalEntity agriculturalEntity) {
 		Date date = new Date();
 		agriculturalEntity.setCreateDate(date);// 设置创建时间
 		agriculturalEntity.setStatus("0");// 初始化值为待审核0
-		agriculturalEntity.setDays(String.valueOf(calBetweenDate(agriculturalEntity.getBeginDate(),agriculturalEntity.getEndDate())));
+		agriculturalEntity.setDays(
+				String.valueOf(calBetweenDate(agriculturalEntity.getBeginDate(), agriculturalEntity.getEndDate())));
 		agriculturalDao.saveAndFlush(agriculturalEntity);
 		for (int i = 0; i < addItem.length; i++) {
 			PictureInfoEntity pictureInfoEntity = new PictureInfoEntity();
