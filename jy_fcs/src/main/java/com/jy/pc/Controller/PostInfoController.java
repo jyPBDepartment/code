@@ -118,10 +118,10 @@ public class PostInfoController {
 			PostInfoEntity invitationEntity = postInfoService.findId(id);
 			invitationEntity.setPageview(invitationEntity.getPageview() + 1);
 			postInfoService.update(invitationEntity);
-			map.put("status", "0");
+			map.put("code", "200");
 			map.put("data", invitationEntity);
 		} catch (Exception e) {
-			map.put("status", "1");
+			map.put("code", "500");
 		}
 		return map;
 	}
@@ -217,10 +217,10 @@ public class PostInfoController {
 		Map<String, String> map = new HashMap<String, String>();
 		try {
 			postInfoService.saveAgr(addItem, postInfoEntity);
-			map.put("state", "0");
+			map.put("code", "200");
 			map.put("message", "添加成功");
 		} catch (Exception e) {
-			map.put("state", "1");// 失败
+			map.put("code", "500");// 失败
 			map.put("message", "添加失败");
 		}
 		return map;
@@ -239,10 +239,10 @@ public class PostInfoController {
 		boolean result = true;
 		invitationEntity.setIsSelected(isSelected);
 		if (isSelected.equals(0)) {
-			map.put("status", "0");
+			map.put("code", "200");
 			map.put("message", "启用精品成功");
 		} else {
-			map.put("status", "1");
+			map.put("code", "200");
 			map.put("message", "禁用精品成功");
 			result = false;
 		}
@@ -271,13 +271,14 @@ public class PostInfoController {
 				map.put("code", "200");
 				map.put("msg", "点赞成功");
 			} catch (Exception e) {
-				map.put("code", "201");
+				map.put("code", "500");
 				map.put("msg", "点赞失败");
 			}
 		} else {
 			CircleThumbsEntity circleThumbs = circleThumbsService.findUserId(thumbsUserId, circleId);
 			circleThumbsService.delete(circleThumbs.getId());
 			PostInfoEntity.setPraiseNum(PostInfoEntity.getPraiseNum() - 1);
+			map.put("code", "200");
 			map.put("msg", "取消点赞成功");
 		}
 		postInfoService.update(PostInfoEntity);
@@ -296,10 +297,10 @@ public class PostInfoController {
 		Pageable pageable = new PageRequest(page - 1, size);
 		try {
 		Page<PostInfoEntity> invitationList = postInfoService.findByType(type, pageable);
-			map.put("status", "200");
+			map.put("code", "200");
 			map.put("data", invitationList);
 		} catch (Exception e) {
-			map.put("status", "201");
+			map.put("code", "500");
 			e.printStackTrace();
 		}
 		return map;
@@ -326,14 +327,14 @@ public class PostInfoController {
 				map.put("code", "200");
 				map.put("msg", "收藏成功");
 			} catch (Exception e) {
-				map.put("code", "201");
+				map.put("code", "500");
 				map.put("msg", "收藏失败");
 			}
 		} else {
 			PostCollectionEntity postCollection = postCollectionService.findUserId(userId, circleId);
 			postCollectionService.delete(postCollection.getId());
 			postInfoEntity.setCollectionNum(postInfoEntity.getCollectionNum() - 1);
-
+			map.put("code", "200");
 			map.put("msg", "取消收藏成功");
 		}
 		postInfoService.update(postInfoEntity);
@@ -357,7 +358,7 @@ public class PostInfoController {
 			map.put("code", "200");// 查询成功
 			map.put("data", postCollection);
 		} catch (Exception e) {
-			map.put("code", "201");// 查询失败
+			map.put("code", "500");// 查询失败
 			map.put("msg", e.getMessage());
 			e.printStackTrace();
 		}
