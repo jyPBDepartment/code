@@ -1,6 +1,7 @@
 package com.jy.pc.DAO;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -24,4 +25,10 @@ public interface CaseInfoReplyDAO extends JpaRepository<CaseInfoReplyEntity, Str
 	// 通过id查询
 	@Query(value = "select * from sas_case_info_reply  where id =:id", nativeQuery = true)
 	public CaseInfoReplyEntity findId(@Param("id") String id);
+	
+	//分页模糊搜索
+	@Query(value = "select t3.id,t3.reply_content as replyContent,t1.comment_content as commentContent,date_format(t3.reply_date,'%Y-%m-%d %H:%i:%s') as date,t3.reply_user_name as replyUserName,t3.status,t3.is_anonymous as isAnonymous,t2.name as title from sas_case_info_comment t1,sas_case_info t2,sas_case_info_reply t3 where t1.case_id=t2.id and t1.id = t3.comment_id and t3.status != -1 and t2.name like ?1 and t3.reply_user_name like ?2 and t3.reply_content like ?3 order by t3.reply_date desc", 
+			countQuery = "select count(0) from sas_case_info_comment t1,sas_case_info t2,sas_case_info_reply t3 where t1.case_id=t2.id and t1.id = t3.comment_id and t3.status != -1 and t2.name like ?1 and t3.reply_user_name like ?2 and t3.reply_content like ?3 order by t3.reply_date desc", 
+			nativeQuery = true)
+	public Page<List<Map<String, Object>>> findPageByParam(String name, String replyUserName, String replyContent,Pageable pageable);
 }

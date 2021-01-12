@@ -2,6 +2,7 @@ package com.jy.pc.Service.Impl;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -68,6 +69,16 @@ public class CaseInfoReplyServiceImpl implements CaseInfoReplyService{
 	@Override
 	public CaseInfoReplyEntity findId(String id) {
 		return caseInfoReplyDAO.findId(id);
+	}
+
+	//分页模糊搜索
+	@Override
+	public Page<List<Map<String, Object>>> findPageByParam(String name, String replyUserName, String replyContent,
+			Pageable pageable) {
+		String caseName = "%" + name + "%";
+		String userName = "%" + replyUserName + "%";
+		String content = "%" + replyContent + "%";
+		return caseInfoReplyDAO.findPageByParam(caseName, userName, content, pageable);
 	}
 
 }

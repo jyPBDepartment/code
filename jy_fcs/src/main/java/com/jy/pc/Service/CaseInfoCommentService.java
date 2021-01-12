@@ -1,5 +1,8 @@
 package com.jy.pc.Service;
 
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -21,6 +24,8 @@ public interface CaseInfoCommentService {
 	public CaseInfoCommentEntity saveCaseInfo(CaseInfoCommentEntity caseInfoComment);
 	// 修改状态
 	CaseInfoCommentEntity updateEnable(CaseInfoCommentEntity caseInfoCommentEntity, boolean result);
+	
+	public Page<List<Map<String, Object>>> findPageByCase(String name, String commentUserName, String commentContent,Pageable pageable);
 	
 
 }

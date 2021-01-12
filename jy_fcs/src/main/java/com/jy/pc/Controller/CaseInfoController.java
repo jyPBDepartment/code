@@ -194,11 +194,11 @@ public class CaseInfoController {
 		boolean result = true;
 		if (isSelected.equals(1)) {
 			caseInfoEntity.setIsSelected(1);
-			map.put("code", "0");
+			map.put("code", "200");
 			map.put("message", "取消精选成功");
 		} else if (isSelected.equals(0)) {
 			caseInfoEntity.setIsSelected(0);
-			map.put("code", "0");
+			map.put("code", "500");
 			map.put("message", "设置为精选成功");
 			result = false;
 		}
@@ -273,7 +273,7 @@ public class CaseInfoController {
 				map.put("code", "200");
 				map.put("message", "点赞成功");
 			}catch(Exception e) {
-				map.put("code", "201");
+				map.put("code", "500");
 				map.put("message", "点赞失败");
 			}
 		}else {
@@ -299,7 +299,7 @@ public class CaseInfoController {
 			map.put("code", "200");// 查询数据成功
 			map.put("data", caseInfo);
 		} catch (Exception e) {
-			map.put("code", "201");// 查询数据失败
+			map.put("code", "500");// 查询数据失败
 		}
 		return map;
 	}
@@ -316,12 +316,12 @@ public class CaseInfoController {
 		if (isIrrelevant.equals(1)) {
 			caseInfoEntity.setIsSelected(1);
 			caseInfoEntity.setIrrelevantNum(caseInfoEntity.getIrrelevantNum()-1);
-			map.put("code", "0");
+			map.put("code", "200");
 			map.put("message", "取消与我无关成功");
 		} else if (isIrrelevant.equals(0)) {
 			caseInfoEntity.setIsIrrelevant(0);
 			caseInfoEntity.setIrrelevantNum(caseInfoEntity.getIrrelevantNum()+1);
-			map.put("code", "1");
+			map.put("code", "200");
 			map.put("message", "设置与我无关成功成功");
 		}
 		caseInfoService.update(caseInfoEntity);
@@ -345,7 +345,7 @@ public class CaseInfoController {
 			map.put("message", "查询成功");
 			map.put("data", caseInfoList);
 		} catch (Exception e) {
-			map.put("code", "201");
+			map.put("code", "500");
 			map.put("message", "查询失败");
 		}
 		return map;
@@ -370,36 +370,40 @@ public class CaseInfoController {
 				map.put("code", "200");
 				map.put("message", "收藏成功");
 			}catch(Exception e) {
-				map.put("code", "201");
+				map.put("code", "500");
 				map.put("message", "收藏失败");
 			}
 		}else {
 			CaseInfoCollectionEntity caseInfoCollection = caseInfoCollectionService.findCaseUserId(caseId, collectionUserId);
 			caseInfoCollectionService.delete(caseInfoCollection.getId());
 			caseInfo.setCollectionNum(caseInfo.getCollectionNum() - 1);
-			map.put("code", "1");
+			map.put("code", "200");
 			map.put("message", "取消收藏成功");
 		}
 		caseInfoService.update(caseInfo);
 		return map;
 	}
+	
 	/**
-	 * 查看我的看图识病收藏
-	 * */
-	@RequestMapping(value = "/findByMyCollection")
-	public Map<String, Object> findByMyCollection(HttpServletRequest res, HttpServletResponse req,
-			@RequestParam(name = "collectionUserId") String collectionUserId,
-			@RequestParam(name = "page") Integer page, @RequestParam(name = "size") Integer size) {
+	 * 我的-我的收藏
+	 * 
+	 * @Param userId 用户Id
+	 */
+	@RequestMapping("/findByMyCollection")
+	@ResponseBody
+	public Map<String, Object> findCollectionUserId(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "collectionUserId") String collectionUserId, @RequestParam(name = "page") Integer page,
+			@RequestParam(name = "size") Integer size) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		Pageable pageable = new PageRequest(page - 1, size);
 		try {
-			Page<CaseInfoCollectionEntity> caseInfoCollectionList = caseInfoCollectionService.findUserId(collectionUserId, pageable);
-			map.put("code", "200");// 成功
-			map.put("message", "查询成功");
-			map.put("data", caseInfoCollectionList);
+			Page<List<Map<String, Object>>> caseCollection = caseInfoCollectionService.findPageByParam(collectionUserId, pageable);
+			map.put("code", "200");// 查询成功
+			map.put("data", caseCollection);
 		} catch (Exception e) {
-			map.put("code", "201");// 失败
-			map.put("message", "查询失败");
+			map.put("code", "500");// 查询失败
+			map.put("msg", "查询失败");
+			e.printStackTrace();
 		}
 		return map;
 	}

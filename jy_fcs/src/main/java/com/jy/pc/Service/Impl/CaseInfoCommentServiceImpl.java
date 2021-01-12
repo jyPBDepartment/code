@@ -1,6 +1,8 @@
 package com.jy.pc.Service.Impl;
 
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -68,6 +70,15 @@ public class CaseInfoCommentServiceImpl implements CaseInfoCommentService{
 	@Override
 	public CaseInfoCommentEntity updateEnable(CaseInfoCommentEntity caseInfoCommentEntity, boolean result) {
 		return caseInfoCommentDao.saveAndFlush(caseInfoCommentEntity);
+	}
+
+	@Override
+	public Page<List<Map<String, Object>>> findPageByCase(String name, String commentUserName, String commentContent,
+			Pageable pageable) {
+		String content = "%" + commentContent + "%";
+		String userName = "%" + commentUserName + "%";
+		String caseName = "%" + name + "%";
+		return caseInfoCommentDao.findPageByCase(caseName, userName, content, pageable);
 	}
 
 }

@@ -1,5 +1,8 @@
 package com.jy.pc.Service.Impl;
 
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -37,6 +40,11 @@ public class CaseInfoCollectionServiceImpl implements CaseInfoCollectionService{
 	@Override
 	public Page<CaseInfoCollectionEntity> findUserId(String collectionUserId, Pageable pageable) {
 		return caseInfoCollectionDAO.findUserId(collectionUserId, pageable);
+	}
+
+	@Override
+	public Page<List<Map<String, Object>>> findPageByParam(String collectionUserId, Pageable pageable) {
+		return caseInfoCollectionDAO.findPageByParam(collectionUserId, pageable);
 	}
 
 }

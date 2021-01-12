@@ -1,6 +1,7 @@
 package com.jy.pc.Service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -29,5 +30,7 @@ public interface CaseInfoReplyService {
 	
 	// 通过id查询
 	public CaseInfoReplyEntity findId(String id);
+	
+	public Page<List<Map<String, Object>>> findPageByParam(String name, String replyUserName, String replyContent,Pageable pageable);
 
 }

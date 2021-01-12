@@ -1,6 +1,7 @@
 package com.jy.pc.Controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -28,6 +29,7 @@ public class CaseInfoReplyController {
 	@RequestMapping(value = "/findReplyList")
 	@ResponseBody
 	public Map<String, Object> findCasePage(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "name", defaultValue = "") String name,
 			@RequestParam(name = "replyContent", defaultValue = "") String replyContent,
 			@RequestParam(name = "replyUserName", defaultValue = "") String replyUserName,
 			@RequestParam(name = "page") Integer page,@RequestParam(name = "size") Integer size) {
@@ -35,12 +37,12 @@ public class CaseInfoReplyController {
 
 		Pageable pageable = new PageRequest(page - 1, size);
 		try {
-			Page<CaseInfoReplyEntity> caseInfoReplyList = caseInfoReplyService.findListByName(replyContent, replyUserName, pageable);
+			Page<List<Map<String, Object>>> caseInfoReplyList = caseInfoReplyService.findPageByParam(name, replyUserName, replyContent, pageable);
 			map.put("code", "200");// 成功
 			map.put("message", "查询成功");
 			map.put("data", caseInfoReplyList);
 		} catch (Exception e) {
-			map.put("code", "201");
+			map.put("code", "500");
 			map.put("message", "查询失败");
 		}
 		return map;
@@ -57,7 +59,7 @@ public class CaseInfoReplyController {
 			map.put("code", "200");
 			map.put("message", "添加成功");
 		} catch (Exception e) {
-			map.put("code", "201");
+			map.put("code", "500");
 			map.put("message", "添加失败");
 		}
 		return map;
@@ -74,7 +76,7 @@ public class CaseInfoReplyController {
 			map.put("code", "200");
 			map.put("message", "删除成功");
 		} catch (Exception e) {
-			map.put("code", "201");
+			map.put("code", "500");
 			map.put("message", "删除失败");
 			e.printStackTrace();
 		}
@@ -92,11 +94,11 @@ public class CaseInfoReplyController {
 		boolean result = true;
 		if (status.equals(1)) {
 			caseInfoReplyEntity.setStatus(1);
-			map.put("code", "1");
+			map.put("code", "200");
 			map.put("message", "禁用成功");
 		} else if (status.equals(0)) {
 			caseInfoReplyEntity.setStatus(status);
-			map.put("code", "0");
+			map.put("code", "200");
 			map.put("message", "启用成功");
 			result = false;
 		}

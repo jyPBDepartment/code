@@ -1,5 +1,8 @@
 package com.jy.pc.Service;
 
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -17,5 +20,7 @@ public interface CaseInfoCollectionService {
 	
 	//根据点赞用户 看图识病id查询
 	public CaseInfoCollectionEntity findCaseUserId(String caseId, String collectionUserId);
+	
+	public Page<List<Map<String, Object>>> findPageByParam(String collectionUserId, Pageable pageable);
 
 }

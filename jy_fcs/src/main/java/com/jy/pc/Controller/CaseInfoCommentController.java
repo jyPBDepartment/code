@@ -38,20 +38,19 @@ public class CaseInfoCommentController {
 	public Map<String, Object> findCasePage(HttpServletRequest res, HttpServletResponse req,
 			@RequestParam(name = "commentContent", defaultValue = "") String commentContent,
 			@RequestParam(name = "commentUserName", defaultValue = "") String commentUserName,
-			@RequestParam(name = "caseId", defaultValue = "") String caseId, @RequestParam(name = "page") Integer page,
+			@RequestParam(name = "name", defaultValue = "") String name, @RequestParam(name = "page") Integer page,
 			@RequestParam(name = "size") Integer size) {
 		Map<String, Object> map = new HashMap<String, Object>();
-
 		Pageable pageable = new PageRequest(page - 1, size);
 		try {
-			Page<CaseInfoCommentEntity> caseInfoCommentList = caseInfoCommentService.findListByName(commentContent,
-				commentUserName, caseId, pageable);
-			map.put("code", "200");// 成功
-			map.put("message", "查询成功");
+			
+			Page<List<Map<String, Object>>> caseInfoCommentList = caseInfoCommentService.findPageByCase(name, commentUserName, commentContent, pageable);
+			map.put("code", "200");// 查询成功
 			map.put("data", caseInfoCommentList);
 		} catch (Exception e) {
-			map.put("code", "201");
-			map.put("message", "查询失败");
+			map.put("code", "500");// 查询失败
+			map.put("msg", "查询失败");
+			e.printStackTrace();
 		}
 		return map;
 	}
@@ -70,7 +69,7 @@ public class CaseInfoCommentController {
 			map.put("code", "200");
 			map.put("message", "添加成功");
 		} catch (Exception e) {
-			map.put("code", "201");
+			map.put("code", "500");
 			map.put("message", "添加失败");
 		}
 		return map;
@@ -95,7 +94,7 @@ public class CaseInfoCommentController {
 			map.put("code", "200");
 			map.put("message", "删除成功");
 		} catch (Exception e) {
-			map.put("code", "201");
+			map.put("code", "500");
 			map.put("message", "删除失败");
 			e.printStackTrace();
 		}
@@ -113,11 +112,11 @@ public class CaseInfoCommentController {
 		boolean result = true;
 		if (status.equals(1)) {
 			caseInfoCommentEntity.setStatus(1);
-			map.put("code", "1");
+			map.put("code", "200");
 			map.put("message", "禁用成功");
 		} else if (status.equals(0)) {
 			caseInfoCommentEntity.setStatus(status);
-			map.put("code", "0");
+			map.put("code", "200");
 			map.put("message", "启用成功");
 			result = false;
 		}
