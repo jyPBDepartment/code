@@ -36,7 +36,7 @@ public class postPictureController {
 		PostInfoEntity postInfoEntity = postInfoService.findId(id);
 		List<PostPictureEntity> postpic = postPicutreService.findByPhotoId(photoId);
 
-		map.put("state", "0");// 查询数据成功
+		map.put("code", "200");// 查询数据成功
 		map.put("data", postInfoEntity);
 		map.put("dataPic", postpic);
 		return map;
