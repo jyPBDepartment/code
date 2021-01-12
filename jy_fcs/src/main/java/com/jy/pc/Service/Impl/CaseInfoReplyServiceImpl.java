@@ -73,12 +73,12 @@ public class CaseInfoReplyServiceImpl implements CaseInfoReplyService{
 
 	//分页模糊搜索
 	@Override
-	public Page<List<Map<String, Object>>> findPageByParam(String name, String replyUserName, String replyContent,
+	public Page<List<Map<String, Object>>> findPageByParam(String name, String replyUserName, String replyContent,String commentId,
 			Pageable pageable) {
 		String caseName = "%" + name + "%";
 		String userName = "%" + replyUserName + "%";
 		String content = "%" + replyContent + "%";
-		return caseInfoReplyDAO.findPageByParam(caseName, userName, content, pageable);
+		return caseInfoReplyDAO.findPageByParam(caseName, userName, content, commentId, pageable);
 	}
 
 }

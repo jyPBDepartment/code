@@ -32,12 +32,13 @@ public class CaseInfoReplyController {
 			@RequestParam(name = "name", defaultValue = "") String name,
 			@RequestParam(name = "replyContent", defaultValue = "") String replyContent,
 			@RequestParam(name = "replyUserName", defaultValue = "") String replyUserName,
+			@RequestParam(name = "commentId", defaultValue = "") String commentId,
 			@RequestParam(name = "page") Integer page,@RequestParam(name = "size") Integer size) {
 		Map<String, Object> map = new HashMap<String, Object>();
 
 		Pageable pageable = new PageRequest(page - 1, size);
 		try {
-			Page<List<Map<String, Object>>> caseInfoReplyList = caseInfoReplyService.findPageByParam(name, replyUserName, replyContent, pageable);
+			Page<List<Map<String, Object>>> caseInfoReplyList = caseInfoReplyService.findPageByParam(name, replyUserName, replyContent, commentId, pageable);
 			map.put("code", "200");// 成功
 			map.put("message", "查询成功");
 			map.put("data", caseInfoReplyList);

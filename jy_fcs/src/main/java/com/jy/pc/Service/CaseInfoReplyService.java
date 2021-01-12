@@ -31,6 +31,6 @@ public interface CaseInfoReplyService {
 	// 通过id查询
 	public CaseInfoReplyEntity findId(String id);
 	
-	public Page<List<Map<String, Object>>> findPageByParam(String name, String replyUserName, String replyContent,Pageable pageable);
+	public Page<List<Map<String, Object>>> findPageByParam(String name, String replyUserName, String replyContent,String commentId,Pageable pageable);
 
 }
