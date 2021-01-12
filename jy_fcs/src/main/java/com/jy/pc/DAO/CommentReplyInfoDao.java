@@ -28,10 +28,10 @@ public interface CommentReplyInfoDao extends JpaRepository<CommentReplyInfoEntit
 	public Page<CommentReplyInfoPO> findPageByCommentPO(@Param("commentId")String commentId,Pageable pageable);
 	
 	@Query(value="select * from sas_comment_reply_info t where if(?1 !='',t.reply_content like ?1,1=1) "
-			+ "and if(?2 !='',t.reply_user_name like ?2,1=1) order by t.reply_date desc ",
+			+ "and if(?2 !='',t.reply_user_name like ?2,1=1) and t.comment_id =?3 order by t.reply_date desc ",
 			countQuery="select count(*) from sas_comment_reply_info t where if(?1 !='',t.reply_content like ?1,1=1) "
-					+ "and if(?2 !='',t.reply_user_name like ?2,1=1)order by t.reply_date desc",nativeQuery = true)
-	public Page<CommentReplyInfoEntity> findListByContent(String content,String user,Pageable pageable);
+					+ "and if(?2 !='',t.reply_user_name like ?2,1=1) and t.comment_id =?3 order by t.reply_date desc",nativeQuery = true)
+	public Page<CommentReplyInfoEntity> findListByContent(String content,String user,String commentId,Pageable pageable);
 	
 	@Query(value="delete from sas_comment_reply_info  where comment_id = :commentId",nativeQuery = true)
 	@Modifying

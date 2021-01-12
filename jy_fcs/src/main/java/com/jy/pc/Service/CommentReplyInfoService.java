@@ -8,7 +8,7 @@ import com.jy.pc.POJO.CommentReplyInfoPO;
 
 public interface CommentReplyInfoService {
 	// 搜索
-	public Page<CommentReplyInfoEntity> findListByContent(String content, String user,Pageable pageable);
+	public Page<CommentReplyInfoEntity> findListByContent(String content, String user,String commentId,Pageable pageable);
 
 	// 添加
 	public CommentReplyInfoEntity save(CommentReplyInfoEntity moduleInfo);

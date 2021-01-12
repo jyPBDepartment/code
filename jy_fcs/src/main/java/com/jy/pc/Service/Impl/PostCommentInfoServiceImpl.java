@@ -1,11 +1,11 @@
 package com.jy.pc.Service.Impl;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -28,10 +28,10 @@ public class PostCommentInfoServiceImpl implements PostCommentInfoService {
 	DbLogUtil logger;
 	
 	@Override
-	public Page<PostCommentInfoEntity> findListByContent(String content, String user,Pageable pageable) {
+	public Page<List<Map<String, Object>>> findListByContent(String content, String user,Pageable pageable) {
 		String contentParam = "%"+content+"%";
 		String userParam = "%"+user+"%";
-		Page<PostCommentInfoEntity> page = postCommentInfoDao.findListByContent(contentParam, userParam,pageable);
+//		Page<PostCommentInfoEntity> page = postCommentInfoDao.findListByContent(contentParam, userParam,pageable);
 		return postCommentInfoDao.findListByContent(contentParam, userParam,pageable);
 	}
 

@@ -96,12 +96,13 @@ public class ReplyInfoController {
 	// 查询 分页
 	@RequestMapping(value = "/findByName")
 	public Map<String, Object> findListByContent(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "commentId") String commentId,
 			@RequestParam(name = "content") String content, @RequestParam(name = "user") String user,
 			@RequestParam(name = "page") Integer page, @RequestParam(name = "size") Integer size) {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 		Pageable pageable = new PageRequest(page - 1, size);
-		Page<CommentReplyInfoEntity> replyList = commentReplyInfoService.findListByContent(content, user, pageable);
+		Page<CommentReplyInfoEntity> replyList = commentReplyInfoService.findListByContent(content, user,commentId,pageable);
 		map.put("state", "0");// 成功
 		map.put("message", "查询成功");
 		map.put("data", replyList);

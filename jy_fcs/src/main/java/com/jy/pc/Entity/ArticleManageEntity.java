@@ -30,8 +30,14 @@ public class ArticleManageEntity {
 	private String id;// 主键id
 	@Column(columnDefinition = "varchar(36) default '' comment '文章标题'")
 	private String title;
-	@Column(columnDefinition = " text comment '文章详情富文本'")
+	@Column(columnDefinition = " text comment '文章概述富文本'")
 	private String content;
+	@Column(columnDefinition = " text comment '文章危害富文本'")
+	private String contentA;
+	@Column(columnDefinition = " text comment '文章传播途径/发病条件富文本'")
+	private String contentB;
+	@Column(columnDefinition = " text comment '文章防治技术富文本'")
+	private String contentC;
 	@Column(columnDefinition = "varchar(36) default '' comment '创建人'")
 	private String createBy;
 	@Column(columnDefinition = "datetime comment '创建时间'")
@@ -191,4 +197,28 @@ public class ArticleManageEntity {
 		this.viewNum = viewNum;
 	}
 
+	public String getContentA() {
+		return contentA;
+	}
+
+	public void setContentA(String contentA) {
+		this.contentA = contentA;
+	}
+
+	public String getContentB() {
+		return contentB;
+	}
+
+	public void setContentB(String contentB) {
+		this.contentB = contentB;
+	}
+
+	public String getContentC() {
+		return contentC;
+	}
+
+	public void setContentC(String contentC) {
+		this.contentC = contentC;
+	}
+	
 }
