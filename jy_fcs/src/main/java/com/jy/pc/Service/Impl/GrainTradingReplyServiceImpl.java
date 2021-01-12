@@ -66,12 +66,12 @@ public class GrainTradingReplyServiceImpl implements GrainTradingReplyService {
 	}
 
 	@Override
-	public Page<List<Map<String, Object>>> findPageByParam(String title, String name, String content,
+	public Page<List<Map<String, Object>>> findPageByParam(String title, String name, String content,String aid,
 			Pageable pageable) {
 		title = "%" + title + "%";
 		name = "%" + name + "%";
 		content = "%" + content + "%";
-		return replyDao.findPageByParam(title, name, content, pageable);
+		return replyDao.findPageByParam(title, name, content, aid,pageable);
 	}
 
 	@Override

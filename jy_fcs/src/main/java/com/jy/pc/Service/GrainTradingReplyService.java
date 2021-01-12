@@ -32,7 +32,7 @@ public interface GrainTradingReplyService {
 
 	public List<GrainTradingReplyEntity> findPostId(String postId);
 
-	public Page<List<Map<String, Object>>> findPageByParam(String title, String name, String content,
+	public Page<List<Map<String, Object>>> findPageByParam(String title, String name, String content,String aid,
 			Pageable pageable);
 
 	public Page<GrainTradingReplyEntity> findCommentPage(String cid, Pageable pageable);

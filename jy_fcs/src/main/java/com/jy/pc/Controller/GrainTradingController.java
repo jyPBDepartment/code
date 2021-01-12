@@ -78,12 +78,13 @@ public class GrainTradingController {
 	@RequestMapping(value = "/findReplyPageByParam")
 	public Map<String, Object> findReplyPageByParam(HttpServletRequest res, HttpServletResponse req,
 			@RequestParam(name = "title", defaultValue = "") String title,
+			@RequestParam(name = "cid", defaultValue = "") String cid,
 			@RequestParam(name = "name", defaultValue = "") String name,
 			@RequestParam(name = "content", defaultValue = "") String content,
 			@RequestParam(name = "page") Integer page, @RequestParam(name = "size") Integer size) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		Pageable pageable = new PageRequest(page - 1, size);
-		Page<List<Map<String, Object>>> data = replyService.findPageByParam(title, name, content, pageable);
+		Page<List<Map<String, Object>>> data = replyService.findPageByParam(title, name, content,cid, pageable);
 		map.put("code", "200");
 		map.put("data", data);
 		return map;
