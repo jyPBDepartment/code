@@ -42,7 +42,6 @@ public interface PostInfoService {
 	// 查询最新最火热议好评精品
 	public Page<PostInfoEntity> findByType(String type, Pageable pageable);
 
-	//	我的收藏查詢列表
-	List<PostInfoEntity> findByUserId() throws ServiceException;
+	
 
 }

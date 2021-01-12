@@ -48,8 +48,4 @@ public interface PostInfoDao extends JpaRepository<PostInfoEntity, String> {
 	@Query(value = "select * from sas_post_info t where t.status=0 order by t.comment_num desc", countQuery = "select count(*) from sas_post_info t where t.status=0 order by t.comment_num desc", nativeQuery = true)
 	public Page<PostInfoEntity> findListByCommentLabel(Pageable pageable);
 
-	// 我的收藏列表查詢findByUserId
-	@Query(value = "select t.* from sas_post_info t,sas_post_collection t1 where t.id =t1.circle_id", nativeQuery = true)
-	public List<PostInfoEntity> findByUserId();
-
 }

@@ -170,11 +170,5 @@ public class PostInfoServiceImpl implements PostInfoService {
 		return result;
 	}
 
-	// 我的收藏查詢列表信息
-	@Override
-	public List<PostInfoEntity> findByUserId() throws ServiceException {
-
-		return invitationDao.findByUserId();
-	}
 
 }

@@ -109,7 +109,7 @@ public class PostInfoController {
 		return map;
 	}
 
-	// 条件查询h5
+	// 条件查询h5（浏览量）
 	@RequestMapping(value = "/findById")
 	public Map<String, Object> findById(HttpServletRequest res, HttpServletResponse req,
 			@RequestParam(name = "id") String id) {
@@ -264,12 +264,10 @@ public class PostInfoController {
 		Map<String, String> map = new HashMap<String, String>();
 		PostInfoEntity PostInfoEntity = postInfoService.findId(circleId);
 		if (isCancelThumbs == 0) {
-			Date date = new Date();
-
+			try {
 			circleThumbsEntity.setPostInfoEntity(PostInfoEntity);
 			circleThumbsService.save(circleThumbsEntity);
 			PostInfoEntity.setPraiseNum(PostInfoEntity.getPraiseNum() + 1);
-			try {
 				map.put("code", "200");
 				map.put("msg", "点赞成功");
 			} catch (Exception e) {
@@ -296,8 +294,8 @@ public class PostInfoController {
 			@RequestParam(name = "size") Integer size) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		Pageable pageable = new PageRequest(page - 1, size);
-		Page<PostInfoEntity> invitationList = postInfoService.findByType(type, pageable);
 		try {
+		Page<PostInfoEntity> invitationList = postInfoService.findByType(type, pageable);
 			map.put("status", "200");
 			map.put("data", invitationList);
 		} catch (Exception e) {
@@ -321,11 +319,10 @@ public class PostInfoController {
 		Map<String, String> map = new HashMap<String, String>();
 		PostInfoEntity postInfoEntity = postInfoService.findId(circleId);
 		if (isCancelCollection == 0) {
-			Date date = new Date();
+			try {
 			postCollectionEntity.setPostInfoEntity(postInfoEntity);
 			postCollectionService.save(postCollectionEntity);
 			postInfoEntity.setCollectionNum(postInfoEntity.getCollectionNum() + 1);
-			try {
 				map.put("code", "200");
 				map.put("msg", "收藏成功");
 			} catch (Exception e) {
@@ -340,6 +337,30 @@ public class PostInfoController {
 			map.put("msg", "取消收藏成功");
 		}
 		postInfoService.update(postInfoEntity);
+		return map;
+	}
+	/**
+	 * 我的-我的收藏
+	 * 
+	 * @Param userId 用户Id
+	 */
+	@RequestMapping("/postByUserId")
+	@ResponseBody
+	public Map<String, Object> postByUserId(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "userId") String userId, @RequestParam(name = "page") Integer page,
+			@RequestParam(name = "size") Integer size) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		Pageable pageable = new PageRequest(page - 1, size);
+		try {
+			
+			Page<List<Map<String, Object>>> postCollection = postCollectionService.findPageByParam(userId, pageable);
+			map.put("code", "200");// 查询成功
+			map.put("data", postCollection);
+		} catch (Exception e) {
+			map.put("code", "201");// 查询失败
+			map.put("msg", e.getMessage());
+			e.printStackTrace();
+		}
 		return map;
 	}
 }
