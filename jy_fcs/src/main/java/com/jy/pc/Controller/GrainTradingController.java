@@ -84,7 +84,7 @@ public class GrainTradingController {
 			@RequestParam(name = "page") Integer page, @RequestParam(name = "size") Integer size) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		Pageable pageable = new PageRequest(page - 1, size);
-		Page<List<Map<String, Object>>> data = replyService.findPageByParam(title, name, content,cid, pageable);
+		Page<List<Map<String, Object>>> data = replyService.findPageByParam(title, name, content, cid, pageable);
 		map.put("code", "200");
 		map.put("data", data);
 		return map;
@@ -109,7 +109,7 @@ public class GrainTradingController {
 		map.put("data", data);
 		return map;
 	}
-	
+
 	/**
 	 * H5-获取粮食买卖下所有评论
 	 * 
@@ -213,6 +213,36 @@ public class GrainTradingController {
 		}
 		comment.setStatus(status);
 		commentService.save(comment);
+		return map;
+	}
+
+	/**
+	 * H5-查看我的评论
+	 * 
+	 * @param replyId 回复id
+	 * @return
+	 */
+	@RequestMapping(value = "/getMyComment")
+	public Map<String, Object> getMyComment(HttpServletRequest res, HttpServletResponse req, String userId) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		List<GrainTradingCommentEntity> list = commentService.getMyComment(userId);
+		map.put("code", "200");
+		map.put("data", list);
+		return map;
+	}
+
+	/**
+	 * H5-查看我的回复
+	 * 
+	 * @param replyId 回复id
+	 * @return
+	 */
+	@RequestMapping(value = "/getMyReply")
+	public Map<String, Object> getMyReply(HttpServletRequest res, HttpServletResponse req, String userId) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		List<GrainTradingReplyEntity> list = replyService.getMyReply(userId);
+		map.put("code", "200");
+		map.put("data", list);
 		return map;
 	}
 

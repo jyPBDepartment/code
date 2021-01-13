@@ -30,4 +30,7 @@ public interface GrainTradingCommentDao extends JpaRepository<GrainTradingCommen
 			countQuery = "select count(0) FROM sas_grain_trading_comment t1 where t1.status=0 and t1.aid = ?1", 
 			nativeQuery = true)
 	public Page<List<Map<String, Object>>> findCommentPage(String aid,Pageable pageable);
+
+	@Query(value = "select * from sas_grain_trading_comment t where t.comment_user_id=?1 order by comment_date desc", nativeQuery = true)
+	public List<GrainTradingCommentEntity> getMyComment(String userId);
 }

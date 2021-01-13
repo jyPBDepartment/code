@@ -95,4 +95,9 @@ public class GrainTradingCommentServiceImpl implements GrainTradingCommentServic
 		return commentDao.findCommentPage(aid,pageable);
 	}
 
+	@Override
+	public  List<GrainTradingCommentEntity> getMyComment(String userId) {
+		return commentDao.getMyComment(userId);
+	}
+
 }

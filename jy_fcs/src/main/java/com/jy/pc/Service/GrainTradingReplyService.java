@@ -36,4 +36,6 @@ public interface GrainTradingReplyService {
 			Pageable pageable);
 
 	public Page<GrainTradingReplyEntity> findCommentPage(String cid, Pageable pageable);
+
+	public List<GrainTradingReplyEntity> getMyReply(String userId);
 }

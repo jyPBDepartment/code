@@ -79,4 +79,9 @@ public class GrainTradingReplyServiceImpl implements GrainTradingReplyService {
 		return replyDao.findCommentPage(cid,pageable);
 	}
 
+	@Override
+	public List<GrainTradingReplyEntity> getMyReply(String userId) {
+		return replyDao.getMyReply(userId);
+	}
+
 }
