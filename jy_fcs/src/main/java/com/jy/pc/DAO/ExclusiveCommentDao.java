@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.jy.pc.Entity.ExclusiveCommentEntity;
 
@@ -23,4 +24,7 @@ public interface ExclusiveCommentDao extends JpaRepository<ExclusiveCommentEntit
 			nativeQuery = true)
 	public Page<List<Map<String, Object>>> findPageByParam(String title, String name, String content,
 			Pageable pageable);
+	
+	@Query(value = "select t.*,date_format(t.comment_date,'%Y-%m-%d %H:%i:%s') as date,(select t.id from sas_exclusive_comment t1 where t.id=t1.id and t1.comment_user_id = :userId) as is_mine,(select count(*) from sas_exclusive_reply t2 where t2.comment_id = t.id)  as replyCount from sas_exclusive_comment t where t.art_id = :artId ", nativeQuery = true)
+	public List<Map<String,Object>> findCommentByUserId(@Param("artId") String artId,@Param("userId") String userId);
 }

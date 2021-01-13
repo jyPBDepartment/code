@@ -1,6 +1,7 @@
 package com.jy.pc.Service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -36,5 +37,8 @@ public interface ArticleManageService {
 	public List<ArticleManageEntity> findBySectionId(String id);
 	
 	// 移动端-条件查询文章管理信息列表（接口）
-	public Page<ArticleManageEntity> findListByChoose(String sectionId, Pageable pageable);
+	public Page<List<Map<String,Object>>> findListByChoose(String sectionId,String userId,String orderType, Pageable pageable);
+	
+	//	根据文章id、用户id查询文章详情信息	
+	public Map<String,Object> findInfoByUserId(String id,String userId);
 }

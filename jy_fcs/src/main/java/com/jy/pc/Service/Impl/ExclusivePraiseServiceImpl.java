@@ -7,9 +7,10 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.jy.pc.DAO.AgriculturalDao;
+import com.jy.pc.DAO.ArticleManageDao;
 import com.jy.pc.DAO.ExclusivePraiseDao;
 import com.jy.pc.Entity.AgriculturalEntity;
+import com.jy.pc.Entity.ArticleManageEntity;
 import com.jy.pc.Entity.ExclusivePraiseEntity;
 import com.jy.pc.Service.ExclusivePraiseService;
 
@@ -18,7 +19,7 @@ public class ExclusivePraiseServiceImpl implements ExclusivePraiseService{
 	@Autowired
 	private ExclusivePraiseDao praiseDao;
 	@Autowired
-	private AgriculturalDao agriculturalDao;
+	private ArticleManageDao articleManageDao;
 
 	@Override
 	public ExclusivePraiseEntity findInfoByAll(String agrId, String userId) {
@@ -48,9 +49,9 @@ public class ExclusivePraiseServiceImpl implements ExclusivePraiseService{
 		praise.setArtId(artId);
 		praise.setPraiseUserId(userId);
 		praiseDao.save(praise);
-		AgriculturalEntity grain = agriculturalDao.findId(artId);
+		ArticleManageEntity grain = articleManageDao.findBId(artId);
 		grain.setPraiseNum(grain.getPraiseNum() + 1);
-		agriculturalDao.save(grain);
+		articleManageDao.save(grain);
 
 	}
 
@@ -61,10 +62,16 @@ public class ExclusivePraiseServiceImpl implements ExclusivePraiseService{
 		if (praise == null) {
 			return;
 		}
-		AgriculturalEntity grain = agriculturalDao.findId(agrId);
-		grain.setPraiseNum(grain.getPraiseNum() - 1);
+		ArticleManageEntity grain = articleManageDao.findBId(agrId);
+		int num = 0;
+		if (grain.getPraiseNum() == 0) {
+			num = 0;
+		} else {
+			num = grain.getPraiseNum() - 1;
+		}
+		grain.setPraiseNum(num);
 		praiseDao.deleteById(praise.getId());
-		agriculturalDao.save(grain);
+		articleManageDao.save(grain);
 
 	}
 

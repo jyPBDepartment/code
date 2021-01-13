@@ -7,9 +7,9 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.jy.pc.DAO.AgriculturalDao;
+import com.jy.pc.DAO.ArticleManageDao;
 import com.jy.pc.DAO.ExclusiveCollectionDao;
-import com.jy.pc.Entity.AgriculturalEntity;
+import com.jy.pc.Entity.ArticleManageEntity;
 import com.jy.pc.Entity.ExclusiveCollectionEntity;
 import com.jy.pc.Service.ExclusiveCollectionService;
 
@@ -18,7 +18,7 @@ public class ExclusiveCollectionServiceImpl implements ExclusiveCollectionServic
 	@Autowired
 	private ExclusiveCollectionDao collectionDao;
 	@Autowired
-	private AgriculturalDao agriculturalDao;
+	private ArticleManageDao articleManageDao;
 
 	@Override
 	public ExclusiveCollectionEntity findInfoByAll(String agrId, String userId) {
@@ -48,9 +48,9 @@ public class ExclusiveCollectionServiceImpl implements ExclusiveCollectionServic
 		collection.setArtId(agrId);
 		collection.setCollectionUserId(userId);
 		collectionDao.save(collection);
-		AgriculturalEntity grain = agriculturalDao.findId(agrId);
+		ArticleManageEntity grain = articleManageDao.findBId(agrId);
 		grain.setCollectionNum(grain.getCollectionNum() + 1);
-		agriculturalDao.save(grain);
+		articleManageDao.save(grain);
 	}
 
 	@Override
@@ -60,10 +60,16 @@ public class ExclusiveCollectionServiceImpl implements ExclusiveCollectionServic
 		if (collection == null) {
 			return;
 		}
-		AgriculturalEntity grain = agriculturalDao.findId(agrId);
-		grain.setCollectionNum(grain.getCollectionNum() - 1);
+		ArticleManageEntity grain = articleManageDao.findBId(agrId);
+		int num = 0;
+		if (grain.getCollectionNum() == 0) {
+			num = 0;
+		} else {
+			num = grain.getCollectionNum() - 1;
+		}
+		grain.setCollectionNum(num);
 		collectionDao.deleteById(collection.getId());
-		agriculturalDao.save(grain);
+		articleManageDao.save(grain);
 	}
 
 	@Override

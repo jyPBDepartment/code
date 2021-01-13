@@ -356,4 +356,21 @@ public class ExclusiveController {
 		map.put("data", articleManageEntity.getViewNum());
 		return map;
 	}
+	
+	
+	/**
+	 * 根据文章id、用户id查询评论信息
+	 * 
+	 * @param artId
+	 * @param userId
+	 */
+	@RequestMapping(value = "/findCommentByUserId")
+	public Map<String, Object> findCommentByUserId(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "artId") String artId, @RequestParam(name = "userId") String userId) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		List<Map<String,Object>> commmentMap = commentService.findCommentByUserId(artId, userId);
+		map.put("code", "200");
+		map.put("data", commmentMap);
+		return map;
+	}
 }

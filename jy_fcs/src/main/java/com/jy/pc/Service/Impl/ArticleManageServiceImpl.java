@@ -1,6 +1,7 @@
 package com.jy.pc.Service.Impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -79,9 +80,13 @@ public class ArticleManageServiceImpl implements ArticleManageService {
 
 	// 移动端-条件查询文章管理信息列表（接口）
 	@Override
-	public Page<ArticleManageEntity> findListByChoose(String sectionId, Pageable pageable) {
-		String articleLinkSectionId = "%" + sectionId + "%";
-		return eduArticleManageDao.findListByChoose(articleLinkSectionId, pageable);
+	public Page<List<Map<String,Object>>> findListByChoose(String sectionId,String userId,String orderType,Pageable pageable) {
+		return eduArticleManageDao.findListByChoose(sectionId, userId,pageable);
+	}
+	
+	// 根据文章Id、用户id查询文章详情信息
+	public Map<String,Object> findInfoByUserId(String id,String userId){
+		return eduArticleManageDao.findInfoByUserId(id, userId);
 	}
 
 }

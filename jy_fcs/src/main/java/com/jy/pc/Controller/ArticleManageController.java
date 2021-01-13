@@ -198,11 +198,13 @@ public class ArticleManageController {
 	@RequestMapping(value = "/findListByChoose")
 	@ResponseBody
 	public Map<String, Object> findListByChoose(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "orderType") String orderType,
+			@RequestParam(name = "userId") String userId,
 			@RequestParam(name = "sectionId") String sectionId, @RequestParam(name = "page") Integer page,
 			@RequestParam(name = "size") Integer size) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		Pageable pageable = new PageRequest(page - 1, size);
-		Page<ArticleManageEntity> articleList = eduArticleManageService.findListByChoose(sectionId, pageable);
+		Page<List<Map<String,Object>>> articleList = eduArticleManageService.findListByChoose(sectionId,userId,orderType, pageable);
 		try {
 			map.put("code", "200");// 查询成功
 			map.put("message", "查询成功");
@@ -214,12 +216,14 @@ public class ArticleManageController {
 		return map;
 	}
 	
-	// 移动端-根据Id查询文章管理列表详情（接口）
+	// 移动端-根据文章Id、用户id查询文章管理列表详情（接口）
 	@RequestMapping(value="/findArticleId")
 	@ResponseBody
-	public Map<String,Object> findArticleId(HttpServletRequest res,HttpServletResponse req,@RequestParam(name = "id") String id){
+	public Map<String,Object> findArticleId(HttpServletRequest res,HttpServletResponse req,
+			@RequestParam(name = "id") String id,
+			@RequestParam(name = "userId") String userId){
 		Map<String,Object> map = new HashMap<String, Object>();
-		ArticleManageEntity articleManageEntity = eduArticleManageService.findBId(id);
+		Map<String,Object> articleManageEntity = eduArticleManageService.findInfoByUserId(id,userId);
 		try {
 			map.put("code", "200");//查询成功
 			map.put("message", "查询成功");
