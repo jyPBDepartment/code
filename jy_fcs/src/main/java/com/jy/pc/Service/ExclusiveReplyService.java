@@ -31,4 +31,6 @@ public interface ExclusiveReplyService {
 		void enable(ExclusiveReplyEntity exclusiveReplyEntity, boolean result);
 
 		public List<ExclusiveReplyEntity> findPostId(String postId);
+		
+		public List<Map<String,Object>> findReplyByUserId(String commmentId,String userId);
 }

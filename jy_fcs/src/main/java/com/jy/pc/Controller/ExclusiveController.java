@@ -373,4 +373,20 @@ public class ExclusiveController {
 		map.put("data", commmentMap);
 		return map;
 	}
+	
+	/**
+	 * 根据文章id、用户id查询评论信息
+	 * 
+	 * @param commentId
+	 * @param userId
+	 */
+	@RequestMapping(value = "/findReplyByUserId")
+	public Map<String, Object> findReplyByUserId(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "commentId") String commentId, @RequestParam(name = "userId") String userId) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		List<Map<String,Object>> replyMap = replyService.findReplyByUserId(commentId, userId);
+		map.put("code", "200");
+		map.put("data", replyMap);
+		return map;
+	}
 }

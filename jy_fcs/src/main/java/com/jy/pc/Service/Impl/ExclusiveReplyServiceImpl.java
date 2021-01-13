@@ -64,5 +64,9 @@ public class ExclusiveReplyServiceImpl implements ExclusiveReplyService{
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	public List<Map<String,Object>> findReplyByUserId(String commmentId,String userId){
+		return replyDao.findReplyByUserId(commmentId,userId);
+	}
 
 }

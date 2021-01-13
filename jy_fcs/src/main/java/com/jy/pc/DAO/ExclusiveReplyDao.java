@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.jy.pc.Entity.ExclusiveReplyEntity;
 
@@ -28,4 +29,7 @@ public interface ExclusiveReplyDao extends JpaRepository<ExclusiveReplyEntity, S
 	@Query(value = "update sas_exclusive_reply t set t.status = -1 where t.comment_id = ?1 ", nativeQuery = true)
 	@Modifying
 	public void logicalDelete(String cid);
+	
+	@Query(value = "select t.*,date_format(t.reply_date,'%Y-%m-%d %H:%i:%s') as date,(select t.id from sas_exclusive_reply t1 where t.id=t1.id and t1.reply_user_id =:userId) as is_mine from sas_exclusive_reply t where t.comment_id =:commmentId", nativeQuery = true)
+	public List<Map<String,Object>> findReplyByUserId(@Param("commmentId") String commmentId,@Param("userId") String userId);
 }
