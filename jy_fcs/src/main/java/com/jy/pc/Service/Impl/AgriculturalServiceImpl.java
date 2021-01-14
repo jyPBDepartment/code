@@ -1,7 +1,9 @@
 package com.jy.pc.Service.Impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.transaction.Transactional;
 
@@ -143,12 +145,16 @@ public class AgriculturalServiceImpl implements AgriculturalService {
 	}
 
 	@Override
-	public Page<AgriculturalEntity> findAgriInfo(String name, String type, String transactionTypeCode,
-			String transactionCategoryCode, String identityCode, String address, String sort, Pageable pageable) {
+	public Page<List<Map<String, Object>>> findAgriInfo(String name, String type, String transactionTypeCode,
+			String transactionCategoryCode, String identityCode, String address, String sort, String userId,Pageable pageable) {
 		String argiName = "".equals(name) ? "" : "%" + name + "%";
 		String addr = "".equals(address) ? "" : "%" + address + "%";
+		Map<String, List<String>> map = PublicationEnum.getValueByType(type);
+		List<String> list = new ArrayList<String>();
+		list.add(userId);
+		map.put("userId", list);
 		return agriculturalDao.findAgriInfo(argiName, transactionTypeCode, transactionCategoryCode, identityCode, addr,
-				sort, PublicationEnum.getValueByType(type), pageable);
+				sort,PublicationEnum.getValueByType(type), pageable);
 	}
 
 	@Override

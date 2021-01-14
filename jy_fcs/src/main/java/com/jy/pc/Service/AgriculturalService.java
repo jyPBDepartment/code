@@ -1,6 +1,7 @@
 package com.jy.pc.Service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -53,8 +54,8 @@ public interface AgriculturalService {
 	Page<AgriculturalEntity> findListByType(String type, Pageable pageable);
 
 	// 搜索发布信息中农服信息(标题名称)
-	Page<AgriculturalEntity> findAgriInfo(String name, String type, String transactionTypeCode,
-			String transactionCategoryCode, String identityCode,String address, String sort,Pageable pageable);
+	Page<List<Map<String, Object>>> findAgriInfo(String name, String type, String transactionTypeCode,
+			String transactionCategoryCode, String identityCode,String address, String sort,String userId,Pageable pageable);
 
 	// 搜索发布信息中农服信息（类型、类别）
 	Page<AgriculturalEntity> findAgriType(String transactionTypeCode, String transactionCategoryCode,

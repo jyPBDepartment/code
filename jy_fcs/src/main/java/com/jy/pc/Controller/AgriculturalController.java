@@ -120,6 +120,7 @@ public class AgriculturalController {
 			@RequestParam(name = "transactionTypeCode", defaultValue = "") String transactionTypeCode,
 			@RequestParam(name = "transactionCategoryCode", defaultValue = "") String transactionCategoryCode,
 			@RequestParam(name = "name", defaultValue = "") String name,
+			@RequestParam(name = "userId", defaultValue = "") String userId,
 			@RequestParam(name = "sort", defaultValue = "1") String sort,
 			@RequestParam(name = "type", defaultValue = "0") String type, @RequestParam(name = "page") Integer page,
 			@RequestParam(name = "size") Integer size) {
@@ -134,8 +135,8 @@ public class AgriculturalController {
 			address = res.getParameter("address");
 		}
 
-		Page<AgriculturalEntity> agriculturalList = agriculturalService.findAgriInfo(name, type, transactionTypeCode,
-				transactionCategoryCode, identityCode, address,sort, pageable);
+		Page<List<Map<String, Object>>> agriculturalList = agriculturalService.findAgriInfo(name, type, transactionTypeCode,
+				transactionCategoryCode, identityCode, address,sort,userId, pageable);
 		map.put("state", "0");// 成功
 		map.put("message", "查询成功");
 		map.put("data", agriculturalList);
