@@ -1,5 +1,8 @@
 package com.jy.pc.Service.Impl;
 
+import java.util.List;
+import java.util.Map;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,6 +68,18 @@ public class CommentReplyInfoServiceImpl implements CommentReplyInfoService {
 	public Page<CommentReplyInfoPO> findByCommentId(String commentId, Pageable pageable) {
 		// TODO Auto-generated method stub
 		return commentReplyInfoDao.findPageByCommentPO(commentId,pageable);
+	}
+
+	// 条件查询帖子回复人ID
+	@Override
+	public List<CommentReplyInfoEntity> findByUserReplyId(String replyUserId) {
+		return commentReplyInfoDao.findByUserReplyId(replyUserId);
+	}
+
+	// 根据id,userId查询回复信息
+	@Override
+	public List<Map<String, Object>> findReplyByUserId(String commentId, String userId) {
+		return commentReplyInfoDao.findReplyByUserId(commentId, userId);
 	}
 
 }

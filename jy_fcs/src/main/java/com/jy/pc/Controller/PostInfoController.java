@@ -26,6 +26,7 @@ import com.jy.pc.Entity.PostInfoEntity;
 import com.jy.pc.Enum.ClassificationEnum;
 import com.jy.pc.Service.CircleThumbsService;
 import com.jy.pc.Service.ClassificationService;
+import com.jy.pc.Service.CommentReplyInfoService;
 import com.jy.pc.Service.PostCollectionService;
 import com.jy.pc.Service.PostCommentInfoService;
 import com.jy.pc.Service.PostInfoService;
@@ -45,6 +46,8 @@ public class PostInfoController {
 	private CircleThumbsService circleThumbsService;
 	@Autowired
 	private PostCollectionService postCollectionService;
+	@Autowired
+	private CommentReplyInfoService commentReplyInfoService;
 
 	@RequestMapping(value = "/getPostType")
 	public Map<String, Object> getPostType(HttpServletRequest res, HttpServletResponse req) {
@@ -265,9 +268,9 @@ public class PostInfoController {
 		PostInfoEntity PostInfoEntity = postInfoService.findId(circleId);
 		if (isCancelThumbs == 0) {
 			try {
-			circleThumbsEntity.setPostInfoEntity(PostInfoEntity);
-			circleThumbsService.save(circleThumbsEntity);
-			PostInfoEntity.setPraiseNum(PostInfoEntity.getPraiseNum() + 1);
+				circleThumbsEntity.setPostInfoEntity(PostInfoEntity);
+				circleThumbsService.save(circleThumbsEntity);
+				PostInfoEntity.setPraiseNum(PostInfoEntity.getPraiseNum() + 1);
 				map.put("code", "200");
 				map.put("msg", "点赞成功");
 			} catch (Exception e) {
@@ -296,7 +299,7 @@ public class PostInfoController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		Pageable pageable = new PageRequest(page - 1, size);
 		try {
-		Page<PostInfoEntity> invitationList = postInfoService.findByType(type, pageable);
+			Page<PostInfoEntity> invitationList = postInfoService.findByType(type, pageable);
 			map.put("code", "200");
 			map.put("data", invitationList);
 		} catch (Exception e) {
@@ -321,9 +324,9 @@ public class PostInfoController {
 		PostInfoEntity postInfoEntity = postInfoService.findId(circleId);
 		if (isCancelCollection == 0) {
 			try {
-			postCollectionEntity.setPostInfoEntity(postInfoEntity);
-			postCollectionService.save(postCollectionEntity);
-			postInfoEntity.setCollectionNum(postInfoEntity.getCollectionNum() + 1);
+				postCollectionEntity.setPostInfoEntity(postInfoEntity);
+				postCollectionService.save(postCollectionEntity);
+				postInfoEntity.setCollectionNum(postInfoEntity.getCollectionNum() + 1);
 				map.put("code", "200");
 				map.put("msg", "收藏成功");
 			} catch (Exception e) {
@@ -340,6 +343,7 @@ public class PostInfoController {
 		postInfoService.update(postInfoEntity);
 		return map;
 	}
+
 	/**
 	 * 我的-我的收藏
 	 * 
@@ -353,7 +357,7 @@ public class PostInfoController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		Pageable pageable = new PageRequest(page - 1, size);
 		try {
-			
+
 			Page<List<Map<String, Object>>> postCollection = postCollectionService.findPageByParam(userId, pageable);
 			map.put("code", "200");// 查询成功
 			map.put("data", postCollection);
@@ -362,6 +366,55 @@ public class PostInfoController {
 			map.put("msg", e.getMessage());
 			e.printStackTrace();
 		}
+		return map;
+	}
+
+	// 移动端-根据帖子Id、用户id查询帖子列表详情（接口）
+	@RequestMapping(value = "/findPostId")
+	@ResponseBody
+	public Map<String, Object> findPostId(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "id") String id, @RequestParam(name = "userId") String userId) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> postInfoEntity = postInfoService.findInfoByPostUserId(id, userId);
+		try {
+			map.put("code", "200");// 查询成功
+			map.put("message", "查询成功");
+			map.put("data", postInfoEntity);
+		} catch (Exception e) {
+			map.put("code", "500");// 查询失败
+			map.put("message", "查询失败");
+		}
+		return map;
+
+	}
+	/**
+	 * 根据帖子id、用户id查询评论信息
+	 * 
+	 * @param commentId
+	 * @param userId
+	 */
+	@RequestMapping(value = "/findReplyByUserId")
+	public Map<String, Object> findReplyByUserId(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "commentId") String commentId, @RequestParam(name = "userId") String userId) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		List<Map<String,Object>> postReplyMap = commentReplyInfoService.findReplyByUserId(commentId, userId);
+		map.put("code", "200");
+		map.put("data", postReplyMap);
+		return map;
+	}
+	/**
+	 * 根据文章id、用户id查询评论信息
+	 * 
+	 * @param postId
+	 * @param userId
+	 */
+	@RequestMapping(value = "/findCommentByUserId")
+	public Map<String, Object> findCommentByUserId(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "postId") String postId, @RequestParam(name = "userId") String userId) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		List<Map<String,Object>> postCommentMap = postCommentInfoService.findCommentByUserId(postId, userId);
+		map.put("code", "200");
+		map.put("data", postCommentMap);
 		return map;
 	}
 }

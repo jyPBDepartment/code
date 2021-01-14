@@ -5,6 +5,8 @@ import java.util.Map;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.jy.pc.Entity.PostCommentInfoEntity;
 import com.jy.pc.POJO.PostCommentInfoPO;
@@ -32,4 +34,10 @@ public interface PostCommentInfoService {
 	void enable(PostCommentInfoEntity postCommentInfoEntity, boolean result);
 	
 	public List<PostCommentInfoEntity> findPostId(String postId);
+	
+//	通过评论人ID查询
+	public List<PostCommentInfoEntity> findByUserId(String commentUserId);
+	
+	// id查询评论列表信息
+	public List<Map<String, Object>> findCommentByUserId(String postId,String userId);
 }

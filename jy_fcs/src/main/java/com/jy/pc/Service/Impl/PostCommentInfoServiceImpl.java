@@ -92,4 +92,16 @@ public class PostCommentInfoServiceImpl implements PostCommentInfoService {
 		return postCommentInfoDao.findPostId(postId);
 	}
 
+	@Override
+	public List<PostCommentInfoEntity> findByUserId(String commentUserId) {
+		
+		return postCommentInfoDao.findByUserId(commentUserId);
+	}
+
+	// id查询评论列表信息
+	@Override
+	public List<Map<String, Object>> findCommentByUserId(String postId, String userId) {
+		return postCommentInfoDao.findCommentByUserId(postId, userId);
+	}
+
 }

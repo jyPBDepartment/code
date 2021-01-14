@@ -1,6 +1,7 @@
 package com.jy.pc.DAO;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -10,6 +11,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.jy.pc.Entity.CommentReplyInfoEntity;
+import com.jy.pc.Entity.PostCommentInfoEntity;
 import com.jy.pc.POJO.CommentReplyInfoPO;
 
 public interface CommentReplyInfoDao extends JpaRepository<CommentReplyInfoEntity, String>{
@@ -36,4 +38,13 @@ public interface CommentReplyInfoDao extends JpaRepository<CommentReplyInfoEntit
 	@Query(value="delete from sas_comment_reply_info  where comment_id = :commentId",nativeQuery = true)
 	@Modifying
 	public void deleteByComment(@Param("commentId")String commentId);
+	
+	//	条件查询帖子回复人ID
+	@Query(value = "SELECT * from  sas_comment_reply_info t where t.reply_user_id =:replyUserId", nativeQuery = true)
+	public List<CommentReplyInfoEntity> findByUserReplyId(@Param("replyUserId") String replyUserId);
+	
+	//根据id,userId查询回复信息
+	@Query(value = "select t.*,date_format(t.reply_date,'%Y-%m-%d %H:%i:%s') as date,(select t.id from sas_comment_reply_info t1 where t.id=t1.id and t1.reply_user_id =:userId) as is_mine from sas_comment_reply_info t where t.comment_id =:commentId", nativeQuery = true)
+	public List<Map<String,Object>> findReplyByUserId(@Param("commentId") String commentId,@Param("userId") String userId);
+
 }

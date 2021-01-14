@@ -2,6 +2,7 @@ package com.jy.pc.Service.Impl;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.transaction.Transactional;
 
@@ -168,6 +169,12 @@ public class PostInfoServiceImpl implements PostInfoService {
 		}
 
 		return result;
+	}
+
+	// 通过id,userId查询帖子信息
+	@Override
+	public Map<String, Object> findInfoByPostUserId(String id, String userId) {
+		return invitationDao.findInfoByPostUserId(id, userId);
 	}
 
 

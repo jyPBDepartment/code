@@ -39,8 +39,6 @@ public class PostCollectionEntity {
 		this.id = id;
 	}
 
-	
-
 	public PostInfoEntity getPostInfoEntity() {
 		return postInfoEntity;
 	}

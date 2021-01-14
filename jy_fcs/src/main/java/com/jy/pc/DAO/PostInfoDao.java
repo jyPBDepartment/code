@@ -1,6 +1,7 @@
 package com.jy.pc.DAO;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -47,5 +48,9 @@ public interface PostInfoDao extends JpaRepository<PostInfoEntity, String> {
 	// 查询热议
 	@Query(value = "select * from sas_post_info t where t.status=0 order by t.comment_num desc", countQuery = "select count(*) from sas_post_info t where t.status=0 order by t.comment_num desc", nativeQuery = true)
 	public Page<PostInfoEntity> findListByCommentLabel(Pageable pageable);
+	
+	// 通过id,userId查询帖子信息
+	@Query(value = "select *,(select t1.id from sas_post_collection t1 where t.id=t1.circle_id and t1.user_id=:userId) as is_collection,(select t2.id from sas_circle_thumbs t2 where t.id=t2.circle_id and t2.thumbs_user_id=:userId) as is_praise from sas_post_info t where t.id =:id", nativeQuery = true)
+	public Map<String,Object> findInfoByPostUserId(@Param("id") String id,@Param("userId") String userId);
 
 }
