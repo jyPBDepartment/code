@@ -1,6 +1,7 @@
 package com.jy.pc.Service;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -55,4 +56,8 @@ public interface CaseInfoService {
 	
 	// 看图识病查询
 	public Page<CaseInfoEntity> findByNum(Integer type,Pageable pageable);
+	
+	// 通过id userId查询看图识病信息
+	public Map<String,Object> findInfoByUserId(String id,String userId);
+
 }

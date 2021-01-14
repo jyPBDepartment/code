@@ -34,8 +34,6 @@ public class CasePraiseEntity {
 	@JoinColumn(name = "caseId", referencedColumnName = "id")
 	@NotFound(action = NotFoundAction.IGNORE)
 	private CaseInfoEntity caseInfoEntity; //看图识病id 外键
-	@Column(columnDefinition = "int(5) default 1 comment '是否点赞0点赞1取消点赞'")
-	private int isFabulous; //是否点赞
 	@Column
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     @Temporal(TemporalType.TIMESTAMP)
@@ -54,12 +52,6 @@ public class CasePraiseEntity {
 	}
 	public void setFabulousDate(Date fabulousDate) {
 		this.fabulousDate = fabulousDate;
-	}
-	public int getIsFabulous() {
-		return isFabulous;
-	}
-	public void setIsFabulous(int isFabulous) {
-		this.isFabulous = isFabulous;
 	}
 	public CaseInfoEntity getCaseInfoEntity() {
 		return caseInfoEntity;

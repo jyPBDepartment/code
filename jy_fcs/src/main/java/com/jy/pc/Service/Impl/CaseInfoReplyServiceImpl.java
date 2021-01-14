@@ -81,4 +81,16 @@ public class CaseInfoReplyServiceImpl implements CaseInfoReplyService{
 		return caseInfoReplyDAO.findPageByParam(caseName, userName, content, commentId, pageable);
 	}
 
+	//通过回复人id查询
+	@Override
+	public List<CaseInfoReplyEntity> findByReplyId(String replyUserId) {
+		return caseInfoReplyDAO.findByReplyId(replyUserId);
+	}
+
+	//评论id、用户id查询回复信息
+	@Override
+	public List<Map<String, Object>> findReplyByUserId(String commentId, String userId) {
+		return caseInfoReplyDAO.findReplyByUserId(commentId, userId);
+	}
+
 }

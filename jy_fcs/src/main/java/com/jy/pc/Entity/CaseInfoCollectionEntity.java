@@ -34,8 +34,6 @@ public class CaseInfoCollectionEntity {
 	@JoinColumn(name = "caseId", referencedColumnName = "id")
 	@NotFound(action = NotFoundAction.IGNORE)
 	private CaseInfoEntity caseInfoEntity; //看图识病id 外键
-	@Column(columnDefinition = "int(5) default 1 comment '是否收藏0收藏1取消收藏'")
-	private int isCollection; //是否收藏
 	@Column
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     @Temporal(TemporalType.TIMESTAMP)
@@ -60,12 +58,6 @@ public class CaseInfoCollectionEntity {
 	}
 	public void setCaseInfoEntity(CaseInfoEntity caseInfoEntity) {
 		this.caseInfoEntity = caseInfoEntity;
-	}
-	public int getIsCollection() {
-		return isCollection;
-	}
-	public void setIsCollection(int isCollection) {
-		this.isCollection = isCollection;
 	}
 	public Date getCollectionDate() {
 		return collectionDate;

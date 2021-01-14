@@ -22,7 +22,7 @@ import com.jy.pc.Entity.CaseInfoReplyEntity;
 import com.jy.pc.Service.CaseInfoCommentService;
 import com.jy.pc.Service.CaseInfoReplyService;
 import com.jy.pc.Service.CaseInfoService;
-//看图识病回复表Controller
+//看图识病评论表Controller
 @Controller
 @RequestMapping(value = "/caseInfoComment")
 public class CaseInfoCommentController {
@@ -124,4 +124,44 @@ public class CaseInfoCommentController {
 		return map;
 	}
 
+	//通过评论人id查询
+	@RequestMapping(value = "findByUserId")
+	@ResponseBody
+	public Map<String, Object> findByUserId(HttpServletRequest res, HttpServletResponse req,@RequestParam(name = "commentUserId") String commentUserId) {
+
+		Map<String, Object> map = new HashMap<String, Object>();// 接收数据容器
+		try {
+			List<CaseInfoCommentEntity> caseInfoCommentList = caseInfoCommentService.findByUserId(commentUserId);
+			map.put("code", "200");// 成功
+			map.put("message", "查询成功");
+			map.put("data", caseInfoCommentList);
+		} catch (Exception e) {
+			map.put("code", "500");// 失败
+			map.put("message", "查询失败");
+		}
+		return map;
+	}
+	
+	/**
+	 * 根据看图识病id、用户id查询评论信息
+	 * 
+	 * @param caseId
+	 * @param userId
+	 */
+	@RequestMapping(value = "/findCommentByUserId")
+	@ResponseBody
+	public Map<String, Object> findCommentByUserId(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "caseId") String caseId, @RequestParam(name = "userId") String userId) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		try {
+			List<Map<String,Object>> commmentMap =caseInfoCommentService.findCommentByUserId(caseId, userId);
+			map.put("code", "200");
+			map.put("message", "查询成功");
+			map.put("data", commmentMap);
+		} catch (Exception e) {
+			map.put("code", "500");
+			map.put("message", "查询失败");
+		}
+		return map;
+	}
 }

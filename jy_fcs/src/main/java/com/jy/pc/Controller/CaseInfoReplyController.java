@@ -106,6 +106,23 @@ public class CaseInfoReplyController {
 		caseInfoReplyService.updateEnable(caseInfoReplyEntity, result);
 		return map;
 	}
+	
+	//通过回复人id查询
+	@RequestMapping(value = "findByUserId")
+	@ResponseBody
+	public Map<String, Object> findByUserId(HttpServletRequest res, HttpServletResponse req,@RequestParam(name = "replyUserId") String replyUserId) {
 
+		Map<String, Object> map = new HashMap<String, Object>();// 接收数据容器
+		try {
+			List<CaseInfoReplyEntity> caseInfoReplyList = caseInfoReplyService.findByReplyId(replyUserId);
+			map.put("code", "200");// 成功
+			map.put("message", "查询成功");
+			map.put("data", caseInfoReplyList);
+		} catch (Exception e) {
+			map.put("code", "500");// 失败
+			map.put("message", "查询失败");
+		}
+		return map;
+	}
 
 }

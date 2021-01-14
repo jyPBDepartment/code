@@ -2,6 +2,7 @@ package com.jy.pc.Service.Impl;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -250,5 +251,11 @@ public class CaseInfoServiceImpl implements CaseInfoService {
 			break;
 		}
 		return caseInfoEntity;
+	}
+
+	//通过id userId查询看图识病信息
+	@Override
+	public Map<String, Object> findInfoByUserId(String id, String userId) {
+		return caseInfoDao.findInfoByUserId(id, userId);
 	}
 }

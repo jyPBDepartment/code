@@ -24,6 +24,7 @@ import com.jy.pc.Entity.CasePraiseEntity;
 import com.jy.pc.Entity.KeyWordEntity;
 import com.jy.pc.Enum.ClassificationEnum;
 import com.jy.pc.Service.CaseInfoCollectionService;
+import com.jy.pc.Service.CaseInfoReplyService;
 import com.jy.pc.Service.CaseInfoService;
 import com.jy.pc.Service.CasePraiseService;
 import com.jy.pc.Service.KeyWordService;
@@ -44,6 +45,9 @@ public class CaseInfoController {
 	
 	@Autowired
 	private CaseInfoCollectionService caseInfoCollectionService;
+	
+	@Autowired
+	private CaseInfoReplyService caseInfoReplyService;
 
 	// 接口 -- 根据id获取信息
 	@RequestMapping(value = "findLatestCaseInfoById")
@@ -404,6 +408,51 @@ public class CaseInfoController {
 			map.put("code", "500");// 查询失败
 			map.put("msg", "查询失败");
 			e.printStackTrace();
+		}
+		return map;
+	}
+	
+	/**
+	 * 根据看图识病id userId查询看图识病信息
+	 * */
+	@RequestMapping(value="/findUserCaseId")
+	@ResponseBody
+	public Map<String,Object> findUserCaseId(HttpServletRequest res,HttpServletResponse req,
+			@RequestParam(name = "id") String id,
+			@RequestParam(name = "userId") String userId){
+		Map<String,Object> map = new HashMap<String, Object>();
+		try {
+			Map<String,Object> caseInfoEntity = caseInfoService.findInfoByUserId(id, userId);
+			map.put("code", "200");//查询成功
+			map.put("message", "查询成功");
+			map.put("data", caseInfoEntity);
+		} catch (Exception e) {
+			map.put("code", "500");//查询失败
+			map.put("message", "查询失败");
+			e.printStackTrace();
+		}
+		return map;
+		
+	}
+	
+	/**
+	 * 根据看图识病id、用户id查询回复信息
+	 * 
+	 * @param commentId
+	 * @param userId
+	 */
+	@RequestMapping(value = "/findReplyByUserId")
+	public Map<String, Object> findReplyByUserId(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "commentId") String commentId, @RequestParam(name = "userId") String userId) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		try {
+			List<Map<String,Object>> replyList = caseInfoReplyService.findReplyByUserId(commentId, userId);
+			map.put("code", "200"); //查询成功
+			map.put("message", "查询成功");
+			map.put("data", replyList);
+		} catch (Exception e) {
+			map.put("code", "500");//查询失败
+			map.put("message", "查询失败");
 		}
 		return map;
 	}

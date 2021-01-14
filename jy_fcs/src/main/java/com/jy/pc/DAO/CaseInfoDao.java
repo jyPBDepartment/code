@@ -1,6 +1,7 @@
 package com.jy.pc.DAO;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -56,5 +57,9 @@ public interface CaseInfoDao extends JpaRepository<CaseInfoEntity, String> {
 	@Query(value = "select * from sas_case_info  t where t.audit_status='1' order by t.praise_num desc", 
 			countQuery = "select count(*) from sas_case_info t where t.audit_status='1' order by t.praise_num desc", nativeQuery = true)
 	public Page<CaseInfoEntity> findByPraNum(Pageable pageable);
+	
+	// 通过id userId查询看图识病信息
+	@Query(value = "select *,(select t1.id from sas_case_info_collection t1 where t.id=t1.case_id and t1.collection_user_id=:userId) as is_collection,(select t2.id from sas_case_praise t2 where t.id=t2.case_id and t2.praise_user_id=:userId) as is_praise from sas_case_info t where t.id =:id", nativeQuery = true)
+	public Map<String,Object> findInfoByUserId(@Param("id") String id,@Param("userId") String userId);
 
 }
