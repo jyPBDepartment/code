@@ -36,7 +36,7 @@ public interface GrainTradingCommentService {
 	public Page<List<Map<String, Object>>> findPageByParam(String title, String name, String content,
 			Pageable pageable);
 
-	public Page<List<Map<String, Object>>> findCommentPage(String aid,Pageable pageable);
+	public Page<List<Map<String, Object>>> findCommentPage(String aid,String userId,Pageable pageable);
 
 	public  List<GrainTradingCommentEntity> getMyComment(String userId);
 }

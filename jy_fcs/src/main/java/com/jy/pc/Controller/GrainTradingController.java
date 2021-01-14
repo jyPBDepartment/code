@@ -115,11 +115,11 @@ public class GrainTradingController {
 	 */
 	@RequestMapping(value = "/findReplyPage")
 	public Map<String, Object> findReplyPage(HttpServletRequest res, HttpServletResponse req,
-			@RequestParam(name = "cid") String cid, @RequestParam(name = "page") Integer page,
+			@RequestParam(name = "cid") String cid, @RequestParam(name = "userId") String userId, @RequestParam(name = "page") Integer page,
 			@RequestParam(name = "size") Integer size) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		Pageable pageable = new PageRequest(page - 1, size);
-		Page<GrainTradingReplyEntity> data = replyService.findCommentPage(cid, pageable);
+		Page<List<Map<String, Object>>> data = replyService.findCommentPage(cid, userId,pageable);
 		map.put("code", "200");
 		map.put("data", data);
 		return map;
@@ -135,11 +135,12 @@ public class GrainTradingController {
 	 */
 	@RequestMapping(value = "/findCommentPage")
 	public Map<String, Object> findCommentPage(HttpServletRequest res, HttpServletResponse req,
-			@RequestParam(name = "aid") String aid, @RequestParam(name = "page") Integer page,
+			@RequestParam(name = "aid") String aid, @RequestParam(name = "userId") String userId, 
+			@RequestParam(name = "page") Integer page,
 			@RequestParam(name = "size") Integer size) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		Pageable pageable = new PageRequest(page - 1, size);
-		Page<List<Map<String, Object>>> data = commentService.findCommentPage(aid, pageable);
+		Page<List<Map<String, Object>>> data = commentService.findCommentPage(aid, userId,pageable);
 		map.put("code", "200");
 		map.put("data", data);
 		return map;

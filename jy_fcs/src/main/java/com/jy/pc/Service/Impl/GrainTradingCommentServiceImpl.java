@@ -91,8 +91,8 @@ public class GrainTradingCommentServiceImpl implements GrainTradingCommentServic
 	}
 
 	@Override
-	public Page<List<Map<String, Object>>> findCommentPage(String aid,Pageable pageable) {
-		return commentDao.findCommentPage(aid,pageable);
+	public Page<List<Map<String, Object>>> findCommentPage(String aid,String userId,Pageable pageable) {
+		return commentDao.findCommentPage(aid,userId,pageable);
 	}
 
 	@Override

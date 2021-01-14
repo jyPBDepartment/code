@@ -75,8 +75,8 @@ public class GrainTradingReplyServiceImpl implements GrainTradingReplyService {
 	}
 
 	@Override
-	public Page<GrainTradingReplyEntity> findCommentPage(String cid, Pageable pageable) {
-		return replyDao.findCommentPage(cid,pageable);
+	public Page<List<Map<String, Object>>> findCommentPage(String cid, String userId,Pageable pageable) {
+		return replyDao.findCommentPage(cid,userId,pageable);
 	}
 
 	@Override

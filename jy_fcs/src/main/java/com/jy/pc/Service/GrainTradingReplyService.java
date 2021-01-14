@@ -35,7 +35,7 @@ public interface GrainTradingReplyService {
 	public Page<List<Map<String, Object>>> findPageByParam(String title, String name, String content,String aid,
 			Pageable pageable);
 
-	public Page<GrainTradingReplyEntity> findCommentPage(String cid, Pageable pageable);
+	public Page<List<Map<String, Object>>> findCommentPage(String cid, String userId,Pageable pageable);
 
 	public List<GrainTradingReplyEntity> getMyReply(String userId);
 }
