@@ -18,7 +18,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.jy.pc.Entity.AgriculturalEntity;
+import com.jy.pc.Entity.GrainTradingCollectionEntity;
 import com.jy.pc.Entity.GrainTradingCommentEntity;
+import com.jy.pc.Entity.GrainTradingPraiseEntity;
 import com.jy.pc.Entity.GrainTradingReplyEntity;
 import com.jy.pc.Entity.PictureInfoEntity;
 import com.jy.pc.Service.AgriculturalService;
@@ -53,11 +55,24 @@ public class GrainTradingController {
 	 */
 	@RequestMapping(value = "/mobileView")
 	public Map<String, Object> mobileWebView(HttpServletRequest res, HttpServletResponse req,
-			@RequestParam(name = "id") String id) {
+			@RequestParam(name = "id") String id, @RequestParam(name = "userId") String userId) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		AgriculturalEntity agr = agriculturalService.findId(id);
 		List<PictureInfoEntity> agrPic = pictureInfoService.findByAgrId(id);
 		GrainTradingCommentEntity comment = commentService.findNewestById(id);
+		GrainTradingPraiseEntity prise = praiseService.findInfoByAll(id, userId);
+		GrainTradingCollectionEntity collection = collectionService.findInfoByAll(id, userId);
+		// 判断当前用户是否收藏/点赞了该条粮食买卖信息
+		if (prise == null) {
+			map.put("curPrise", 0);
+		} else {
+			map.put("curPrise", 1);
+		}
+		if (collection == null) {
+			map.put("curCollection", 0);
+		} else {
+			map.put("curCollection", 1);
+		}
 		map.put("agr", agr);
 		map.put("agrPic", agrPic);
 		map.put("comment", comment);
