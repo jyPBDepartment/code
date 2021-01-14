@@ -65,8 +65,8 @@ public class ExclusiveReplyServiceImpl implements ExclusiveReplyService{
 		return null;
 	}
 	
-	public List<Map<String,Object>> findReplyByUserId(String commmentId,String userId){
-		return replyDao.findReplyByUserId(commmentId,userId);
+	public Page<List<Map<String,Object>>> findReplyByUserId(String commmentId,String userId,Pageable pageable){
+		return replyDao.findReplyByUserId(commmentId,userId,pageable);
 	}
 
 }

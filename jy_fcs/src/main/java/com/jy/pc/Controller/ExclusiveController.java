@@ -366,9 +366,13 @@ public class ExclusiveController {
 	 */
 	@RequestMapping(value = "/findCommentByUserId")
 	public Map<String, Object> findCommentByUserId(HttpServletRequest res, HttpServletResponse req,
-			@RequestParam(name = "artId") String artId, @RequestParam(name = "userId") String userId) throws Exception {
+			@RequestParam(name = "artId") String artId, 
+			@RequestParam(name = "userId") String userId,
+			@RequestParam(name = "page") Integer page, 
+			@RequestParam(name = "size") Integer size) throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
-		List<Map<String,Object>> commmentMap = commentService.findCommentByUserId(artId, userId);
+		Pageable pageable = new PageRequest(page - 1, size);
+		Page<List<Map<String,Object>>> commmentMap = commentService.findCommentByUserId(artId, userId,pageable);
 		map.put("code", "200");
 		map.put("data", commmentMap);
 		return map;
@@ -382,9 +386,13 @@ public class ExclusiveController {
 	 */
 	@RequestMapping(value = "/findReplyByUserId")
 	public Map<String, Object> findReplyByUserId(HttpServletRequest res, HttpServletResponse req,
-			@RequestParam(name = "commentId") String commentId, @RequestParam(name = "userId") String userId) throws Exception {
+			@RequestParam(name = "commentId") String commentId, 
+			@RequestParam(name = "userId") String userId,
+			@RequestParam(name = "page") Integer page, 
+			@RequestParam(name = "size") Integer size) throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
-		List<Map<String,Object>> replyMap = replyService.findReplyByUserId(commentId, userId);
+		Pageable pageable = new PageRequest(page - 1, size);
+		Page<List<Map<String,Object>>> replyMap = replyService.findReplyByUserId(commentId, userId,pageable);
 		map.put("code", "200");
 		map.put("data", replyMap);
 		return map;

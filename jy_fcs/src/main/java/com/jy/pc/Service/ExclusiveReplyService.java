@@ -32,5 +32,5 @@ public interface ExclusiveReplyService {
 
 		public List<ExclusiveReplyEntity> findPostId(String postId);
 		
-		public List<Map<String,Object>> findReplyByUserId(String commmentId,String userId);
+		public Page<List<Map<String,Object>>> findReplyByUserId(String commmentId,String userId,Pageable pageable);
 }

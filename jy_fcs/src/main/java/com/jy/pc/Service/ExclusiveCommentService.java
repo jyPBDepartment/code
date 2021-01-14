@@ -32,5 +32,5 @@ public interface ExclusiveCommentService {
 		public Page<List<Map<String, Object>>> findPageByParam(String title, String name, String content,
 				Pageable pageable);
 		
-		public List<Map<String,Object>> findCommentByUserId(String artId,String userId);
+		public Page<List<Map<String,Object>>> findCommentByUserId(String artId,String userId,Pageable pageable);
 }

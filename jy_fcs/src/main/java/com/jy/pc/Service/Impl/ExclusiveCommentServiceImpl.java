@@ -82,7 +82,7 @@ public class ExclusiveCommentServiceImpl implements ExclusiveCommentService{
 		return commentDao.findPageByParam(title, name, content, pageable);
 	}
 	
-	public List<Map<String,Object>> findCommentByUserId(String artId,String userId){
-		return commentDao.findCommentByUserId(artId,userId);
+	public Page<List<Map<String,Object>>> findCommentByUserId(String artId,String userId,Pageable pageable){
+		return commentDao.findCommentByUserId(artId,userId,pageable);
 	}
 }

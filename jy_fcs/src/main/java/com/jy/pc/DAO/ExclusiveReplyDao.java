@@ -30,6 +30,8 @@ public interface ExclusiveReplyDao extends JpaRepository<ExclusiveReplyEntity, S
 	@Modifying
 	public void logicalDelete(String cid);
 	
-	@Query(value = "select t.*,date_format(t.reply_date,'%Y-%m-%d %H:%i:%s') as date,(select t.id from sas_exclusive_reply t1 where t.id=t1.id and t1.reply_user_id =:userId) as is_mine from sas_exclusive_reply t where t.comment_id =:commmentId", nativeQuery = true)
-	public List<Map<String,Object>> findReplyByUserId(@Param("commmentId") String commmentId,@Param("userId") String userId);
+	@Query(value = "select t.id,t.comment_id as commentId,t.reply_content as replyContent,t.reply_user_name as replyUserName,t.reply_pic as replyPic,t.reply_user_id as replyUserId,t.is_anonymous as isAnonymous,t.status,date_format(t.reply_date,'%Y-%m-%d %H:%i:%s') as replyDate,(select t.id from sas_exclusive_reply t1 where t.id=t1.id and t1.reply_user_id =:userId) as isMyReply from sas_exclusive_reply t where t.comment_id =:commmentId", 
+			countQuery = "select count(0) from sas_exclusive_reply t where t.comment_id =:commmentId",
+			nativeQuery = true)
+	public Page<List<Map<String,Object>>> findReplyByUserId(@Param("commmentId") String commmentId,@Param("userId") String userId,Pageable pageable);
 }
