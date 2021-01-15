@@ -93,4 +93,10 @@ public class CaseInfoReplyServiceImpl implements CaseInfoReplyService{
 		return caseInfoReplyDAO.findReplyByUserId(commentId, userId, pageable);
 	}
 
+	//查询评论下所有回复
+	@Override
+	public Page<List<Map<String, Object>>> findReplyPage(String commentId, String userId, Pageable pageable) {
+		return caseInfoReplyDAO.findReplyPage(commentId, userId, pageable);
+	}
+
 }

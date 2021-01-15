@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.jy.pc.Entity.CaseInfoCollectionEntity;
+import com.jy.pc.Entity.CaseInfoCommentEntity;
 import com.jy.pc.Entity.CaseInfoEntity;
 import com.jy.pc.Entity.CaseInfoIrrelevantEntity;
 import com.jy.pc.Entity.CasePraiseEntity;
@@ -550,9 +551,54 @@ public class CaseInfoController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
 			Map<String, Object> caseInfo = caseInfoService.findChannelId(userId, id);
+			CaseInfoCommentEntity caseInfoComment = caseInfoCommentService.findNewCommentId(id);
 			map.put("code", "200");// 查询数据成功
 			map.put("message", "查询成功");
 			map.put("data", caseInfo);
+			map.put("dataComment", caseInfoComment);
+		} catch (Exception e) {
+			map.put("code", "500");// 失败
+			map.put("message", "查询失败");
+		}
+		return map;
+	}
+	
+	/**
+	 * H5-获取看图识病单条下所有评论
+	 */
+	@RequestMapping(value = "/findCommentPage")
+	public Map<String, Object> findCommentPage(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "caseId") String caseId, @RequestParam(name = "userId") String userId, 
+			@RequestParam(name = "page") Integer page,
+			@RequestParam(name = "size") Integer size) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		Pageable pageable = new PageRequest(page - 1, size);
+		try {
+			Page<List<Map<String, Object>>> commentList = caseInfoCommentService.findCommentPage(caseId, userId, pageable);
+			map.put("code", "200");
+			map.put("message", "查询成功");
+			map.put("data", commentList);
+		} catch (Exception e) {
+			map.put("code", "500");// 失败
+			map.put("message", "查询失败");
+		}
+		return map;
+	}
+	
+	/**
+	 * H5-获取评论下所有回复
+	 */
+	@RequestMapping(value = "/findReplyPage")
+	public Map<String, Object> findReplyPage(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "commentId") String commentId, @RequestParam(name = "userId") String userId,
+			@RequestParam(name = "page") Integer page,@RequestParam(name = "size") Integer size) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		Pageable pageable = new PageRequest(page - 1, size);
+		try {
+			Page<List<Map<String, Object>>> replyList = caseInfoReplyService.findReplyPage(commentId, userId, pageable);
+			map.put("code", "200");
+			map.put("message", "查询成功");
+			map.put("data", replyList);
 		} catch (Exception e) {
 			map.put("code", "500");// 失败
 			map.put("message", "查询失败");

@@ -33,4 +33,9 @@ public interface CaseInfoCommentService {
 	//用户id、文章点评id查询评论信息
 	public Page<List<Map<String,Object>>> findCommentByUserId(String caseId,String userId,Pageable pageable);
 
+	// 查询最新一条评论
+	public CaseInfoCommentEntity findNewCommentId(String caseId);
+	
+	//查询看图识病单条下所有评论
+	public Page<List<Map<String, Object>>> findCommentPage(String caseId,String userId,Pageable pageable);
 }
