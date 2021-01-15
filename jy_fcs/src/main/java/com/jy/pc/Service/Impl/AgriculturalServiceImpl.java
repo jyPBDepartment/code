@@ -269,4 +269,9 @@ public class AgriculturalServiceImpl implements AgriculturalService {
 		agriculturalDao.deleteById(id);
 	}
 
+	@Override
+	public Page<List<Map<String, Object>>> findMyCollection(String userId, Pageable pageable) {
+		return agriculturalDao.findMyCollection(userId,pageable);
+	}
+
 }

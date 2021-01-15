@@ -71,4 +71,6 @@ public interface AgriculturalService {
 	// 删除
 	public void delete(String id);
 
+	public Page<List<Map<String, Object>>> findMyCollection(String userId, Pageable pageable);
+
 }

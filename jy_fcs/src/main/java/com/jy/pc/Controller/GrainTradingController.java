@@ -50,6 +50,35 @@ public class GrainTradingController {
 	/**
 	 * H5-根据主键id返回详情信息
 	 * 
+	 * @param userId 当前用户id
+	 * @return consumer: note:
+	 */
+	@RequestMapping(value = "/findMyCollection")
+	public Map<String, Object> findMyCollection(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "userId", defaultValue = "") String userId,
+			@RequestParam(name = "type", defaultValue = "0") String type, @RequestParam(name = "page") Integer page,
+			@RequestParam(name = "size") Integer size) {
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		Pageable pageable = new PageRequest(page - 1, size);
+
+		String identityCode = "";
+		String address = "";
+		if (type.equals("1")) {
+			identityCode = res.getParameter("identityCode");
+			address = res.getParameter("address");
+		}
+
+		Page<List<Map<String, Object>>> agriculturalList = agriculturalService.findMyCollection(userId, pageable);
+		map.put("state", "0");// 成功
+		map.put("message", "查询成功");
+		map.put("data", agriculturalList);
+		return map;
+	}
+
+	/**
+	 * H5-根据主键id返回详情信息
+	 * 
 	 * @param id 粮食买卖id
 	 * @return consumer: note:
 	 */
@@ -115,11 +144,11 @@ public class GrainTradingController {
 	 */
 	@RequestMapping(value = "/findReplyPage")
 	public Map<String, Object> findReplyPage(HttpServletRequest res, HttpServletResponse req,
-			@RequestParam(name = "cid") String cid, @RequestParam(name = "userId") String userId, @RequestParam(name = "page") Integer page,
-			@RequestParam(name = "size") Integer size) {
+			@RequestParam(name = "cid") String cid, @RequestParam(name = "userId") String userId,
+			@RequestParam(name = "page") Integer page, @RequestParam(name = "size") Integer size) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		Pageable pageable = new PageRequest(page - 1, size);
-		Page<List<Map<String, Object>>> data = replyService.findCommentPage(cid, userId,pageable);
+		Page<List<Map<String, Object>>> data = replyService.findCommentPage(cid, userId, pageable);
 		map.put("code", "200");
 		map.put("data", data);
 		return map;
@@ -135,12 +164,11 @@ public class GrainTradingController {
 	 */
 	@RequestMapping(value = "/findCommentPage")
 	public Map<String, Object> findCommentPage(HttpServletRequest res, HttpServletResponse req,
-			@RequestParam(name = "aid") String aid, @RequestParam(name = "userId") String userId, 
-			@RequestParam(name = "page") Integer page,
-			@RequestParam(name = "size") Integer size) {
+			@RequestParam(name = "aid") String aid, @RequestParam(name = "userId") String userId,
+			@RequestParam(name = "page") Integer page, @RequestParam(name = "size") Integer size) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		Pageable pageable = new PageRequest(page - 1, size);
-		Page<List<Map<String, Object>>> data = commentService.findCommentPage(aid, userId,pageable);
+		Page<List<Map<String, Object>>> data = commentService.findCommentPage(aid, userId, pageable);
 		map.put("code", "200");
 		map.put("data", data);
 		return map;

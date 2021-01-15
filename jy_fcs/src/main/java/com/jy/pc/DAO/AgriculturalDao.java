@@ -74,4 +74,9 @@ public interface AgriculturalDao extends JpaRepository<AgriculturalEntity, Strin
 	// 搜索我的发布信息（接口,标题名称）
 	@Query(value = "SELECT * FROM sas_publication_info t where t.transaction_type_code in :#{#map['type']} and t.transaction_category_code in :#{#map['category']} and if(?1 !='',t.status like ?1,1=1) and if(?2 !='',t.create_user_id = ?2,1=1) order by t.create_date desc", countQuery = "select count(*) FROM sas_publication_info t where t.transaction_type_code in :#{#map['type']} and t.transaction_category_code in :#{#map['category']} and if(?1 !='',t.status like ?1,1=1) and if(?2 !='',t.create_user_id = ?2,1=1) order by t.create_date desc", nativeQuery = true)
 	public Page<AgriculturalEntity> findMyPublication(String status, String userId,Map<String, List<String>> map, Pageable pageable);
+
+	@Query(value = "select t.id,t.address,t.url,t.name,t.contacts_user as contactsUser,t.update_date as updateDate from sas_publication_info t where t.id in (select arg_id from sas_grain_trading_collection where collection_user_id = ?1) order by t.create_date desc",
+			countQuery = "select count(*) from sas_publication_info t where t.id in (select arg_id from sas_grain_trading_collection where collection_user_id = ?1)",
+			nativeQuery = true)
+	public Page<List<Map<String, Object>>> findMyCollection(String userId, Pageable pageable);
 }
