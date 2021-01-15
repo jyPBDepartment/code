@@ -50,6 +50,11 @@ public class PostInfoEntity {
 	private Date updateDate;// 修改时间
 	@Column(length = 36)
 	private String visibility;// 可见程度（0自己可见1全部）
+	
+	@Column(length = 255)
+	private String header;// 头像
+	@Column(length = 36)
+	private String nickName;// 昵称
 	@Column(length = 36)
 	private String author;// 作者
 	@Column(length = 36)
@@ -292,4 +297,22 @@ public class PostInfoEntity {
 	public void setAuditUser(String auditUser) {
 		this.auditUser = auditUser;
 	}
+
+	public String getHeader() {
+		return header;
+	}
+
+	public void setHeader(String header) {
+		this.header = header;
+	}
+
+	public String getNickName() {
+		return nickName;
+	}
+
+	public void setNickName(String nickName) {
+		this.nickName = nickName;
+	}
+	
+	
 }

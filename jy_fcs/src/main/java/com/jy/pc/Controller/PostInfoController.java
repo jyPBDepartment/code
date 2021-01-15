@@ -388,7 +388,7 @@ public class PostInfoController {
 
 	}
 	/**
-	 * 根据帖子id、用户id查询评论信息
+	 * 根据帖子id、用户id查询回复信息
 	 * 
 	 * @param commentId
 	 * @param userId
@@ -459,6 +459,78 @@ public class PostInfoController {
 		Page<List<Map<String, Object>>> data = commentReplyInfoService.findByIsMyReplyPage(cid, userId, pageable);
 		map.put("code", "200");
 		map.put("data", data);
+		return map;
+	}
+	
+	/**
+	 * H5-获取帖子单条下所有评论
+	 */
+	@RequestMapping(value = "/findByCommentPage")
+	public Map<String, Object> findByCommentPage(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "postId") String postId, @RequestParam(name = "userId") String userId, 
+			@RequestParam(name = "page") Integer page,
+			@RequestParam(name = "size") Integer size) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		Pageable pageable = new PageRequest(page - 1, size);
+		try {
+			Page<List<Map<String, Object>>> commentList =postCommentInfoService.findByCommentPage(postId, userId, pageable);
+			map.put("code", "200");
+			map.put("message", "查询成功");
+			map.put("data", commentList);
+		} catch (Exception e) {
+			map.put("code", "500");// 失败
+			map.put("message", "查询失败");
+		}
+		return map;
+	}
+	
+	/**
+	 *   搜索帖子信息（接口,标题名称）
+	 * 
+	 */
+	@RequestMapping(value = "/findPostInfoList")
+	public Map<String, Object> findPostInfoList(HttpServletRequest res, HttpServletResponse req,
+			
+			
+			@RequestParam(name = "parentCode", defaultValue = "") String parentCode,
+			@RequestParam(name = "userId", defaultValue = "") String userId,
+			@RequestParam(name = "sort", defaultValue = "1") String sort,
+			 @RequestParam(name = "page") Integer page,
+			@RequestParam(name = "size") Integer size) {
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		Pageable pageable = new PageRequest(page - 1, size);
+
+		try {
+			Page<List<Map<String, Object>>> postInfoList = postInfoService.findPostInfo(parentCode, sort, userId, pageable);
+			map.put("code", "200");// 成功
+			map.put("message", "查询成功");
+			map.put("data", postInfoList);
+		} catch (Exception e) {
+			map.put("code", "500");// 失败
+			map.put("message", "查询失败");
+			e.printStackTrace();
+		}
+		return map;
+	}
+	/**
+	 * H5-获取评论下所有回复
+	 */
+	@RequestMapping(value = "/findByReplyPage")
+	public Map<String, Object> findByReplyPage(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "commentId") String commentId, @RequestParam(name = "userId") String userId,
+			@RequestParam(name = "page") Integer page,@RequestParam(name = "size") Integer size) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		Pageable pageable = new PageRequest(page - 1, size);
+		try {
+			Page<List<Map<String, Object>>> replyList = commentReplyInfoService.findReplyPage(commentId, userId, pageable);
+			map.put("code", "200");
+			map.put("message", "查询成功");
+			map.put("data", replyList);
+		} catch (Exception e) {
+			map.put("code", "500");// 失败
+			map.put("message", "查询失败");
+		}
 		return map;
 	}
 }

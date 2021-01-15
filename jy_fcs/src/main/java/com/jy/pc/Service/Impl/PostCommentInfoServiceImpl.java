@@ -110,4 +110,14 @@ public class PostCommentInfoServiceImpl implements PostCommentInfoService {
 		return postCommentInfoDao.findCommentPage(postId, userId, pageable);
 	}
 
+	@Override
+	public PostCommentInfoEntity findByNewCommentId(String postId) {
+		return postCommentInfoDao.findByNewCommentId(postId);
+	}
+
+	@Override
+	public Page<List<Map<String, Object>>> findByCommentPage(String postId, String userId, Pageable pageable) {
+		return postCommentInfoDao.findByCommentPage(postId, userId, pageable);
+	}
+
 }

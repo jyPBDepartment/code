@@ -88,4 +88,10 @@ public class CommentReplyInfoServiceImpl implements CommentReplyInfoService {
 		return commentReplyInfoDao.findByIsMyReplyPage(cid, userId, pageable);
 	}
 
+	//查询评论下所有回复
+	@Override
+	public Page<List<Map<String, Object>>> findReplyPage(String commentId, String userId, Pageable pageable) {
+		return commentReplyInfoDao.findReplyPage(commentId, userId, pageable);
+	}
+
 }

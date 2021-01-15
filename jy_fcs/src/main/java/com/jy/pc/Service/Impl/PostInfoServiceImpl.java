@@ -1,6 +1,8 @@
 package com.jy.pc.Service.Impl;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -138,8 +140,8 @@ public class PostInfoServiceImpl implements PostInfoService {
 			pictureInfoEntity.setPicName(postInfoEntity.getName());
 			pictureInfoEntity.setPicUrl(addItem[i]);
 			pictureInfoDAO.saveAndFlush(pictureInfoEntity);
-			postPictureEntity.setPhotoId(postInfoEntity.getId());
-			postPictureEntity.setPostId(pictureInfoEntity.getId());
+			postPictureEntity.setPhotoId(pictureInfoEntity.getId());
+			postPictureEntity.setPostId(postInfoEntity.getId());
 			postPictureDao.saveAndFlush(postPictureEntity);
 		}
 		return postInfoEntity;
@@ -175,6 +177,16 @@ public class PostInfoServiceImpl implements PostInfoService {
 	@Override
 	public Map<String, Object> findInfoByPostUserId(String id, String userId) {
 		return invitationDao.findInfoByPostUserId(id, userId);
+	}
+
+	@Override
+	public Page<List<Map<String, Object>>> findPostInfo(String parentCode, String sort,String userId,
+			Pageable pageable) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		List<String> list = new ArrayList<String>();
+		list.add(userId);
+		map.put("userId", list);
+		return invitationDao.findPostInfo(parentCode, sort, map, pageable);
 	}
 
 

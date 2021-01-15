@@ -53,4 +53,9 @@ public interface PostInfoDao extends JpaRepository<PostInfoEntity, String> {
 	@Query(value = "select *,(select t1.id from sas_post_collection t1 where t.id=t1.circle_id and t1.user_id=:userId) as is_collection,(select t2.id from sas_circle_thumbs t2 where t.id=t2.circle_id and t2.thumbs_user_id=:userId) as is_praise from sas_post_info t where t.id =:id", nativeQuery = true)
 	public Map<String,Object> findInfoByPostUserId(@Param("id") String id,@Param("userId") String userId);
 
+	//	查询帖子列表
+	@Query(value = "SELECT t.id,t.name,(select 	GROUP_CONCAT(a.pic_url) from sas_picture_info a,sas_post_picture a1,sas_post_info a2 where a.id = a1.photo_id and a2.id = a1.post_id AND a2.id = t.id ) as picture,t.header,t.nick_name as nickName,t.update_date as updateDate,praise_num as praiseNum,pageview,collection_num as collectionNum,if((select count(0) from sas_post_collection where circle_id = t.id and user_id in :#{#map['userId']}) > 0,1,0) as isUserCollection,if((select count(0) from sas_circle_thumbs where circle_id = t.id and thumbs_user_id in :#{#map['userId']}) > 0,1,0) as isUserPraise FROM sas_post_info t where t.status='0' and if(?1 !='',t.parent_code = ?1,1=1) order by case when ?1='0' then pageview end desc,case when ?1='1' then create_date end desc,case when ?1='2' then create_date end desc,case when ?1='3' then comment_num end desc,case when ?1='4' then praise_num end desc",
+			countQuery = "select count(*) FROM sas_post_info t where t.status='0' and if(?1 !='',t.parent_code = ?1,1=1) order by t.create_date desc", 
+			nativeQuery = true)
+	public Page<List<Map<String, Object>>> findPostInfo(String parentCode ,String sort,Map<String,Object> map,Pageable pageable);
 }

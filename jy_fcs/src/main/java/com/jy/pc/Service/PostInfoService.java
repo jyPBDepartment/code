@@ -48,5 +48,6 @@ public interface PostInfoService {
 	// 通过id,userId查询帖子信息
 	public Map<String,Object> findInfoByPostUserId(String id,String userId);
 
+	public Page<List<Map<String, Object>>> findPostInfo(String parentCode,String sort,String userId,Pageable pageable);
 
 }
