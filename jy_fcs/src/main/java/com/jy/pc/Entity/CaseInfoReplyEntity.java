@@ -36,7 +36,7 @@ public class CaseInfoReplyEntity {
 	private String replyUserPic; // 回复人头像路径
 	@Column(columnDefinition = "varchar(255) default '' comment '回复人id'")
 	private String replyUserId; // 回复人id
-	@Column(columnDefinition = "int(1) default 1 comment '是否匿名0是1否'")
+	@Column(columnDefinition = "int(1) default 0 comment '是否匿名1是0否'")
 	private int isAnonymous; // 是否匿名
 	@Column(columnDefinition = "datetime comment '回复时间'")
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")

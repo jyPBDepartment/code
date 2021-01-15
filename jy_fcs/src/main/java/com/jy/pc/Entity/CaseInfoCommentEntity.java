@@ -36,7 +36,7 @@ public class CaseInfoCommentEntity {
 	private String commentUserPic; //评论人头像路径
 	@Column(columnDefinition = "varchar(255) default '' comment '评论人id'")
 	private String commentUserId; //评论人id
-	@Column(columnDefinition = "int(1) default 1 comment '是否匿名0是1否")
+	@Column(columnDefinition = "int(1) default 0 comment '是否匿名1是0否")
 	private int isAnonymous; //是否匿名
 	@Column(columnDefinition = "datetime comment '评论时间'")
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")

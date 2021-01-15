@@ -22,7 +22,7 @@ public interface CaseInfoCommentDAO extends JpaRepository<CaseInfoCommentEntity,
 	
 	//分页与模糊查询
 	@Query(value = "select t.id,t.comment_content as commentContent,date_format(t.comment_date,'%Y-%m-%d %H:%i:%s') as date,t.comment_user_name as commentUserName,t.status,t.is_anonymous as isAnonymous,t1.name as title from sas_case_info_comment t,sas_case_info t1 where t.case_id=t1.id and t.status != -1 and t1.name like ?1 and t.comment_user_name like ?2 and t.comment_content like ?3 order by t.comment_date desc", 
-			countQuery = "select count(0) from sas_case_info_comment t,sas_case_info t1 where t.case_id=t1.id and t1.status != -1 and t2.name like ?1 and t1.comment_user_name like ?2 and t1.comment_content like ?3 order by t1.comment_date desc", nativeQuery = true)
+			countQuery = "select count(0) from sas_case_info_comment t,sas_case_info t1 where t.case_id=t1.id and t.status != -1 and t1.name like ?1 and t.comment_user_name like ?2 and t.comment_content like ?3 order by t.comment_date desc", nativeQuery = true)
 	public Page<List<Map<String, Object>>> findPageByCase(String name, String commentUserName, String commentContent,Pageable pageable);
 
 	// 通过评论人id查询
