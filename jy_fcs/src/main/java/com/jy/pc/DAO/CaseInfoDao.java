@@ -68,4 +68,7 @@ public interface CaseInfoDao extends JpaRepository<CaseInfoEntity, String> {
 			nativeQuery = true)
 	public Page<List<Map<String, Object>>> findCaseInfo(String name, String cropsTypeCode,String dipTypeCode, String sort,Map<String,Object> map,Pageable pageable);
 
+	// 看图识病查看详情H5
+	@Query(value = "SELECT t.*,if((select count(0) from sas_case_info_collection where case_id = t.id and collection_user_id in :#{#map['userId']}) > 0,1,0) as isUserCollection,if((select count(0) from sas_case_praise where case_id = t.id and praise_user_id in :#{#map['userId']}) > 0,1,0) as isUserPraise,if((select count(0) from sas_case_info_irrelevant where case_id = t.id and irrelevantn_user_id in :#{#map['userId']}) > 0,1,0) as isUserIrrelevant FROM sas_case_info t where t.id =:id", nativeQuery = true)
+	public Map<String, Object> findChannelId(Map<String,Object> map,String id);
 }

@@ -211,7 +211,7 @@ public class CaseInfoController {
 			map.put("message", "取消精选成功");
 		} else if (isSelected.equals(0)) {
 			caseInfoEntity.setIsSelected(0);
-			map.put("code", "500");
+			map.put("code", "200");
 			map.put("message", "设置为精选成功");
 			result = false;
 		}
@@ -293,6 +293,8 @@ public class CaseInfoController {
 			CasePraiseEntity casePraise = casePraiseService.findUserId(caseId, praiseUserId);
 			casePraiseService.delete(casePraise.getId());
 			caseInfo.setPraiseNum(caseInfo.getPraiseNum() - 1);
+			map.put("code", "200");
+			map.put("message", "取消点赞成功");
 		}
 		caseInfoService.update(caseInfo);
 		return map;
@@ -532,6 +534,25 @@ public class CaseInfoController {
 			map.put("message", "查询成功");
 			map.put("data", commmentList);
 			return map;
+		} catch (Exception e) {
+			map.put("code", "500");// 失败
+			map.put("message", "查询失败");
+		}
+		return map;
+	}
+	
+	/**
+	 * 看图识病查看详情H5
+	 * */
+	@RequestMapping(value = "findChannelId")
+	public Map<String, Object> findChannelId(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "userId") String userId,@RequestParam(name = "id") String id) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		try {
+			Map<String, Object> caseInfo = caseInfoService.findChannelId(userId, id);
+			map.put("code", "200");// 查询数据成功
+			map.put("message", "查询成功");
+			map.put("data", caseInfo);
 		} catch (Exception e) {
 			map.put("code", "500");// 失败
 			map.put("message", "查询失败");

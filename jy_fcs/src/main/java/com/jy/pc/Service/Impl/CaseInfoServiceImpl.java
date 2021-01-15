@@ -271,4 +271,14 @@ public class CaseInfoServiceImpl implements CaseInfoService {
 		map.put("userId", list);
 		return caseInfoDao.findCaseInfo(caseName, cropsTypeCode, dipTypeCode, sort, map, pageable);
 	}
+
+	// 看图识病查看详情H5
+	@Override
+	public Map<String, Object> findChannelId(String userId, String id) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		List<String> list = new ArrayList<String>();
+		list.add(userId);
+		map.put("userId", list);
+		return caseInfoDao.findChannelId(map, id);
+	}
 }

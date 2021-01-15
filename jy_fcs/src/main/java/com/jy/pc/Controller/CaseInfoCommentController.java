@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.jy.pc.Entity.CaseInfoCommentEntity;
 import com.jy.pc.Entity.CaseInfoEntity;
+import com.jy.pc.Entity.CaseInfoIrrelevantEntity;
 import com.jy.pc.Entity.CaseInfoReplyEntity;
 import com.jy.pc.Service.CaseInfoCommentService;
 import com.jy.pc.Service.CaseInfoReplyService;
@@ -88,9 +89,12 @@ public class CaseInfoCommentController {
 			caseInfoService.update(caseInfo);
 			List<CaseInfoReplyEntity> caseInfoReply = caseInfoReplyService.findByCommentId(id);
 			for(int i=0;i<caseInfoReply.size();i++) {
-				caseInfoReplyService.delete(caseInfoReply.get(i).getId());
+				CaseInfoReplyEntity caseInfoReplyEntity = caseInfoReplyService.findId(caseInfoReply.get(i).getId());
+				caseInfoReplyEntity.setStatus(-1);
+				caseInfoReplyService.update(caseInfoReplyEntity);
 			}
-			caseInfoCommentService.delete(id);
+			caseInfoComment.setStatus(-1);
+			caseInfoCommentService.update(caseInfoComment);
 			map.put("code", "200");
 			map.put("message", "删除成功");
 		} catch (Exception e) {

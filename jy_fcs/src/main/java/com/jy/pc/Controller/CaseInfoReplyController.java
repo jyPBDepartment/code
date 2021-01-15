@@ -73,7 +73,9 @@ public class CaseInfoReplyController {
 			@RequestParam(name = "id") String id) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
-			caseInfoReplyService.delete(id);
+			CaseInfoReplyEntity caseInfoReplyEntity = caseInfoReplyService.findId(id);
+			caseInfoReplyEntity.setStatus(-1);
+			caseInfoReplyService.update(caseInfoReplyEntity);
 			map.put("code", "200");
 			map.put("message", "删除成功");
 		} catch (Exception e) {

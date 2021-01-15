@@ -63,4 +63,6 @@ public interface CaseInfoService {
 	//	查询看图识病列表
 	public Page<List<Map<String, Object>>> findCaseInfo(String name, String cropsTypeCode,String dipTypeCode, String sort,String userId,Pageable pageable);
 
+	// 看图识病查看详情H5
+	public Map<String, Object> findChannelId(String userId,String id);
 }
