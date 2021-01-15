@@ -141,27 +141,4 @@ public class CaseInfoCommentController {
 		}
 		return map;
 	}
-	
-	/**
-	 * 根据看图识病id、用户id查询评论信息
-	 * 
-	 * @param caseId
-	 * @param userId
-	 */
-	@RequestMapping(value = "/findCommentByUserId")
-	@ResponseBody
-	public Map<String, Object> findCommentByUserId(HttpServletRequest res, HttpServletResponse req,
-			@RequestParam(name = "caseId") String caseId, @RequestParam(name = "userId") String userId) throws Exception {
-		Map<String, Object> map = new HashMap<String, Object>();
-		try {
-			List<Map<String,Object>> commmentMap =caseInfoCommentService.findCommentByUserId(caseId, userId);
-			map.put("code", "200");
-			map.put("message", "查询成功");
-			map.put("data", commmentMap);
-		} catch (Exception e) {
-			map.put("code", "500");
-			map.put("message", "查询失败");
-		}
-		return map;
-	}
 }

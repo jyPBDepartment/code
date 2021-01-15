@@ -75,17 +75,8 @@ public class CaseInfoEntity {
 	private String channel; //传播途径/发病条件
 	@Column(columnDefinition = " text comment '防治技术富文本'")
 	private String controlTechnology; //防治技术
-	@Column(columnDefinition = "int(5) default 1 comment '是否与我无关0是1否'")
-	private int isIrrelevant;  //与我无关
 	@Column(columnDefinition = "int(20) default 0 comment '与我无关数量'")
 	private int irrelevantNum;  //与我无关数量
-		
-	public int getIsIrrelevant() {
-		return isIrrelevant;
-	}
-	public void setIsIrrelevant(int isIrrelevant) {
-		this.isIrrelevant = isIrrelevant;
-	}
 	public int getIrrelevantNum() {
 		return irrelevantNum;
 	}

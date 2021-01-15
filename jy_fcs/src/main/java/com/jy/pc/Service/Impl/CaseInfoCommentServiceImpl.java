@@ -89,8 +89,8 @@ public class CaseInfoCommentServiceImpl implements CaseInfoCommentService{
 
 	//根据看图识病id、用户id查询评论列表
 	@Override
-	public List<Map<String, Object>> findCommentByUserId(String caseId, String userId) {
-		return caseInfoCommentDao.findCommentByUserId(caseId, userId);
+	public Page<List<Map<String, Object>>> findCommentByUserId(String caseId, String userId, Pageable pageable) {
+		return caseInfoCommentDao.findCommentByUserId(caseId, userId, pageable);
 	}
 
 }
