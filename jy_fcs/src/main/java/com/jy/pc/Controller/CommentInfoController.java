@@ -150,7 +150,7 @@ public class CommentInfoController {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 		postCommentInfoService.delete(id);
-		map.put("status", "0");
+		map.put("code", "200");
 		map.put("message", "删除成功");
 		return map;
 	}
