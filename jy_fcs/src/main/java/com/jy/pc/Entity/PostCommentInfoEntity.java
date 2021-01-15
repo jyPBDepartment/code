@@ -51,6 +51,17 @@ public class PostCommentInfoEntity {
 	@Column(length = 1)
 	private String status;
 
+	@Column(columnDefinition = "varchar(255) default '' comment '评论人头像路径'")
+	private String commentPic; //评论人头像路径
+	
+	public String getCommentPic() {
+		return commentPic;
+	}
+
+	public void setCommentPic(String commentPic) {
+		this.commentPic = commentPic;
+	}
+
 	// 外键id - 帖子信息
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "postId", referencedColumnName = "id")
