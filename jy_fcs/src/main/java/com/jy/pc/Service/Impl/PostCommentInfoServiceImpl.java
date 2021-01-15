@@ -100,8 +100,14 @@ public class PostCommentInfoServiceImpl implements PostCommentInfoService {
 
 	// id查询评论列表信息
 	@Override
-	public List<Map<String, Object>> findCommentByUserId(String postId, String userId) {
-		return postCommentInfoDao.findCommentByUserId(postId, userId);
+	public Page<List<Map<String, Object>>> findCommentByUserId(String postId, String userId,Pageable pageable) {
+		return postCommentInfoDao.findCommentByUserId(postId, userId,pageable);
+	}
+
+	// 查询是否为自己回复
+	@Override
+	public Page<List<Map<String, Object>>> findCommentPage(String postId, String userId, Pageable pageable) {
+		return postCommentInfoDao.findCommentPage(postId, userId, pageable);
 	}
 
 }

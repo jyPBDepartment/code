@@ -20,10 +20,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.jy.pc.Entity.CaseInfoCollectionEntity;
 import com.jy.pc.Entity.CaseInfoEntity;
+import com.jy.pc.Entity.CaseInfoIrrelevantEntity;
 import com.jy.pc.Entity.CasePraiseEntity;
 import com.jy.pc.Entity.KeyWordEntity;
 import com.jy.pc.Enum.ClassificationEnum;
 import com.jy.pc.Service.CaseInfoCollectionService;
+import com.jy.pc.Service.CaseInfoCommentService;
+import com.jy.pc.Service.CaseInfoIrrelevantService;
 import com.jy.pc.Service.CaseInfoReplyService;
 import com.jy.pc.Service.CaseInfoService;
 import com.jy.pc.Service.CasePraiseService;
@@ -48,6 +51,12 @@ public class CaseInfoController {
 	
 	@Autowired
 	private CaseInfoReplyService caseInfoReplyService;
+	
+	@Autowired
+	private CaseInfoIrrelevantService caseInfoIrrelevantService;
+	
+	@Autowired
+	private CaseInfoCommentService caseInfoCommentService;
 
 	// 接口 -- 根据id获取信息
 	@RequestMapping(value = "findLatestCaseInfoById")
@@ -312,23 +321,33 @@ public class CaseInfoController {
 	 * 设置与我无关
 	 * */
 	@RequestMapping(value = "/isIrrelevant")
-	public Map<String, String> opensulf(HttpServletRequest res, HttpServletResponse req,
-			@RequestParam(name = "isIrrelevant") Integer isIrrelevant, @RequestParam(name = "id") String id) {
+	public Map<String, String> saveIsIrrelevant(HttpServletRequest res, HttpServletResponse req,
+			CaseInfoIrrelevantEntity caseInfoIrrelevantEntity,@RequestParam(name = "isIrrelevant") Integer isIrrelevant,
+			@RequestParam(name = "irrelevantnUserId") String irrelevantnUserId,@RequestParam(name = "caseId") String caseId) {
 		Map<String, String> map = new HashMap<String, String>();
-		CaseInfoEntity caseInfoEntity = caseInfoService.findBId(id);
-		caseInfoEntity.setIsIrrelevant(isIrrelevant);
-		if (isIrrelevant.equals(1)) {
-			caseInfoEntity.setIsSelected(1);
-			caseInfoEntity.setIrrelevantNum(caseInfoEntity.getIrrelevantNum()-1);
-			map.put("code", "200");
-			map.put("message", "取消与我无关成功");
-		} else if (isIrrelevant.equals(0)) {
-			caseInfoEntity.setIsIrrelevant(0);
-			caseInfoEntity.setIrrelevantNum(caseInfoEntity.getIrrelevantNum()+1);
-			map.put("code", "200");
-			map.put("message", "设置与我无关成功成功");
+		CaseInfoEntity caseInfo = caseInfoService.findBId(caseId);
+		try {
+			if(isIrrelevant == 0) {
+				Date date = new Date();
+				caseInfoIrrelevantEntity.setIrrelevantDate(date);
+				caseInfoIrrelevantEntity.setCaseInfoEntity(caseInfo);
+		
+				caseInfoIrrelevantService.save(caseInfoIrrelevantEntity);
+				caseInfo.setIrrelevantNum(caseInfo.getIrrelevantNum() + 1);
+				map.put("code", "200");
+				map.put("message", "设置与我无关成功成功");
+			}else {
+				CaseInfoIrrelevantEntity caseInfoIrrelevant = caseInfoIrrelevantService.findCaseUserId(caseId, irrelevantnUserId);
+				caseInfoIrrelevantService.delete(caseInfoIrrelevant.getId());
+				caseInfo.setIrrelevantNum(caseInfo.getIrrelevantNum() - 1);
+				map.put("code", "200");
+				map.put("message", "取消与我无关成功");
+			}
+			caseInfoService.update(caseInfo);
+		} catch (Exception e) {
+			map.put("code", "500");
+			map.put("message", "操作失败");
 		}
-		caseInfoService.update(caseInfoEntity);
 		return map;
 	}
 	
@@ -443,15 +462,78 @@ public class CaseInfoController {
 	 */
 	@RequestMapping(value = "/findReplyByUserId")
 	public Map<String, Object> findReplyByUserId(HttpServletRequest res, HttpServletResponse req,
-			@RequestParam(name = "commentId") String commentId, @RequestParam(name = "userId") String userId) throws Exception {
+			@RequestParam(name = "commentId") String commentId, 
+			@RequestParam(name = "userId") String userId,
+			@RequestParam(name = "page") Integer page, 
+			@RequestParam(name = "size") Integer size) throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
+		Pageable pageable = new PageRequest(page - 1, size);
 		try {
-			List<Map<String,Object>> replyList = caseInfoReplyService.findReplyByUserId(commentId, userId);
+			Page<List<Map<String,Object>>> replyList = caseInfoReplyService.findReplyByUserId(commentId, userId, pageable);
 			map.put("code", "200"); //查询成功
 			map.put("message", "查询成功");
 			map.put("data", replyList);
 		} catch (Exception e) {
 			map.put("code", "500");//查询失败
+			map.put("message", "查询失败");
+		}
+		
+		
+		return map;
+	}
+	
+	/**
+	 *   搜索看图识病信息（接口,标题名称）
+	 * 
+	 */
+	@RequestMapping(value = "/findCaseInfoList")
+	public Map<String, Object> findCaseInfoList(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "cropsTypeCode", defaultValue = "") String cropsTypeCode,
+			@RequestParam(name = "dipTypeCode", defaultValue = "") String dipTypeCode,
+			@RequestParam(name = "name", defaultValue = "") String name,
+			@RequestParam(name = "userId", defaultValue = "") String userId,
+			@RequestParam(name = "sort", defaultValue = "1") String sort,
+			 @RequestParam(name = "page") Integer page,
+			@RequestParam(name = "size") Integer size) {
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		Pageable pageable = new PageRequest(page - 1, size);
+
+		try {
+			Page<List<Map<String, Object>>> caseInfoList = caseInfoService.findCaseInfo(name, cropsTypeCode, dipTypeCode, sort, userId, pageable);
+			map.put("code", "200");// 成功
+			map.put("message", "查询成功");
+			map.put("data", caseInfoList);
+		} catch (Exception e) {
+			map.put("code", "500");// 失败
+			map.put("message", "查询失败");
+			e.printStackTrace();
+		}
+		return map;
+	}
+	
+	/**
+	 * 根据看图识病id、用户id查询评论信息
+	 * 
+	 * @param artId
+	 * @param userId
+	 */
+	@RequestMapping(value = "/findCommentByUserId")
+	public Map<String, Object> findCommentByUserId(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "caseId") String caseId, 
+			@RequestParam(name = "userId") String userId,
+			@RequestParam(name = "page") Integer page, 
+			@RequestParam(name = "size") Integer size) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		Pageable pageable = new PageRequest(page - 1, size);
+		try {
+			Page<List<Map<String,Object>>> commmentList = caseInfoCommentService.findCommentByUserId(caseId, userId, pageable);
+			map.put("code", "200");
+			map.put("message", "查询成功");
+			map.put("data", commmentList);
+			return map;
+		} catch (Exception e) {
+			map.put("code", "500");// 失败
 			map.put("message", "查询失败");
 		}
 		return map;

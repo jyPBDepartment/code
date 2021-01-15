@@ -53,6 +53,26 @@ public class CommentReplyInfoEntity {
 	//状态 - 0生效1系统禁用
 	@Column(length=1)
 	private String status;
+	
+	@Column(columnDefinition = "varchar(255) default '' comment '回复人头像路径'")
+	private String replyPic; //回复人头像路径
+	
+	public String getReplyPic() {
+		return replyPic;
+	}
+	public void setReplyPic(String replyPic) {
+		this.replyPic = replyPic;
+	}
+	@Column(columnDefinition = "int(2) default 0 comment '是否匿名 '")
+	private int isAnonymous; // 是否匿名，0否1是，默认0
+	
+	public int getIsAnonymous() {
+		return isAnonymous;
+	}
+	public void setIsAnonymous(int isAnonymous) {
+		this.isAnonymous = isAnonymous;
+	}
+	
 	public String getId() {
 		return id;
 	}

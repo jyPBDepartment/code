@@ -13,11 +13,11 @@ import com.jy.pc.POJO.PostCommentInfoPO;
 
 public interface PostCommentInfoService {
 	// 搜索
-	public Page<List<Map<String, Object>>> findListByContent(String content, String user,Pageable pageable);
+	public Page<List<Map<String, Object>>> findListByContent(String content, String user, Pageable pageable);
 
-	//根据贴子id返回分页信息
-	public Page<PostCommentInfoPO> findByPostId(String postId,Pageable pageable);
-	
+	// 根据贴子id返回分页信息
+	public Page<PostCommentInfoPO> findByPostId(String postId, Pageable pageable);
+
 	// 添加
 	public PostCommentInfoEntity save(PostCommentInfoEntity moduleInfo);
 
@@ -30,14 +30,18 @@ public interface PostCommentInfoService {
 	// 主鍵查詢
 	public PostCommentInfoEntity findId(String id);
 
-	//切换状态
+	// 切换状态
 	void enable(PostCommentInfoEntity postCommentInfoEntity, boolean result);
-	
+
 	public List<PostCommentInfoEntity> findPostId(String postId);
-	
+
 //	通过评论人ID查询
 	public List<PostCommentInfoEntity> findByUserId(String commentUserId);
-	
+
 	// id查询评论列表信息
-	public List<Map<String, Object>> findCommentByUserId(String postId,String userId);
+	public Page<List<Map<String, Object>>> findCommentByUserId(@Param("postId") String postId,
+			@Param("userId") String userId, Pageable pageable);
+
+	// 查询是否为自己回复
+	public Page<List<Map<String, Object>>> findCommentPage(String postId, String userId, Pageable pageable);
 }

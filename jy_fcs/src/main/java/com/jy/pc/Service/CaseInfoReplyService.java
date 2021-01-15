@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.query.Param;
 
 import com.jy.pc.Entity.CaseInfoReplyEntity;
 
@@ -37,6 +38,6 @@ public interface CaseInfoReplyService {
 	public List<CaseInfoReplyEntity> findByReplyId(String replyUserId);
 	
 	//评论id、用户id查询回复信息
-	public List<Map<String,Object>> findReplyByUserId(String commentId,String userId);
+	public Page<List<Map<String,Object>>> findReplyByUserId(String commentId, String userId,Pageable pageable);
 
 }

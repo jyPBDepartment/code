@@ -78,8 +78,14 @@ public class CommentReplyInfoServiceImpl implements CommentReplyInfoService {
 
 	// 根据id,userId查询回复信息
 	@Override
-	public List<Map<String, Object>> findReplyByUserId(String commentId, String userId) {
-		return commentReplyInfoDao.findReplyByUserId(commentId, userId);
+	public Page<List<Map<String, Object>>> findReplyByUserId(String commentId, String userId, Pageable pageable) {
+		return commentReplyInfoDao.findReplyByUserId(commentId, userId,pageable);
+	}
+
+	// 查询是否为自己回复
+	@Override
+	public Page<List<Map<String, Object>>> findByIsMyReplyPage(String cid, String userId, Pageable pageable) {
+		return commentReplyInfoDao.findByIsMyReplyPage(cid, userId, pageable);
 	}
 
 }

@@ -44,8 +44,14 @@ public interface PostCommentInfoDao extends JpaRepository<PostCommentInfoEntity,
 	public List<PostCommentInfoEntity> findByUserId(@Param("commentUserId") String commentUserId);
 
 	// id查询评论列表信息
-	@Query(value = "select t.*,date_format(t.comment_date,'%Y-%m-%d %H:%i:%s') as date,(select t.id from sas_post_comment_info t1 where t.id=t1.id and t1.comment_user_id = :userId) as is_mine,(select count(*) from sas_comment_reply_info t2 where t2.comment_id = t.id)  as replyCount from sas_post_comment_info t where t.post_id = :postId ", nativeQuery = true)
-	public List<Map<String, Object>> findCommentByUserId(@Param("postId") String postId,
-			@Param("userId") String userId);
+	@Query(value = "select t.id,t.is_anonymous as isAnonymous,t.comment_content as content,t.comment_user_name as nickName,t.comment_pic as commentPic,t.status,date_format(t.comment_date,'%Y-%m-%d %H:%i:%s') as commentTime,(select t.id from sas_post_comment_info t1 where t.id=t1.id and t1.comment_user_id = :userId) as isMyComment,(select count(*) from sas_comment_reply_info t2 where t2.comment_id = t.id)  as replyNum from sas_post_comment_info t where t.post_id = :postId", countQuery = "select count(0) from sas_post_comment_info t where t.post_id = :postId ", nativeQuery = true)
+	public Page<List<Map<String, Object>>> findCommentByUserId(@Param("postId") String postId,@Param("userId") String userId ,Pageable pageable);
+	
+	
+	//查询是否为自己回复
+	@Query(value = "select if(t1.comment_user_id = ?2,1,0) as isMyComment,t1.id,t1.comment_content AS content,date_format( t1.comment_date, '%Y-%m-%d %H:%i:%s' ) AS commentTime,t1.comment_user_name AS nickName,t1.comment_pic as commentPic,t1.status as status,t1.is_anonymous AS isAnonymous,(select count(0) from sas_comment_reply_info t2 where comment_id = t1.id and t2.status=0) as replyNum FROM sas_post_comment_info t1 where t1.status=0 and t1.post_id = ?1 ORDER BY t1.comment_date DESC", 
+			countQuery = "select count(0) FROM sas_post_comment_info t1 where t1.status=0 and t1.post_id = ?1", 
+			nativeQuery = true)
+	public Page<List<Map<String, Object>>> findCommentPage(String postId,String userId,Pageable pageable);
 
 }

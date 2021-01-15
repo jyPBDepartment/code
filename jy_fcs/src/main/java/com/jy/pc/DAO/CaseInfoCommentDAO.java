@@ -29,7 +29,8 @@ public interface CaseInfoCommentDAO extends JpaRepository<CaseInfoCommentEntity,
 	@Query(value = "select * from sas_case_info_comment  where comment_user_id =:commentUserId", nativeQuery = true)
 	public List<CaseInfoCommentEntity> findByUserId(String commentUserId);
 	
-	//根据看图识病id、用户id查询评论列表
-	@Query(value = "select t.*,date_format(t.comment_date,'%Y-%m-%d %H:%i:%s') as date,(select t.id from sas_case_info_comment t1 where t.id=t1.id and t1.comment_user_id = :userId) as is_mine,(select count(*) from sas_case_info_reply t2 where t2.comment_id = t.id)  as replyCount from sas_case_info_comment t where t.case_id = :caseId", nativeQuery = true)
-	public List<Map<String,Object>> findCommentByUserId(@Param("caseId") String caseId,@Param("userId") String userId);
+	//用户id、文章点评id查询评论信息
+	@Query(value = "select t.id,t.is_anonymous as isAnonymous,t.comment_content as content,t.comment_user_name as nickName,t.comment_user_pic as commentPic,t.status,date_format(t.comment_date,'%Y-%m-%d %H:%i:%s') as commentTime,(select t.id from sas_case_info_comment t1 where t.id=t1.id and t1.comment_user_id =:userId) as isMyComment,(select count(*) from sas_case_info_reply t2 where t2.comment_id = t.id)  as replyNum from sas_case_info_comment t where t.case_id = :caseId",
+			countQuery = "select count(0) from sas_case_info_comment t where t.case_id = :caseId",nativeQuery = true)
+	public Page<List<Map<String,Object>>> findCommentByUserId(@Param("caseId") String caseId,@Param("userId") String userId,Pageable pageable);
 }

@@ -1,6 +1,8 @@
 package com.jy.pc.Service.Impl;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -257,5 +259,16 @@ public class CaseInfoServiceImpl implements CaseInfoService {
 	@Override
 	public Map<String, Object> findInfoByUserId(String id, String userId) {
 		return caseInfoDao.findInfoByUserId(id, userId);
+	}
+
+	@Override
+	public Page<List<Map<String, Object>>> findCaseInfo(String name, String cropsTypeCode, String dipTypeCode,
+			String sort, String userId, Pageable pageable) {
+		String caseName = "".equals(name) ? "" : "%" + name + "%";
+		Map<String, Object> map = new HashMap<String, Object>();
+		List<String> list = new ArrayList<String>();
+		list.add(userId);
+		map.put("userId", list);
+		return caseInfoDao.findCaseInfo(caseName, cropsTypeCode, dipTypeCode, sort, map, pageable);
 	}
 }
