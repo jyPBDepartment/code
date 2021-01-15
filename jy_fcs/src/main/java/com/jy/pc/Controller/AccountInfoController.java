@@ -255,7 +255,16 @@ public class AccountInfoController {
 	@RequestMapping(value = "/bindingRole")
 	public Map<String, Object> bindingRole(AccountRoleInfoEntity accountRoleInfoEntity) {
 		Map<String, Object> map = new HashMap<String, Object>();
+		if(accountRoleInfoEntity == null || accountRoleInfoEntity.getAccountId() == null || accountRoleInfoEntity.getRoleId() == null) {
+			map.put("status", "error");
+			map.put("message", "绑定失败,请检查接口参数");
+			return map;
+		}
 		try {
+			AccountRoleInfoEntity ari = accountRoleInfoService.findRoleIdByAccountId(accountRoleInfoEntity.getAccountId());
+			if(ari!=null) {
+				accountRoleInfoService.delete(ari.getId());
+			}
 			accountRoleInfoService.save(accountRoleInfoEntity);
 			map.put("status", "success");
 			map.put("message", "绑定成功");

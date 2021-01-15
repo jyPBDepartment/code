@@ -31,4 +31,9 @@ public class AccountRoleInfoServiceImpl implements AccountRoleInfoService {
 		return accountRoleInfoDao.findRoleIdByAccountId(accountId);
 	}
 
+	@Override
+	public void delete(String id) {
+		accountRoleInfoDao.deleteById(id);
+	}
+
 }
