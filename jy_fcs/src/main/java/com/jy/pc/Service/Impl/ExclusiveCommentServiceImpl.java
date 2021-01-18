@@ -10,10 +10,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.jy.pc.DAO.AgriculturalDao;
+import com.jy.pc.DAO.ArticleManageDao;
 import com.jy.pc.DAO.ExclusiveCommentDao;
 import com.jy.pc.DAO.ExclusiveReplyDao;
-import com.jy.pc.Entity.AgriculturalEntity;
+import com.jy.pc.Entity.ArticleManageEntity;
 import com.jy.pc.Entity.ExclusiveCommentEntity;
 import com.jy.pc.Service.ExclusiveCommentService;
 
@@ -24,7 +24,7 @@ public class ExclusiveCommentServiceImpl implements ExclusiveCommentService{
 	@Autowired
 	private ExclusiveReplyDao replyDao;
 	@Autowired
-	private AgriculturalDao agriculturalDao;
+	private ArticleManageDao articleManageDao;
 
 	@Override
 	public Page<ExclusiveCommentEntity> findByPostId(String agrId, Pageable pageable) {
@@ -35,9 +35,9 @@ public class ExclusiveCommentServiceImpl implements ExclusiveCommentService{
 	@Override
 	@Transactional
 	public ExclusiveCommentEntity save(ExclusiveCommentEntity exclusiveCommentEntity) {
-		AgriculturalEntity grain = agriculturalDao.findId(exclusiveCommentEntity.getArtId());
-		grain.setCommentNum(grain.getCommentNum() + 1);
-		agriculturalDao.save(grain);
+		ArticleManageEntity articleManageEntity = articleManageDao.findBId(exclusiveCommentEntity.getArtId());
+		articleManageEntity.setCommentNum(articleManageEntity.getCommentNum() + 1);
+		articleManageDao.save(articleManageEntity);
 		return commentDao.save(exclusiveCommentEntity);
 	}
 

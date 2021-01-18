@@ -81,7 +81,7 @@ public class ArticleManageServiceImpl implements ArticleManageService {
 	// 移动端-条件查询文章管理信息列表（接口）
 	@Override
 	public Page<List<Map<String,Object>>> findListByChoose(String sectionId,String userId,String orderType,Pageable pageable) {
-		return eduArticleManageDao.findListByChoose(sectionId, userId,pageable);
+		return eduArticleManageDao.findListByChoose(sectionId, userId,orderType,pageable);
 	}
 	
 	// 根据文章Id、用户id查询文章详情信息
