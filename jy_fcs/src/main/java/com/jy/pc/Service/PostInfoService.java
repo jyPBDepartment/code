@@ -46,8 +46,12 @@ public interface PostInfoService {
 	public Page<PostInfoEntity> findByType(String type, Pageable pageable);
 
 	// 通过id,userId查询帖子信息
-	public Map<String,Object> findInfoByPostUserId(String id,String userId);
+	public Map<String, Object> findInfoByPostUserId(String id, String userId);
 
-	public Page<List<Map<String, Object>>> findPostInfo(String parentCode,String sort,String userId,Pageable pageable);
+	public Page<List<Map<String, Object>>> findPostInfo(String parentCode, String sort, String userId,
+			Pageable pageable);
+
+	// 查询帖子详情id(收藏点赞)
+	public Map<String, Object> findByPostId(String userId, String id);
 
 }

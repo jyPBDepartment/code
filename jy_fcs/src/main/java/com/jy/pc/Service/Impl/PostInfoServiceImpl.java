@@ -189,5 +189,15 @@ public class PostInfoServiceImpl implements PostInfoService {
 		return invitationDao.findPostInfo(parentCode, sort, map, pageable);
 	}
 
+	// 查询帖子详情id(收藏点赞)
+	@Override
+	public Map<String, Object> findByPostId(String userId, String id) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		List<String> list = new ArrayList<String>();
+		list.add(userId);
+		map.put("userId", list);
+		return invitationDao.findByPostId(map, id);
+	}
+
 
 }

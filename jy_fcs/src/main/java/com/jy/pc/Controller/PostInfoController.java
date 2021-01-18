@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.jy.pc.Entity.CaseInfoCommentEntity;
 import com.jy.pc.Entity.CircleThumbsEntity;
 import com.jy.pc.Entity.ClassificationEntity;
 import com.jy.pc.Entity.PostCollectionEntity;
@@ -527,6 +528,25 @@ public class PostInfoController {
 			map.put("code", "200");
 			map.put("message", "查询成功");
 			map.put("data", replyList);
+		} catch (Exception e) {
+			map.put("code", "500");// 失败
+			map.put("message", "查询失败");
+		}
+		return map;
+	}
+	
+	/**
+	 * 帖子查看详情H5（收藏）
+	 * */
+	@RequestMapping(value = "/findByPostId")
+	public Map<String, Object> findByPostId(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "userId") String userId,@RequestParam(name = "id") String id) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		try {
+			Map<String, Object> postInfo = postInfoService.findByPostId(userId, id);
+			map.put("code", "200");// 查询数据成功
+			map.put("message", "查询成功");
+			map.put("data", postInfo);
 		} catch (Exception e) {
 			map.put("code", "500");// 失败
 			map.put("message", "查询失败");

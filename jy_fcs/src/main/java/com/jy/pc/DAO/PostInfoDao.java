@@ -58,4 +58,8 @@ public interface PostInfoDao extends JpaRepository<PostInfoEntity, String> {
 			countQuery = "select count(*) FROM sas_post_info t where t.status='0' and if(?1 !='',t.parent_code = ?1,1=1) order by t.create_date desc", 
 			nativeQuery = true)
 	public Page<List<Map<String, Object>>> findPostInfo(String parentCode ,String sort,Map<String,Object> map,Pageable pageable);
+	
+	//查询帖子详情id(收藏点赞)
+	@Query(value = "SELECT t.*,(select 	GROUP_CONCAT(a.pic_url) from sas_picture_info a,sas_post_picture a1,sas_post_info a2 where a.id = a1.photo_id and a2.id = a1.post_id AND a2.id = t.id ) as picture,if((select count(0) from sas_post_collection where circle_id = t.id and user_id in :#{#map['userId']}) > 0,1,0) as isUserCollection,if((select count(0) from sas_circle_thumbs where circle_id = t.id and thumbs_user_id in :#{#map['userId']}) > 0,1,0) as isUserPraise FROM sas_post_info t where t.id =:id", nativeQuery = true)
+	public Map<String, Object> findByPostId(Map<String,Object> map,String id);
 }
