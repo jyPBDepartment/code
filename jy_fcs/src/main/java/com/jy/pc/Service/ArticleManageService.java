@@ -41,4 +41,6 @@ public interface ArticleManageService {
 	
 	//	根据文章id、用户id查询文章详情信息	
 	public Map<String,Object> findInfoByUserId(String id,String userId);
+	
+	public Page<List<Map<String,Object>>> findMyCollection(String userId,Pageable pageable);
 }

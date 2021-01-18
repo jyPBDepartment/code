@@ -85,8 +85,11 @@ public class ArticleManageServiceImpl implements ArticleManageService {
 	}
 	
 	// 根据文章Id、用户id查询文章详情信息
-	public Map<String,Object> findInfoByUserId(String id,String userId){
+	public Map<String, Object> findInfoByUserId(String id, String userId) {
 		return eduArticleManageDao.findInfoByUserId(id, userId);
 	}
 
+	public Page<List<Map<String,Object>>> findMyCollection(String userId,Pageable pageable){
+		return eduArticleManageDao.findMyCollection(userId,pageable);
+	}
 }

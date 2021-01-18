@@ -268,4 +268,27 @@ public class ArticleManageController {
 		}
 		return map;
 	}
+	
+	
+	/**
+	 * H5-根据主键id返回详情信息
+	 * 
+	 * @param userId 当前用户id
+	 */
+	@RequestMapping(value = "/findMyCollection")
+	@ResponseBody
+	public Map<String, Object> findMyCollection(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "userId", defaultValue = "") String userId,
+			@RequestParam(name = "page") Integer page,
+			@RequestParam(name = "size") Integer size) {
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		Pageable pageable = new PageRequest(page - 1, size);
+
+		Page<List<Map<String, Object>>> articleManagelList = eduArticleManageService.findMyCollection(userId, pageable);
+		map.put("status", "200");// 成功
+		map.put("message", "查询成功");
+		map.put("data", articleManagelList);
+		return map;
+	}
 }

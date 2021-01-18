@@ -40,4 +40,8 @@ public interface ArticleManageDao extends JpaRepository<ArticleManageEntity, Str
 	// 通过id查询文章管理信息
 	@Query(value = "select *,(select t1.id from sas_exclusive_collection t1 where t.id=t1.art_id and t1.collection_user_id=:userId) as is_collection,(select t2.id from sas_exclusive_praise t2 where t.id=t2.art_id and t2.praise_user_id=:userId) as is_praise from sas_article_manage t where t.id =:id", nativeQuery = true)
 	public Map<String,Object> findInfoByUserId(@Param("id") String id,@Param("userId") String userId);
+	
+	@Query(value="select t.id,t.url,t.title,t.create_by as contactsUser,t.update_date as updateDate from sas_article_manage t where t.id in (select art_id from sas_exclusive_collection where collection_user_id = ?1) order by t.create_date desc",
+			countQuery="select count(0) from sas_article_manage t where t.id in (select art_id from sas_exclusive_collection where collection_user_id = ?1)",nativeQuery = true)
+	public Page<List<Map<String,Object>>> findMyCollection(String userId,Pageable pageable);
 }
