@@ -22,12 +22,6 @@ public class PostCollectionEntity {
 	@GenericGenerator(strategy = "uuid", name = "uuid")
 	private String id;// 主键Id
 
-//	// 外键id - 帖子信息
-//	@ManyToOne(optional = false)
-//	@JoinColumn(name = "circleId", referencedColumnName = "id")
-//	@NotFound(action = NotFoundAction.IGNORE)
-//	private PostInfoEntity postInfoEntity;
-
 	@Column(columnDefinition = "varchar(36) default '' comment '帖子Id'")
 	private String circleId;// 用户Id
 	

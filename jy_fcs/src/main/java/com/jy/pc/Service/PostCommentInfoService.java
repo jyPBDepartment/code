@@ -40,9 +40,6 @@ public interface PostCommentInfoService {
 	public Page<List<Map<String, Object>>> findCommentByUserId(@Param("postId") String postId,
 			@Param("userId") String userId, Pageable pageable);
 
-	// 查询是否为自己回复
-	public Page<List<Map<String, Object>>> findCommentPage(String postId, String userId, Pageable pageable);
-
 	// 查询最新一条评论
 	public PostCommentInfoEntity findByNewCommentId(String postId);
 

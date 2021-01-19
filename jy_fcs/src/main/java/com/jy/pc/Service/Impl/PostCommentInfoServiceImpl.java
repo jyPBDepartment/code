@@ -113,11 +113,7 @@ public class PostCommentInfoServiceImpl implements PostCommentInfoService {
 		return postCommentInfoDao.findCommentByUserId(postId, userId,pageable);
 	}
 
-	// 查询是否为自己回复
-	@Override
-	public Page<List<Map<String, Object>>> findCommentPage(String postId, String userId, Pageable pageable) {
-		return postCommentInfoDao.findCommentPage(postId, userId, pageable);
-	}
+	
 
 	@Override
 	public PostCommentInfoEntity findByNewCommentId(String postId) {

@@ -93,12 +93,6 @@ public class CommentReplyInfoServiceImpl implements CommentReplyInfoService {
 		return commentReplyInfoDao.findReplyByUserId(commentId, userId,pageable);
 	}
 
-	// 查询是否为自己回复
-	@Override
-	public Page<List<Map<String, Object>>> findByIsMyReplyPage(String cid, String userId, Pageable pageable) {
-		return commentReplyInfoDao.findByIsMyReplyPage(cid, userId, pageable);
-	}
-
 	//查询评论下所有回复
 	@Override
 	public Page<List<Map<String, Object>>> findReplyPage(String commentId, String userId, Pageable pageable) {
@@ -109,5 +103,6 @@ public class CommentReplyInfoServiceImpl implements CommentReplyInfoService {
 	public List<CommentReplyInfoEntity> findByCommentId(String commentId) {
 		return commentReplyInfoDao.findByCommentId(commentId);
 	}
+
 
 }

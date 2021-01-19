@@ -240,7 +240,7 @@ public class PostInfoController {
 		invitationEntity.setUpdateDate(date);
 		boolean result = true;
 		invitationEntity.setIsSelected(isSelected);
-		if (isSelected.equals(0)) {
+		if (isSelected.equals(1)) {
 			map.put("code", "200");
 			map.put("message", "启用精品成功");
 		} else {
@@ -253,7 +253,7 @@ public class PostInfoController {
 	}
 
 	/**
-	 * 帖子点赞
+	 * 帖子点赞11
 	 * 
 	 */
 	@RequestMapping(value = "/postThumbs")
@@ -267,7 +267,7 @@ public class PostInfoController {
 		PostInfoEntity PostInfoEntity = postInfoService.findId(circleId);
 		if (isCancelThumbs == 0) {
 			try {
-				circleThumbsEntity.setPostInfoEntity(PostInfoEntity);
+				circleThumbsEntity.setCircleId(circleId);
 				circleThumbsService.save(circleThumbsEntity);
 				PostInfoEntity.setPraiseNum(PostInfoEntity.getPraiseNum() + 1);
 				map.put("code", "200");
@@ -324,7 +324,6 @@ public class PostInfoController {
 		if (isCancelCollection == 0) {
 			try {
 				postCollectionEntity.setCircleId(circleId);
-//				postCollectionEntity.setPostInfoEntity(postInfoEntity);
 				postCollectionService.save(postCollectionEntity);
 				postInfoEntity.setCollectionNum(postInfoEntity.getCollectionNum() + 1);
 				map.put("code", "200");
@@ -421,47 +420,6 @@ public class PostInfoController {
 		map.put("data", postCommentMap);
 		return map;
 	}
-	
-	/**
-	 * H5-根据用户id查询帖子是否自身评论
-	 * 
-	 * @param postId  帖子主键
-	 * @param page 页码
-	 * @param size 页尺寸
-	 * @return consumer: note:
-	 */
-	@RequestMapping(value = "/findCommentPage")
-	public Map<String, Object> findCommentPage(HttpServletRequest res, HttpServletResponse req,
-			@RequestParam(name = "postId") String postId, @RequestParam(name = "userId") String userId, 
-			@RequestParam(name = "page") Integer page,
-			@RequestParam(name = "size") Integer size) {
-		Map<String, Object> map = new HashMap<String, Object>();
-		Pageable pageable = new PageRequest(page - 1, size);
-		Page<List<Map<String, Object>>> data = postCommentInfoService.findCommentPage(postId, userId, pageable);
-		map.put("code", "200");
-		map.put("data", data);
-		return map;
-	}
-	/**
-	 * H5-根据用户id查询帖子是否自身回复
-	 * 
-	 * @param cid  帖子主键
-	 * @param page 页码
-	 * @param size 页尺寸
-	 * @return consumer: note:
-	 */
-	@RequestMapping(value = "/findReplyPage")
-	public Map<String, Object> findReplyPage(HttpServletRequest res, HttpServletResponse req,
-			@RequestParam(name = "cid") String cid, @RequestParam(name = "userId") String userId, @RequestParam(name = "page") Integer page,
-			@RequestParam(name = "size") Integer size) {
-		Map<String, Object> map = new HashMap<String, Object>();
-		Pageable pageable = new PageRequest(page - 1, size);
-		Page<List<Map<String, Object>>> data = commentReplyInfoService.findByIsMyReplyPage(cid, userId, pageable);
-		map.put("code", "200");
-		map.put("data", data);
-		return map;
-	}
-	
 	/**
 	 * H5-获取帖子单条下所有评论
 	 */

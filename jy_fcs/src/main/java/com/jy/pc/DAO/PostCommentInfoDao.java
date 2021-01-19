@@ -48,10 +48,6 @@ public interface PostCommentInfoDao extends JpaRepository<PostCommentInfoEntity,
 	public Page<List<Map<String, Object>>> findCommentByUserId(@Param("postId") String postId,
 			@Param("userId") String userId, Pageable pageable);
 
-	// 查询是否为自己回复
-	@Query(value = "select if(t1.comment_user_id = ?2,1,0) as isMyComment,t1.id,t1.comment_content AS content,date_format( t1.comment_date, '%Y-%m-%d %H:%i:%s' ) AS commentTime,t1.comment_user_name AS nickName,t1.comment_pic as commentPic,t1.status as status,t1.is_anonymous AS isAnonymous,(select count(0) from sas_comment_reply_info t2 where comment_id = t1.id and t2.status=0) as replyNum FROM sas_post_comment_info t1 where t1.status=0 and t1.post_id = ?1 ORDER BY t1.comment_date DESC", countQuery = "select count(0) FROM sas_post_comment_info t1 where t1.status=0 and t1.post_id = ?1", nativeQuery = true)
-	public Page<List<Map<String, Object>>> findCommentPage(String postId, String userId, Pageable pageable);
-
 	// 查询最新一条评论
 	@Query(value = "select * from sas_post_comment_info t where t.post_id =:postId ORDER BY t.comment_date desc LIMIT 1", nativeQuery = true)
 	public PostCommentInfoEntity findByNewCommentId(String postId);

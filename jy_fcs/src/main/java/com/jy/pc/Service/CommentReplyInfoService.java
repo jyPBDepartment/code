@@ -35,9 +35,6 @@ public interface CommentReplyInfoService {
 	// 根据id,userId查询回复信息
 	public Page<List<Map<String, Object>>> findReplyByUserId(String commentId, String userId, Pageable pageable);
 
-	// 查询是否为自己回复
-	public Page<List<Map<String, Object>>> findByIsMyReplyPage(String cid, String userId, Pageable pageable);
-	
 	//查询评论下所有回复
 	public Page<List<Map<String, Object>>> findReplyPage(String commentId, String userId,Pageable pageable);
 

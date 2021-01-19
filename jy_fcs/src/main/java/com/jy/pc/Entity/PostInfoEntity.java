@@ -75,11 +75,6 @@ public class PostInfoEntity {
 	private int commentSize;
 	@Transient
 	private String time;
-//	// 外键id - 评论人Id
-//	@ManyToOne(optional = false)
-//	@JoinColumn(name = "commentId", referencedColumnName = "id" , nullable = true)
-//	@NotFound(action = NotFoundAction.IGNORE)
-//	private PostCommentInfoEntity postCommentInfoEntity;
 	@Column(columnDefinition = "int(10) default 0 comment '收藏数'")
 	private int collectionNum;// 收藏数，根据用户收藏表自动更新，默认0
 
@@ -92,19 +87,12 @@ public class PostInfoEntity {
 	@Column(columnDefinition = "int(10) default 0 comment '浏览量'")
 	private int pageview;// 浏览量 最火
 
-	@Column(columnDefinition = "int(2) default 1 comment '是否精品'")
-	private int isSelected; // 是否精品，0是1否，默认1精品
+	@Column(columnDefinition = "int(2) default 0 comment '是否精品'")
+	private int isSelected; // 是否精品，0否1是，默认0
 
-	@Column(columnDefinition = "int(2) default 1 comment '是否匿名'")
-	private int is_anonymous; // 是否匿名，0是1否，默认1
+	@Column(columnDefinition = "int(2) default 0 comment '是否匿名'")
+	private int isAnonymous; // 是否匿名，0否1是，默认0
 
-//	public PostCommentInfoEntity getPostCommentInfoEntity() {
-//		return postCommentInfoEntity;
-//	}
-//
-//	public void setPostCommentInfoEntity(PostCommentInfoEntity postCommentInfoEntity) {
-//		this.postCommentInfoEntity = postCommentInfoEntity;
-//	}
 
 	public int getPageview() {
 		return pageview;
@@ -114,12 +102,13 @@ public class PostInfoEntity {
 		this.pageview = pageview;
 	}
 
-	public int getIs_anonymous() {
-		return is_anonymous;
+	
+	public int getIsAnonymous() {
+		return isAnonymous;
 	}
 
-	public void setIs_anonymous(int is_anonymous) {
-		this.is_anonymous = is_anonymous;
+	public void setIsAnonymous(int isAnonymous) {
+		this.isAnonymous = isAnonymous;
 	}
 
 	public int getCollectionNum() {

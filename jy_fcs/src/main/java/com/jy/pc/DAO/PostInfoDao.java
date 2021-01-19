@@ -38,7 +38,7 @@ public interface PostInfoDao extends JpaRepository<PostInfoEntity, String> {
 	public Page<PostInfoEntity> findListByNewLabel(Pageable pageable);
 
 	// 查询精品
-	@Query(value = "select * from sas_post_info t where t.is_selected=0 and t.status = 0 order by t.create_date desc", countQuery = "select count(*) from sas_post_info t where t.is_selected=0 and t.status = 0 order by t.create_date desc", nativeQuery = true)
+	@Query(value = "select * from sas_post_info t where t.is_selected=1 and t.status = 0 order by t.create_date desc", countQuery = "select count(*) from sas_post_info t where t.is_selected=1 and t.status = 0 order by t.create_date desc", nativeQuery = true)
 	public Page<PostInfoEntity> findListByBoutiqueLabel(Pageable pageable);
 
 	// 查询好评
