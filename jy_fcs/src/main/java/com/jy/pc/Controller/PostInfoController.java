@@ -102,7 +102,7 @@ public class PostInfoController {
 	public Map<String, Object> findByPcId(HttpServletRequest res, HttpServletResponse req,
 			@RequestParam(name = "id") String id) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		PostInfoEntity invitationEntity = postInfoService.findId(id);
+		Map<String,Object> invitationEntity =  postInfoService.findInfoById(id);
 		if (invitationEntity != null) {
 			map.put("status", "0");
 			map.put("data", invitationEntity);

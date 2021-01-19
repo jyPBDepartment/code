@@ -25,7 +25,7 @@ public interface ExclusiveCommentDao extends JpaRepository<ExclusiveCommentEntit
 	public Page<List<Map<String, Object>>> findPageByParam(String title, String name, String content,
 			Pageable pageable);
 	
-	@Query(value = "select t.id,t.is_anonymous as isAnonymous,t.comment_content as content,t.comment_user_name as nickName,t.comment_pic as commentPic,t.status,date_format(t.comment_date,'%Y-%m-%d %H:%i:%s') as commentTime,(select t.id from sas_exclusive_comment t1 where t.id=t1.id and t1.comment_user_id =:userId) as isMyComment,(select count(*) from sas_exclusive_reply t2 where t2.comment_id = t.id)  as replyNum from sas_exclusive_comment t where t.art_id = :artId",
-			countQuery = "select count(0) from sas_exclusive_comment t where t.art_id = :artId",nativeQuery = true)
+	@Query(value = "select t.id,t.is_anonymous as isAnonymous,t.comment_content as content,t.comment_user_name as nickName,t.comment_pic as commentPic,t.status,date_format(t.comment_date,'%Y-%m-%d %H:%i:%s') as commentTime,(select t.id from sas_exclusive_comment t1 where t.id=t1.id and t1.comment_user_id =:userId) as isMyComment,(select count(*) from sas_exclusive_reply t2 where t2.comment_id = t.id)  as replyNum from sas_exclusive_comment t where t.art_id = :artId and t.status ='1' order by t.comment_date desc",
+			countQuery = "select count(0) from sas_exclusive_comment t where t.art_id = :artId and t.status ='1'",nativeQuery = true)
 	public Page<List<Map<String,Object>>> findCommentByUserId(@Param("artId") String artId,@Param("userId") String userId,Pageable pageable);
 }

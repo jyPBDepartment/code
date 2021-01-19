@@ -51,5 +51,7 @@ public interface PostInfoService {
 
 	// 查询帖子详情id(收藏点赞)
 	public Map<String, Object> findByPostId(String userId, String id);
+	
+	public Map<String,Object> findInfoById(String id);
 
 }

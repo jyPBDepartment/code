@@ -193,5 +193,10 @@ public class PostInfoServiceImpl implements PostInfoService {
 		return invitationDao.findByPostId(map, id);
 	}
 
+	
+	public Map<String,Object> findInfoById(String id){
+		
+		return invitationDao.findInfoById(id);
+	}
 
 }

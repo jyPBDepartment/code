@@ -17,7 +17,7 @@ import com.jy.pc.Entity.ArticleManageEntity;
 public interface ArticleManageDao extends JpaRepository<ArticleManageEntity, String> {
 
 	// 分页与模糊查询文章管理信息
-	@Query(value = "select * from sas_article_manage  t  where if(?1 !='',t.title like ?1,1=1)  and if(?2 !='',t.section_id like ?2,1=1)  order by t.create_date and t.update_date desc", countQuery = "select count(*) from sas_article_manage t  where if(?1 !='',t.title like ?1,1=1) and if(?2 !='',t.section_id like ?2,1=1) order by t.create_date and t.update_date desc", nativeQuery = true)
+	@Query(value = "select * from sas_article_manage  t  where if(?1 !='',t.title like ?1,1=1)  and if(?2 !='',t.section_id like ?2,1=1)  order by t.create_date desc", countQuery = "select count(*) from sas_article_manage t  where if(?1 !='',t.title like ?1,1=1) and if(?2 !='',t.section_id like ?2,1=1) order by t.create_date desc", nativeQuery = true)
 	public Page<ArticleManageEntity> findListByName(String title, String sectionId, Pageable pageable);
 
 	// 通过id查询文章管理信息

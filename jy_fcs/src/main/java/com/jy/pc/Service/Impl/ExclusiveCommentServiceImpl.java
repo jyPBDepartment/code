@@ -51,6 +51,9 @@ public class ExclusiveCommentServiceImpl implements ExclusiveCommentService{
 	@Transactional
 	public void delete(String id) {
 		ExclusiveCommentEntity comment = commentDao.findInfoById(id);
+		ArticleManageEntity articleManageEntity = articleManageDao.findBId(comment.getArtId());
+		articleManageEntity.setCommentNum(articleManageEntity.getCommentNum()-1);
+		articleManageDao.save(articleManageEntity);
 		comment.setStatus(-1);
 		commentDao.save(comment);
 		replyDao.logicalDelete(id);
