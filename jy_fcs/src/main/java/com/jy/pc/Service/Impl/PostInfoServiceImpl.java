@@ -13,9 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.jy.pc.DAO.CommentReplyInfoDao;
 import com.jy.pc.DAO.PictureInfoDAO;
-import com.jy.pc.DAO.PostCommentInfoDao;
 import com.jy.pc.DAO.PostInfoDao;
 import com.jy.pc.DAO.PostPictureDao;
 import com.jy.pc.Entity.PictureInfoEntity;
@@ -30,10 +28,10 @@ public class PostInfoServiceImpl implements PostInfoService {
 
 	@Autowired
 	private PostInfoDao invitationDao;
-	@Autowired
-	private PostCommentInfoDao postCommentInfoDao;
-	@Autowired
-	private CommentReplyInfoDao commentReplyInfoDao;
+//	@Autowired
+//	private PostCommentInfoDao postCommentInfoDao;
+//	@Autowired
+//	private CommentReplyInfoDao commentReplyInfoDao;
 	@Autowired
 	private DbLogUtil logger;
 	@Autowired

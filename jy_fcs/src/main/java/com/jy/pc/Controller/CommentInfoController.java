@@ -18,11 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
-import com.jy.pc.Entity.CaseInfoCommentEntity;
-import com.jy.pc.Entity.CaseInfoEntity;
-import com.jy.pc.Entity.CaseInfoReplyEntity;
 import com.jy.pc.Entity.CommentReplyInfoEntity;
-import com.jy.pc.Entity.ExclusiveCommentEntity;
 import com.jy.pc.Entity.PostCommentInfoEntity;
 import com.jy.pc.Entity.PostInfoEntity;
 import com.jy.pc.Service.CommentReplyInfoService;

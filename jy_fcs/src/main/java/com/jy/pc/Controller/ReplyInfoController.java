@@ -17,13 +17,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
-import com.jy.pc.Entity.CaseInfoReplyEntity;
 import com.jy.pc.Entity.CommentReplyInfoEntity;
-import com.jy.pc.Entity.PostCommentInfoEntity;
-import com.jy.pc.Entity.PostInfoEntity;
-import com.jy.pc.POJO.CommentReplyInfoPO;
 import com.jy.pc.Service.CommentReplyInfoService;
-import com.jy.pc.Service.PostCommentInfoService;
 
 /**
  * 评论回复相关接口
@@ -37,8 +32,8 @@ import com.jy.pc.Service.PostCommentInfoService;
 public class ReplyInfoController {
 	@Autowired
 	private CommentReplyInfoService commentReplyInfoService;
-	@Autowired
-	private PostCommentInfoService postCommentInfoService;
+//	@Autowired
+//	private PostCommentInfoService postCommentInfoService;
 
 	// 接口 -- 分页 -- 查询列表
 	@RequestMapping(value = "/findByCommentId")

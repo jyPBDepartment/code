@@ -3,11 +3,8 @@ package com.jy.pc.Service;
 import java.util.List;
 import java.util.Map;
 
-import org.hibernate.service.spi.ServiceException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 
 import com.jy.pc.Entity.PostInfoEntity;
 
@@ -48,6 +45,7 @@ public interface PostInfoService {
 	// 通过id,userId查询帖子信息
 	public Map<String, Object> findInfoByPostUserId(String id, String userId);
 
+	// 查询帖子列表	
 	public Page<List<Map<String, Object>>> findPostInfo(String parentCode, String sort, String userId,
 			Pageable pageable);
 

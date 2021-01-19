@@ -4,13 +4,9 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.NotFound;
-import org.hibernate.annotations.NotFoundAction;
 
 //帖子收藏表
 @Entity
@@ -23,7 +19,7 @@ public class PostCollectionEntity {
 	private String id;// 主键Id
 
 	@Column(columnDefinition = "varchar(36) default '' comment '帖子Id'")
-	private String circleId;// 用户Id
+	private String circleId;// 帖子Id
 	
 	@Column(columnDefinition = "varchar(36) default '' comment '用户Id'")
 	private String userId;// 用户Id

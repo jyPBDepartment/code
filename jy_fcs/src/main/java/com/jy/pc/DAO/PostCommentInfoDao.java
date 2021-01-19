@@ -11,7 +11,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.jy.pc.Entity.PostCommentInfoEntity;
-import com.jy.pc.POJO.PostCommentInfoPO;
 
 public interface PostCommentInfoDao extends JpaRepository<PostCommentInfoEntity, String> {
 

@@ -13,11 +13,8 @@ import org.springframework.stereotype.Service;
 import com.jy.pc.DAO.CommentReplyInfoDao;
 import com.jy.pc.DAO.PostCommentInfoDao;
 import com.jy.pc.DAO.PostInfoDao;
-import com.jy.pc.Entity.AgriculturalEntity;
 import com.jy.pc.Entity.PostCommentInfoEntity;
 import com.jy.pc.Entity.PostInfoEntity;
-import com.jy.pc.POJO.CommentReplyInfoPO;
-import com.jy.pc.POJO.PostCommentInfoPO;
 import com.jy.pc.Service.PostCommentInfoService;
 import com.jy.pc.Utils.DbLogUtil;
 
