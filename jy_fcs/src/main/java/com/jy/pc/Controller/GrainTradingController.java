@@ -398,7 +398,7 @@ public class GrainTradingController {
 			@RequestParam(name = "isSelected") int isSelected, @RequestParam(name = "id") String id) {
 
 		Map<String, String> map = new HashMap<String, String>();
-		AgriculturalEntity grain = agriculturalService.findId(id);
+		AgriculturalEntity grain = agriculturalService.findBId(id);
 		if (isSelected == 0) {
 			map.put("code", "200");
 			map.put("message", "取消精选成功");
