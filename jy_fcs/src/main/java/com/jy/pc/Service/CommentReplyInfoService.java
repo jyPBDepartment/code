@@ -5,11 +5,8 @@ import java.util.Map;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 
 import com.jy.pc.Entity.CommentReplyInfoEntity;
-import com.jy.pc.POJO.CommentReplyInfoPO;
 
 public interface CommentReplyInfoService {
 	// 搜索
@@ -30,7 +27,7 @@ public interface CommentReplyInfoService {
 
 	void enable(CommentReplyInfoEntity commentReplyInfoEntity, boolean result);
 
-	public Page<CommentReplyInfoPO> findByCommentId(String commentId, Pageable pageable);
+//	public Page<CommentReplyInfoPO> findByCommentId(String commentId, Pageable pageable);
 
 	// 条件查询帖子回复人ID
 	public List<CommentReplyInfoEntity> findByUserReplyId(String replyUserId);
@@ -43,5 +40,7 @@ public interface CommentReplyInfoService {
 	
 	//查询评论下所有回复
 	public Page<List<Map<String, Object>>> findReplyPage(String commentId, String userId,Pageable pageable);
+
+	public List<CommentReplyInfoEntity> findByCommentId(String commentId);
 
 }

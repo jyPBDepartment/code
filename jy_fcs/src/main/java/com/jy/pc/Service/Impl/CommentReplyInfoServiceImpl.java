@@ -1,5 +1,6 @@
 package com.jy.pc.Service.Impl;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -11,8 +12,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.jy.pc.DAO.CommentReplyInfoDao;
+import com.jy.pc.Entity.CaseInfoCommentEntity;
 import com.jy.pc.Entity.CommentReplyInfoEntity;
-import com.jy.pc.POJO.CommentReplyInfoPO;
+import com.jy.pc.Entity.PostCommentInfoEntity;
 import com.jy.pc.Service.CommentReplyInfoService;
 import com.jy.pc.Utils.DbLogUtil;
 @Service
@@ -32,7 +34,16 @@ public class CommentReplyInfoServiceImpl implements CommentReplyInfoService {
 
 	@Override
 	public CommentReplyInfoEntity save(CommentReplyInfoEntity commentReplyInfoEntity) {
-		return commentReplyInfoDao.saveAndFlush(commentReplyInfoEntity);
+		Date date = new Date();
+		commentReplyInfoEntity.setReplyDate(date);
+		commentReplyInfoEntity.setStatus("1");
+		PostCommentInfoEntity postCommentInfoEntity = new PostCommentInfoEntity();
+		postCommentInfoEntity.setId(commentReplyInfoEntity.getCommentId());
+		commentReplyInfoEntity.setCommentId(postCommentInfoEntity.getId());
+		commentReplyInfoDao.saveAndFlush(commentReplyInfoEntity);
+
+
+		return commentReplyInfoEntity;
 	}
 
 	@Transactional
@@ -64,11 +75,11 @@ public class CommentReplyInfoServiceImpl implements CommentReplyInfoService {
 		return commentReplyInfoDao.findId(id);
 	}
 
-	@Override
-	public Page<CommentReplyInfoPO> findByCommentId(String commentId, Pageable pageable) {
-		// TODO Auto-generated method stub
-		return commentReplyInfoDao.findPageByCommentPO(commentId,pageable);
-	}
+//	@Override
+//	public Page<CommentReplyInfoPO> findByCommentId(String commentId, Pageable pageable) {
+//		// TODO Auto-generated method stub
+//		return commentReplyInfoDao.findPageByCommentPO(commentId,pageable);
+//	}
 
 	// 条件查询帖子回复人ID
 	@Override
@@ -92,6 +103,11 @@ public class CommentReplyInfoServiceImpl implements CommentReplyInfoService {
 	@Override
 	public Page<List<Map<String, Object>>> findReplyPage(String commentId, String userId, Pageable pageable) {
 		return commentReplyInfoDao.findReplyPage(commentId, userId, pageable);
+	}
+
+	@Override
+	public List<CommentReplyInfoEntity> findByCommentId(String commentId) {
+		return commentReplyInfoDao.findByCommentId(commentId);
 	}
 
 }

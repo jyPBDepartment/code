@@ -12,7 +12,10 @@ import org.springframework.stereotype.Service;
 
 import com.jy.pc.DAO.CommentReplyInfoDao;
 import com.jy.pc.DAO.PostCommentInfoDao;
+import com.jy.pc.DAO.PostInfoDao;
+import com.jy.pc.Entity.AgriculturalEntity;
 import com.jy.pc.Entity.PostCommentInfoEntity;
+import com.jy.pc.Entity.PostInfoEntity;
 import com.jy.pc.POJO.CommentReplyInfoPO;
 import com.jy.pc.POJO.PostCommentInfoPO;
 import com.jy.pc.Service.PostCommentInfoService;
@@ -26,6 +29,8 @@ public class PostCommentInfoServiceImpl implements PostCommentInfoService {
 	CommentReplyInfoDao commentReplyInfoDao;
 	@Autowired
 	DbLogUtil logger;
+	@Autowired
+	PostInfoDao postInfoDao;
 	
 	@Override
 	public Page<List<Map<String, Object>>> findListByContent(String content, String user,Pageable pageable) {
@@ -37,6 +42,10 @@ public class PostCommentInfoServiceImpl implements PostCommentInfoService {
 
 	@Override
 	public PostCommentInfoEntity save(PostCommentInfoEntity postCommentInfoEntity) {
+		PostInfoEntity postInfo = postInfoDao.findId(postCommentInfoEntity.getPostId());
+		postInfo.setCommentNum(postInfo.getCommentNum()+1);
+		postInfoDao.save(postInfo);
+		
 		return postCommentInfoDao.saveAndFlush(postCommentInfoEntity);
 	}
 
@@ -73,19 +82,19 @@ public class PostCommentInfoServiceImpl implements PostCommentInfoService {
 		return postCommentInfoDao.findId(id);
 	}
 
-	@Override
-	public Page<PostCommentInfoPO> findByPostId(String postId, Pageable pageable) {
-		Page<PostCommentInfoPO> page = postCommentInfoDao.findPageByPostPO(postId,pageable);
-		for(PostCommentInfoPO info : page.getContent()) {
-			List<CommentReplyInfoPO> replyList = commentReplyInfoDao.findByCommentPO(info.getId());
-			info.setReplySize(replyList.size());
-			if(!replyList.isEmpty()) {
-				List<CommentReplyInfoPO> simpleList = replyList.subList(0, 1);
-				info.setReplyList(simpleList);
-			}
-		}
-		return page;
-	}
+//	@Override
+//	public Page<PostCommentInfoPO> findByPostId(String postId, Pageable pageable) {
+//		Page<PostCommentInfoPO> page = postCommentInfoDao.findPageByPostPO(postId,pageable);
+//		for(PostCommentInfoPO info : page.getContent()) {
+//			List<CommentReplyInfoPO> replyList = commentReplyInfoDao.findByCommentPO(info.getId());
+//			info.setReplySize(replyList.size());
+//			if(!replyList.isEmpty()) {
+//				List<CommentReplyInfoPO> simpleList = replyList.subList(0, 1);
+//				info.setReplyList(simpleList);
+//			}
+//		}
+//		return page;
+//	}
 
 	@Override
 	public List<PostCommentInfoEntity> findPostId(String postId) {

@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.jy.pc.DAO.AccountInfoDao;
-import com.jy.pc.DAO.CommentReplyInfoDao;
 import com.jy.pc.Entity.AccountInfoEntity;
 import com.jy.pc.Entity.AccountPowerInfoEntity;
 import com.jy.pc.Service.AccountInfoService;
@@ -27,8 +26,6 @@ import com.jy.pc.Utils.DbLogUtil;
 public class AccountInfoServiceImpl implements AccountInfoService {
 	@Autowired
 	AccountInfoDao accountInfoDao;
-	@Autowired
-	CommentReplyInfoDao commentReplyInfoDao;
 	@Autowired
 	DbLogUtil logger;
 	@Autowired

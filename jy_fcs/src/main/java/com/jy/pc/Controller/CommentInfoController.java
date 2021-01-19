@@ -18,12 +18,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
+import com.jy.pc.Entity.CaseInfoCommentEntity;
+import com.jy.pc.Entity.CaseInfoEntity;
+import com.jy.pc.Entity.CaseInfoReplyEntity;
 import com.jy.pc.Entity.CommentReplyInfoEntity;
+import com.jy.pc.Entity.ExclusiveCommentEntity;
 import com.jy.pc.Entity.PostCommentInfoEntity;
 import com.jy.pc.Entity.PostInfoEntity;
-import com.jy.pc.POJO.PostCommentInfoPO;
 import com.jy.pc.Service.CommentReplyInfoService;
 import com.jy.pc.Service.PostCommentInfoService;
+import com.jy.pc.Service.PostInfoService;
 
 /**
  * 帖子评论相关接口
@@ -39,6 +43,8 @@ public class CommentInfoController {
 	private PostCommentInfoService postCommentInfoService;
 	@Autowired
 	private CommentReplyInfoService commentReplyInfoService;
+	@Autowired
+	private PostInfoService postInfoService;
 
 	/**
 	 * 根据传入的信息，新增评论
@@ -49,16 +55,13 @@ public class CommentInfoController {
 	 */
 	@RequestMapping(value = "/addCommentInfo")
 	public Map<String, Object> addComment(HttpServletRequest res, HttpServletResponse req,
-			PostCommentInfoEntity postCommentInfoEntity, String postId) {
+			PostCommentInfoEntity postCommentInfoEntity) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		postCommentInfoEntity.setCommentDate(new Date());
-		postCommentInfoEntity.setStatus("0");
-		PostInfoEntity postInfoEntity = new PostInfoEntity();
-		postInfoEntity.setId(postId);
-		postCommentInfoEntity.setPostInfoEntity(postInfoEntity);
+		postCommentInfoEntity.setStatus("1");
 		postCommentInfoService.save(postCommentInfoEntity);
-		map.put("state", "0");
-		map.put("message", "保存成功");
+		map.put("code", "200");// 成功
+		map.put("message", "评论成功");
 		return map;
 	}
 
@@ -72,16 +75,30 @@ public class CommentInfoController {
 	public Map<String, Object> delInfo(HttpServletRequest res, HttpServletResponse req,
 			@RequestParam(name = "id") String id) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		if (postCommentInfoService.findId(id) == null) {
-			map.put("state", "1");
-			map.put("message", "该记录不存在");
+			try {
+				PostCommentInfoEntity postInfo = postCommentInfoService.findId(id);
+				PostInfoEntity post = postInfoService.findId(postInfo.getPostId());
+				post.setCommentNum(post.getCommentNum()-1);
+				postInfoService.update(post);
+				List<CommentReplyInfoEntity> replyInfo = commentReplyInfoService.findByCommentId(id);
+				for(int i=0;i<replyInfo.size();i++) {
+					CommentReplyInfoEntity commentReplyInfoEntity =commentReplyInfoService.findId(replyInfo.get(i).getId());
+					commentReplyInfoEntity.setStatus("-1");
+					commentReplyInfoService.update(commentReplyInfoEntity);
+				}
+				postInfo.setStatus("-1");
+				postCommentInfoService.update(postInfo);
+				map.put("code", "200");
+				map.put("message", "删除成功");
+			} catch (Exception e) {
+				map.put("code", "500");
+				map.put("message", "删除失败");
+				e.printStackTrace();
+			}
 			return map;
 		}
-		postCommentInfoService.delete(id);
-		map.put("state", "0");
-		map.put("message", "删除成功");
-		return map;
-	}
+
+	
 
 	// 接口，评论列表
 	@RequestMapping(value = "/findByPostId")
@@ -91,10 +108,10 @@ public class CommentInfoController {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 		Pageable pageable = new PageRequest(page - 1, size);
-		Page<PostCommentInfoPO> replyList = postCommentInfoService.findByPostId(postId, pageable);
+//		Page<PostCommentInfoPO> replyList = postCommentInfoService.findByPostId(postId, pageable);
 		map.put("state", "0");// 成功
 		map.put("message", "查询成功");
-		map.put("data", replyList);
+//		map.put("data", replyList);
 		return map;
 	}
 

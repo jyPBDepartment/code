@@ -22,12 +22,15 @@ public class PostCollectionEntity {
 	@GenericGenerator(strategy = "uuid", name = "uuid")
 	private String id;// 主键Id
 
-	// 外键id - 帖子信息
-	@ManyToOne(optional = false)
-	@JoinColumn(name = "circleId", referencedColumnName = "id")
-	@NotFound(action = NotFoundAction.IGNORE)
-	private PostInfoEntity postInfoEntity;
+//	// 外键id - 帖子信息
+//	@ManyToOne(optional = false)
+//	@JoinColumn(name = "circleId", referencedColumnName = "id")
+//	@NotFound(action = NotFoundAction.IGNORE)
+//	private PostInfoEntity postInfoEntity;
 
+	@Column(columnDefinition = "varchar(36) default '' comment '帖子Id'")
+	private String circleId;// 用户Id
+	
 	@Column(columnDefinition = "varchar(36) default '' comment '用户Id'")
 	private String userId;// 用户Id
 
@@ -39,12 +42,13 @@ public class PostCollectionEntity {
 		this.id = id;
 	}
 
-	public PostInfoEntity getPostInfoEntity() {
-		return postInfoEntity;
+	
+	public String getCircleId() {
+		return circleId;
 	}
 
-	public void setPostInfoEntity(PostInfoEntity postInfoEntity) {
-		this.postInfoEntity = postInfoEntity;
+	public void setCircleId(String circleId) {
+		this.circleId = circleId;
 	}
 
 	public String getUserId() {

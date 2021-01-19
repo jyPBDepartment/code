@@ -10,24 +10,23 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import com.jy.pc.Entity.CaseInfoReplyEntity;
 import com.jy.pc.Entity.CommentReplyInfoEntity;
-import com.jy.pc.Entity.PostCommentInfoEntity;
-import com.jy.pc.POJO.CommentReplyInfoPO;
 
 public interface CommentReplyInfoDao extends JpaRepository<CommentReplyInfoEntity, String>{
 	@Query(value="select * from sas_comment_reply_info t where t.id =:id",nativeQuery = true)
 	public CommentReplyInfoEntity findId(@Param("id")String id);
 	
 	//@Query(value="select * from sas_comment_reply_info t where t.comment_id =:commentId",nativeQuery = true)
-	@Query(value = "SELECT new com.jy.pc.POJO.CommentReplyInfoPO(t.id,t.replyContent,t.replyUserName,t.replyDate,t.status) FROM CommentReplyInfoEntity AS t "
-			+ "WHERE t.postCommentInfoEntity.id = ?1 and t.status = 0 order by t.replyDate desc", nativeQuery = false)
-	public List<CommentReplyInfoPO> findByCommentPO(@Param("commentId")String commentId);
-	
-	@Query(value = "SELECT new com.jy.pc.POJO.CommentReplyInfoPO(t.id,t.replyContent,t.replyUserName,t.replyDate,t.status) FROM CommentReplyInfoEntity AS t "
-			+ "WHERE t.postCommentInfoEntity.id = ?1 and t.status = 0 order by t.replyDate desc", 
-			countQuery="SELECT count(*) FROM CommentReplyInfoEntity AS t  "
-					+ "WHERE t.postCommentInfoEntity.id = ?1 and t.status = 0 order by t.replyDate desc",nativeQuery = false)
-	public Page<CommentReplyInfoPO> findPageByCommentPO(@Param("commentId")String commentId,Pageable pageable);
+//	@Query(value = "SELECT new com.jy.pc.POJO.CommentReplyInfoPO(t.id,t.replyContent,t.replyUserName,t.replyDate,t.status) FROM CommentReplyInfoEntity AS t "
+//			+ "WHERE t.postCommentInfoEntity.id = ?1 and t.status = 0 order by t.replyDate desc", nativeQuery = false)
+//	public List<CommentReplyInfoPO> findByCommentPO(@Param("commentId")String commentId);
+//	
+//	@Query(value = "SELECT new com.jy.pc.POJO.CommentReplyInfoPO(t.id,t.replyContent,t.replyUserName,t.replyDate,t.status) FROM CommentReplyInfoEntity AS t "
+//			+ "WHERE t.postCommentInfoEntity.id = ?1 and t.status = 0 order by t.replyDate desc", 
+//			countQuery="SELECT count(*) FROM CommentReplyInfoEntity AS t  "
+//					+ "WHERE t.postCommentInfoEntity.id = ?1 and t.status = 0 order by t.replyDate desc",nativeQuery = false)
+//	public Page<CommentReplyInfoPO> findPageByCommentPO(@Param("commentId")String commentId,Pageable pageable);
 	
 	@Query(value="select * from sas_comment_reply_info t where if(?1 !='',t.reply_content like ?1,1=1) "
 			+ "and if(?2 !='',t.reply_user_name like ?2,1=1) and t.comment_id =?3 order by t.reply_date desc ",
@@ -56,5 +55,7 @@ public interface CommentReplyInfoDao extends JpaRepository<CommentReplyInfoEntit
 	@Query(value = "select t.id,if(reply_user_id = ?2,1,0) as isMyReply,t.status as status,date_format( t.reply_date, '%Y-%m-%d %H:%i:%s' ) AS replyDate,t.reply_user_id as replyUserId,t.reply_pic as replyPic,t.reply_content as replyContent,t.comment_id as commentId,reply_user_name as replyUserName,t.reply_user_name as user,t.is_anonymous as isAnonymous from sas_comment_reply_info t where t.comment_id=?1 and status != -1 order by reply_date desc ", 
 			countQuery = "select count(0) from sas_comment_reply_info t where t.comment_id=?1 and status != -1", nativeQuery = true)
 	public Page<List<Map<String, Object>>> findReplyPage(String commentId, String userId,Pageable pageable);
-	
+	// 通过评论id查询
+		@Query(value = "select * from sas_comment_reply_info t where t.comment_id =:commentId", nativeQuery = true)
+		public List<CommentReplyInfoEntity> findByCommentId(String commentId);
 }

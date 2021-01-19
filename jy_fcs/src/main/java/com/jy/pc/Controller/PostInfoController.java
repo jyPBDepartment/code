@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.jy.pc.Entity.CaseInfoCommentEntity;
 import com.jy.pc.Entity.CircleThumbsEntity;
 import com.jy.pc.Entity.ClassificationEntity;
 import com.jy.pc.Entity.PostCollectionEntity;
@@ -76,10 +75,10 @@ public class PostInfoController {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 		Pageable pageable = new PageRequest(page - 1, size);
-		Page<PostInfoEntity> invitationList = postInfoService.findListWithSub(postType, pageable);
+//		Page<PostInfoEntity> invitationList = postInfoService.findListWithSub(postType, pageable);
 		map.put("state", "0");// 成功
 		map.put("message", "查询成功");
-		map.put("data", invitationList);
+//		map.put("data", invitationList);
 		return map;
 	}
 
@@ -159,7 +158,6 @@ public class PostInfoController {
 	@RequestMapping(value = "/passPostInfo")
 	public Map<String, String> passPostInfo(HttpServletRequest res, HttpServletResponse req, String id,
 			String auditUser) {
-
 		Map<String, String> map = new HashMap<String, String>();
 		PostInfoEntity postInfoEntity = postInfoService.findId(id);
 		Date date = new Date();
@@ -325,7 +323,8 @@ public class PostInfoController {
 		PostInfoEntity postInfoEntity = postInfoService.findId(circleId);
 		if (isCancelCollection == 0) {
 			try {
-				postCollectionEntity.setPostInfoEntity(postInfoEntity);
+				postCollectionEntity.setCircleId(circleId);
+//				postCollectionEntity.setPostInfoEntity(postInfoEntity);
 				postCollectionService.save(postCollectionEntity);
 				postInfoEntity.setCollectionNum(postInfoEntity.getCollectionNum() + 1);
 				map.put("code", "200");

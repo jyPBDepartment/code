@@ -95,24 +95,24 @@ public class PostInfoServiceImpl implements PostInfoService {
 	}
 
 	// 加载所有帖子 评论回复 列表信息
-	@Override
-	public Page<PostInfoEntity> findListWithSub(String postType, Pageable pageable) {
-		Page<PostInfoEntity> page = invitationDao.findListWithSub(postType, pageable);
-		List<PostCommentInfoPO> commentList = null;
-		List<CommentReplyInfoPO> replyList = null;
-		for (PostInfoEntity post : page.getContent()) {
-			commentList = postCommentInfoDao.findByPostPO(post.getId());
-			/*
-			 * for (PostCommentInfoPO comment : commentList) { replyList =
-			 * commentReplyInfoDao.findByCommentPO(comment.getId());
-			 * comment.setReplyList(replyList); comment.setReplySize(replyList.size()); }
-			 */
-			post.setCommentSize(commentList.size());
-			post.setTime(FCSDateUtil.CalculateTime(post.getCreateDate()));
-			// post.setCommentList(commentList);
-		}
-		return page;
-	}
+//	@Override
+//	public Page<PostInfoEntity> findListWithSub(String postType, Pageable pageable) {
+//		Page<PostInfoEntity> page = invitationDao.findListWithSub(postType, pageable);
+//		List<PostCommentInfoPO> commentList = null;
+//		List<CommentReplyInfoPO> replyList = null;
+//		for (PostInfoEntity post : page.getContent()) {
+//			commentList = postCommentInfoDao.findByPostPO(post.getId());
+//			/*
+//			 * for (PostCommentInfoPO comment : commentList) { replyList =
+//			 * commentReplyInfoDao.findByCommentPO(comment.getId());
+//			 * comment.setReplyList(replyList); comment.setReplySize(replyList.size()); }
+//			 */
+//			post.setCommentSize(commentList.size());
+//			post.setTime(FCSDateUtil.CalculateTime(post.getCreateDate()));
+//			// post.setCommentList(commentList);
+//		}
+//		return page;
+//	}
 
 	@Override
 	@Transactional

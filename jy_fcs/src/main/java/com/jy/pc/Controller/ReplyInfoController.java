@@ -17,10 +17,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
+import com.jy.pc.Entity.CaseInfoReplyEntity;
 import com.jy.pc.Entity.CommentReplyInfoEntity;
 import com.jy.pc.Entity.PostCommentInfoEntity;
+import com.jy.pc.Entity.PostInfoEntity;
 import com.jy.pc.POJO.CommentReplyInfoPO;
 import com.jy.pc.Service.CommentReplyInfoService;
+import com.jy.pc.Service.PostCommentInfoService;
 
 /**
  * 评论回复相关接口
@@ -34,6 +37,8 @@ import com.jy.pc.Service.CommentReplyInfoService;
 public class ReplyInfoController {
 	@Autowired
 	private CommentReplyInfoService commentReplyInfoService;
+	@Autowired
+	private PostCommentInfoService postCommentInfoService;
 
 	// 接口 -- 分页 -- 查询列表
 	@RequestMapping(value = "/findByCommentId")
@@ -43,10 +48,10 @@ public class ReplyInfoController {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 		Pageable pageable = new PageRequest(page - 1, size);
-		Page<CommentReplyInfoPO> replyList = commentReplyInfoService.findByCommentId(commentId,  pageable);
+//		Page<CommentReplyInfoPO> replyList = commentReplyInfoService.findByCommentId(commentId,  pageable);
 		map.put("state", "0");// 成功
 		map.put("message", "查询成功");
-		map.put("data", replyList);
+//		map.put("data", replyList);
 		return map;
 	}
 
@@ -59,16 +64,16 @@ public class ReplyInfoController {
 	 */
 	@RequestMapping(value = "/addReplyInfo")
 	public Map<String, Object> addReplyInfo(HttpServletRequest res, HttpServletResponse req,
-			CommentReplyInfoEntity commentReplyInfoEntity,String commentId) {
+			CommentReplyInfoEntity commentReplyInfoEntity) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		PostCommentInfoEntity postCommentInfoEntity = new PostCommentInfoEntity();
-		postCommentInfoEntity.setId(commentId);
-		commentReplyInfoEntity.setPostCommentInfoEntity(postCommentInfoEntity);
-		commentReplyInfoEntity.setReplyDate(new Date());
-		commentReplyInfoEntity.setStatus("0");
-		commentReplyInfoService.save(commentReplyInfoEntity);
-		map.put("state", "0");
-		map.put("message", "保存成功");
+		try {
+			commentReplyInfoService.save(commentReplyInfoEntity);
+			map.put("code", "200");
+			map.put("message", "保存成功");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		return map;
 	}
 
@@ -145,9 +150,19 @@ public class ReplyInfoController {
 			@RequestParam(name = "id") String id) {
 
 		Map<String, Object> map = new HashMap<String, Object>();
-		commentReplyInfoService.delete(id);
-		map.put("status", "0");
-		map.put("message", "删除成功");
+		try {
+			CommentReplyInfoEntity comment = commentReplyInfoService.findId(id);
+			comment.setStatus("-1");
+			commentReplyInfoService.update(comment);
+			
+			map.put("code", "200");
+			map.put("message", "删除成功");
+		} catch (Exception e) {
+			map.put("code", "500");
+			map.put("message", "删除失败");
+			e.printStackTrace();
+		}
+
 		return map;
 	}
 

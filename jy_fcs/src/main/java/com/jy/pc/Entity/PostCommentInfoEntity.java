@@ -32,7 +32,8 @@ public class PostCommentInfoEntity {
 	@GenericGenerator(strategy = "uuid", name = "uuid")
 	// 主键id
 	private String id;
-
+	@Column(columnDefinition = "varchar(36) default '' comment '关联帖子Id'")
+	private String postId;
 	// 评论内容
 	@Column
 	private String commentContent;
@@ -48,12 +49,15 @@ public class PostCommentInfoEntity {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date commentDate;
 	// 状态 - 0生效1系统禁用
-	@Column(length = 1)
+	@Column(length = 10)
 	private String status;
 
 	@Column(columnDefinition = "varchar(255) default '' comment '评论人头像路径'")
-	private String commentPic; //评论人头像路径
-	
+	private String commentPic; // 评论人头像路径
+
+	@Column(columnDefinition = "int(2) default 0 comment '是否匿名'")
+	private int isAnonymous; // 是否匿名，0否1是，默认0
+
 	public String getCommentPic() {
 		return commentPic;
 	}
@@ -62,21 +66,14 @@ public class PostCommentInfoEntity {
 		this.commentPic = commentPic;
 	}
 
-	// 外键id - 帖子信息
-	@ManyToOne(optional = false)
-	@JoinColumn(name = "postId", referencedColumnName = "id")
-	@NotFound(action = NotFoundAction.IGNORE)
-	private PostInfoEntity postInfoEntity;
 	
-	@Column(columnDefinition = "int(2) default 1 comment '是否匿名'")
-	private int is_anonymous; // 是否匿名，0是1否，默认1
 
-	public int getIs_anonymous() {
-		return is_anonymous;
+	public int getIsAnonymous() {
+		return isAnonymous;
 	}
 
-	public void setIs_anonymous(int is_anonymous) {
-		this.is_anonymous = is_anonymous;
+	public void setIsAnonymous(int isAnonymous) {
+		this.isAnonymous = isAnonymous;
 	}
 
 	public String getId() {
@@ -93,14 +90,6 @@ public class PostCommentInfoEntity {
 
 	public void setCommentUserId(String commentUserId) {
 		this.commentUserId = commentUserId;
-	}
-
-	public PostInfoEntity getPostInfoEntity() {
-		return postInfoEntity;
-	}
-
-	public void setPostInfoEntity(PostInfoEntity postInfoEntity) {
-		this.postInfoEntity = postInfoEntity;
 	}
 
 	public String getCommentContent() {
@@ -134,5 +123,15 @@ public class PostCommentInfoEntity {
 	public void setStatus(String status) {
 		this.status = status;
 	}
+
+	public String getPostId() {
+		return postId;
+	}
+
+	public void setPostId(String postId) {
+		this.postId = postId;
+	}
+
+
 
 }

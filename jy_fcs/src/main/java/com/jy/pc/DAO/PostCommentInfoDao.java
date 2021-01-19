@@ -18,13 +18,13 @@ public interface PostCommentInfoDao extends JpaRepository<PostCommentInfoEntity,
 	@Query(value = "select * from sas_post_comment_info t where t.id =:id", nativeQuery = true)
 	public PostCommentInfoEntity findId(@Param("id") String id);
 
-	@Query(value = "SELECT new com.jy.pc.POJO.PostCommentInfoPO(t.id,t.commentContent,t.commentUserName,t.commentDate,t.status) FROM PostCommentInfoEntity AS t "
-			+ "WHERE t.postInfoEntity.id = ?1 and t.status = 0 order by t.commentDate desc", countQuery = "SELECT count(*) FROM PostCommentInfoEntity AS t WHERE t.postInfoEntity.id = ?1 and t.status = 0 order by t.commentDate desc", nativeQuery = false)
-	public Page<PostCommentInfoPO> findPageByPostPO(@Param("postId") String postId, Pageable pageable);
-
-	@Query(value = "SELECT new com.jy.pc.POJO.PostCommentInfoPO(t.id,t.commentContent,t.commentUserName,t.commentDate,t.status) FROM PostCommentInfoEntity AS t "
-			+ "WHERE t.postInfoEntity.id = ?1 and t.status = 0 order by t.commentDate desc", nativeQuery = false)
-	public List<PostCommentInfoPO> findByPostPO(@Param("postId") String postId);
+//	@Query(value = "SELECT new com.jy.pc.POJO.PostCommentInfoPO(t.id,t.commentContent,t.commentUserName,t.commentDate,t.status) FROM PostCommentInfoEntity AS t "
+//			+ "WHERE t.postInfoEntity.id = ?1 and t.status = 0 order by t.commentDate desc", countQuery = "SELECT count(*) FROM PostCommentInfoEntity AS t WHERE t.postInfoEntity.id = ?1 and t.status = 0 order by t.commentDate desc", nativeQuery = false)
+//	public Page<PostCommentInfoPO> findPageByPostPO(@Param("postId") String postId, Pageable pageable);
+//
+//	@Query(value = "SELECT new com.jy.pc.POJO.PostCommentInfoPO(t.id,t.commentContent,t.commentUserName,t.commentDate,t.status) FROM PostCommentInfoEntity AS t "
+//			+ "WHERE t.postInfoEntity.id = ?1 and t.status = 0 order by t.commentDate desc", nativeQuery = false)
+//	public List<PostCommentInfoPO> findByPostPO(@Param("postId") String postId);
 
 	@Query(value = "select t1.id as id,t.name as name,t1.comment_content as commentContent,t1.comment_user_name as commentUserName,date_format( t1.comment_date, '%Y-%m-%d %H:%i:%s' ) as date from sas_post_info t,sas_post_comment_info t1 where t.id = t1.post_id "
 			+ " and if(?1 !='',t1.comment_content like ?1,1=1) and if(?2 !='',t1.comment_user_name like ?2,1=1) order by t1.comment_date desc ", countQuery = "select count(*) from sas_post_info t,sas_post_comment_info t1 where t.id = t1.post_id"

@@ -28,7 +28,7 @@ public interface PostInfoService {
 	// findById
 	public PostInfoEntity findId(String id);
 
-	public Page<PostInfoEntity> findListWithSub(String postType, Pageable pageable);
+//	public Page<PostInfoEntity> findListWithSub(String postType, Pageable pageable);
 
 	void enable(PostInfoEntity invitation, boolean result);
 
