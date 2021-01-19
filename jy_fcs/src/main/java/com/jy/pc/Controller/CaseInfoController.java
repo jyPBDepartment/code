@@ -209,11 +209,11 @@ public class CaseInfoController {
 		if (isSelected.equals(1)) {
 			caseInfoEntity.setIsSelected(1);
 			map.put("code", "200");
-			map.put("message", "取消精选成功");
+			map.put("message", "设置为精选成功");
 		} else if (isSelected.equals(0)) {
 			caseInfoEntity.setIsSelected(0);
 			map.put("code", "200");
-			map.put("message", "设置为精选成功");
+			map.put("message", "取消精选成功");
 			result = false;
 		}
 		caseInfoService.setSelect(caseInfoEntity, result);

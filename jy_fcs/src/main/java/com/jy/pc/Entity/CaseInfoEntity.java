@@ -63,7 +63,7 @@ public class CaseInfoEntity {
 	private int commentNum;  //评论数量
 	@Column(columnDefinition = "int(10) default 0 comment '点赞数'")
 	private int praiseNum;   //点赞数量
-	@Column(columnDefinition = "int(5) default 1 comment '是否精选0是1否'")
+	@Column(columnDefinition = "int(5) default 0 comment '是否精选1是0否'")
 	private int isSelected;  //是否精选
 	@Column(columnDefinition = "int(10) default 0 comment '差评数量'")
 	private int negativeNum;  //差评数量
