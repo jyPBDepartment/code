@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.jy.pc.Entity.CaseInfoCommentEntity;
 import com.jy.pc.Entity.CaseInfoEntity;
-import com.jy.pc.Entity.CaseInfoIrrelevantEntity;
 import com.jy.pc.Entity.CaseInfoReplyEntity;
 import com.jy.pc.Service.CaseInfoCommentService;
 import com.jy.pc.Service.CaseInfoReplyService;
