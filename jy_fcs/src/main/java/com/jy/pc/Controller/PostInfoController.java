@@ -136,7 +136,6 @@ public class PostInfoController {
 
 		Map<String, String> map = new HashMap<String, String>();
 		PostInfoEntity invitationEntity = postInfoService.findId(id);
-		invitationEntity.setStatus(status);
 		Date date = new Date();
 		invitationEntity.setUpdateDate(date);
 		boolean result = true;
@@ -235,12 +234,11 @@ public class PostInfoController {
 
 		Map<String, String> map = new HashMap<String, String>();
 		PostInfoEntity invitationEntity = postInfoService.findId(id);
-		invitationEntity.setIsSelected(isSelected);
 		Date date = new Date();
-		invitationEntity.setUpdateDate(date);
-		boolean result = true;
 		invitationEntity.setIsSelected(isSelected);
+		boolean result = true;
 		if (isSelected.equals(1)) {
+			invitationEntity.setSelectDate(date);
 			map.put("code", "200");
 			map.put("message", "启用精品成功");
 		} else {

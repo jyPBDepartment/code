@@ -88,7 +88,19 @@ public class PostInfoEntity {
 
 	@Column(columnDefinition = "int(2) default 0 comment '是否匿名'")
 	private int isAnonymous; // 是否匿名，0否1是，默认0
+	
+	@Column
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date selectDate;// 精选时间
+	
+	public Date getSelectDate() {
+		return selectDate;
+	}
 
+	public void setSelectDate(Date selectDate) {
+		this.selectDate = selectDate;
+	}
 
 	public int getPageview() {
 		return pageview;
