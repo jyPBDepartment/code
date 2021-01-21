@@ -104,8 +104,20 @@ public class AgriculturalEntity {
 	private int praiseNum;
 	@Column(columnDefinition = "int(1) default 0 comment '是否精选1是0否，默认0'")
 	private int isSelected;
+	@Column
+	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date selectTime;
 	@Column(columnDefinition = "int(11) default 0 comment '浏览数，根据用户点赞表自动更新，默认0'")
 	private int viewNum;
+
+	public Date getSelectTime() {
+		return selectTime;
+	}
+
+	public void setSelectTime(Date selectTime) {
+		this.selectTime = selectTime;
+	}
 
 	public int getViewNum() {
 		return viewNum;

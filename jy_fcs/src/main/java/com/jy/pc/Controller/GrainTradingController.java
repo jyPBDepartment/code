@@ -413,6 +413,7 @@ public class GrainTradingController {
 			return map;
 		}
 		grain.setIsSelected(isSelected);
+		grain.setSelectTime(new Date());
 		agriculturalService.save(grain);
 		return map;
 	}
