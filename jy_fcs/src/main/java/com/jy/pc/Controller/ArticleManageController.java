@@ -251,6 +251,7 @@ public class ArticleManageController {
 		Map<String, String> map = new HashMap<String, String>();
 		ArticleManageEntity articleManageEntity = eduArticleManageService.findBId(id);
 		
+		articleManageEntity.setSelectTime(new Date());
 		articleManageEntity.setIsSelected(isSelected);
 		eduArticleManageService.save(articleManageEntity);
 		if (isSelected == 0) {

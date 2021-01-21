@@ -14,6 +14,7 @@ import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -69,6 +70,10 @@ public class ArticleManageEntity {
 	private int isSelected;
 	@Column(columnDefinition = "int(11) default 0 comment '浏览数，根据用户点赞表自动更新，默认0'")
 	private int viewNum;
+	@Column
+	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date selectTime;
 
 	public SectionManageEntity getSection() {
 		return section;
@@ -220,5 +225,15 @@ public class ArticleManageEntity {
 	public void setContentC(String contentC) {
 		this.contentC = contentC;
 	}
+
+	public Date getSelectTime() {
+		return selectTime;
+	}
+
+	public void setSelectTime(Date selectTime) {
+		this.selectTime = selectTime;
+	}
+	
+	
 	
 }
