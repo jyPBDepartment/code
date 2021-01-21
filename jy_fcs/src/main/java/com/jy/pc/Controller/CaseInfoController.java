@@ -204,10 +204,10 @@ public class CaseInfoController {
 		CaseInfoEntity caseInfoEntity = caseInfoService.findBId(id);
 		caseInfoEntity.setIsSelected(isSelected);
 		Date date = new Date();
-		caseInfoEntity.setUpdateDate(date);
 		boolean result = true;
 		if (isSelected.equals(1)) {
 			caseInfoEntity.setIsSelected(1);
+			caseInfoEntity.setSelectedDate(date);
 			map.put("code", "200");
 			map.put("message", "设置为精选成功");
 		} else if (isSelected.equals(0)) {

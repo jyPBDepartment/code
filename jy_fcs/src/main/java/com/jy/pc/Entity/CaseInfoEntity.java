@@ -77,6 +77,16 @@ public class CaseInfoEntity {
 	private String controlTechnology; //防治技术
 	@Column(columnDefinition = "int(20) default 0 comment '与我无关数量'")
 	private int irrelevantNum;  //与我无关数量
+	@Column
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
+    @Temporal(TemporalType.TIMESTAMP)
+	private Date selectedDate;//设置精选时间
+	public Date getSelectedDate() {
+		return selectedDate;
+	}
+	public void setSelectedDate(Date selectedDate) {
+		this.selectedDate = selectedDate;
+	}
 	public int getIrrelevantNum() {
 		return irrelevantNum;
 	}

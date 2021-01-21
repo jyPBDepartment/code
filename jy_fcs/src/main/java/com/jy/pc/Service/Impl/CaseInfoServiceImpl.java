@@ -194,7 +194,9 @@ public class CaseInfoServiceImpl implements CaseInfoService {
 		caseInfoEntity = jsonObject.toJavaObject(CaseInfoEntity.class);
 		caseInfoEntity.setCreateDate(date);
 		caseInfoEntity.setAuditStatus("0");
-		//caseInfoEntity.setIsSelected(0);
+		if(caseInfoEntity.getIsSelected() == 1) {
+			caseInfoEntity.setSelectedDate(date);
+		}
 
 		ClassificationEntity classificationEntity = classificationDao.findBId(caseInfoEntity.getClassiCode());
 		caseInfoEntity.setCropsTypeCode(classificationEntity.getName());
