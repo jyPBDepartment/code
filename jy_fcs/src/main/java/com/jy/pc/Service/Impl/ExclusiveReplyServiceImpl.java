@@ -44,7 +44,7 @@ public class ExclusiveReplyServiceImpl implements ExclusiveReplyService{
 	@Override
 	public void delete(String id) {
 		ExclusiveReplyEntity reply = replyDao.findInfoById(id);
-		reply.setStatus(-1);
+		reply.setStatus("-1");
 		replyDao.save(reply);
 	}
 

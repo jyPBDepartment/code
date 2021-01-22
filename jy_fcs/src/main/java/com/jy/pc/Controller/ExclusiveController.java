@@ -101,19 +101,19 @@ public class ExclusiveController {
 	 */
 	@RequestMapping(value = "/enableReply")
 	public Map<String, String> enableReply(HttpServletRequest res, HttpServletResponse req,
-			@RequestParam(name = "status") int status, @RequestParam(name = "id") String id) {
+			@RequestParam(name = "status") String status, @RequestParam(name = "id") String id) {
 
 		Map<String, String> map = new HashMap<String, String>();
 		ExclusiveReplyEntity reply = replyService.findId(id);
-		if (status == 0) {
+		if (status == "0") {
 			map.put("code", "200");
 			map.put("message", "启用成功");
 		}
-		if (status == 1) {
+		if (status == "1") {
 			map.put("code", "200");
 			map.put("message", "禁用成功");
 		}
-		if (status != 0 && status != 1) {
+		if (status != "0" && status != "1") {
 			map.put("code", "500");
 			map.put("message", "操作参数错误");
 			return map;
@@ -132,19 +132,19 @@ public class ExclusiveController {
 	 */
 	@RequestMapping(value = "/enableComment")
 	public Map<String, String> enableComment(HttpServletRequest res, HttpServletResponse req,
-			@RequestParam(name = "status") int status, @RequestParam(name = "id") String id) {
+			@RequestParam(name = "status") String status, @RequestParam(name = "id") String id) {
 
 		Map<String, String> map = new HashMap<String, String>();
 		ExclusiveCommentEntity comment = commentService.findId(id);
-		if (status == 0) {
+		if (status == "0") {
 			map.put("code", "200");
 			map.put("message", "启用成功");
 		}
-		if (status == 1) {
+		if (status == "1") {
 			map.put("code", "200");
 			map.put("message", "禁用成功");
 		}
-		if (status != 0 && status != 1) {
+		if (status != "0" && status != "1") {
 			map.put("code", "500");
 			map.put("message", "操作参数错误");
 			return map;
@@ -225,7 +225,7 @@ public class ExclusiveController {
 			ExclusiveReplyEntity reply) {
 		Map<String, String> map = new HashMap<String, String>();
 		reply.setReplyDate(new Date());
-		reply.setStatus(1);
+		reply.setStatus("1");
 		replyService.save(reply);
 		map.put("code", "200");
 		map.put("message", "回复成功");
@@ -243,7 +243,7 @@ public class ExclusiveController {
 			ExclusiveCommentEntity comment) {
 		Map<String, String> map = new HashMap<String, String>();
 		comment.setCommentDate(new Date());
-		comment.setStatus(1);
+		comment.setStatus("1");
 		commentService.save(comment);
 		map.put("code", "200");
 		map.put("message", "评论成功");
@@ -278,6 +278,21 @@ public class ExclusiveController {
 		}
 		articleManageEntity.setIsSelected(isSelected);
 		eduArticleManageService.save(articleManageEntity);
+		return map;
+	}
+	
+	/**
+	 * 根据评论id查询评论信息
+	 * @param commentId
+	 * 
+	 * */
+	@RequestMapping(value="findCommentInfoById")
+	@ResponseBody
+	public Map<String,Object> findCommentInfoById(String commentId){
+		Map<String,Object> map = new HashMap<String,Object>();
+		ExclusiveCommentEntity exclusiveCommentEntity = commentService.findId(commentId);
+		map.put("status", "200");
+		map.put("data", exclusiveCommentEntity);
 		return map;
 	}
 

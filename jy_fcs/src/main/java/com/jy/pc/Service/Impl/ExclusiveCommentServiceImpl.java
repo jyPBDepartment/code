@@ -54,7 +54,7 @@ public class ExclusiveCommentServiceImpl implements ExclusiveCommentService{
 		ArticleManageEntity articleManageEntity = articleManageDao.findBId(comment.getArtId());
 		articleManageEntity.setCommentNum(articleManageEntity.getCommentNum()-1);
 		articleManageDao.save(articleManageEntity);
-		comment.setStatus(-1);
+		comment.setStatus("-1");
 		commentDao.save(comment);
 		replyDao.logicalDelete(id);
 	}

@@ -33,10 +33,14 @@ public class ExclusiveReplyEntity {
 	private String replyPic;// 通过本地缓存获取图片路径
 	@Column(columnDefinition = "varchar(36) default '' comment '回复人ID'")
 	private String replyUserId;// 通过本地缓存获取图片路径
+	@Column(columnDefinition = "varchar(36) default '' comment '被回复人昵称'")
+	private String receiveUserName;
+	@Column(columnDefinition = "varchar(36) default '' comment '被回复人ID'")
+	private String receiveUserId;
 	@Column(columnDefinition = "int(1) default 0 comment '匿名0否1是，默认为0'")
 	private int isAnonymous;
-	@Column(columnDefinition = "int(1) default 1 comment '0正常 1审核中 -1已删除，默认1'")
-	private int status;
+	@Column(columnDefinition = "varchar(2) default 1 comment '0正常 1审核中 -1已删除，默认1'")
+	private String status;
 	@Column(columnDefinition = "datetime comment '回复时间'")
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
 	@Temporal(TemporalType.TIMESTAMP)
@@ -98,11 +102,11 @@ public class ExclusiveReplyEntity {
 		this.isAnonymous = isAnonymous;
 	}
 
-	public int getStatus() {
+	public String getStatus() {
 		return status;
 	}
 
-	public void setStatus(int status) {
+	public void setStatus(String status) {
 		this.status = status;
 	}
 
@@ -114,4 +118,20 @@ public class ExclusiveReplyEntity {
 		this.replyDate = replyDate;
 	}
 
+	public String getReceiveUserName() {
+		return receiveUserName;
+	}
+
+	public void setReceiveUserName(String receiveUserName) {
+		this.receiveUserName = receiveUserName;
+	}
+
+	public String getReceiveUserId() {
+		return receiveUserId;
+	}
+
+	public void setReceiveUserId(String receiveUserId) {
+		this.receiveUserId = receiveUserId;
+	}
+	
 }
