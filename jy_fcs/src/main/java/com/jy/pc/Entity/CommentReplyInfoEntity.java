@@ -44,7 +44,7 @@ public class CommentReplyInfoEntity {
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date replyDate;
-	// 状态 - 0生效1系统禁用
+	// 状态 - 1生效0系统禁用
 	@Column(length = 10)
 	private String status;
 

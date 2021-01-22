@@ -35,7 +35,7 @@ public class CommentReplyInfoServiceImpl implements CommentReplyInfoService {
 	public CommentReplyInfoEntity save(CommentReplyInfoEntity commentReplyInfoEntity) {
 		Date date = new Date();
 		commentReplyInfoEntity.setReplyDate(date);
-		commentReplyInfoEntity.setStatus("1");
+		commentReplyInfoEntity.setStatus("0");
 		PostCommentInfoEntity postCommentInfoEntity = new PostCommentInfoEntity();
 		postCommentInfoEntity.setId(commentReplyInfoEntity.getCommentId());
 		commentReplyInfoEntity.setCommentId(postCommentInfoEntity.getId());

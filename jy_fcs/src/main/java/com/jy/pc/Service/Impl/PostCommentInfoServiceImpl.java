@@ -29,13 +29,6 @@ public class PostCommentInfoServiceImpl implements PostCommentInfoService {
 	@Autowired
 	PostInfoDao postInfoDao;
 	
-	@Override
-	public Page<List<Map<String, Object>>> findListByContent(String content, String user,Pageable pageable) {
-		String contentParam = "%"+content+"%";
-		String userParam = "%"+user+"%";
-//		Page<PostCommentInfoEntity> page = postCommentInfoDao.findListByContent(contentParam, userParam,pageable);
-		return postCommentInfoDao.findListByContent(contentParam, userParam,pageable);
-	}
 
 	@Override
 	public PostCommentInfoEntity save(PostCommentInfoEntity postCommentInfoEntity) {
@@ -120,6 +113,16 @@ public class PostCommentInfoServiceImpl implements PostCommentInfoService {
 	@Override
 	public Page<List<Map<String, Object>>> findByCommentPage(String postId, String userId, Pageable pageable) {
 		return postCommentInfoDao.findByCommentPage(postId, userId, pageable);
+	}
+
+	//搜索pc	
+	@Override
+	public Page<List<Map<String, Object>>> findListByContent(String content, String user, String name,
+			Pageable pageable) {
+		String contentParam = "%"+content+"%";
+		String userParam = "%"+user+"%";
+		String commentUser = "%" + name + "%";
+		return postCommentInfoDao.findListByContent(contentParam, userParam, commentUser, pageable);
 	}
 
 }

@@ -18,7 +18,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
 import com.jy.pc.Entity.CommentReplyInfoEntity;
+import com.jy.pc.Entity.PostCommentInfoEntity;
+import com.jy.pc.Entity.PostInfoEntity;
 import com.jy.pc.Service.CommentReplyInfoService;
+import com.jy.pc.Service.PostCommentInfoService;
+import com.jy.pc.Service.PostInfoService;
 
 /**
  * 评论回复相关接口
@@ -32,14 +36,16 @@ import com.jy.pc.Service.CommentReplyInfoService;
 public class ReplyInfoController {
 	@Autowired
 	private CommentReplyInfoService commentReplyInfoService;
-//	@Autowired
-//	private PostCommentInfoService postCommentInfoService;
+	@Autowired
+	private PostInfoService postInfoService;
+	@Autowired
+	private PostCommentInfoService postCommentInfoService;
 
 	// 接口 -- 分页 -- 查询列表
 	@RequestMapping(value = "/findByCommentId")
 	public Map<String, Object> findByCommentId(HttpServletRequest res, HttpServletResponse req,
-			@RequestParam(name = "commentId") String commentId, 
-			@RequestParam(name = "page") Integer page, @RequestParam(name = "size") Integer size) {
+			@RequestParam(name = "commentId") String commentId, @RequestParam(name = "page") Integer page,
+			@RequestParam(name = "size") Integer size) {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 		Pageable pageable = new PageRequest(page - 1, size);
@@ -68,7 +74,7 @@ public class ReplyInfoController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		return map;
 	}
 
@@ -82,27 +88,37 @@ public class ReplyInfoController {
 	public Map<String, Object> delInfo(HttpServletRequest res, HttpServletResponse req,
 			@RequestParam(name = "id") String id) {
 		Map<String, Object> map = new HashMap<String, Object>();
+		
+		try {
+			CommentReplyInfoEntity comment = commentReplyInfoService.findId(id);
+			comment.setStatus("-1");
+			commentReplyInfoService.update(comment);
+			map.put("code", "200");
+			map.put("message", "删除成功");
+		} catch (Exception e) {
+			map.put("code", "500");
+			map.put("message", "删除失败");
+			e.printStackTrace();
+		}
 		if (commentReplyInfoService.findId(id) == null) {
 			map.put("status", "1");
 			map.put("message", "该记录不存在");
 			return map;
 		}
-		commentReplyInfoService.delete(id);
-		map.put("state", "0");
-		map.put("message", "删除成功");
 		return map;
 	}
 
 	// 查询 分页
 	@RequestMapping(value = "/findByName")
 	public Map<String, Object> findListByContent(HttpServletRequest res, HttpServletResponse req,
-			@RequestParam(name = "commentId") String commentId,
-			@RequestParam(name = "content") String content, @RequestParam(name = "user") String user,
-			@RequestParam(name = "page") Integer page, @RequestParam(name = "size") Integer size) {
+			@RequestParam(name = "commentId") String commentId, @RequestParam(name = "content") String content,
+			@RequestParam(name = "user") String user, @RequestParam(name = "page") Integer page,
+			@RequestParam(name = "size") Integer size) {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 		Pageable pageable = new PageRequest(page - 1, size);
-		Page<CommentReplyInfoEntity> replyList = commentReplyInfoService.findListByContent(content, user,commentId,pageable);
+		Page<CommentReplyInfoEntity> replyList = commentReplyInfoService.findListByContent(content, user, commentId,
+				pageable);
 		map.put("state", "0");// 成功
 		map.put("message", "查询成功");
 		map.put("data", replyList);
@@ -149,7 +165,7 @@ public class ReplyInfoController {
 			CommentReplyInfoEntity comment = commentReplyInfoService.findId(id);
 			comment.setStatus("-1");
 			commentReplyInfoService.update(comment);
-			
+
 			map.put("code", "200");
 			map.put("message", "删除成功");
 		} catch (Exception e) {
@@ -168,16 +184,18 @@ public class ReplyInfoController {
 
 		Map<String, String> map = new HashMap<String, String>();
 		CommentReplyInfoEntity commentReplyInfoEntity = commentReplyInfoService.findId(id);
-		if ("1".contentEquals(status)) {
-			map.put("state", "0");
-			map.put("message", "禁用成功");
-		}
-		if ("0".contentEquals(status)) {
-			map.put("state", "0");
+		boolean result = true;
+		if (status.equals("1")) {
+			map.put("code", "200");
 			map.put("message", "启用成功");
 		}
+		if (status.equals("0")) {
+			map.put("code", "200");
+			map.put("message", "禁用成功");
+			result = false;
+		}
 		commentReplyInfoEntity.setStatus(status);
-		commentReplyInfoService.update(commentReplyInfoEntity);
+		commentReplyInfoService.enable(commentReplyInfoEntity, result);
 		return map;
 	}
 
@@ -192,6 +210,28 @@ public class ReplyInfoController {
 			map.put("data", commentReplyInfoEntity);
 		} else {
 			map.put("status", "1");
+		}
+		return map;
+	}
+
+	/**
+	 * 帖子回复查看详情
+	 */
+	@RequestMapping(value = "/findByReplyId")
+	public Map<String, Object> findByReplyId(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "id") String id) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		CommentReplyInfoEntity commentReplyInfoEntity = commentReplyInfoService.findId(id);
+		PostCommentInfoEntity postCommentInfoEntity = postCommentInfoService.findId(commentReplyInfoEntity.getCommentId()); 
+		PostInfoEntity postInfoEntity = postInfoService.findId(postCommentInfoEntity.getPostId());
+		
+		try {
+			map.put("code", "200");
+			map.put("data", postInfoEntity);
+			map.put("dataComment", postCommentInfoEntity);
+			map.put("dataReply", commentReplyInfoEntity);
+		} catch (Exception e) {
+			map.put("code", "500");
 		}
 		return map;
 	}

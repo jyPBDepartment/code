@@ -10,8 +10,10 @@ import org.springframework.data.repository.query.Param;
 import com.jy.pc.Entity.PostCommentInfoEntity;
 
 public interface PostCommentInfoService {
+	
 	// 搜索
-	public Page<List<Map<String, Object>>> findListByContent(String content, String user, Pageable pageable);
+	public Page<List<Map<String, Object>>> findListByContent(String content, String user, String name,Pageable pageable);
+
 
 	// 根据贴子id返回分页信息
 //	public Page<PostCommentInfoPO> findByPostId(String postId, Pageable pageable);

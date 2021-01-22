@@ -24,11 +24,11 @@ public interface PostCommentInfoDao extends JpaRepository<PostCommentInfoEntity,
 //	@Query(value = "SELECT new com.jy.pc.POJO.PostCommentInfoPO(t.id,t.commentContent,t.commentUserName,t.commentDate,t.status) FROM PostCommentInfoEntity AS t "
 //			+ "WHERE t.postInfoEntity.id = ?1 and t.status = 0 order by t.commentDate desc", nativeQuery = false)
 //	public List<PostCommentInfoPO> findByPostPO(@Param("postId") String postId);
-
-	@Query(value = "select t1.id as id,t.name as name,t1.comment_content as commentContent,t1.comment_user_name as commentUserName,date_format( t1.comment_date, '%Y-%m-%d %H:%i:%s' ) as date from sas_post_info t,sas_post_comment_info t1 where t.id = t1.post_id "
-			+ " and if(?1 !='',t1.comment_content like ?1,1=1) and if(?2 !='',t1.comment_user_name like ?2,1=1) order by t1.comment_date desc ", countQuery = "select count(*) from sas_post_info t,sas_post_comment_info t1 where t.id = t1.post_id"
-					+ " and if(?1 !='',t1.comment_content like ?1,1=1) and if(?2 !='',t1.comment_user_name like ?2,1=1) order by t1.comment_date desc", nativeQuery = true)
-	public Page<List<Map<String, Object>>> findListByContent(String content, String user, Pageable pageable);
+	
+	//pc端根据条件查询，分页	
+	@Query(value = "select t1.id as id,t.name as name,t1.comment_content as commentContent,t1.comment_user_name as commentUserName,date_format( t1.comment_date, '%Y-%m-%d %H:%i:%s' ) as date from sas_post_info t,sas_post_comment_info t1 where t.id = t1.post_id  and if(?1 !='',t1.comment_content like ?1,1=1) and if(?2 !='',t1.comment_user_name like ?2,1=1) and if(?3 !='',t.name like ?3,1=1) order by t1.comment_date desc ", countQuery = "select count(*) from sas_post_info t,sas_post_comment_info t1 where t.id = t1.post_id"
+					+ " and if(?1 !='',t1.comment_content like ?1,1=1) and if(?2 !='',t1.comment_user_name like ?2,1=1) and if(?3 !='',t.name like ?3,1=1) order by t1.comment_date desc", nativeQuery = true)
+	public Page<List<Map<String, Object>>> findListByContent(String content, String user, String name,Pageable pageable);
 
 	// 通过帖子id查询
 	@Query(value = "select * from sas_post_comment_info p where p.post_id=:postId", nativeQuery = true)
@@ -52,6 +52,6 @@ public interface PostCommentInfoDao extends JpaRepository<PostCommentInfoEntity,
 	public PostCommentInfoEntity findByNewCommentId(String postId);
 
 	// 查询帖子下所有评论
-	@Query(value = "select if(t1.comment_user_id = ?2,1,0) as isMyComment,t1.id,t1.comment_content AS content,date_format( t1.comment_date, '%Y-%m-%d %H:%i:%s' ) AS commentTime,t1.comment_user_name AS nickName,t1.status as status,t1.is_anonymous AS isAnonymous,t1.comment_pic as commentPic,(select count(0) from sas_comment_reply_info t2 where comment_id = t1.id and t2.status != -1) as replyNum FROM sas_post_comment_info t1 where t1.status != -1 and t1.post_id = ?1 ORDER BY t1.comment_date DESC", countQuery = "select count(0) FROM sas_post_comment_info t1 where t1.status != -1 and t1.post_id = ?1", nativeQuery = true)
+	@Query(value = "select if(t1.comment_user_id = ?2,1,0) as isMyComment,t1.id,t1.comment_content AS content,date_format( t1.comment_date, '%Y-%m-%d %H:%i:%s' ) AS commentTime,t1.comment_user_name AS nickName,t1.status as status,t1.is_anonymous AS isAnonymous,t1.comment_pic as commentPic,(select count(0) from sas_comment_reply_info t2 where comment_id = t1.id and t2.status = 1) as replyNum FROM sas_post_comment_info t1 where t1.status = 1 and t1.post_id = ?1 ORDER BY t1.comment_date DESC", countQuery = "select count(0) FROM sas_post_comment_info t1 where t1.status = 1 and t1.post_id = ?1", nativeQuery = true)
 	public Page<List<Map<String, Object>>> findByCommentPage(String postId, String userId, Pageable pageable);
 }

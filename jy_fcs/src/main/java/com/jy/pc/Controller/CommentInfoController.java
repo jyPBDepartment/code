@@ -54,7 +54,7 @@ public class CommentInfoController {
 			PostCommentInfoEntity postCommentInfoEntity) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		postCommentInfoEntity.setCommentDate(new Date());
-		postCommentInfoEntity.setStatus("1");
+		postCommentInfoEntity.setStatus("0");
 		postCommentInfoService.save(postCommentInfoEntity);
 		map.put("code", "200");// 成功
 		map.put("message", "评论成功");
@@ -74,8 +74,10 @@ public class CommentInfoController {
 			try {
 				PostCommentInfoEntity postInfo = postCommentInfoService.findId(id);
 				PostInfoEntity post = postInfoService.findId(postInfo.getPostId());
-				post.setCommentNum(post.getCommentNum()-1);
-				postInfoService.update(post);
+				if(postInfo.getStatus().equals("1")){
+					post.setCommentNum(post.getCommentNum()-1);
+					postInfoService.update(post);
+				}
 				List<CommentReplyInfoEntity> replyInfo = commentReplyInfoService.findByCommentId(id);
 				for(int i=0;i<replyInfo.size();i++) {
 					CommentReplyInfoEntity commentReplyInfoEntity =commentReplyInfoService.findId(replyInfo.get(i).getId());
@@ -115,12 +117,12 @@ public class CommentInfoController {
 	@SuppressWarnings("deprecation")
 	@RequestMapping(value = "/findByName")
 	public Map<String, Object> findListByContent(HttpServletRequest res, HttpServletResponse req,
-			@RequestParam(name = "content") String content, @RequestParam(name = "user") String user,
+			@RequestParam(name = "content") String content, @RequestParam(name = "user") String user,@RequestParam(name = "name") String name,
 			@RequestParam(name = "page") Integer page, @RequestParam(name = "size") Integer size) {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 		Pageable pageable = new PageRequest(page - 1, size);
-		Page<List<Map<String, Object>>> replyList = postCommentInfoService.findListByContent(content, user, pageable);
+		Page<List<Map<String, Object>>> replyList = postCommentInfoService.findListByContent(content, user, name, pageable);
 		map.put("state", "0");// 成功
 		map.put("message", "查询成功");
 		map.put("data", replyList);
@@ -136,7 +138,7 @@ public class CommentInfoController {
 		PostCommentInfoEntity postCommentInfoEntity = jsonObject.toJavaObject(PostCommentInfoEntity.class);
 		Date date = new Date();
 		postCommentInfoEntity.setCommentDate(date);
-		postCommentInfoEntity.setStatus("1");
+		postCommentInfoEntity.setStatus("0");
 		postCommentInfoService.save(postCommentInfoEntity);
 		map.put("status", "0");
 		map.put("message", "添加成功");
@@ -169,28 +171,32 @@ public class CommentInfoController {
 		return map;
 	}
 
-	// 评论启用 OR 禁用
+	// 评论启用/禁用
 	@RequestMapping(value = "/enable")
-	public Map<String, String> enable(HttpServletRequest res, HttpServletResponse req,
+	public Map<String, String> opensulf(HttpServletRequest res, HttpServletResponse req,
 			@RequestParam(name = "status") String status, @RequestParam(name = "id") String id) {
-		System.out.println(res.getSession().getAttributeNames());
+
 		Map<String, String> map = new HashMap<String, String>();
 		PostCommentInfoEntity postCommentInfoEntity = postCommentInfoService.findId(id);
+		PostInfoEntity postInfoEntity = new PostInfoEntity();
 		boolean result = true;
-		if ("1".contentEquals(status)) {
-			map.put("state", "0");
+		if (status.equals("1")) {
+			postInfoEntity.setCommentNum(postInfoEntity.getCommentNum()+1);
+			postInfoService.update(postInfoEntity);
+			map.put("code", "200");
+			map.put("message", "启用成功");
+		}
+		if (status.equals("0")) {
+			postInfoEntity.setCommentNum(postInfoEntity.getCommentNum()-1);
+			postInfoService.update(postInfoEntity);
+			map.put("code", "200");
 			map.put("message", "禁用成功");
 			result = false;
-		}
-		if ("0".contentEquals(status)) {
-			map.put("state", "0");
-			map.put("message", "启用成功");
 		}
 		postCommentInfoEntity.setStatus(status);
 		postCommentInfoService.enable(postCommentInfoEntity, result);
 		return map;
 	}
-
 	// 条件查询，根据主键查询评论
 	@RequestMapping(value = "/findById")
 	public Map<String, Object> findById(HttpServletRequest res, HttpServletResponse req,
@@ -218,6 +224,25 @@ public class CommentInfoController {
 		} else {
 			map.put("code", "500");
 		}
+		return map;
+	}
+	/**
+	 * 帖子评论详情查询
+	 * */
+	@RequestMapping(value = "/findByCommentId")
+	public Map<String, Object> findByCommentId(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "id") String id) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		PostCommentInfoEntity postCommentInfoEntity = postCommentInfoService.findId(id);
+
+		PostInfoEntity postInfoEntity = postInfoService.findId(postCommentInfoEntity.getPostId());
+		try {
+			map.put("code", "200");
+			map.put("data", postInfoEntity);
+			map.put("dataComment", postCommentInfoEntity);
+		} catch (Exception e) {
+			map.put("code", "500");
+		} 
 		return map;
 	}
 }
