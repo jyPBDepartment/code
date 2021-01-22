@@ -44,12 +44,32 @@ public class CaseInfoReplyEntity {
 	private Date replyDate; // 回复时间
 	@Column(columnDefinition = "int(1) default 1 comment '0启用1禁用'")
 	private int status; // 状态
+	@Column(columnDefinition = "varchar(255) default '' comment '被回复人昵称'")
+	private String receiveUserName; // 被回复人昵称
+	@Column(columnDefinition = "varchar(255) default '' comment '被回复人id'")
+	private String receiveUserId; // 被回复人id
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "commentId", referencedColumnName = "id")
 	@NotFound(action = NotFoundAction.IGNORE)
 	private CaseInfoCommentEntity caseInfoCommentEntity; // 关联编号 评论id 外键
 	@Transient
 	private String commentId; // 评论id
+
+	public String getReceiveUserId() {
+		return receiveUserId;
+	}
+
+	public void setReceiveUserId(String receiveUserId) {
+		this.receiveUserId = receiveUserId;
+	}
+
+	public String getReceiveUserName() {
+		return receiveUserName;
+	}
+
+	public void setReceiveUserName(String receiveUserName) {
+		this.receiveUserName = receiveUserName;
+	}
 
 	public String getCommentId() {
 		return commentId;
