@@ -48,7 +48,7 @@ public interface CommentReplyInfoDao extends JpaRepository<CommentReplyInfoEntit
 			@Param("userId") String userId, Pageable pageable);
 
 	// 查询评论下所有回复
-	@Query(value = "select t.id,if(reply_user_id = ?2,1,0) as isMyReply,t.status as status,date_format( t.reply_date, '%Y-%m-%d %H:%i:%s' ) AS replyDate,t.reply_user_id as replyUserId,t.reply_pic as replyPic,t.reply_content as replyContent,t.comment_id as commentId,reply_user_name as replyUserName,t.reply_user_name as user,t.is_anonymous as isAnonymous from sas_comment_reply_info t where t.comment_id=?1 and status != -1 order by reply_date desc ", countQuery = "select count(0) from sas_comment_reply_info t where t.comment_id=?1 and status != -1", nativeQuery = true)
+	@Query(value = "select t.id,if(reply_user_id = ?2,1,0) as isMyReply,t.status as status,date_format( t.reply_date, '%Y-%m-%d %H:%i:%s' ) AS replyDate,t.reply_user_id as replyUserId,t.reply_pic as replyPic,t.reply_content as replyContent,t.comment_id as commentId,t.reply_user_name as replyUserName,t.reply_user_name as user,t.receive_user_name as receiveUserName,t.receive_user_id as receiveUserId,t.is_anonymous as isAnonymous from sas_comment_reply_info t where t.comment_id=?1 and status != -1 order by reply_date desc ", countQuery = "select count(0) from sas_comment_reply_info t where t.comment_id=?1 and status != -1", nativeQuery = true)
 	public Page<List<Map<String, Object>>> findReplyPage(String commentId, String userId, Pageable pageable);
 
 	// 通过评论id查询
