@@ -63,9 +63,9 @@ public class CaseInfoCommentController {
 		Map<String, String> map = new HashMap<String, String>();
 		try {
 			caseInfoCommentService.saveCaseInfo(caseInfoComment);
-//			CaseInfoEntity caseInfo = caseInfoService.findBId(caseInfoComment.getCaseId());
-//			caseInfo.setCommentNum(caseInfo.getCommentNum()+1);
-//			caseInfoService.update(caseInfo);
+			CaseInfoEntity caseInfo = caseInfoService.findBId(caseInfoComment.getCaseId());
+			caseInfo.setCommentNum(caseInfo.getCommentNum()+1);
+			caseInfoService.update(caseInfo);
 			map.put("code", "200");
 			map.put("message", "添加成功");
 		} catch (Exception e) {
@@ -149,7 +149,7 @@ public class CaseInfoCommentController {
 		return map;
 	}
 	
-	// 查看评论详情
+	// 查看详情
 	@RequestMapping(value = "/findById")
 	@ResponseBody
 	public Map<String, Object> findById(HttpServletRequest res, HttpServletResponse req,
@@ -161,7 +161,7 @@ public class CaseInfoCommentController {
 			map.put("message", "查询成功");
 			map.put("data", caseInfoComment);
 		} catch (Exception e) {
-			map.put("code", "500");//查询数据失败
+			map.put("code", "500");//查询数据 失败
 			map.put("message", "查询失败");
 		}
 		return map;

@@ -42,7 +42,7 @@ public class CaseInfoCommentEntity {
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date commentDate; //评论时间
-	@Column(columnDefinition = "varchar(10) default 0 comment '1启用0禁用'")
+	@Column(columnDefinition = "varchar(10) default 1 comment '1启用0禁用'")
 	private String status; //状态
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "caseId", referencedColumnName = "id")
