@@ -25,7 +25,7 @@ public class CaseInfoReplyServiceImpl implements CaseInfoReplyService{
 	public CaseInfoReplyEntity save(CaseInfoReplyEntity caseInfoReplyEntity) {
 		Date date = new Date();
 		caseInfoReplyEntity.setReplyDate(date);
-		caseInfoReplyEntity.setStatus(1);
+		caseInfoReplyEntity.setStatus("0");
 		CaseInfoCommentEntity caseInfoComment = new CaseInfoCommentEntity();
 		caseInfoComment.setId(caseInfoReplyEntity.getCommentId());
 		caseInfoReplyEntity.setCaseInfoCommentEntity(caseInfoComment);

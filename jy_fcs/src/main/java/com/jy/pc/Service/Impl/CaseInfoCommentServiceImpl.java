@@ -58,7 +58,7 @@ public class CaseInfoCommentServiceImpl implements CaseInfoCommentService{
 	public CaseInfoCommentEntity saveCaseInfo(CaseInfoCommentEntity caseInfoComment) {
 		Date date = new Date();
 		caseInfoComment.setCommentDate(date);
-		caseInfoComment.setStatus(1);
+		caseInfoComment.setStatus("0");
 		CaseInfoEntity caseInfo =  new CaseInfoEntity();
 		caseInfo.setId(caseInfoComment.getCaseId());
 		caseInfoComment.setCaseInfoEntity(caseInfo);

@@ -35,12 +35,12 @@ public interface CaseInfoCommentDAO extends JpaRepository<CaseInfoCommentEntity,
 	public Page<List<Map<String,Object>>> findCommentByUserId(@Param("caseId") String caseId,@Param("userId") String userId,Pageable pageable);
 	
 	// 查询最新一条评论
-	@Query(value = "select * from sas_case_info_comment t where t.case_id =:caseId ORDER BY t.comment_date desc LIMIT 1", nativeQuery = true)
+	@Query(value = "select * from sas_case_info_comment t where t.status='1' and t.case_id =:caseId ORDER BY t.comment_date desc LIMIT 1", nativeQuery = true)
 	public CaseInfoCommentEntity findNewCommentId(String caseId);
 	
 	//查询看图识病单条下所有评论
-	@Query(value = "select if(t1.comment_user_id = ?2,1,0) as isMyComment,t1.id,t1.comment_content AS content,date_format( t1.comment_date, '%Y-%m-%d %H:%i:%s' ) AS commentTime,t1.comment_user_name AS nickName,t1.status as status,t1.is_anonymous AS isAnonymous,t1.comment_user_pic as commentPic,(select count(0) from sas_case_info_reply t2 where comment_id = t1.id and t2.status != -1) as replyNum FROM sas_case_info_comment t1 where t1.status != -1 and t1.case_id = ?1 ORDER BY t1.comment_date DESC", 
-			countQuery = "select count(0) FROM sas_case_info_comment t1 where t1.status != -1 and t1.case_id = ?1", 
+	@Query(value = "select if(t1.comment_user_id = ?2,1,0) as isMyComment,t1.id,t1.comment_content AS content,date_format( t1.comment_date, '%Y-%m-%d %H:%i:%s' ) AS commentTime,t1.comment_user_name AS nickName,t1.status as status,t1.is_anonymous AS isAnonymous,t1.comment_user_pic as commentPic,(select count(0) from sas_case_info_reply t2 where comment_id = t1.id and t2.status ='1') as replyNum FROM sas_case_info_comment t1 where t1.status ='1' and t1.case_id = ?1 ORDER BY t1.comment_date DESC", 
+			countQuery = "select count(0) FROM sas_case_info_comment t1 where t1.status ='1' and t1.case_id = ?1", 
 			nativeQuery = true)
 	public Page<List<Map<String, Object>>> findCommentPage(String caseId,String userId,Pageable pageable);
 }

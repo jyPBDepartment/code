@@ -63,9 +63,9 @@ public class CaseInfoCommentController {
 		Map<String, String> map = new HashMap<String, String>();
 		try {
 			caseInfoCommentService.saveCaseInfo(caseInfoComment);
-			CaseInfoEntity caseInfo = caseInfoService.findBId(caseInfoComment.getCaseId());
-			caseInfo.setCommentNum(caseInfo.getCommentNum()+1);
-			caseInfoService.update(caseInfo);
+//			CaseInfoEntity caseInfo = caseInfoService.findBId(caseInfoComment.getCaseId());
+//			caseInfo.setCommentNum(caseInfo.getCommentNum()+1);
+//			caseInfoService.update(caseInfo);
 			map.put("code", "200");
 			map.put("message", "添加成功");
 		} catch (Exception e) {
@@ -84,15 +84,17 @@ public class CaseInfoCommentController {
 		try {
 			CaseInfoCommentEntity caseInfoComment = caseInfoCommentService.findId(id);
 			CaseInfoEntity caseInfo = caseInfoService.findBId(caseInfoComment.getCaseInfoEntity().getId());
-			caseInfo.setCommentNum(caseInfo.getCommentNum()-1);
-			caseInfoService.update(caseInfo);
+			if(caseInfoComment.getStatus().equals("1")) {
+				caseInfo.setCommentNum(caseInfo.getCommentNum()-1);
+				caseInfoService.update(caseInfo);
+			}
 			List<CaseInfoReplyEntity> caseInfoReply = caseInfoReplyService.findByCommentId(id);
 			for(int i=0;i<caseInfoReply.size();i++) {
 				CaseInfoReplyEntity caseInfoReplyEntity = caseInfoReplyService.findId(caseInfoReply.get(i).getId());
-				caseInfoReplyEntity.setStatus(-1);
+				caseInfoReplyEntity.setStatus("-1");
 				caseInfoReplyService.update(caseInfoReplyEntity);
 			}
-			caseInfoComment.setStatus(-1);
+			caseInfoComment.setStatus("-1");
 			caseInfoCommentService.update(caseInfoComment);
 			map.put("code", "200");
 			map.put("message", "删除成功");
@@ -108,21 +110,23 @@ public class CaseInfoCommentController {
 	@RequestMapping(value = "/enable")
 	@ResponseBody
 	public Map<String, String> setSelect(HttpServletRequest res, HttpServletResponse req,
-			@RequestParam(name = "status") Integer status, @RequestParam(name = "id") String id) {
+			@RequestParam(name = "status") String status, @RequestParam(name = "id") String id) {
 		Map<String, String> map = new HashMap<String, String>();
 		CaseInfoCommentEntity caseInfoCommentEntity = caseInfoCommentService.findId(id);
 		caseInfoCommentEntity.setStatus(status);
+		CaseInfoEntity caseInfo = caseInfoService.findBId(caseInfoCommentEntity.getCaseInfoEntity().getId());
 		boolean result = true;
-		if (status.equals(1)) {
-			caseInfoCommentEntity.setStatus(1);
-			map.put("code", "200");
-			map.put("message", "禁用成功");
-		} else if (status.equals(0)) {
-			caseInfoCommentEntity.setStatus(status);
+		if (status.equals("1")) {
+			caseInfo.setCommentNum(caseInfo.getCommentNum()+1);
 			map.put("code", "200");
 			map.put("message", "启用成功");
+		} else if (status.equals("0")) {
+			caseInfo.setCommentNum(caseInfo.getCommentNum()-1);
+			map.put("code", "200");
+			map.put("message", "禁用成功");
 			result = false;
 		}
+		caseInfoService.update(caseInfo);
 		caseInfoCommentService.updateEnable(caseInfoCommentEntity, result);
 		return map;
 	}
@@ -138,6 +142,24 @@ public class CaseInfoCommentController {
 			map.put("code", "200");// 成功
 			map.put("message", "查询成功");
 			map.put("data", caseInfoCommentList);
+		} catch (Exception e) {
+			map.put("code", "500");// 失败
+			map.put("message", "查询失败");
+		}
+		return map;
+	}
+	
+	// 查看详情
+	@RequestMapping(value = "/findById")
+	@ResponseBody
+	public Map<String, Object> findById(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "id") String id) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		CaseInfoCommentEntity caseInfoComment = caseInfoCommentService.findId(id);
+		try {
+			map.put("code", "200");// 查询数据成功
+			map.put("message", "查询成功");
+			map.put("data", caseInfoComment);
 		} catch (Exception e) {
 			map.put("code", "500");// 失败
 			map.put("message", "查询失败");

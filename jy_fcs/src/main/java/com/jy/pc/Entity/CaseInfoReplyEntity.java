@@ -42,8 +42,8 @@ public class CaseInfoReplyEntity {
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date replyDate; // 回复时间
-	@Column(columnDefinition = "int(1) default 1 comment '0启用1禁用'")
-	private int status; // 状态
+	@Column(columnDefinition = "varchar(10) default 0 comment '1启用0禁用'")
+	private String status; // 状态
 	@Column(columnDefinition = "varchar(255) default '' comment '被回复人昵称'")
 	private String receiveUserName; // 被回复人昵称
 	@Column(columnDefinition = "varchar(255) default '' comment '被回复人id'")
@@ -54,6 +54,15 @@ public class CaseInfoReplyEntity {
 	private CaseInfoCommentEntity caseInfoCommentEntity; // 关联编号 评论id 外键
 	@Transient
 	private String commentId; // 评论id
+
+	
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
 
 	public String getReceiveUserId() {
 		return receiveUserId;
@@ -141,14 +150,6 @@ public class CaseInfoReplyEntity {
 
 	public void setReplyDate(Date replyDate) {
 		this.replyDate = replyDate;
-	}
-
-	public int getStatus() {
-		return status;
-	}
-
-	public void setStatus(int status) {
-		this.status = status;
 	}
 
 }

@@ -42,8 +42,8 @@ public class CaseInfoCommentEntity {
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date commentDate; //评论时间
-	@Column(columnDefinition = "int(1) default 1 comment '0启用1禁用'")
-	private int status; //状态
+	@Column(columnDefinition = "varchar(10) default 0 comment '1启用0禁用'")
+	private String status; //状态
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "caseId", referencedColumnName = "id")
 	@NotFound(action = NotFoundAction.IGNORE)
@@ -55,6 +55,13 @@ public class CaseInfoCommentEntity {
 	@Transient
 	private String dipTypeCode;  //病虫害种类
 
+	
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
 	public String getCaseId() {
 		return caseId;
 	}
@@ -122,12 +129,5 @@ public class CaseInfoCommentEntity {
 	public void setCommentDate(Date commentDate) {
 		this.commentDate = commentDate;
 	}
-	public int getStatus() {
-		return status;
-	}
-	public void setStatus(int status) {
-		this.status = status;
-	}
-
 	
 }

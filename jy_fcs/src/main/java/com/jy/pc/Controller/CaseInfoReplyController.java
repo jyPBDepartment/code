@@ -74,7 +74,7 @@ public class CaseInfoReplyController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
 			CaseInfoReplyEntity caseInfoReplyEntity = caseInfoReplyService.findId(id);
-			caseInfoReplyEntity.setStatus(-1);
+			caseInfoReplyEntity.setStatus("-1");
 			caseInfoReplyService.update(caseInfoReplyEntity);
 			map.put("code", "200");
 			map.put("message", "删除成功");
@@ -90,19 +90,17 @@ public class CaseInfoReplyController {
 	@RequestMapping(value = "/enable")
 	@ResponseBody
 	public Map<String, String> setSelect(HttpServletRequest res, HttpServletResponse req,
-			@RequestParam(name = "status") Integer status, @RequestParam(name = "id") String id) {
+			@RequestParam(name = "status") String status, @RequestParam(name = "id") String id) {
 		Map<String, String> map = new HashMap<String, String>();
 		CaseInfoReplyEntity caseInfoReplyEntity = caseInfoReplyService.findId(id);
 		caseInfoReplyEntity.setStatus(status);
 		boolean result = true;
-		if (status.equals(1)) {
-			caseInfoReplyEntity.setStatus(1);
-			map.put("code", "200");
-			map.put("message", "禁用成功");
-		} else if (status.equals(0)) {
-			caseInfoReplyEntity.setStatus(status);
+		if (status.equals("1")) {
 			map.put("code", "200");
 			map.put("message", "启用成功");
+		} else if (status.equals("0")) {
+			map.put("code", "200");
+			map.put("message", "禁用成功");
 			result = false;
 		}
 		caseInfoReplyService.updateEnable(caseInfoReplyEntity, result);
@@ -120,6 +118,24 @@ public class CaseInfoReplyController {
 			map.put("code", "200");// 成功
 			map.put("message", "查询成功");
 			map.put("data", caseInfoReplyList);
+		} catch (Exception e) {
+			map.put("code", "500");// 失败
+			map.put("message", "查询失败");
+		}
+		return map;
+	}
+	
+	// 查看详情
+	@RequestMapping(value = "/findById")
+	@ResponseBody
+	public Map<String, Object> findById(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "id") String id) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		CaseInfoReplyEntity caseInfoReply = caseInfoReplyService.findId(id);
+		try {
+			map.put("code", "200");// 查询数据成功
+			map.put("message", "查询成功");
+			map.put("data", caseInfoReply);
 		} catch (Exception e) {
 			map.put("code", "500");// 失败
 			map.put("message", "查询失败");
