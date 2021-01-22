@@ -54,7 +54,7 @@ public class CommentInfoController {
 			PostCommentInfoEntity postCommentInfoEntity) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		postCommentInfoEntity.setCommentDate(new Date());
-		postCommentInfoEntity.setStatus("0");
+		postCommentInfoEntity.setStatus("1");
 		postCommentInfoService.save(postCommentInfoEntity);
 		map.put("code", "200");// 成功
 		map.put("message", "评论成功");
@@ -178,22 +178,24 @@ public class CommentInfoController {
 
 		Map<String, String> map = new HashMap<String, String>();
 		PostCommentInfoEntity postCommentInfoEntity = postCommentInfoService.findId(id);
-		PostInfoEntity postInfoEntity = new PostInfoEntity();
+		postCommentInfoEntity.setStatus(status);
+
+		PostInfoEntity postInfoEntity = postInfoService.findId(postCommentInfoEntity.getPostId());
 		boolean result = true;
+
 		if (status.equals("1")) {
 			postInfoEntity.setCommentNum(postInfoEntity.getCommentNum()+1);
-			postInfoService.update(postInfoEntity);
 			map.put("code", "200");
 			map.put("message", "启用成功");
 		}
 		if (status.equals("0")) {
 			postInfoEntity.setCommentNum(postInfoEntity.getCommentNum()-1);
-			postInfoService.update(postInfoEntity);
 			map.put("code", "200");
 			map.put("message", "禁用成功");
 			result = false;
 		}
-		postCommentInfoEntity.setStatus(status);
+		postInfoService.update(postInfoEntity);
+
 		postCommentInfoService.enable(postCommentInfoEntity, result);
 		return map;
 	}
