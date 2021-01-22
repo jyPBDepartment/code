@@ -26,7 +26,7 @@ public interface GrainTradingCommentDao extends JpaRepository<GrainTradingCommen
 	@Query(value = "select * from sas_grain_trading_comment t where t.aid=?1 and status != -1 order by comment_date desc limit 1", nativeQuery = true)
 	public GrainTradingCommentEntity findNewestById(String aid);
 
-	@Query(value = "select if(t1.comment_user_id = ?2,1,0) as isMyComment,t1.id,t1.comment_content AS content,date_format( t1.comment_date, '%Y-%m-%d %H:%i:%s' ) AS commentTime,t1.comment_user_name AS nickName,t1.status as status,t1.is_anonymous AS isAnonymous,t1.comment_pic as commentPic,(select count(0) from sas_grain_trading_reply t2 where comment_id = t1.id) as replyNum FROM sas_grain_trading_comment t1 where t1.status != -1 and t1.aid = ?1 ORDER BY t1.comment_date DESC", 
+	@Query(value = "select if(t1.comment_user_id = ?2,1,0) as isMyComment,t1.id,t1.comment_content AS content,date_format( t1.comment_date, '%Y-%m-%d %H:%i:%s' ) AS commentTime,t1.comment_user_name AS nickName,t1.status as status,t1.is_anonymous AS isAnonymous,t1.comment_pic as commentPic,(select count(0) from sas_grain_trading_reply t2 where comment_id = t1.id and t2.status != -1) as replyNum FROM sas_grain_trading_comment t1 where t1.status != -1 and t1.aid = ?1 ORDER BY t1.comment_date DESC", 
 			countQuery = "select count(0) FROM sas_grain_trading_comment t1 where t1.status != -1 and t1.aid = ?1", 
 			nativeQuery = true)
 	public Page<List<Map<String, Object>>> findCommentPage(String aid,String userId,Pageable pageable);
