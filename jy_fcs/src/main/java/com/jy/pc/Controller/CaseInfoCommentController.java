@@ -149,7 +149,7 @@ public class CaseInfoCommentController {
 		return map;
 	}
 	
-	// 查看详情
+	// 查看评论详情
 	@RequestMapping(value = "/findById")
 	@ResponseBody
 	public Map<String, Object> findById(HttpServletRequest res, HttpServletResponse req,
@@ -161,7 +161,7 @@ public class CaseInfoCommentController {
 			map.put("message", "查询成功");
 			map.put("data", caseInfoComment);
 		} catch (Exception e) {
-			map.put("code", "500");// 失败
+			map.put("code", "500");//查询数据失败
 			map.put("message", "查询失败");
 		}
 		return map;

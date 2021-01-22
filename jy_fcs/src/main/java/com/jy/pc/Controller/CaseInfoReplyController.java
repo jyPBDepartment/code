@@ -125,7 +125,7 @@ public class CaseInfoReplyController {
 		return map;
 	}
 	
-	// 查看详情
+	// 查看回复详情
 	@RequestMapping(value = "/findById")
 	@ResponseBody
 	public Map<String, Object> findById(HttpServletRequest res, HttpServletResponse req,
@@ -137,7 +137,7 @@ public class CaseInfoReplyController {
 			map.put("message", "查询成功");
 			map.put("data", caseInfoReply);
 		} catch (Exception e) {
-			map.put("code", "500");// 失败
+			map.put("code", "500");// 查询数据失败
 			map.put("message", "查询失败");
 		}
 		return map;
