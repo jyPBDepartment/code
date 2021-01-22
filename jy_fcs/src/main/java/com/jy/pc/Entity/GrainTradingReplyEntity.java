@@ -29,6 +29,10 @@ public class GrainTradingReplyEntity {
 	private String replyContent;
 	@Column(columnDefinition = "varchar(36) default '' comment '回复人'")
 	private String replyUserName;// 通过本地缓存获取用户昵称
+	@Column(columnDefinition = "varchar(36) default '' comment '被回复人昵称'")
+	private String receiveUserName;
+	@Column(columnDefinition = "varchar(36) default '' comment '被回复人ID'")
+	private String receiveUserId;
 	@Column(columnDefinition = "varchar(255) default '' comment '回复人头像路径'")
 	private String replyPic;// 通过本地缓存获取图片路径
 	@Column(columnDefinition = "varchar(36) default '' comment '回复人ID'")
@@ -41,6 +45,14 @@ public class GrainTradingReplyEntity {
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date replyDate;
+
+	public String getReceiveUserName() {
+		return receiveUserName;
+	}
+
+	public void setReceiveUserName(String receiveUserName) {
+		this.receiveUserName = receiveUserName;
+	}
 
 	public String getId() {
 		return id;
