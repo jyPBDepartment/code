@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.jy.pc.Entity.AgriculturalEntity;
+import com.jy.pc.Entity.CaseInfoCommentEntity;
 import com.jy.pc.Entity.GrainTradingCollectionEntity;
 import com.jy.pc.Entity.GrainTradingCommentEntity;
 import com.jy.pc.Entity.GrainTradingPraiseEntity;
@@ -46,6 +47,42 @@ public class GrainTradingController {
 	private GrainTradingReplyService replyService;
 	@Autowired
 	private PictureInfoService pictureInfoService;
+
+	// 查看回复详情
+	@RequestMapping(value = "/findReplyById")
+	@ResponseBody
+	public Map<String, Object> findReplyById(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "id") String id) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		GrainTradingReplyEntity entity = replyService.findId(id);
+		try {
+			map.put("code", "200");// 查询数据成功
+			map.put("message", "查询成功");
+			map.put("data", entity);
+		} catch (Exception e) {
+			map.put("code", "500");// 查询数据失败
+			map.put("message", "查询失败");
+		}
+		return map;
+	}
+
+	// 查看评论详情
+	@RequestMapping(value = "/findCommentById")
+	@ResponseBody
+	public Map<String, Object> findCommentById(HttpServletRequest res, HttpServletResponse req,
+			@RequestParam(name = "id") String id) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		GrainTradingCommentEntity entity = commentService.findId(id);
+		try {
+			map.put("code", "200");// 查询数据成功
+			map.put("message", "查询成功");
+			map.put("data", entity);
+		} catch (Exception e) {
+			map.put("code", "500");// 查询数据失败
+			map.put("message", "查询失败");
+		}
+		return map;
+	}
 
 	/**
 	 * H5-根据主键id返回详情信息
