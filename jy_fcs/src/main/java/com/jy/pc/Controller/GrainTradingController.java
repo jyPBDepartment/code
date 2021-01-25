@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.jy.pc.Entity.AgriculturalEntity;
-import com.jy.pc.Entity.CaseInfoCommentEntity;
 import com.jy.pc.Entity.GrainTradingCollectionEntity;
 import com.jy.pc.Entity.GrainTradingCommentEntity;
 import com.jy.pc.Entity.GrainTradingPraiseEntity;
