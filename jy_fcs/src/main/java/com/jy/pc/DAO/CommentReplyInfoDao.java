@@ -28,10 +28,9 @@ public interface CommentReplyInfoDao extends JpaRepository<CommentReplyInfoEntit
 //					+ "WHERE t.postCommentInfoEntity.id = ?1 and t.status = 0 order by t.replyDate desc",nativeQuery = false)
 //	public Page<CommentReplyInfoPO> findPageByCommentPO(@Param("commentId")String commentId,Pageable pageable);
 
-	@Query(value = "select * from sas_comment_reply_info t where if(?1 !='',t.reply_content like ?1,1=1) "
-			+ "and if(?2 !='',t.reply_user_name like ?2,1=1) and t.comment_id =?3 and t.status != -1 order by t.reply_date desc ", countQuery = "select count(*) from sas_comment_reply_info t where if(?1 !='',t.reply_content like ?1,1=1) "
-					+ "and if(?2 !='',t.reply_user_name like ?2,1=1) and t.comment_id =?3 and t.status != -1 order by t.reply_date desc", nativeQuery = true)
-	public Page<CommentReplyInfoEntity> findListByContent(String content, String user, String commentId,
+	@Query(value = "select t.id,t1.comment_content as commentContent,t.reply_content as replyContent,t.reply_user_name as replyUserName,date_format(t.reply_date, '%Y-%m-%d %H:%i:%s') as replyDate,t.status from sas_comment_reply_info t,sas_post_comment_info t1 where t.comment_id = t1.id and if(?1 !='',t.reply_content like ?1,1=1) and if(?2 !='',t.reply_user_name like ?2,1=1) and t.comment_id =?3 and t.status != '-1' order by t.reply_date desc", 
+			countQuery = "select count(*) from sas_comment_reply_info t,sas_post_comment_info t1 where t.comment_id = t1.id and if(?1 !='',t.reply_content like ?1,1=1) and if(?2 !='',t.reply_user_name like ?2,1=1) and t.comment_id =?3 and t.status != '-1' order by t.reply_date desc", nativeQuery = true)
+	public Page<List<Map<String,Object>>> findListByContent(String content, String user, String commentId,
 			Pageable pageable);
 
 	@Query(value = "delete from sas_comment_reply_info  where comment_id = :commentId", nativeQuery = true)

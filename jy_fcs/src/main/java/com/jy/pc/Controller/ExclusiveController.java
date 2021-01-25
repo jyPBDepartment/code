@@ -83,10 +83,11 @@ public class ExclusiveController {
 			@RequestParam(name = "commentId", defaultValue = "") String commentId,
 			@RequestParam(name = "name", defaultValue = "") String name,
 			@RequestParam(name = "content", defaultValue = "") String content,
+			@RequestParam(name = "title", defaultValue = "") String title,
 			@RequestParam(name = "page") Integer page, @RequestParam(name = "size") Integer size) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		Pageable pageable = new PageRequest(page - 1, size);
-		Page<List<Map<String, Object>>> data = replyService.findReplyPageByParam(commentId,name, content, pageable);
+		Page<List<Map<String, Object>>> data = replyService.findReplyPageByParam(commentId,name, content,title, pageable);
 		map.put("code", "200");
 		map.put("data", data);
 		return map;
@@ -105,19 +106,15 @@ public class ExclusiveController {
 
 		Map<String, String> map = new HashMap<String, String>();
 		ExclusiveReplyEntity reply = replyService.findId(id);
-		if (status == "0") {
+		if ("0".equals(status)) {
 			map.put("code", "200");
 			map.put("message", "启用成功");
 		}
-		if (status == "1") {
+		if ("1".equals(status)) {
 			map.put("code", "200");
 			map.put("message", "禁用成功");
 		}
-		if (status != "0" && status != "1") {
-			map.put("code", "500");
-			map.put("message", "操作参数错误");
-			return map;
-		}
+	
 		reply.setStatus(status);
 		replyService.save(reply);
 		return map;

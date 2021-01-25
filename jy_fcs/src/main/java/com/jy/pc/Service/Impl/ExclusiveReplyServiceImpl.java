@@ -18,10 +18,11 @@ public class ExclusiveReplyServiceImpl implements ExclusiveReplyService{
 	private ExclusiveReplyDao replyDao;
 	
 	@Override
-	public Page<List<Map<String, Object>>> findReplyPageByParam(String commentId,String content, String user, Pageable pageable) {
+	public Page<List<Map<String, Object>>> findReplyPageByParam(String commentId,String content, String user,String title, Pageable pageable) {
 		user = "%" + user + "%";
 		content = "%" + content + "%";
-		return replyDao.findReplyPageByParam(commentId,content,user,pageable);
+		title = "%" + title + "%";
+		return replyDao.findReplyPageByParam(commentId,content,user,title,pageable);
 	}
 
 	@Override

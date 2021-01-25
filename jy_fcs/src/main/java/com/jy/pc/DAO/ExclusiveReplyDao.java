@@ -14,10 +14,17 @@ import com.jy.pc.Entity.ExclusiveReplyEntity;
 
 public interface ExclusiveReplyDao extends JpaRepository<ExclusiveReplyEntity, String>{
 	
-	@Query(value = "select * from sas_exclusive_reply t1 where t1.comment_id =?1 and t1.status != '-1' and  t1.reply_user_name like ?2 and t1.reply_content like ?3", 
-			countQuery = "select count(0) from sas_exclusive_reply t1 where t1.comment_id=?1 and t1.status != '-1' and t1.reply_user_name like ?2 and t1.reply_content like ?3", 
-			nativeQuery = true)
-	public Page<List<Map<String, Object>>> findReplyPageByParam(String commentId,String name, String content,
+	@Query(value = "SELECT t.comment_content AS commentContent,t1.id,t1.comment_id,t1.reply_content AS replyContent,t1.reply_user_name AS replyUserName,date_format( t1.reply_date,'%Y-%m-%d %H:%i:%s' ) AS replyDate,t1.STATUS FROM sas_exclusive_comment t,sas_exclusive_reply t1 WHERE t.id = t1.comment_id "
+			+ "	AND t1.comment_id =?1 AND t1.reply_user_name LIKE ?2"
+			+ "	AND t1.reply_content LIKE ?3"
+			+ "	AND t.comment_content LIKE ?4"
+			+ "	AND t1.STATUS != '-1' order by t.reply_date desc", countQuery = "SELECT count(*) FROM sas_exclusive_comment t,sas_exclusive_reply t1 WHERE t.id = t1.comment_id"
+					+ "	AND t1.comment_id =?1 "
+					+ "	AND t1.reply_user_name LIKE ?2"
+					+ "	AND t1.reply_content LIKE ?3"
+					+ "	AND t.comment_content LIKE ?4"
+					+ "	AND t1.STATUS != '-1'", nativeQuery = true)
+	public Page<List<Map<String, Object>>> findReplyPageByParam(String commentId, String name, String content,String title,
 			Pageable pageable);
 	
 	@Query(value = "select * from sas_exclusive_reply t where t.id=?1", nativeQuery = true)

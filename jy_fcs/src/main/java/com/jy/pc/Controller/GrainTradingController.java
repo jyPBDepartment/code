@@ -243,19 +243,19 @@ public class GrainTradingController {
 	 */
 	@RequestMapping(value = "/enableReply")
 	public Map<String, String> enableReply(HttpServletRequest res, HttpServletResponse req,
-			@RequestParam(name = "status") int status, @RequestParam(name = "id") String id) {
+			@RequestParam(name = "status") String status, @RequestParam(name = "id") String id) {
 
 		Map<String, String> map = new HashMap<String, String>();
 		GrainTradingReplyEntity reply = replyService.findId(id);
-		if (status == 0) {
+		if ("0".equals(status)) {
 			map.put("code", "200");
 			map.put("message", "启用成功");
 		}
-		if (status == 1) {
+		if ("1".equals(status)) {
 			map.put("code", "200");
 			map.put("message", "禁用成功");
 		}
-		if (status != 0 && status != 1) {
+		if (!"0".equals(status) && !"1".equals(status)) {
 			map.put("code", "500");
 			map.put("message", "操作参数错误");
 			return map;
@@ -397,7 +397,7 @@ public class GrainTradingController {
 			GrainTradingReplyEntity reply) {
 		Map<String, String> map = new HashMap<String, String>();
 		reply.setReplyDate(new Date());
-		reply.setStatus(1);
+		reply.setStatus("1");
 		replyService.save(reply);
 		map.put("code", "200");
 		map.put("message", "回复成功");

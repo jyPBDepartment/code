@@ -2,6 +2,7 @@ package com.jy.pc.Controller;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -117,7 +118,7 @@ public class ReplyInfoController {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 		Pageable pageable = new PageRequest(page - 1, size);
-		Page<CommentReplyInfoEntity> replyList = commentReplyInfoService.findListByContent(content, user, commentId,
+		Page<List<Map<String,Object>>> replyList = commentReplyInfoService.findListByContent(content, user, commentId,
 				pageable);
 		map.put("state", "0");// 成功
 		map.put("message", "查询成功");

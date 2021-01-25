@@ -44,7 +44,7 @@ public class GrainTradingReplyServiceImpl implements GrainTradingReplyService {
 	@Override
 	public void delete(String id) {
 		GrainTradingReplyEntity reply = replyDao.findInfoById(id);
-		reply.setStatus(-1);
+		reply.setStatus("-1");
 		replyDao.save(reply);
 	}
 

@@ -25,7 +25,7 @@ public class CommentReplyInfoServiceImpl implements CommentReplyInfoService {
 	DbLogUtil logger;
 	
 	@Override
-	public Page<CommentReplyInfoEntity> findListByContent(String content,String user,String commentId, Pageable pageable) {
+	public Page<List<Map<String,Object>>> findListByContent(String content,String user,String commentId, Pageable pageable) {
 		String contentParam = "%"+content+"%";
 		String userParam = "%"+user+"%";
 		return commentReplyInfoDao.findListByContent(contentParam,userParam,commentId, pageable);

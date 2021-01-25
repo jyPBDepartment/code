@@ -10,7 +10,7 @@ import com.jy.pc.Entity.ExclusiveReplyEntity;
 
 public interface ExclusiveReplyService {
 	// 搜索
-		public Page<List<Map<String, Object>>> findReplyPageByParam(String commentId,String content, String user, Pageable pageable);
+		public Page<List<Map<String, Object>>> findReplyPageByParam(String commentId,String content, String user,String title, Pageable pageable);
 
 		// 根据贴子id返回分页信息
 		public Page<ExclusiveReplyEntity> findByPostId(String agrId, Pageable pageable);

@@ -10,7 +10,7 @@ import com.jy.pc.Entity.CommentReplyInfoEntity;
 
 public interface CommentReplyInfoService {
 	// 搜索
-	public Page<CommentReplyInfoEntity> findListByContent(String content, String user, String commentId,
+	public Page<List<Map<String,Object>>> findListByContent(String content, String user, String commentId,
 			Pageable pageable);
 
 	// 添加
